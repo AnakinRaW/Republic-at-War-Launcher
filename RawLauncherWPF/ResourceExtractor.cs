@@ -59,7 +59,7 @@ namespace RawLauncherWPF
 
                 using (var fileStream = new FileStream(Path.Combine(directory, file), FileMode.OpenOrCreate))
                 {
-                    for (var i = 0; i < stream?.Length; i++)
+                    for (var i = 0; i < stream.Length; i++)
                         fileStream.WriteByte((byte)stream.ReadByte());
                     fileStream.Close();
                 }

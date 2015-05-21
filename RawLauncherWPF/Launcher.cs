@@ -6,39 +6,40 @@ using System.Windows;
 
 namespace RawLauncherWPF
 {
-    public class Launcher
+    /// <summary>
+    /// This class is the Entrypoint for the Laucher. 
+    /// It performs Pre and Postlaunch tasks. 
+    /// This ought not to interact with the launcher. I made this class static to make this clear
+    /// </summary>
+    public static class Launcher
     {
         [STAThread]
         [DebuggerNonUserCode]
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {        
-            var launcher = new Launcher();
-            launcher.Prepare();
-            launcher.Start();
+            Prepare();
+            Start();
+            CleanUp();
         }
 
-        public void Prepare()
+        public static void Prepare()
         {
             ExtractLirbaries();
             ExtractAudio();
         }
 
-        public void Start()
+        public static void Start()
         {
-            var app = new App();
+            var app = new LauncherApp();
             app.InitializeComponent();
             app.Run();
-            //At this point there can not be any more code interacting with the LauncherUI as the MainWindow can not be run in a different Thread.
-            //Clean-Up code however can be placed here
-            CleanUp();
         }
 
-        public void CleanUp()
+        public static void CleanUp()
         {
             //TODO: If there is something to clean up put it here.
         }
-
 
         private static void ExtractLirbaries()
         {

@@ -100,18 +100,19 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="LauncherApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AudioHelper.cs" />
+    <Compile Include="LauncherConstants.cs" />
     <Compile Include="ResourceExtractorException.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
+    <Compile Include="LauncherApp.xaml.cs">
+      <DependentUpon>LauncherApp.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ResourceExtractor.cs" />
