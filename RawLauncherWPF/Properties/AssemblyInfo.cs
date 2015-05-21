@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("RawLauncherWPF")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Republic at War Modding Team")]
 [assembly: AssemblyProduct("RawLauncherWPF")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  Anakin_Sklavenwalker")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -4,6 +4,7 @@
         xmlns:mafc="http://modern.framework.com/controls"
         Title="MainWindow" IsSimpleWindowType="True" UseStatusBar="False" UseTitleBar="False" FullWindowMovement="True" Background="Aqua">
     <Grid>
-        
+        <mafc:TextBox x:FieldModifier="public" x:Name="textBox" HorizontalAlignment="Left" Margin="228,201,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="169" Width="324"/>
+
     </Grid>
 </mafc:MainWindow>
