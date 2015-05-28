@@ -105,7 +105,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AudioHelper.cs" />
-    <Compile Include="LauncherConstants.cs" />
+    <Compile Include="Eaw.cs" />
+    <Compile Include="Foc.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameExceptions.cs" />
+    <Compile Include="Mod.cs" />
+    <Compile Include="LauncherDataMiner.cs" />
+    <Compile Include="ModExceptions.cs" />
+    <Compile Include="RaW.cs" />
     <Compile Include="ResourceExtractorException.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

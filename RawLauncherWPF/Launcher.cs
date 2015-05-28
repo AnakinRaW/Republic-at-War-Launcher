@@ -13,11 +13,17 @@ namespace RawLauncherWPF
     /// </summary>
     public static class Launcher
     {
+        public static void CleanUp()
+        {
+            //TODO: If there is something to clean up put it here.
+            //TODO: Decide if in a catch block we shall perform a Clean-up
+        }
+
         [STAThread]
         [DebuggerNonUserCode]
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
-        {        
+        {
             Prepare();
             Start();
             CleanUp();
@@ -27,6 +33,7 @@ namespace RawLauncherWPF
         {
             ExtractLirbaries();
             ExtractAudio();
+            SetupData();
         }
 
         public static void Start()
@@ -36,9 +43,23 @@ namespace RawLauncherWPF
             app.Run();
         }
 
-        public static void CleanUp()
+        private static void ExtractAudio()
         {
-            //TODO: If there is something to clean up put it here.
+            var audioExtractor = new ResourceExtractor("Audio");
+            try
+            {
+                audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory() + @"\LecSetup",
+                    new[]
+                    {
+                        "Play.WAV", "ButtonPress.WAV", "LauncherStartup.wav", "Checkbox.WAV", "QuitPress.WAV",
+                        "MouseHover.WAV"
+                    });
+            }
+            catch (ResourceExtractorException exception)
+            {
+                MessageBox.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
+                Environment.Exit(0);
+            }
         }
 
         private static void ExtractLirbaries()
@@ -59,23 +80,41 @@ namespace RawLauncherWPF
             }
         }
 
-        private static void ExtractAudio()
+        private static void InitGames()
         {
-            var audioExtractor = new ResourceExtractor("Audio");
             try
             {
-                audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory() + @"\LecSetup",
-                    new[]
-                    {
-                        "Play.WAV", "ButtonPress.WAV", "LauncherStartup.wav", "Checkbox.WAV", "QuitPress.WAV",
-                        "MouseHover.WAV"
-                    });
+                var eaw = new Eaw().FindGame();
+                LauncherDataMiner.DataMiner.SetEawGame(eaw);
+                var foc = new Foc().FindGame();
+                LauncherDataMiner.DataMiner.SetFocGame(foc);
             }
-            catch (ResourceExtractorException exception)
+            catch (GameExceptions e)
             {
-                MessageBox.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
+                MessageBox.Show(e.Message);
                 Environment.Exit(0);
             }
+        }
+
+        private static void InitMod()
+        {
+            try
+            {
+                var republicAtWar = new RaW().FindMod();
+                LauncherDataMiner.DataMiner.SetCurrentMod(republicAtWar);
+            }
+            catch (ModExceptions e)
+            {
+                MessageBox.Show(e.Message);
+                Environment.Exit(0);
+            }
+        }
+
+        private static void SetupData()
+        {
+            new LauncherDataMiner();
+            InitGames();
+            InitMod();
         }
     }
 }
