@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Windows;
 
 namespace RawLauncherWPF
 {
@@ -19,6 +21,28 @@ namespace RawLauncherWPF
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\XML\Gameobjectfiles.xml"))
                 throw new ModExceptions(Name + " does not exists");
             return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\");
+        }
+
+        public override string Version
+        {
+            get
+            {
+                try
+                {
+                    var node = XmlTools.GetNodeValue(ModDirectory + @"\XML\Gameobjectfiles.xml",
+                        "/Game_Object_Files/Version");
+                    return string.IsNullOrEmpty(node) ? "1.1.5" : node;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Could not get the current version. Please reinstall the Republic at War and try again.");
+                    return null;
+                }
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

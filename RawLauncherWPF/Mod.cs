@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Windows;
+using System.Xml;
 
 namespace RawLauncherWPF
 {
@@ -30,6 +33,12 @@ namespace RawLauncherWPF
         /// </summary>
         /// <returns></returns>
         public bool Exists() => File.Exists(ModDirectory + @"\XML\Gameobjectfiles.xml");
+
+        /// <summary>
+        /// Read the Version from a Mod. Sets the Version of a mod
+        ///
+        /// </summary>
+        public abstract string Version { get; set; }
 
         /// <summary>
         /// Searches in the current Directory for the presence of the mod and returns a new Mod Object

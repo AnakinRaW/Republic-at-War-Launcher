@@ -114,6 +114,7 @@
     <Compile Include="ModExceptions.cs" />
     <Compile Include="RaW.cs" />
     <Compile Include="ResourceExtractorException.cs" />
+    <Compile Include="XmlTools.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
