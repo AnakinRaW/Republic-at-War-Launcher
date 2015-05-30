@@ -3,8 +3,10 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using static System.Environment;
-using static RawLauncherWPF.LauncherDataMiner;
+using RawLauncherWPF.Games;
+using RawLauncherWPF.Launcher;
+using RawLauncherWPF.Mods;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF
 {
@@ -15,7 +17,7 @@ namespace RawLauncherWPF
     /// 
     /// The Preparation includes extracting the need resoures as well as decalring the mod, the two games and the dater miner for later usage.
     /// </summary>
-    public static class Launcher
+    public static class StartupLauncher
     {
         public static void CleanUp()
         {
@@ -63,7 +65,7 @@ namespace RawLauncherWPF
             catch (ResourceExtractorException exception)
             {
                 MessageBox.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
-                Exit(0);
+                Environment.Exit(0);
             }
         }
 
@@ -81,7 +83,7 @@ namespace RawLauncherWPF
             catch (ResourceExtractorException exception)
             {
                 MessageBox.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
-                Exit(0);
+                Environment.Exit(0);
             }
         }
 
@@ -90,14 +92,14 @@ namespace RawLauncherWPF
             try
             {
                 var eaw = new Eaw().FindGame();
-                DataMiner.SetEawGame(eaw);
+                LauncherDataMiner.DataMiner.SetEawGame(eaw);
                 var foc = new Foc().FindGame();
-                DataMiner.SetFocGame(foc);
+                LauncherDataMiner.DataMiner.SetFocGame(foc);
             }
             catch (GameExceptions e)
             {
                 MessageBox.Show(e.Message);
-                Exit(0);
+                Environment.Exit(0);
             }
         }
 
@@ -106,12 +108,12 @@ namespace RawLauncherWPF
             try
             {
                 var republicAtWar = new RaW().FindMod();
-                DataMiner.SetCurrentMod(republicAtWar);
+                LauncherDataMiner.DataMiner.SetCurrentMod(republicAtWar);
             }
             catch (ModExceptions e)
             {
                 MessageBox.Show(e.Message);
-                Exit(0);
+                Environment.Exit(0);
             }
         }
 
@@ -124,8 +126,8 @@ namespace RawLauncherWPF
 
         private static void InitDirectories()
         {
-            DataMiner.SetRestoreDownloadDir(GetFolderPath(SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
-            DataMiner.SetUpdateDownloadDir(GetFolderPath(SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
+            LauncherDataMiner.DataMiner.SetRestoreDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
+            LauncherDataMiner.DataMiner.SetUpdateDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
         }
     }
 }

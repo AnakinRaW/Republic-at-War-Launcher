@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace RawLauncherWPF
+namespace RawLauncherWPF.Games
 {
     public class Eaw : Game
     {

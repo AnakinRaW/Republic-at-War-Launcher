@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using RawLauncherWPF.Utilities;
 
-namespace RawLauncherWPF
+namespace RawLauncherWPF.Mods
 {
     public class RaW : Mod
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RawLauncherWPF
+namespace RawLauncherWPF.Mods
 {
     class ModExceptions : Exception
     {

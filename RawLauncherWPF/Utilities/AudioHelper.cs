@@ -2,7 +2,7 @@
 using System.IO;
 using NAudio.Wave;
 
-namespace RawLauncherWPF
+namespace RawLauncherWPF.Utilities
 {
     public static class AudioHelper
     {

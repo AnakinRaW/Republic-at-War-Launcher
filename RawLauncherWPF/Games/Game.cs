@@ -1,6 +1,7 @@
 ﻿using System.IO;
+using RawLauncherWPF.Mods;
 
-namespace RawLauncherWPF
+namespace RawLauncherWPF.Games
 {
     public abstract class Game
     {

@@ -64,7 +64,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>RawLauncherWPF.Launcher</StartupObject>
+    <StartupObject>RawLauncherWPF.StartupLauncher</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -100,32 +100,32 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="LauncherApp.xaml">
+    <ApplicationDefinition Include="Launcher\LauncherApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AudioHelper.cs" />
-    <Compile Include="Eaw.cs" />
-    <Compile Include="Foc.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="GameExceptions.cs" />
-    <Compile Include="Mod.cs" />
-    <Compile Include="LauncherDataMiner.cs" />
-    <Compile Include="ModExceptions.cs" />
-    <Compile Include="RaW.cs" />
-    <Compile Include="ResourceExtractorException.cs" />
-    <Compile Include="XmlTools.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Utilities\AudioHelper.cs" />
+    <Compile Include="Games\Eaw.cs" />
+    <Compile Include="Games\Foc.cs" />
+    <Compile Include="Games\Game.cs" />
+    <Compile Include="Games\GameExceptions.cs" />
+    <Compile Include="Mods\Mod.cs" />
+    <Compile Include="Launcher\LauncherDataMiner.cs" />
+    <Compile Include="Mods\ModExceptions.cs" />
+    <Compile Include="Mods\RaW.cs" />
+    <Compile Include="Utilities\ResourceExtractorException.cs" />
+    <Compile Include="Utilities\XmlTools.cs" />
+    <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="LauncherApp.xaml.cs">
+    <Compile Include="Launcher\LauncherApp.xaml.cs">
       <DependentUpon>LauncherApp.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ResourceExtractor.cs" />
-    <Compile Include="Launcher.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Utilities\ResourceExtractor.cs" />
+    <Compile Include="StartupLauncher.cs" />
+    <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

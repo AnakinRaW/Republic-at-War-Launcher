@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using System.Xml;
+﻿using System.IO;
 
-namespace RawLauncherWPF
+namespace RawLauncherWPF.Mods
 {
     public abstract class Mod
     {

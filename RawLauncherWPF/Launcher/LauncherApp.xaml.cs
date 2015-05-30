@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RawLauncherWPF
+namespace RawLauncherWPF.Launcher
 {
     /// <summary>
     /// Interaktionslogik für "LauncherApp.xaml"
