@@ -1,4 +1,4 @@
-﻿namespace RawLauncherWPF
+﻿namespace RawLauncherWPF.UI
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
