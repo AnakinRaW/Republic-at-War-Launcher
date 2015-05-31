@@ -2,19 +2,26 @@
 
 namespace RawLauncherWPF.Games
 {
-    public class Eaw : Game
+    public class Eaw : IGame
     {
         public Eaw()
         {
         }
 
-        public Eaw(string gameDirectory) : base(gameDirectory)
+        public Eaw(string gameDirectory)
         {
+            GameDirectory = gameDirectory;
+            if (!Exists())
+                throw new GameExceptions("This Game does not exists");
         }
 
-        public override string Name => "Empire at War";
+        public string GameDirectory { get; }
 
-        public override Game FindGame()
+        public string Name => "Empire at War";
+
+        public bool Exists() => Directory.Exists(GameDirectory);
+
+        public IGame FindGame()
         {
             if (!File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Star Wars Empire at War\GameData\sweaw.exe"))
                 throw new GameExceptions(Name + " does not exists");

@@ -2,19 +2,26 @@
 
 namespace RawLauncherWPF.Games
 {
-    public class Foc : Game
+    public class Foc : IGame
     {
         public Foc()
         {
         }
 
-        public Foc(string gameDirectory) : base(gameDirectory)
+        public Foc(string gameDirectory)
         {
+            GameDirectory = gameDirectory;
+            if (!Exists())
+                throw new GameExceptions("This Game does not exists");
         }
 
-        public override string Name => "Forces of Corruption";
+        public string GameDirectory { get; }
 
-        public override Game FindGame()
+        public string Name => "Forces of Corruption";
+
+        public bool Exists() => Directory.Exists(GameDirectory);
+
+        public IGame FindGame()
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\swfoc.exe"))
                 throw new GameExceptions(Name + " does not exists");

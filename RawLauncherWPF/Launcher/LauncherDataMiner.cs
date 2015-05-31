@@ -22,27 +22,27 @@ namespace RawLauncherWPF.Launcher
         }
 
         public static LauncherDataMiner DataMiner { get; private set; }
-        public Mod CurrentMod { get; private set; }
-        public Game Eaw { get; private set; }
-        public Game Foc { get; private set; }
+        public IMod CurrentMod { get; private set; }
+        public IGame Eaw { get; private set; }
+        public IGame Foc { get; private set; }
         public string RestoreDownloadDir { get; private set; }
         public string UpdateDownloadDir { get; private set; }
 
-        public void SetCurrentMod(Mod mod)
+        public void SetCurrentMod(IMod mod)
         {
             if (mod == null)
                 throw new NullReferenceException();
             CurrentMod = mod;
         }
 
-        public void SetEawGame(Game game)
+        public void SetEawGame(IGame game)
         {
             if (game == null)
                 throw new NullReferenceException();
             Eaw = game;
         }
 
-        public void SetFocGame(Game game)
+        public void SetFocGame(IGame game)
         {
             if (game == null)
                 throw new NullReferenceException();

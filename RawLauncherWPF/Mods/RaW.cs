@@ -5,26 +5,35 @@ using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Mods
 {
-    public class RaW : Mod
+    public class RaW : IMod
     {
         public RaW()
         {
         }
 
-        public RaW(string modDirectory) : base(modDirectory)
+        public RaW(string modDirectory)
         {
+            ModDirectory = modDirectory;
+            if (!Exists())
+                throw new ModExceptions("This Mod does not exists");
         }
 
-        public override string Name => "Republic at War";
+        public string ModDirectory { get; }
+        public string Name => "Republic at War";
 
-        public override Mod FindMod()
+        public IMod FindMod()
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\XML\Gameobjectfiles.xml"))
                 throw new ModExceptions(Name + " does not exists");
             return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\");
         }
 
-        public override string Version
+        public bool Exists()
+        {
+            return File.Exists(ModDirectory + @"\XML\Gameobjectfiles.xml");
+        }
+
+        public string Version
         {
             get
             {
