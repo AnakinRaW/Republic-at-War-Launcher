@@ -6,6 +6,7 @@ using System.Windows;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
+using RawLauncherWPF.Server;
 using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF
@@ -45,7 +46,7 @@ namespace RawLauncherWPF
 
         public static void Start()
         {
-            var app = new LauncherApp();
+            var app = new LauncherApp() {MainWindow = new MainWindow()};
             app.InitializeComponent();
             app.Run();
         }
@@ -122,6 +123,12 @@ namespace RawLauncherWPF
             InitGames();
             InitMod();
             InitDirectories();
+            InitServer();
+        }
+
+        private static void InitServer()
+        {
+            LauncherDataMiner.DataMiner.SetHostServer(new HostServer(LauncherDataMiner.ServerUrl));
         }
 
         private static void InitDirectories()

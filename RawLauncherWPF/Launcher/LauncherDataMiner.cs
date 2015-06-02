@@ -2,6 +2,7 @@
 using System.IO;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Mods;
+using RawLauncherWPF.Server;
 
 namespace RawLauncherWPF.Launcher
 {
@@ -13,7 +14,8 @@ namespace RawLauncherWPF.Launcher
         public const string GraphicdetailsUpdateHash = "4d7e140887fc1dd52f47790a6e20b5c5";
         public const string ModdbPage = "http://www.moddb.com/mods/republic-at-war";
         public const string Server = "";
-        public const string ServerUrl = "";
+        //TODO: Change to GitHub in future
+        public const string ServerUrl = "http://raworganize.com/RaW_Update/";
         public static readonly string CurrentDirectory = Directory.GetCurrentDirectory();
 
         public LauncherDataMiner()
@@ -27,12 +29,20 @@ namespace RawLauncherWPF.Launcher
         public IGame Foc { get; private set; }
         public string RestoreDownloadDir { get; private set; }
         public string UpdateDownloadDir { get; private set; }
+        public IHostServer HostServer { get; private set; }
 
         public void SetCurrentMod(IMod mod)
         {
             if (mod == null)
                 throw new NullReferenceException();
             CurrentMod = mod;
+        }
+
+        public void SetHostServer(IHostServer server)
+        {
+            if (server == null)
+                throw new NullReferenceException(nameof(server));
+            HostServer = server;
         }
 
         public void SetEawGame(IGame game)
@@ -45,7 +55,7 @@ namespace RawLauncherWPF.Launcher
         public void SetFocGame(IGame game)
         {
             if (game == null)
-                throw new NullReferenceException();
+                throw new NullReferenceException(nameof(game));
             Foc = game;
         }
 

@@ -104,9 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Server\GitHubHostServer.cs" />
+    <Compile Include="Server\HostServer.cs" />
     <Compile Include="Server\IHostServer.cs" />
     <Compile Include="Server\IServer.cs" />
+    <Compile Include="Server\ServerException.cs" />
     <Compile Include="Utilities\AudioHelper.cs" />
     <Compile Include="Games\Eaw.cs" />
     <Compile Include="Games\Foc.cs" />
@@ -116,7 +117,9 @@
     <Compile Include="Launcher\LauncherDataMiner.cs" />
     <Compile Include="Mods\ModExceptions.cs" />
     <Compile Include="Mods\RaW.cs" />
+    <Compile Include="Utilities\DownloadHelper.cs" />
     <Compile Include="Utilities\ResourceExtractorException.cs" />
+    <Compile Include="Utilities\VersionHelper.cs" />
     <Compile Include="Utilities\XmlTools.cs" />
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
