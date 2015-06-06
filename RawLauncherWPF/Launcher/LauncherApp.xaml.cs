@@ -1,5 +1,8 @@
-﻿using System.Windows;
-using RawLauncherWPF.UI;
+﻿using System;
+using System.Runtime.Remoting;
+using System.Windows;
+using RawLauncherWPF.Server;
+using static RawLauncherWPF.Launcher.LauncherDataMiner;
 
 namespace RawLauncherWPF.Launcher
 {
@@ -10,8 +13,19 @@ namespace RawLauncherWPF.Launcher
     {
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            var wnd = new MainWindow();
-            wnd.Show();
+            CheckUpdateOnStartup();
+            MainWindow?.Show();
+        }
+
+        private void CheckUpdateOnStartup()
+        {
+            try
+            {
+                DataMiner.HostServer.CheckForUpdate(DataMiner.CurrentMod.Version);
+            }
+            catch (ServerException)
+            {
+            } 
         }
     }
 }
