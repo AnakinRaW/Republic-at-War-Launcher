@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RawLauncherWPF.Server
+﻿namespace RawLauncherWPF.Server
 {
     public interface IServer
     {

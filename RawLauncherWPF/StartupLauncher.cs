@@ -7,8 +7,8 @@ using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
+using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
-using MainWindow = RawLauncherWPF.UI.MainWindow;
 
 namespace RawLauncherWPF
 {
