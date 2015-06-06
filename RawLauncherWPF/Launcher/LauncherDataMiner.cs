@@ -16,7 +16,7 @@ namespace RawLauncherWPF.Launcher
         public const string Server = "";
         //TODO: Change to GitHub in future
         public const string ServerUrl = "http://raworganize.com/RaW_Update/";
-        public static readonly string CurrentDirectory = Directory.GetCurrentDirectory();
+        public static string CurrentDirectory => Directory.GetCurrentDirectory();
 
         public LauncherDataMiner()
         {
@@ -30,6 +30,8 @@ namespace RawLauncherWPF.Launcher
         public string RestoreDownloadDir { get; private set; }
         public string UpdateDownloadDir { get; private set; }
         public IHostServer HostServer { get; private set; }
+
+        public bool QuietLaunchFileExists => File.Exists(Directory.GetCurrentDirectory() + @"\raw.txt");
 
         public void SetCurrentMod(IMod mod)
         {

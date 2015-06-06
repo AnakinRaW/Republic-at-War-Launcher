@@ -2,6 +2,9 @@
 {
     public interface IHostServer : IServer
     {
+
+        bool IsCheckingForUpdate { get; }
+
         /// <summary>
         /// Checks if there is an update for the current installed Mod
         /// </summary>

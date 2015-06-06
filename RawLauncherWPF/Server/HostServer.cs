@@ -34,12 +34,16 @@ namespace RawLauncherWPF.Server
             return true;
         }
 
+        public bool IsCheckingForUpdate { get; private set; }
+
         public bool CheckForUpdate(string currentVersion)
         {
+            IsCheckingForUpdate = true;
             if (!UrlExists(string.Empty))
                 MessageBox.Show("Fail");
             else
                 MessageBox.Show("No Fail");
+            IsCheckingForUpdate = false;
             return true;
         }
     }
