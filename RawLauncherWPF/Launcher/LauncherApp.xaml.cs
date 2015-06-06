@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Remoting;
-using System.Windows;
+﻿using System.Windows;
 using RawLauncherWPF.Server;
 using static RawLauncherWPF.Launcher.LauncherDataMiner;
 

@@ -3,12 +3,12 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using ModernApplicationFramework.Controls;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.Utilities;
+using MainWindow = RawLauncherWPF.UI.MainWindow;
 
 namespace RawLauncherWPF
 {
