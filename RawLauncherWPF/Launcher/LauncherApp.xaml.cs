@@ -16,24 +16,16 @@ namespace RawLauncherWPF.Launcher
             // Else Run MainWindow (which inits the the Update View which checks for update on creation)
             if (DataMiner.QuietLaunchFileExists && Keyboard.Modifiers != ModifierKeys.Shift)
             {
-                
+
             }
-            MainWindow?.Show();         
-        }
-
-        public void TestAsync()
-        {
-        }
-
-        private void CheckUpdateAsnyc()
-        {
             try
             {
                 DataMiner.HostServer.CheckForUpdate(DataMiner.CurrentMod.Version);
             }
             catch (ServerException)
             {
-            } 
+            }
+            MainWindow?.Show();         
         }
     }
 }

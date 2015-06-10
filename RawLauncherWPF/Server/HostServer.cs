@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Windows;
 
 namespace RawLauncherWPF.Server
@@ -11,10 +12,7 @@ namespace RawLauncherWPF.Server
         }
 
         public string ServerRootAddress { get; set; }
-        public bool IsRunning()
-        {
-            return true;
-        }
+        public bool IsRunning() => UrlExists(string.Empty);
 
         public bool UrlExists(string resource)
         {
@@ -39,10 +37,14 @@ namespace RawLauncherWPF.Server
         public bool CheckForUpdate(string currentVersion)
         {
             IsCheckingForUpdate = true;
-            if (!UrlExists(string.Empty))
+            if (!IsRunning())
                 MessageBox.Show("Fail");
             else
+            {
                 MessageBox.Show("No Fail");
+                //TODO: Throw exception
+            }
+              
             IsCheckingForUpdate = false;
             return true;
         }
