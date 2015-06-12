@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Models;
@@ -11,6 +12,7 @@ using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Configuration.Config;
+using static RawLauncherWPF.Models.LauncherModel;
 
 namespace RawLauncherWPF
 {
@@ -20,6 +22,10 @@ namespace RawLauncherWPF
     /// This ought not to interact with the launcher. I made this class static to make this clear
     /// 
     /// The Preparation includes extracting the need resoures as well as decalring the mod, the two games and the dater miner for later usage.
+    /// 
+    /// TODO: Move all to a Launcher Object with Model.
+    /// TODO: Leave Extracting Stuff in Main() Method.
+    /// TODO: Make this Run for Steam also by using existing code as much as possible. Serverty is very low at the moment. If programming properly it should be easy to add afterwards.
     /// </summary>
     public static class StartupLauncher
     {
@@ -42,11 +48,26 @@ namespace RawLauncherWPF
 
         /// <summary>
         /// This Method contains some actions that shall be performed after the launcher is ready to launch but before showing up
+        /// Can Close Application after this compleded tasks.
+        /// Runs CleanUp on Exit
+        /// TODO: Use Event instead
         /// TODO: Move SilentUpdateMod Call here 
         /// </summary>
         private static void PreStart()
         {
-            
+            // If "RaW.txt" does exists AND Shift is NOT pressed -> Show UpdateScreen and Run afterwards
+            // Else Run MainWindow (which inits the the Update View which checks for update on creation)
+            if (LauncherData.QuietLaunchFileExists && Keyboard.Modifiers != ModifierKeys.Shift)
+            {
+
+            }
+            try
+            {
+                LauncherData.HostServer.CheckForUpdate(LauncherData.CurrentMod.Version);
+            }
+            catch (ServerException)
+            {
+            }
         }
 
         public static void Prepare()
@@ -64,6 +85,9 @@ namespace RawLauncherWPF
             app.Run();
         }
 
+        /// <summary>
+        /// Extracts embedded audio files.
+        /// </summary>
         private static void ExtractAudio()
         {
             var audioExtractor = new ResourceExtractor("Audio");
@@ -83,6 +107,9 @@ namespace RawLauncherWPF
             }
         }
 
+        /// <summary>
+        /// Extracts embadded DLL Libraries. 
+        /// </summary>
         private static void ExtractLirbaries()
         {
             var audioExtractor = new ResourceExtractor("Libraries");
@@ -101,14 +128,20 @@ namespace RawLauncherWPF
             }
         }
 
+        /// <summary>
+        /// Initialized both Games EaW and FoC
+        /// Check for Steam usage first and create if found.
+        /// If Foc NOT found -> Exit with Message
+        /// If EaW NOT found -> Continue with Message of limited use. 
+        /// </summary>
         private static void InitGames()
         {
             try
             {
                 var eaw = new Eaw().FindGame();
-                LauncherModel.DataMiner.SetEawGame(eaw);
+                LauncherData.SetEawGame(eaw);
                 var foc = new Foc().FindGame();
-                LauncherModel.DataMiner.SetFocGame(foc);
+                LauncherData.SetFocGame(foc);
             }
             catch (GameExceptions e)
             {
@@ -117,12 +150,16 @@ namespace RawLauncherWPF
             }
         }
 
+        /// <summary>
+        /// Initialized the Mods. 
+        /// If NOT found -> exit launcher
+        /// </summary>
         private static void InitMod()
         {
             try
             {
                 var republicAtWar = new RaW().FindMod();
-                LauncherModel.DataMiner.SetCurrentMod(republicAtWar);
+                LauncherData.SetCurrentMod(republicAtWar);
             }
             catch (ModExceptions e)
             {
@@ -131,6 +168,9 @@ namespace RawLauncherWPF
             }
         }
 
+        /// <summary>
+        /// Initilizes important Data used by the Mod.
+        /// </summary>
         private static void SetupData()
         {     
             InitGames();
@@ -139,15 +179,21 @@ namespace RawLauncherWPF
             InitServer();
         }
 
+        /// <summary>
+        /// Creates a new Server-Object
+        /// </summary>
         private static void InitServer()
         {
-            LauncherModel.DataMiner.SetHostServer(new HostServer(ServerUrl));
+            LauncherData.SetHostServer(new HostServer(ServerUrl));
         }
 
+        /// <summary>
+        /// Sets required Folders for Launcher
+        /// </summary>
         private static void InitDirectories()
         {
-            LauncherModel.DataMiner.SetRestoreDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
-            LauncherModel.DataMiner.SetUpdateDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
+            LauncherData.SetRestoreDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
+            LauncherData.SetUpdateDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
         }
     }
 }

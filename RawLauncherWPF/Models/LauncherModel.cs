@@ -10,10 +10,10 @@ namespace RawLauncherWPF.Models
     {
         public LauncherModel()
         {
-            DataMiner = this;
+            LauncherData = this;
         }
 
-        public static LauncherModel DataMiner { get; private set; }
+        public static LauncherModel LauncherData { get; private set; }
         public IMod CurrentMod { get; private set; }
         public IGame Eaw { get; private set; }
         public IGame Foc { get; private set; }
