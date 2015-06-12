@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using RawLauncherWPF.Server;
-using static RawLauncherWPF.Launcher.LauncherDataMiner;
+using static RawLauncherWPF.Models.LauncherModel;
 
 namespace RawLauncherWPF.Launcher
 {

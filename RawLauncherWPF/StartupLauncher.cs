@@ -5,10 +5,12 @@ using System.IO;
 using System.Windows;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
+using RawLauncherWPF.Models;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using static RawLauncherWPF.Configuration.Config;
 
 namespace RawLauncherWPF
 {
@@ -33,13 +35,23 @@ namespace RawLauncherWPF
         public static void Main()
         {
             Prepare();
+            PreStart();
             Start();
             CleanUp();
         }
 
+        /// <summary>
+        /// This Method contains some actions that shall be performed after the launcher is ready to launch but before showing up
+        /// TODO: Move SilentUpdateMod Call here 
+        /// </summary>
+        private static void PreStart()
+        {
+            
+        }
+
         public static void Prepare()
         {
-            new LauncherDataMiner();
+            new LauncherModel();
             ExtractLirbaries();
             ExtractAudio();
             SetupData();
@@ -94,9 +106,9 @@ namespace RawLauncherWPF
             try
             {
                 var eaw = new Eaw().FindGame();
-                LauncherDataMiner.DataMiner.SetEawGame(eaw);
+                LauncherModel.DataMiner.SetEawGame(eaw);
                 var foc = new Foc().FindGame();
-                LauncherDataMiner.DataMiner.SetFocGame(foc);
+                LauncherModel.DataMiner.SetFocGame(foc);
             }
             catch (GameExceptions e)
             {
@@ -110,7 +122,7 @@ namespace RawLauncherWPF
             try
             {
                 var republicAtWar = new RaW().FindMod();
-                LauncherDataMiner.DataMiner.SetCurrentMod(republicAtWar);
+                LauncherModel.DataMiner.SetCurrentMod(republicAtWar);
             }
             catch (ModExceptions e)
             {
@@ -129,13 +141,13 @@ namespace RawLauncherWPF
 
         private static void InitServer()
         {
-            LauncherDataMiner.DataMiner.SetHostServer(new HostServer(LauncherDataMiner.ServerUrl));
+            LauncherModel.DataMiner.SetHostServer(new HostServer(ServerUrl));
         }
 
         private static void InitDirectories()
         {
-            LauncherDataMiner.DataMiner.SetRestoreDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
-            LauncherDataMiner.DataMiner.SetUpdateDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
+            LauncherModel.DataMiner.SetRestoreDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
+            LauncherModel.DataMiner.SetUpdateDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
         }
     }
 }
