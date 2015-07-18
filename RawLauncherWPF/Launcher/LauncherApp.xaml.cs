@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using RawLauncherWPF.Server;
+
 using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Launcher
@@ -41,20 +42,9 @@ namespace RawLauncherWPF.Launcher
                 await _launcherViewModel.FastLaunchUpdateSearchCommand.Execute();
                 await _launcherViewModel.StartModCommand.Execute();
                 Shutdown(0);
+                return;
             }
-            else
-            {
-                await _launcherViewModel.ShowMainWindowCommand.Execute();
-
-                // TODO: Remoove this later
-                try
-                {
-                    _launcherViewModel.HostServer.CheckForUpdate(_launcherViewModel.CurrentMod.Version);
-                }
-                catch (ServerException)
-                {
-                }
-            }
+            await _launcherViewModel.ShowMainWindowCommand.Execute();
         }
     }
 }
