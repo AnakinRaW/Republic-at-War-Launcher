@@ -86,6 +86,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -106,6 +107,11 @@
     </ApplicationDefinition>
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Models\UpdaterModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Server\HostServer.cs" />
     <Compile Include="Server\IHostServer.cs" />
     <Compile Include="Server\IServer.cs" />
@@ -149,11 +155,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -199,7 +200,10 @@
     <EmbeddedResource Include="Libraries\Ionic.Zip.dll" />
     <EmbeddedResource Include="Libraries\NAudio.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Visual\MainWindow\QuitHover.png" />
+    <Resource Include="Resources\Visual\MainWindow\QuitIdle.png" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Audio\ButtonPress.WAV" />
     <EmbeddedResource Include="Audio\Checkbox.WAV" />
@@ -207,6 +211,15 @@
     <EmbeddedResource Include="Audio\MouseHover.WAV" />
     <EmbeddedResource Include="Audio\Play.WAV" />
     <EmbeddedResource Include="Audio\QuitPress.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\MainWindow\RaWLauncherBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\MainWindow\EeawHover.png" />
+    <Resource Include="Resources\Visual\MainWindow\ModdbHover.png" />
+    <Resource Include="Resources\Visual\MainWindow\ModdbIdle.png" />
+    <Resource Include="Resources\Visual\MainWindow\EeawIdle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
