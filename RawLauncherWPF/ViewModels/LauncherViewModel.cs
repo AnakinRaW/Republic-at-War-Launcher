@@ -13,7 +13,14 @@ namespace RawLauncherWPF.ViewModels
 {
     public sealed class LauncherViewModel : ViewModelBase
     {
-        private LauncherApp _launcher;
+        private readonly LauncherApp _launcher;
+
+        private IMod _currentMod;
+        private IGame _eawGame;
+        private IGame _focGame;
+        private IHostServer _hostServer;
+        private string _downloadDir;
+        private string _restoreDir;
 
         public LauncherViewModel(LauncherApp launcher)
         {
@@ -21,58 +28,111 @@ namespace RawLauncherWPF.ViewModels
             SetUpData();
         }
 
+        /// <summary>
+        /// Tells if the raw.txt exists
+        /// </summary>
         public bool QuietLaunchFileExists => File.Exists(Directory.GetCurrentDirectory() + @"\raw.txt");
-        public IMod CurrentMod { get; private set; }
-        public IGame Eaw { get; private set; }
-        public IGame Foc { get; private set; }
-        public IHostServer HostServer { get; private set; }
-        public string RestoreDownloadDir { get; private set; }
-        public string UpdateDownloadDir { get; private set; }
 
-        public void SetCurrentMod(IMod mod)
+        /// <summary>
+        /// Contains the mod that shall be used for this launcher instance
+        /// </summary>
+        public IMod CurrentMod
         {
-            if (mod == null)
-                throw new NullReferenceException();
-            CurrentMod = mod;
+            get { return _currentMod; }
+            set
+            {
+                if (value ==null)
+                    return;
+                if (Equals(value, _currentMod))
+                    return;
+                _currentMod = value;
+                OnPropertyChanged();
+            }
         }
 
-        public void SetEawGame(IGame game)
+        /// <summary>
+        /// Contains a game, which should be EaW
+        /// </summary>
+        public IGame Eaw
         {
-            if (game == null)
-                throw new NullReferenceException();
-            Eaw = game;
+            get { return _eawGame; }
+            set
+            {
+                if (value == null)
+                    return;
+                if (Equals(value, _eawGame))
+                    return;
+                _eawGame = value;
+                OnPropertyChanged();
+            }
         }
 
-        public void SetFocGame(IGame game)
+        /// <summary>
+        /// Contains a game, which should be Foc
+        /// </summary>
+        public IGame Foc
         {
-            if (game == null)
-                throw new NullReferenceException(nameof(game));
-            Foc = game;
+            get { return _focGame; }
+            set
+            {
+                if (value == null)
+                    return;
+                if (Equals(value, _focGame))
+                    return;
+                _focGame = value;
+                OnPropertyChanged();
+            }
         }
 
-        public void SetHostServer(IHostServer server)
+        /// <summary>
+        /// Contains the HostServer used for this launcher instance
+        /// </summary>
+        public IHostServer HostServer
         {
-            if (server == null)
-                throw new NullReferenceException(nameof(server));
-            HostServer = server;
+            get { return _hostServer; }
+            set
+            {
+                if (value == null)
+                    return;
+                if (Equals(value, _hostServer))
+                    return;
+                _hostServer = value;
+                OnPropertyChanged();
+            }
         }
 
-        public void SetRestoreDownloadDir(string path)
+        /// <summary>
+        /// Contains the current Restore Directory
+        /// </summary>
+        public string RestoreDownloadDir
         {
-            if (path == null)
-                throw new NullReferenceException(nameof(path));
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            RestoreDownloadDir = path;
+            get { return _restoreDir; }
+            set
+            {
+                if (value == null)
+                    return;
+                if (Equals(value, _restoreDir))
+                    return;
+                _restoreDir = value;
+                OnPropertyChanged();
+            }
         }
 
-        public void SetUpdateDownloadDir(string path)
+        /// <summary>
+        /// Contains the Update Directory
+        /// </summary>
+        public string UpdateDownloadDir
         {
-            if (path == null)
-                throw new NullReferenceException(nameof(path));
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            UpdateDownloadDir = path;
+            get { return _downloadDir; }
+            set
+            {
+                if (value == null)
+                    return;
+                if (Equals(value, _downloadDir))
+                    return;
+                _downloadDir = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -80,8 +140,10 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void InitDirectories()
         {
-            SetRestoreDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
-            SetUpdateDownloadDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\RaW_Modding_Team\");
+            RestoreDownloadDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                 @"\RaW_Modding_Team\";
+            RestoreDownloadDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                 @"\RaW_Modding_Team\";
         }
 
         /// <summary>
@@ -95,9 +157,9 @@ namespace RawLauncherWPF.ViewModels
             try
             {
                 var eaw = new Eaw().FindGame();
-                SetEawGame(eaw);
+                Eaw = eaw;
                 var foc = new Foc().FindGame();
-                SetFocGame(foc);
+                Foc = foc;
             }
             catch (GameExceptions e)
             {
@@ -115,7 +177,7 @@ namespace RawLauncherWPF.ViewModels
             try
             {
                 var republicAtWar = new RaW().FindMod();
-                SetCurrentMod(republicAtWar);
+                CurrentMod = republicAtWar;
             }
             catch (ModExceptions e)
             {
@@ -129,7 +191,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void InitServer()
         {
-            SetHostServer(new HostServer(Configuration.Config.ServerUrl));
+            HostServer  = new HostServer(Configuration.Config.ServerUrl);
         }
 
         /// <summary>
