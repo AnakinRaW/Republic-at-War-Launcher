@@ -110,6 +110,7 @@
     <Compile Include="Server\IHostServer.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\ServerException.cs" />
+    <Compile Include="UI\ILauncherPane.cs" />
     <Compile Include="Utilities\AudioHelper.cs" />
     <Compile Include="Games\Eaw.cs" />
     <Compile Include="Games\Foc.cs" />
@@ -123,6 +124,8 @@
     <Compile Include="Utilities\ResourceExtractorException.cs" />
     <Compile Include="Utilities\VersionHelper.cs" />
     <Compile Include="Utilities\XmlTools.cs" />
+    <Compile Include="ViewModels\LauncherPaneViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

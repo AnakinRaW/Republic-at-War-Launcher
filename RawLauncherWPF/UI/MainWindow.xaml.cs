@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.UI
 {
@@ -10,6 +11,7 @@ namespace RawLauncherWPF.UI
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel(this);
         }
     }
 }
