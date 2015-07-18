@@ -105,7 +105,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Controlers\UpdaterViewControler.cs" />
     <Compile Include="Models\UpdaterModel.cs" />
     <Compile Include="Server\HostServer.cs" />
     <Compile Include="Server\IHostServer.cs" />
@@ -117,7 +116,7 @@
     <Compile Include="Games\IGame.cs" />
     <Compile Include="Games\GameExceptions.cs" />
     <Compile Include="Mods\IMod.cs" />
-    <Compile Include="Models\LauncherModel.cs" />
+    <Compile Include="ViewModels\LauncherViewModel.cs" />
     <Compile Include="Mods\ModExceptions.cs" />
     <Compile Include="Mods\RaW.cs" />
     <Compile Include="Utilities\DownloadHelper.cs" />

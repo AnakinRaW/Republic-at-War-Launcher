@@ -1,4 +1,6 @@
-﻿namespace RawLauncherWPF.UI
+﻿using System.Windows;
+
+namespace RawLauncherWPF.UI
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
@@ -8,16 +10,6 @@
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        protected override void PopulateMenuAndToolBars()
-        {
-            
-        }
-
-        protected override void SetWindowIcons()
-        {
-
         }
     }
 }

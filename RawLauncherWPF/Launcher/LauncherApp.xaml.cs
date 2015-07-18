@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using RawLauncherWPF.Server;
-using static RawLauncherWPF.Models.LauncherModel;
+using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Launcher
 {
@@ -10,9 +10,51 @@ namespace RawLauncherWPF.Launcher
     /// </summary>
     public partial class LauncherApp
     {
+        public object DataContext { get; }
+
+        private readonly LauncherViewModel _launcherViewModel;
+
+
+        public LauncherApp()
+        {
+            DataContext = new LauncherViewModel(this);
+            _launcherViewModel = (LauncherViewModel) DataContext;
+        }
+
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            MainWindow?.Show();         
+            StartUpLaunncher();  
+        }
+
+
+        /// <summary>
+        /// This Method contains some actions that shall be performed after the launcher is ready to launch but before showing up
+        /// Can Close Application after this compleded tasks.
+        /// Runs CleanUp on Exit
+        /// </summary>
+        async private void StartUpLaunncher()
+        {
+            // If "RaW.txt" does exists AND Shift is NOT pressed -> Show UpdateScreen and Run Mod afterwards
+            // Else Run MainWindow (which inits the the Update View which checks for update on creation)
+            if (_launcherViewModel.QuietLaunchFileExists && Keyboard.Modifiers != ModifierKeys.Shift)
+            {
+                await _launcherViewModel.FastLaunchUpdateSearchCommand.Execute();
+                await _launcherViewModel.StartModCommand.Execute();
+                Shutdown(0);
+            }
+            else
+            {
+                await _launcherViewModel.ShowMainWindowCommand.Execute();
+
+                // TODO: Remoove this later
+                try
+                {
+                    _launcherViewModel.HostServer.CheckForUpdate(_launcherViewModel.CurrentMod.Version);
+                }
+                catch (ServerException)
+                {
+                }
+            }
         }
     }
 }
