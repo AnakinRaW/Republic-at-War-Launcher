@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ModernApplicationFramework.ViewModels;
+﻿using ModernApplicationFramework.ViewModels;
 using RawLauncherWPF.UI;
 
 namespace RawLauncherWPF.ViewModels
 {
-    class LauncherPaneViewModel : ViewModelBase
+    public class LauncherPaneViewModel : ViewModelBase
     {
         private bool _isActive;
         private bool _isWorking;
