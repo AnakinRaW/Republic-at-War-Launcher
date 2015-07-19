@@ -1,14 +1,13 @@
 Republic at War Launcher License
 
-Note that all license terms are only for the Launcher itself. The ModernApplicationFramework has it's own license.
+Note that all license terms are only for the Launcher itself. The other 3rd party libraries have their own license and can be used under teir own license terms. See list of used libraries below
 
 You may:
 - View the source code
 - Compile the source code
 - Modify the source code
 - Publish Pull-Requests to this repository
-- Do anything you want with it for private only use
-- Use external libraries under their own license terms. See list of used libraries below 
+- Do anything you want with it for private use only
 
 You may not:
 - Publish the source code, the compiled program or other contained media files as your own work. Credits go to AnakinSklavenwalker, KillerHurdz and CCArggee
