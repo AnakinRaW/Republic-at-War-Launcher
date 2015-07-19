@@ -1,7 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using System.Diagnostics;
+using System.Windows.Controls;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.UI;
+using RawLauncherWPF.Utilities;
 using MainWindow = ModernApplicationFramework.Controls.MainWindow;
 
 namespace RawLauncherWPF.ViewModels
@@ -44,14 +46,16 @@ namespace RawLauncherWPF.ViewModels
 
         private void OpenModdb()
         {
-            throw new System.NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            Process.Start(Configuration.Config.ModdbPage);
         }
 
         public Command OpenEeawCommand => new Command(OpenEeaw);
 
         private void OpenEeaw()
         {
-            throw new System.NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            Process.Start(Configuration.Config.EeawForum);
         }
 
         public Command ShowPlayPaneCommand => new Command(ShowPlayPane);
