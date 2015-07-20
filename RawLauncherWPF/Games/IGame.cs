@@ -1,4 +1,6 @@
-﻿namespace RawLauncherWPF.Games
+﻿using RawLauncherWPF.Mods;
+
+namespace RawLauncherWPF.Games
 {
     public interface IGame
     {
@@ -24,5 +26,16 @@
         /// </summary>
         /// <returns>Returns a new instance of the Game</returns>
         IGame FindGame();
+
+        /// <summary>
+        /// Plays the default game
+        /// </summary>
+        void PlayGame();
+
+        /// <summary>
+        /// Plays the game with the mod
+        /// </summary>
+        /// <param name="mod"></param>
+        void PlayGame(IMod mod);
     }
 }

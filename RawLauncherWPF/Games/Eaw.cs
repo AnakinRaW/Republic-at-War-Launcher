@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using RawLauncherWPF.Mods;
 
 namespace RawLauncherWPF.Games
 {
@@ -26,6 +27,16 @@ namespace RawLauncherWPF.Games
             if (!File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Star Wars Empire at War\GameData\sweaw.exe"))
                 throw new GameExceptions(Name + " does not exists");
             return new Foc(Directory.GetCurrentDirectory());
+        }
+
+        public void PlayGame()
+        {
+            //Ignored
+        }
+
+        public void PlayGame(IMod mod)
+        {
+            //Ignored
         }
     }
 }

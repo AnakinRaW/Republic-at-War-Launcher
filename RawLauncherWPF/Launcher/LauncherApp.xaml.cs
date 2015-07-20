@@ -37,13 +37,15 @@ namespace RawLauncherWPF.Launcher
         {
             // If "RaW.txt" does exists AND Shift is NOT pressed -> Show UpdateScreen and Run Mod afterwards
             // Else Run MainWindow (which inits the the Update View which checks for update on creation)
-            if (_launcherViewModel.QuietLaunchFileExists && Keyboard.Modifiers != ModifierKeys.Shift)
+            if (_launcherViewModel.FastLaunchFileExists && Keyboard.Modifiers != ModifierKeys.Shift)
             {
                 await _launcherViewModel.FastLaunchUpdateSearchCommand.Execute();
                 await _launcherViewModel.StartModCommand.Execute();
                 Shutdown(0);
                 return;
             }
+            if (_launcherViewModel.FastLaunchFileExists)
+                await _launcherViewModel.DeleteFastLaunchFileCommand.Execute();
             await _launcherViewModel.ShowMainWindowCommand.Execute();
         }
     }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.UI;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -14,15 +16,8 @@ namespace RawLauncherWPF.ViewModels
 
         public PlayViewModel(ILauncherPane pane) : base(pane)
         {
-            FirstStart();
-            
+            SetCurrentSessionAsync();           
         }
-
-        async private void FirstStart()
-        {
-            await RefreshSessionsCommand.Execute();
-        }
-
 
         public string CurrentSessions
         {
@@ -50,35 +45,51 @@ namespace RawLauncherWPF.ViewModels
 
         private void PlayMod()
         {
-            MessageBox.Show(LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory);
-            CurrentSessions = "4";
+            LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.PlayGame(
+                LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
         }
 
         public Command OrganizeGameCommand => new Command(OrganizeGame, CanOrganizeGame);
 
         private bool CanOrganizeGame()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         private void OrganizeGame()
         {
-            throw new NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            Process.Start("http://www.raworganize.com");
         }
 
         public Command RefreshSessionsCommand => new Command(RefreshSessions);
 
         private void RefreshSessions()
         {
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);      
+            SetCurrentSessionAsync();
+        }
+
+        private void SetCurrentSessionAsync()
+        {
             CurrentSessions = "Wait..";
             Task.Factory.StartNew(() => CurrentSessions = LauncherPane.MainWindowViewModel.LauncherViewModel.SessionServer.DownloadString("count.php"));
         }
 
-        public Command<ToggleButton> ToggleFastLaunchCommand => new Command<ToggleButton>(ToggleFastLaunch);
+        public Command<ToggleButton> ToggleFastLaunchCommand => new Command<ToggleButton>(ToggleFastLaunch, CanToogleFastLaunch);
 
-        private Task ToggleFastLaunch(ToggleButton arg)
+        private bool CanToogleFastLaunch(ToggleButton arg)
         {
-            throw new NotImplementedException();
+            return true;
+        }
+
+        async private void ToggleFastLaunch(ToggleButton arg)
+        {
+            AudioHelper.PlayAudio(AudioHelper.Audio.Checkbox);
+            if (arg.IsChecked == true)
+                 await LauncherPane.MainWindowViewModel.LauncherViewModel.CreateFastLaunchFileCommand.Execute();
+            if (arg.IsChecked == false)
+                await LauncherPane.MainWindowViewModel.LauncherViewModel.DeleteFastLaunchFileCommand.Execute();
         }
 
         #endregion

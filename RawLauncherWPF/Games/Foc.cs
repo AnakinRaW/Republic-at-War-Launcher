@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using RawLauncherWPF.Mods;
 
 namespace RawLauncherWPF.Games
 {
@@ -26,6 +29,17 @@ namespace RawLauncherWPF.Games
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\swfoc.exe"))
                 throw new GameExceptions(Name + " does not exists");
             return new Foc(Directory.GetCurrentDirectory());
+        }
+
+        public void PlayGame()
+        {
+            if (GameDirectory == null)
+                return;
+        }
+
+        public void PlayGame(IMod mod)
+        {
+            MessageBox.Show("Should Play Mod");
         }
     }
 }

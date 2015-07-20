@@ -32,7 +32,7 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Tells if the raw.txt exists
         /// </summary>
-        public bool QuietLaunchFileExists => File.Exists(Directory.GetCurrentDirectory() + @"\raw.txt");
+        public bool FastLaunchFileExists => File.Exists(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName);
 
         /// <summary>
         /// Contains the mod that shall be used for this launcher instance
@@ -241,6 +241,7 @@ namespace RawLauncherWPF.ViewModels
         private void StartMod()
         {
             // TODO: Implement
+            // TODO: Nothing to do here. Create invisible view
             MessageBox.Show("Should start Mod");
         }
 
@@ -253,6 +254,41 @@ namespace RawLauncherWPF.ViewModels
         {
             _launcher.MainWindow = new MainWindow(this);
             _launcher.MainWindow.Show();
+        }
+
+        public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);
+
+        private void CreateFastLaunchFile()
+        {
+            if (FastLaunchFileExists)
+                return;
+            try
+            {
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName,
+                    CurrentMod.Version + "\r\n" + DateTime.Now.ToShortDateString() + "\r\n" + 
+                    "Press and hold SHIFT while starting the launcher to access it again.") ;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
+
+        public Command DeleteFastLaunchFileCommand => new Command(DeleteFastLaunchFile);
+
+        private void DeleteFastLaunchFile()
+        {
+            if (!FastLaunchFileExists)
+                return;
+            try
+            {
+                File.Delete(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName);
+            }
+            catch (Exception)
+            {
+                //ignored
+            }
         }
 
         #endregion

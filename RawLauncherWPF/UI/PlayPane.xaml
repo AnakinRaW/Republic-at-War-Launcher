@@ -3,31 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RawLauncherWPF.UI"
              xmlns:mafc="http://modern.framework.com/controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="300">
+             mc:Ignorable="d">
     <Grid>
         <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}"
                           NormalImage="../Resources/Visual/Play/PlayGameIdle.png"
                           HoverImage="../Resources/Visual/Play/PlayGameHover.png"
                           PressedImage="../Resources/Visual/Play/PlayGameHover.png"/> 
         
-        <mafc:ImageButton Height="60" Width="356" VerticalAlignment="Top" Margin="0,130,0,0" Command="{Binding PlayModCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
+        <mafc:ImageButton Height="60" Width="356" VerticalAlignment="Top" Margin="0,130,0,0" Command="{Binding OrganizeGameCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
                           NormalImage="../Resources/Visual/Play/OrganizeGameIdle.png"
                           HoverImage="../Resources/Visual/Play/OrganizeGameHover.png"
                           PressedImage="../Resources/Visual/Play/OrganizeGameHover.png"/>
-        
-        <DockPanel HorizontalAlignment="Center" Width="356">
-            <Image Source="../Resources/Visual/Play/CurrentGames.png" Height="17" Margin="0,210,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <mafc:OutlineTextBlock Text="{Binding CurrentSessions}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua" Margin="20,195,0,0"
-                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Top"/>      
-            <mafc:ImageButton Height="33" Width="33" VerticalAlignment="Top" Margin="0,200,30,0" Command="{Binding RefreshSessionsCommand}" HorizontalAlignment="Right"
-                          NormalImage="../Resources/Visual/Play/RefreshIdle.png"
-                          HoverImage="../Resources/Visual/Play/RefreshHover.png"
-                          PressedImage="../Resources/Visual/Play/RefreshHover.png"/>
+      
+        <DockPanel HorizontalAlignment="Center" Width="356" Margin="0,195,0,0" VerticalAlignment="Top">
+            <Image Source="../Resources/Visual/Play/CurrentGames.png" Height="17" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <mafc:OutlineTextBlock Text="{Binding CurrentSessions}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua" Margin="20,-5,0,0"
+                                   FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>      
+            <mafc:ImageButton Height="33" Width="33" VerticalAlignment="Center" Margin="0,0,30,0" Command="{Binding RefreshSessionsCommand}" HorizontalAlignment="Right"
+                              NormalImage="../Resources/Visual/Play/RefreshIdle.png"
+                              HoverImage="../Resources/Visual/Play/RefreshHover.png"
+                              PressedImage="../Resources/Visual/Play/RefreshHover.png"/>
+            
         </DockPanel>
-        
-        
+
+        <mafc:ImageToggleButton HorizontalAlignment="Center" VerticalAlignment="Top" Height="82" Width="194" Margin="0,250,0,0"
+                                NormalImage="../Resources/Visual/Play/FastPlayIdle.png"
+                                HoverImage="../Resources/Visual/Play/FastPlayHover.png"
+                                PressedImage="../Resources/Visual/Play/FastPlayHover.png"
+                                CheckedImage="../Resources/Visual/Play/FastPlayHover.png"
+                                Command="{Binding ToggleFastLaunchCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+
     </Grid>
 </UserControl>

@@ -13,7 +13,7 @@ namespace RawLauncherWPF.Configuration
         public const string GameconstantsUpdateHashEaW = "1d44b0797c8becbe240adc0098c2302a";
         public const string GraphicdetailsUpdateHash = "4d7e140887fc1dd52f47790a6e20b5c5";
         public const string ModdbPage = "http://www.moddb.com/mods/republic-at-war";
-        public const string Server = "";
+        public const string FastLaunchFileName = "RawLauncherInfo.txt";
         //TODO: Change to GitHub in future
         public const string ServerUrl = "http://raworganize.com/RaW_Update/";
         public const string SessionServerUrl = "http://raworganize.com/";
