@@ -33,7 +33,7 @@
                                HoverImage="../Resources/Visual/MainWindow/PlayHover.png"
                                PressedImage="../Resources/Visual/MainWindow/PlayHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/PlayHover.png" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="-3,0,0,0" Grid.Column="1"/>
+                               VerticalAlignment="Bottom" Margin="-3,0,0,0" Grid.Column="1" Command="{Binding ShowPlayPaneCommand}"/>
 
         <mafc:ImageRadioButton Width="109" Height="31" 
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
@@ -41,7 +41,7 @@
                                HoverImage="../Resources/Visual/MainWindow/CheckHover.png"
                                PressedImage="../Resources/Visual/MainWindow/CheckHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/CheckHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="106,0,0,0"/>
+                               VerticalAlignment="Bottom" Margin="106,0,0,0" Command="{Binding ShowCheckPaneCommand}"/>
 
         <mafc:ImageRadioButton Width="109" Height="31" 
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
@@ -49,7 +49,7 @@
                                HoverImage="../Resources/Visual/MainWindow/UpdateHover.png"
                                PressedImage="../Resources/Visual/MainWindow/UpdateHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/UpdateHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="433,0,0,0" Grid.ColumnSpan="2"/>
+                               VerticalAlignment="Bottom" Margin="433,0,0,0" Grid.ColumnSpan="2" Command="{Binding ShowUpdatePaneCommand}"/>
 
         <mafc:ImageRadioButton Width="109" Height="31" 
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
@@ -57,7 +57,7 @@
                                HoverImage="../Resources/Visual/MainWindow/RestoreHover.png"
                                PressedImage="../Resources/Visual/MainWindow/RestoreHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/RestoreHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="324,0,0,0"/>
+                               VerticalAlignment="Bottom" Margin="324,0,0,0" Command="{Binding ShowRestorePaneCommand}"/>
 
         <mafc:ImageRadioButton Width="109" Height="31"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
@@ -65,7 +65,7 @@
                                HoverImage="../Resources/Visual/MainWindow/LanguageHover.png"
                                PressedImage="../Resources/Visual/MainWindow/LanguageHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/LanguageHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="215,0,0,0"/>
+                               VerticalAlignment="Bottom" Margin="215,0,0,0" Command="{Binding ShowLanguagePaneCommand}"/>
 
         <Border Height="3" Grid.Row="0" VerticalAlignment="Bottom" Grid.Column="1">
             <Border.Background>

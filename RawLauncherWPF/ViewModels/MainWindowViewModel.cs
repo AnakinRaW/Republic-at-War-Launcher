@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Windows.Controls;
-using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
@@ -14,6 +12,12 @@ namespace RawLauncherWPF.ViewModels
 
         private ILauncherPane _activePane;
 
+        private readonly ILauncherPane _playPane;
+        private readonly ILauncherPane _checkPane;
+        private readonly ILauncherPane _languagePane;
+        private readonly ILauncherPane _restorePane;
+        private readonly ILauncherPane _updatePane;
+
         public MainWindowViewModel(MainWindow mainWindow) : base(mainWindow)
         {
             _mainWindow = mainWindow;
@@ -21,24 +25,30 @@ namespace RawLauncherWPF.ViewModels
             UseStatusBar = false;
             UseTitleBar = false;
             UseSimpleMovement = true;
+
+            _playPane = new PlayPane();
+            _checkPane = new CheckPane();
+            _languagePane = new LanguagePane();
+            _restorePane = new RestorePane();
+            _updatePane = new UpdatePane();
         }
 
 
-        public Border ActivePane => new Border() {Background = Brushes.Red};
-
-        //public ILauncherPane ActivePane
-        //{
-        //    get { return _activePane; }
-        //    set
-        //    {
-        //        if (Equals(value, _activePane))
-        //            return;
-        //        if (value == null)
-        //            return;
-        //        _activePane = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        public ILauncherPane ActivePane
+        {
+            get { return _activePane; }
+            set
+            {
+                if (Equals(value, _activePane))
+                    return;
+                if (value == null)
+                    return;
+                _playPane.ViewModel.IsActive = false;
+                _activePane = value;
+                _playPane.ViewModel.IsActive = true;
+                OnPropertyChanged();
+            }
+        }
 
         #region Commands
 
@@ -62,35 +72,40 @@ namespace RawLauncherWPF.ViewModels
 
         private void ShowPlayPane()
         {
-            throw new System.NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            ActivePane = _playPane;
         }
 
         public Command ShowCheckPaneCommand => new Command(ShowCheckPane);
 
         private void ShowCheckPane()
         {
-            throw new System.NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            ActivePane = _checkPane;
         }
 
         public Command ShowLanguagePaneCommand => new Command(ShowLanguage);
 
         private void ShowLanguage()
         {
-            throw new System.NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            ActivePane = _languagePane;
         }
 
         public Command ShowRestorePaneCommand => new Command(ShowRestorePane);
 
         private void ShowRestorePane()
         {
-            throw new System.NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            ActivePane = _restorePane;
         }
 
         public Command ShowUpdatePaneCommand => new Command(ShowUpdatePane);
 
         private void ShowUpdatePane()
         {
-            throw new System.NotImplementedException();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            ActivePane = _updatePane;
         }
 
         protected override void Close()

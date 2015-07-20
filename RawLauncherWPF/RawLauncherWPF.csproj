@@ -116,7 +116,22 @@
     <Compile Include="Server\IHostServer.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\ServerException.cs" />
+    <Compile Include="UI\CheckPane.xaml.cs">
+      <DependentUpon>CheckPane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ILauncherPane.cs" />
+    <Compile Include="UI\LanguagePane.xaml.cs">
+      <DependentUpon>LanguagePane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PlayPane.xaml.cs">
+      <DependentUpon>PlayPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RestorePane.xaml.cs">
+      <DependentUpon>RestorePane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UpdatePane.xaml.cs">
+      <DependentUpon>UpdatePane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AudioHelper.cs" />
     <Compile Include="Games\Eaw.cs" />
     <Compile Include="Games\Foc.cs" />
@@ -138,6 +153,14 @@
     <Compile Include="ViewModels\PlayViewModel.cs" />
     <Compile Include="ViewModels\RestoreViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
+    <Page Include="UI\CheckPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\LanguagePane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -152,6 +175,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\PlayPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\RestorePane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UpdatePane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
