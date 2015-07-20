@@ -2,19 +2,17 @@
 using System.IO;
 using System.Net;
 using System.Windows;
-using static System.String;
 
 namespace RawLauncherWPF.Server
 {
-    public class HostServer : IHostServer
+    class SessionServer : IServer
     {
-        public HostServer(string address)
+        public SessionServer(string address)
         {
             ServerRootAddress = address;
         }
-
         public string ServerRootAddress { get; set; }
-        public bool IsRunning() => UrlExists(Empty);
+        public bool IsRunning() => UrlExists(string.Empty);
 
         public bool UrlExists(string resource)
         {
@@ -45,26 +43,9 @@ namespace RawLauncherWPF.Server
             catch (Exception)
             {
                 MessageBox.Show("Was not able to get data from: " + Path.GetFileName(ServerRootAddress + resource));
-                result = Empty;
+                result = string.Empty;
             }
             return result;
-        }
-
-        public bool IsCheckingForUpdate { get; private set; }
-
-        public bool CheckForUpdate(string currentVersion)
-        {
-            IsCheckingForUpdate = true;
-            if (!IsRunning())
-                MessageBox.Show("Fail");
-            else
-            {
-                MessageBox.Show("No Fail");
-                //TODO: Throw exception
-            }
-              
-            IsCheckingForUpdate = false;
-            return true;
         }
     }
 }

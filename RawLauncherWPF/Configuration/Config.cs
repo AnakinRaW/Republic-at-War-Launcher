@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace RawLauncherWPF.Configuration
 {
@@ -21,6 +16,7 @@ namespace RawLauncherWPF.Configuration
         public const string Server = "";
         //TODO: Change to GitHub in future
         public const string ServerUrl = "http://raworganize.com/RaW_Update/";
+        public const string SessionServerUrl = "http://raworganize.com/";
         public static string CurrentDirectory => Directory.GetCurrentDirectory();
     }
 }

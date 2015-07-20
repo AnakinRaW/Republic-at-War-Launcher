@@ -12,5 +12,22 @@
                           NormalImage="../Resources/Visual/Play/PlayGameIdle.png"
                           HoverImage="../Resources/Visual/Play/PlayGameHover.png"
                           PressedImage="../Resources/Visual/Play/PlayGameHover.png"/> 
+        
+        <mafc:ImageButton Height="60" Width="356" VerticalAlignment="Top" Margin="0,130,0,0" Command="{Binding PlayModCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
+                          NormalImage="../Resources/Visual/Play/OrganizeGameIdle.png"
+                          HoverImage="../Resources/Visual/Play/OrganizeGameHover.png"
+                          PressedImage="../Resources/Visual/Play/OrganizeGameHover.png"/>
+        
+        <DockPanel HorizontalAlignment="Center">
+            <Image Source="../Resources/Visual/Play/CurrentGames.png" Height="17" Margin="0,210,0,0" VerticalAlignment="Top"/>
+            <mafc:OutlineTextBlock Text="{Binding CurrentSessions}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua" Margin="20,195,0,0"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Top"/>      
+            <mafc:ImageButton Height="33" Width="33" VerticalAlignment="Top" Margin="50,200,0,0" Command="{Binding RefreshSessionsCommand}"
+                          NormalImage="../Resources/Visual/Play/RefreshIdle.png"
+                          HoverImage="../Resources/Visual/Play/RefreshHover.png"
+                          PressedImage="../Resources/Visual/Play/RefreshHover.png"/>
+        </DockPanel>
+        
+        
     </Grid>
 </UserControl>

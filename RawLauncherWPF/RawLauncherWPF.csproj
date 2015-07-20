@@ -116,6 +116,7 @@
     <Compile Include="Server\IHostServer.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\ServerException.cs" />
+    <Compile Include="Server\SessionServer.cs" />
     <Compile Include="UI\CheckPane.xaml.cs">
       <DependentUpon>CheckPane.xaml</DependentUpon>
     </Compile>
@@ -140,6 +141,7 @@
     <Compile Include="Mods\IMod.cs" />
     <Compile Include="Utilities\BoolToIndexConverter.cs" />
     <Compile Include="ViewModels\CheckViewModel.cs" />
+    <Compile Include="ViewModels\ILauncherViewModel.cs" />
     <Compile Include="ViewModels\LanguageViewModel.cs" />
     <Compile Include="ViewModels\LauncherViewModel.cs" />
     <Compile Include="Mods\ModExceptions.cs" />
@@ -207,6 +209,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Font\Starjedi.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -228,9 +231,6 @@
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Libraries\Ionic.Zip.dll" />
@@ -291,6 +291,16 @@
   <ItemGroup>
     <Resource Include="Resources\Visual\Play\PlayGameHover.png" />
     <Resource Include="Resources\Visual\Play\PlayGameIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Play\RefreshHover.png" />
+    <Resource Include="Resources\Visual\Play\RefreshIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Play\CurrentGames.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

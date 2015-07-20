@@ -5,7 +5,7 @@
     xmlns:c="clr-namespace:RawLauncherWPF.Utilities"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="RawLauncherWPF.UI.MainWindow"
         Title="MainWindow" Width="780" Height="520" >
-    
+
     <mafc:MainWindow.Resources>
         <c:BoolToIndexConverter x:Key="BoolToIndexConverter"/>
     </mafc:MainWindow.Resources>
@@ -27,7 +27,7 @@
             <ColumnDefinition Width="24*"/>
         </Grid.ColumnDefinitions>
 
-        <mafc:ImageRadioButton Width="109" Height="31" 
+        <mafc:ImageRadioButton Width="109" Height="31" SnapsToDevicePixels="True"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="../Resources/Visual/MainWindow/PlayIdle.png"
                                HoverImage="../Resources/Visual/MainWindow/PlayHover.png"
@@ -67,7 +67,7 @@
                                CheckedImage="../Resources/Visual/MainWindow/LanguageHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
                                VerticalAlignment="Bottom" Margin="215,0,0,0" Command="{Binding ShowLanguagePaneCommand}"/>
 
-        <Border Height="3" Grid.Row="0" VerticalAlignment="Bottom" Grid.Column="1">
+        <Border Height="2" Grid.Row="0" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,0,0,0" SnapsToDevicePixels="True">
             <Border.Background>
                 <ImageBrush ImageSource="../Resources/Visual/MainWindow/TabBarBorder.png"></ImageBrush>
             </Border.Background>

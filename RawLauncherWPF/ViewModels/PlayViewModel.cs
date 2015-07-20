@@ -10,15 +10,26 @@ namespace RawLauncherWPF.ViewModels
     public sealed class PlayViewModel : LauncherPaneViewModel
     {
 
-        private int _currentSessions;
+        private string _currentSessions;
 
         public PlayViewModel(ILauncherPane pane) : base(pane)
         {
+            FirstStart();
+            
         }
 
-        public int CurrentSessions
+        async private void FirstStart()
         {
-            get { return _currentSessions; }
+            await RefreshSessionsCommand.Execute();
+        }
+
+
+        public string CurrentSessions
+        {
+            get
+            {
+                return _currentSessions;
+            }
             set
             {
                 if (Equals(value, _currentSessions))
@@ -40,6 +51,7 @@ namespace RawLauncherWPF.ViewModels
         private void PlayMod()
         {
             MessageBox.Show(LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory);
+            CurrentSessions = "4";
         }
 
         public Command OrganizeGameCommand => new Command(OrganizeGame, CanOrganizeGame);
@@ -52,6 +64,14 @@ namespace RawLauncherWPF.ViewModels
         private void OrganizeGame()
         {
             throw new NotImplementedException();
+        }
+
+        public Command RefreshSessionsCommand => new Command(RefreshSessions);
+
+        private void RefreshSessions()
+        {
+            CurrentSessions = "Wait..";
+            Task.Factory.StartNew(() => CurrentSessions = LauncherPane.MainWindowViewModel.LauncherViewModel.SessionServer.DownloadString("count.php"));
         }
 
         public Command<ToggleButton> ToggleFastLaunchCommand => new Command<ToggleButton>(ToggleFastLaunch);

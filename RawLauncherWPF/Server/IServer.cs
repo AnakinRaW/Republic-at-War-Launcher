@@ -19,5 +19,7 @@
         /// <param name="resource">Full resource path</param>
         /// <returns>True if found, false if not</returns>
         bool UrlExists(string resource);
+
+        string DownloadString(string resource);
     }
 }

@@ -11,13 +11,14 @@ using RawLauncherWPF.UI;
 
 namespace RawLauncherWPF.ViewModels
 {
-    public sealed class LauncherViewModel : ViewModelBase
+    public sealed class LauncherViewModel : ViewModelBase, ILauncherViewModel
     {
         private readonly LauncherApp _launcher;
 
         private IMod _currentMod;
         private IGame _eawGame;
         private IGame _focGame;
+        private IServer _sessionServer;
         private IHostServer _hostServer;
         private string _downloadDir;
         private string _restoreDir;
@@ -99,6 +100,19 @@ namespace RawLauncherWPF.ViewModels
                 _hostServer = value;
                 OnPropertyChanged();
             }
+        }
+
+        public IServer SessionServer
+        {
+            get { return _sessionServer; }
+            set
+            {
+                if (Equals(value, _sessionServer))
+                    return;
+                _sessionServer = value;
+                OnPropertyChanged();
+            }
+
         }
 
         /// <summary>
@@ -192,6 +206,7 @@ namespace RawLauncherWPF.ViewModels
         private void InitServer()
         {
             HostServer  = new HostServer(Configuration.Config.ServerUrl);
+            SessionServer = new SessionServer(Configuration.Config.SessionServerUrl);
         }
 
         /// <summary>
