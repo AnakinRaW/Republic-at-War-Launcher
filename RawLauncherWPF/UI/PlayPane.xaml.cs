@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.UI
@@ -21,13 +14,17 @@ namespace RawLauncherWPF.UI
     /// </summary>
     public partial class PlayPane : ILauncherPane
     {
-        public PlayPane()
+        public PlayPane(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            if (mainWindowViewModel == null)
+                throw new NoNullAllowedException(nameof(mainWindowViewModel));
+            MainWindowViewModel = mainWindowViewModel;
             DataContext = new PlayViewModel(this);
-            ViewModel = (LauncherPaneViewModel) DataContext;
+            ViewModel = (LauncherPaneViewModel)DataContext;
         }
 
+        public MainWindowViewModel MainWindowViewModel { get; }
         public LauncherPaneViewModel ViewModel { get; }
     }
 }

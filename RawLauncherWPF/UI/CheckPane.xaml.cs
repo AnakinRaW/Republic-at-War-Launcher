@@ -7,13 +7,16 @@ namespace RawLauncherWPF.UI
     /// </summary>
     public partial class CheckPane : ILauncherPane
     {
-        public CheckPane()
+        public CheckPane(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            MainWindowViewModel = mainWindowViewModel;
             DataContext = new CheckViewModel(this);
-            ViewModel = (LauncherPaneViewModel) DataContext;
+            ViewModel = (LauncherPaneViewModel)DataContext;
+            
         }
 
+        public MainWindowViewModel MainWindowViewModel { get; }
         public LauncherPaneViewModel ViewModel { get; }
     }
 }

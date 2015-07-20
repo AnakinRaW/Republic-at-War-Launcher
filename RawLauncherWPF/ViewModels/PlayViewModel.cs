@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.UI;
@@ -36,12 +34,12 @@ namespace RawLauncherWPF.ViewModels
 
         private bool CanPlayMod()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         private void PlayMod()
         {
-            throw new NotImplementedException();
+            MessageBox.Show(LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory);
         }
 
         public Command OrganizeGameCommand => new Command(OrganizeGame, CanOrganizeGame);

@@ -4,6 +4,7 @@ namespace RawLauncherWPF.UI
 {
     public interface ILauncherPane
     {
-         LauncherPaneViewModel ViewModel { get; }
+        MainWindowViewModel MainWindowViewModel { get; }
+        LauncherPaneViewModel ViewModel { get; }
     }
 }

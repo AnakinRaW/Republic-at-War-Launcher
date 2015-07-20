@@ -7,13 +7,15 @@ namespace RawLauncherWPF.UI
     /// </summary>
     public partial class RestorePane : ILauncherPane
     {
-        public RestorePane()
+        public RestorePane(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            MainWindowViewModel = mainWindowViewModel;
             DataContext = new RestoreViewModel(this);
             ViewModel = (LauncherPaneViewModel) DataContext;
         }
 
+        public MainWindowViewModel MainWindowViewModel { get; }
         public LauncherPaneViewModel ViewModel { get; }
     }
 }

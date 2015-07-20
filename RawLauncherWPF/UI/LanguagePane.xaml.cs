@@ -7,13 +7,15 @@ namespace RawLauncherWPF.UI
     /// </summary>
     public partial class LanguagePane : ILauncherPane
     {
-        public LanguagePane()
+        public LanguagePane(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            MainWindowViewModel = mainWindowViewModel;
             DataContext = new LanguageViewModel(this);
-            ViewModel = (LauncherPaneViewModel) DataContext;
+            ViewModel = (LauncherPaneViewModel)DataContext;
         }
 
+        public MainWindowViewModel MainWindowViewModel { get; }
         public LauncherPaneViewModel ViewModel { get; }
     }
 }

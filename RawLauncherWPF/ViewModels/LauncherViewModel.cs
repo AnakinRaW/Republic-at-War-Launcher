@@ -236,7 +236,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void ShowMainWindow()
         {
-            _launcher.MainWindow = new MainWindow();
+            _launcher.MainWindow = new MainWindow(this);
             _launcher.MainWindow.Show();
         }
 

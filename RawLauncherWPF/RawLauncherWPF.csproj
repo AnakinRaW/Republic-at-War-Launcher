@@ -280,6 +280,18 @@
     <Resource Include="Resources\Visual\MainWindow\UpdateHover.png" />
     <Resource Include="Resources\Visual\MainWindow\UpdateIdle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Play\FastPlayHover.png" />
+    <Resource Include="Resources\Visual\Play\FastPlayIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Play\OrganizeGameHover.png" />
+    <Resource Include="Resources\Visual\Play\OrganizeGameIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Play\PlayGameHover.png" />
+    <Resource Include="Resources\Visual\Play\PlayGameIdle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

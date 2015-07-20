@@ -7,13 +7,15 @@ namespace RawLauncherWPF.UI
     /// </summary>
     public partial class UpdatePane : ILauncherPane
     {
-        public UpdatePane()
+        public UpdatePane(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            MainWindowViewModel = mainWindowViewModel;
             DataContext = new UpdateViewModel(this);
-            ViewModel = (LauncherPaneViewModel) DataContext;
+            ViewModel = (LauncherPaneViewModel)DataContext;
         }
 
+        public MainWindowViewModel MainWindowViewModel { get; }
         public LauncherPaneViewModel ViewModel { get; }
     }
 }

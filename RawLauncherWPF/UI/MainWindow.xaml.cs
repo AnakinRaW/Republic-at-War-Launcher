@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using RawLauncherWPF.ViewModels;
+﻿using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.UI
 {
@@ -8,10 +7,14 @@ namespace RawLauncherWPF.UI
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow()
+
+        public LauncherViewModel LauncherViewModel { get; }
+
+        public MainWindow(LauncherViewModel model)
         {
+            LauncherViewModel = model;
             InitializeComponent();
-            DataContext = new MainWindowViewModel(this);
+            DataContext = new MainWindowViewModel(this, LauncherViewModel);
         }
     }
 }

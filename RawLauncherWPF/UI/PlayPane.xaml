@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RawLauncherWPF.UI"
+             xmlns:mafc="http://modern.framework.com/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="Red">
-          
+             d:DesignHeight="300">
+    <Grid>
+        <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}"
+                          NormalImage="../Resources/Visual/Play/PlayGameIdle.png"
+                          HoverImage="../Resources/Visual/Play/PlayGameHover.png"
+                          PressedImage="../Resources/Visual/Play/PlayGameHover.png"/> 
     </Grid>
 </UserControl>
