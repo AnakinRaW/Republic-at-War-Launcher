@@ -1,4 +1,6 @@
-﻿namespace RawLauncherWPF.Mods
+﻿using RawLauncherWPF.ViewModels;
+
+namespace RawLauncherWPF.Mods
 {
     public interface IMod
     {

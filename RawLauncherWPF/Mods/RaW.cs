@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using RawLauncherWPF.Utilities;
+using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Mods
 {
