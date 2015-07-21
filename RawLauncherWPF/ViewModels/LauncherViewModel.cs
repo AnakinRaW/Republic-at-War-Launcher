@@ -240,9 +240,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void StartMod()
         {
-            // TODO: Implement
-            // TODO: Nothing to do here. Create invisible view
-            MessageBox.Show("Should start Mod");
+            Foc.PlayGame(CurrentMod);
         }
 
         /// <summary>
@@ -273,7 +271,6 @@ namespace RawLauncherWPF.ViewModels
                 // ignored
             }
         }
-
 
         public Command DeleteFastLaunchFileCommand => new Command(DeleteFastLaunchFile);
 

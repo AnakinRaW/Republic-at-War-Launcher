@@ -293,14 +293,14 @@
     <Resource Include="Resources\Visual\Play\PlayGameIdle.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Visual\Play\RefreshHover.png" />
     <Resource Include="Resources\Visual\Play\RefreshIdle.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Visual\Play\CurrentGames.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

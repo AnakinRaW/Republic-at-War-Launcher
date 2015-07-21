@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
-using System.Windows;
 using RawLauncherWPF.Mods;
 
 namespace RawLauncherWPF.Games
@@ -33,13 +33,52 @@ namespace RawLauncherWPF.Games
 
         public void PlayGame()
         {
-            if (GameDirectory == null)
-                return;
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = GameDirectory + @"\swfoc.exe",
+                    WorkingDirectory = GameDirectory,
+                    UseShellExecute = false
+                }
+            };
+            try
+            {
+                process.Start();
+            }
+            catch (Exception)
+            {
+                //ignored
+            }
         }
 
         public void PlayGame(IMod mod)
         {
-            MessageBox.Show("Should Play Mod");
+            if (!mod.Exists())
+                throw new ModExceptions("Mod does not exists anymore.");
+            if (!mod.ModDirectory.StartsWith(GameDirectory))
+                throw new ModExceptions("Mod is not compatible");
+            if (!mod.HasCorrectFolderStructure)
+                throw new ModExceptions("Mod is not correct installed");
+
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = GameDirectory + @"\swfoc.exe",
+                    Arguments = "MODPATH=" + mod.LaunchArgumentPath,
+                    WorkingDirectory = GameDirectory,
+                    UseShellExecute = false
+                }
+            };
+            try
+            {
+                process.Start();
+            }
+            catch (Exception)
+            {
+                //ignored
+            }
         }
     }
 }

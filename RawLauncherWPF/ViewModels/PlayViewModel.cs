@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -45,8 +45,11 @@ namespace RawLauncherWPF.ViewModels
 
         private void PlayMod()
         {
+            AudioHelper.PlayAudio(AudioHelper.Audio.Play);
+            Thread.Sleep(1100);
             LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
+            Application.Current.Shutdown();
         }
 
         public Command OrganizeGameCommand => new Command(OrganizeGame, CanOrganizeGame);

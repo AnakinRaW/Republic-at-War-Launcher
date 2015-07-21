@@ -18,8 +18,17 @@ namespace RawLauncherWPF.Mods
                 throw new ModExceptions("This Mod does not exists");
         }
 
-        public string ModDirectory { get; }
-        public string Name => "Republic at War";
+        /// <summary>
+        /// Checks if the Mod is in Fodlder "../Mods/ModName"
+        /// </summary>
+        public bool HasCorrectFolderStructure => ModDirectory.Contains(@"Mods\" + _modFolderName);
+
+        public string LaunchArgumentPath => "Mods/" + _modFolderName;
+
+        public bool Exists()
+        {
+            return File.Exists(ModDirectory + @"\XML\Gameobjectfiles.xml");
+        }
 
         public IMod FindMod()
         {
@@ -28,10 +37,8 @@ namespace RawLauncherWPF.Mods
             return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\");
         }
 
-        public bool Exists()
-        {
-            return File.Exists(ModDirectory + @"\XML\Gameobjectfiles.xml");
-        }
+        public string ModDirectory { get; }
+        public string Name => "Republic at War";
 
         public string Version
         {
@@ -45,14 +52,14 @@ namespace RawLauncherWPF.Mods
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Could not get the current version. Please reinstall the Republic at War and try again.");
+                    MessageBox.Show(
+                        "Could not get the current version. Please reinstall the Republic at War and try again.");
                     return null;
                 }
             }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            set { throw new NotImplementedException(); }
         }
+
+        private string _modFolderName => "Republic_at_War";
     }
 }

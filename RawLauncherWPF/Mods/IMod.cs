@@ -30,5 +30,15 @@
         /// </summary>
         /// <returns>Returns a new instance of the Mod</returns>
         IMod FindMod();
+
+        /// <summary>
+        /// Tests if the Mods folder structure matches an expected pattern
+        /// </summary>
+        bool HasCorrectFolderStructure { get; }
+
+        /// <summary>
+        /// Returns the Value needed to lauch the mod with command arguments
+        /// </summary>
+        string LaunchArgumentPath { get; }
     }
 }
