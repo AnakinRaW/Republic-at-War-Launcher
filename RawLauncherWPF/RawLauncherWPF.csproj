@@ -302,6 +302,35 @@
   <ItemGroup>
     <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Language\DutchIdle.png" />
+    <Resource Include="Resources\Visual\Language\DutchHover.png" />
+    <Resource Include="Resources\Visual\Language\EnglishIdle.png" />
+    <Resource Include="Resources\Visual\Language\EnglishHover.png" />
+    <Resource Include="Resources\Visual\Language\FrenchIdle.png" />
+    <Resource Include="Resources\Visual\Language\FrenchHover.png" />
+    <Resource Include="Resources\Visual\Language\GermanIdle.png" />
+    <Resource Include="Resources\Visual\Language\GermanHover.png" />
+    <Resource Include="Resources\Visual\Language\ItalianIdle.png" />
+    <Resource Include="Resources\Visual\Language\ItalianHover.png" />
+    <Resource Include="Resources\Visual\Language\RussianIdle.png" />
+    <Resource Include="Resources\Visual\Language\RussianHover.png" />
+    <Resource Include="Resources\Visual\Language\SerbianIdle.png" />
+    <Resource Include="Resources\Visual\Language\SerbianHover.png" />
+    <Resource Include="Resources\Visual\Language\SpanishIdle.png" />
+    <Resource Include="Resources\Visual\Language\SpanishHover.png" />
+    <Resource Include="Resources\Visual\Language\SwedishIdle.png" />
+    <Resource Include="Resources\Visual\Language\SwedishHover.png" />
+    <Resource Include="Resources\Visual\Language\UkrainianIdle.png" />
+    <Resource Include="Resources\Visual\Language\UkrainianHover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Language\ChangeLanguageHover.png" />
+    <Resource Include="Resources\Visual\Language\ChangeLanguageIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Language\LanguageInfo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
