@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300">
     <Grid>
@@ -12,27 +13,32 @@
                                    NormalImage="../Resources/Visual/Language/DutchIdle.png"
                                    HoverImage="../Resources/Visual/Language/DutchHover.png"
                                    PressedImage="../Resources/Visual/Language/DutchHover.png"
-                                   CheckedImage="../Resources/Visual/Language/DutchHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/DutchHover.png"
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Dutch}" />
             <mafc:ImageRadioButton Height="19" Width="98" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/EnglishIdle.png"
                                    HoverImage="../Resources/Visual/Language/EnglishHover.png"
                                    PressedImage="../Resources/Visual/Language/EnglishHover.png"
-                                   CheckedImage="../Resources/Visual/Language/EnglishHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/EnglishHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.English}"/>
             <mafc:ImageRadioButton Height="19" Width="97" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/FrenchIdle.png"
                                    HoverImage="../Resources/Visual/Language/FrenchHover.png"
                                    PressedImage="../Resources/Visual/Language/FrenchHover.png"
-                                   CheckedImage="../Resources/Visual/Language/FrenchHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/FrenchHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.French}"/>
             <mafc:ImageRadioButton Height="19" Width="101" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/GermanIdle.png"
                                    HoverImage="../Resources/Visual/Language/GermanHover.png"
                                    PressedImage="../Resources/Visual/Language/GermanHover.png"
-                                   CheckedImage="../Resources/Visual/Language/GermanHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/GermanHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.German}"/>
             <mafc:ImageRadioButton Height="19" Width="94" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/ItalianIdle.png"
                                    HoverImage="../Resources/Visual/Language/ItalianHover.png"
                                    PressedImage="../Resources/Visual/Language/ItalianHover.png"
-                                   CheckedImage="../Resources/Visual/Language/ItalianHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/ItalianHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Italian}"/>
         </StackPanel>
         
         <StackPanel Margin="130,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -40,33 +46,39 @@
                                    NormalImage="../Resources/Visual/Language/RussianIdle.png"
                                    HoverImage="../Resources/Visual/Language/RussianHover.png"
                                    PressedImage="../Resources/Visual/Language/RussianHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RussianHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/RussianHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Russian}"/>
             <mafc:ImageRadioButton Height="19" Width="103" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/SerbianIdle.png"
                                    HoverImage="../Resources/Visual/Language/SerbianHover.png"
                                    PressedImage="../Resources/Visual/Language/SerbianHover.png"
-                                   CheckedImage="../Resources/Visual/Language/SerbianHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/SerbianHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Serbian}"/>
             <mafc:ImageRadioButton Height="19" Width="98" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/SpanishIdle.png"
                                    HoverImage="../Resources/Visual/Language/SpanishHover.png"
                                    PressedImage="../Resources/Visual/Language/SpanishHover.png"
-                                   CheckedImage="../Resources/Visual/Language/SpanishHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/SpanishHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Spanish}"/>
             <mafc:ImageRadioButton Height="19" Width="102" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/SwedishIdle.png"
                                    HoverImage="../Resources/Visual/Language/SwedishHover.png"
                                    PressedImage="../Resources/Visual/Language/SwedishHover.png"
-                                   CheckedImage="../Resources/Visual/Language/SwedishHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/SwedishHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Swedish}"/>
             <mafc:ImageRadioButton Height="19" Width="122" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
                                    NormalImage="../Resources/Visual/Language/UkrainianIdle.png"
                                    HoverImage="../Resources/Visual/Language/UkrainianHover.png"
                                    PressedImage="../Resources/Visual/Language/UkrainianHover.png"
-                                   CheckedImage="../Resources/Visual/Language/UkrainianHover.png"/>
+                                   CheckedImage="../Resources/Visual/Language/UkrainianHover.png"
+                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Ukrainian}"/>
         </StackPanel>
         
         <mafc:ImageButton Height="60" Width="322" VerticalAlignment="Top" Margin="0,180,0,0"
                           NormalImage="../Resources/Visual/Language/ChangeLanguageIdle.png"
                           HoverImage="../Resources/Visual/Language/ChangeLanguageHover.png"
-                          PressedImage="../Resources/Visual/Language/ChangeLanguageHover.png"/>
+                          PressedImage="../Resources/Visual/Language/ChangeLanguageHover.png"
+                          Command="{Binding ChangeLanguageCommand}"/>
         
         <Image Source="../Resources/Visual/Language/LanguageInfo.png" Height="24" Width="223"
                VerticalAlignment="Top" Margin="0,260,0,0"/>
