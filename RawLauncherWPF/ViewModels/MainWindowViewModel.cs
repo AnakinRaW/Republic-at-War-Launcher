@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Diagnostics;
-using System.Windows;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;

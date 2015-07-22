@@ -140,6 +140,7 @@
     <Compile Include="Games\GameExceptions.cs" />
     <Compile Include="Mods\IMod.cs" />
     <Compile Include="Utilities\BoolToIndexConverter.cs" />
+    <Compile Include="Utilities\ImageUtilities.cs" />
     <Compile Include="ViewModels\CheckViewModel.cs" />
     <Compile Include="ViewModels\ILauncherViewModel.cs" />
     <Compile Include="ViewModels\LanguageViewModel.cs" />
@@ -330,6 +331,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Visual\Language\LanguageInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Check\CheckVersionHover.png" />
+    <Resource Include="Resources\Visual\Check\CheckVersionIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Check\PatchGamesHover.png" />
+    <Resource Include="Resources\Visual\Check\PatchGamesIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Check\BlueIndicator.png" />
+    <Resource Include="Resources\Visual\Check\GrayIndicator.png" />
+    <Resource Include="Resources\Visual\Check\GreenIndicator.png" />
+    <Resource Include="Resources\Visual\Check\RedIndicator.png" />
+    <Resource Include="Resources\Visual\Check\YellowIndicator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Check\PatchInfo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

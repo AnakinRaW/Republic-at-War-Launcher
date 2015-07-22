@@ -3,10 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RawLauncherWPF.UI"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:mafc="http://modern.framework.com/controls"
+             mc:Ignorable="d">
     <Grid>
+        <mafc:ImageButton Height="61" Width="231" VerticalAlignment="Top" Margin="0,20,0,0" 
+                          NormalImage="../Resources/Visual/Check/CheckVersionIdle.png"
+                          HoverImage="../Resources/Visual/Check/CheckVersionHover.png"
+                          PressedImage="../Resources/Visual/Check/CheckVersionHover.png"
+                          Command="{Binding CheckVersionCommand}"/>
+        <ProgressBar Height="47" Width="356" VerticalAlignment="Top" Margin="0,90,0,0" Value="{Binding Progress}"/>
+
+        <StackPanel HorizontalAlignment="Left" Margin="20,150,0,0">
+            <DockPanel Margin="0,2,0,0">
+                <Image Source="{Binding GameFoundIndicator}" Width="30"/>
+                <mafc:OutlineTextBlock Margin="10,-4,0,0" Text="{Binding GameFoundMessage}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,0">
+                <Image Source="{Binding ModFoundIndicator}" Width="30"/>
+                <mafc:OutlineTextBlock Margin="10,-4,0,0" Text="{Binding ModFoundMessage}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,0">
+                <Image Source="{Binding GamesPatchedIndicator}" Width="30"/>
+                <mafc:OutlineTextBlock Margin="10,-4,0,0" Text="{Binding GamesPatched}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,0">
+                <Image Source="{Binding ModAiIndicator}" Width="30"/>
+                <mafc:OutlineTextBlock Margin="10,-4,0,0" Text="{Binding ModAiCorrect}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,0">
+                <Image Source="{Binding ModXmlIndicator}" Width="30"/>
+                <mafc:OutlineTextBlock Margin="10,-4,0,0" Text="{Binding ModXmlCorrect}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
+            </DockPanel>
+
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
             
+            <mafc:ImageButton Height="61" Width="136"
+                              NormalImage="../Resources/Visual/Check/PatchGamesIdle.png"
+                              HoverImage="../Resources/Visual/Check/PatchGamesHover.png"
+                              PressedImage="../Resources/Visual/Check/PatchGamesHover.png"
+                              Command="{Binding PatchGamesCommand}"/>
+            <Image Source="../Resources/Visual/Check/PatchInfo.png" Height="24" Width="176" Margin="0,10,0,0"></Image>
+            
+        </StackPanel>
+
     </Grid>
 </UserControl>
