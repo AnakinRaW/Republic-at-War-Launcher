@@ -1,10 +1,13 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
-using static RawLauncherWPF.Utilities.ImageUtilities;
+using static RawLauncherWPF.Utilities.IndicatorImagesHelper;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -24,11 +27,11 @@ namespace RawLauncherWPF.ViewModels
 
         public CheckViewModel(ILauncherPane pane) : base(pane)
         {
-            GameFoundIndicator = GetImageSourceFromPath("Resources/Visual/Check/BlueIndicator.png");
-            ModFoundIndicator = GetImageSourceFromPath("Resources/Visual/Check/BlueIndicator.png");
-            GamesPatchedIndicator = GetImageSourceFromPath("Resources/Visual/Check/BlueIndicator.png");
-            ModAiIndicator = GetImageSourceFromPath("Resources/Visual/Check/BlueIndicator.png");
-            ModXmlIndicator = GetImageSourceFromPath("Resources/Visual/Check/BlueIndicator.png");
+            GameFoundIndicator = SetColor(IndicatorColor.Blue);
+            ModFoundIndicator = SetColor(IndicatorColor.Blue);
+            GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
+            ModAiIndicator = SetColor(IndicatorColor.Blue);
+            ModXmlIndicator = SetColor(IndicatorColor.Blue);
         }
 
         public ImageSource GameFoundIndicator
@@ -194,10 +197,52 @@ namespace RawLauncherWPF.ViewModels
 
         public Command CheckVersionCommand => new Command(CheckVersion);
 
-        private void CheckVersion()
+        async private void CheckVersion()
         {
-            IsBlocking = !IsBlocking;
-            MessageBox.Show(CanExecute.ToString());
+            IsBlocking = true;
+            IsWorking = true;
+
+            PrepareForCheck();
+
+            bool b = await Test1();
+
+            MessageBox.Show(b.ToString());
+
+            GameFoundIndicator = SetColor(IndicatorColor.Gray);
+
+            IsWorking = false;
+            IsBlocking = false;
+
+        }
+
+        private void Test3()
+        {
+            for (int i = 0; i < 101; i++)
+            {
+                Thread.Sleep(100);
+                Progress++;
+            }
+        }
+
+
+        async Task<bool> Test1()
+        {
+            await Task.Run(() =>
+            {
+                Thread.Sleep(2000);
+                Test3();
+            });
+            return false;
+        }
+
+
+        private void PrepareForCheck()
+        {
+            GameFoundIndicator = SetColor(IndicatorColor.Blue);
+            ModFoundIndicator = SetColor(IndicatorColor.Blue);
+            GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
+            ModAiIndicator = SetColor(IndicatorColor.Blue);
+            ModXmlIndicator = SetColor(IndicatorColor.Blue);
         }
 
         #endregion

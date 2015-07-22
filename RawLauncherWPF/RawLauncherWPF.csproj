@@ -141,6 +141,7 @@
     <Compile Include="Mods\IMod.cs" />
     <Compile Include="Utilities\BoolToIndexConverter.cs" />
     <Compile Include="Utilities\ImageUtilities.cs" />
+    <Compile Include="Utilities\IndicatorImagesHelper.cs" />
     <Compile Include="ViewModels\CheckViewModel.cs" />
     <Compile Include="ViewModels\ILauncherViewModel.cs" />
     <Compile Include="ViewModels\LanguageViewModel.cs" />

@@ -5,13 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mafc="http://modern.framework.com/controls"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    </UserControl.Resources>
     <Grid>
         <mafc:ImageButton Height="61" Width="231" VerticalAlignment="Top" Margin="0,20,0,0" 
                           NormalImage="../Resources/Visual/Check/CheckVersionIdle.png"
                           HoverImage="../Resources/Visual/Check/CheckVersionHover.png"
                           PressedImage="../Resources/Visual/Check/CheckVersionHover.png"
                           Command="{Binding CheckVersionCommand}"/>
-        <ProgressBar Height="47" Width="356" VerticalAlignment="Top" Margin="0,90,0,0" Value="{Binding Progress}"/>
+        <ProgressBar Height="47" Width="356" VerticalAlignment="Top" Margin="0,90,0,0" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
 
         <StackPanel HorizontalAlignment="Left" Margin="20,150,0,0">
             <DockPanel Margin="0,2,0,0">
