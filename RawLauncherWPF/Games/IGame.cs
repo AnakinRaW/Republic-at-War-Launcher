@@ -37,5 +37,11 @@ namespace RawLauncherWPF.Games
         /// </summary>
         /// <param name="mod"></param>
         void PlayGame(IMod mod);
+
+        /// <summary>
+        /// Patches the Game
+        /// </summary>
+        /// <returns></returns>
+        bool Patch();
     }
 }

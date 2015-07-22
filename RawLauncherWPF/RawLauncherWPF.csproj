@@ -350,6 +350,14 @@
   <ItemGroup>
     <Resource Include="Resources\Visual\Check\PatchInfo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Patch\EaW\GAMECONSTANTS.XML" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Patch\FoC\GAMECONSTANTS.XML" />
+    <Resource Include="Resources\Patch\FoC\GRAPHICDETAILS.XML" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

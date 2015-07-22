@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using RawLauncherWPF.Mods;
+using RawLauncherWPF.Properties;
 
 namespace RawLauncherWPF.Games
 {
@@ -28,7 +29,7 @@ namespace RawLauncherWPF.Games
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\swfoc.exe"))
                 throw new GameExceptions(Name + " does not exists");
-            return new Foc(Directory.GetCurrentDirectory());
+            return new Foc(Directory.GetCurrentDirectory() + @"\");
         }
 
         public void PlayGame()
@@ -79,6 +80,28 @@ namespace RawLauncherWPF.Games
             {
                 //ignored
             }
+        }
+
+        public bool Patch()
+        {
+            try
+            {
+                if (!Directory.Exists(GameDirectory + @"Data\XML"))
+                    Directory.CreateDirectory(GameDirectory + @"Data\XML");
+
+                if (File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML"))
+                    File.Delete(GameDirectory + @"Data\XML\GAMECONSTANTS.XML");
+                if (File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
+                    File.Delete(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML");
+
+                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Resources.GAMECONSTANTS);
+                File.WriteAllText(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML", Resources.GRAPHICDETAILS);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

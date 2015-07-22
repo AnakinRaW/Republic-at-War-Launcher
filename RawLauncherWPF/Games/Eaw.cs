@@ -1,6 +1,7 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System;
+using System.IO;
 using RawLauncherWPF.Mods;
+using RawLauncherWPF.Properties;
 
 namespace RawLauncherWPF.Games
 {
@@ -38,6 +39,22 @@ namespace RawLauncherWPF.Games
         public void PlayGame(IMod mod)
         {
             //Ignored
+        }
+
+        public bool Patch()
+        {
+            try
+            {
+                if (Directory.Exists(GameDirectory + @"Data\XML"))
+                    Directory.Delete(GameDirectory + @"Data\XML", true);
+                Directory.CreateDirectory(GameDirectory + @"Data\XML");
+                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Resources.GAMECONSTANTSeaw);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
