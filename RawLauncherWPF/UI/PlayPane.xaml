@@ -6,7 +6,7 @@
              xmlns:mafc="http://modern.framework.com/controls"
              mc:Ignorable="d">
     <Grid>
-        <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}"
+        <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}" IsEnabled="{Binding CanExecute}"
                           NormalImage="../Resources/Visual/Play/PlayGameIdle.png"
                           HoverImage="../Resources/Visual/Play/PlayGameHover.png"
                           PressedImage="../Resources/Visual/Play/PlayGameHover.png"/> 

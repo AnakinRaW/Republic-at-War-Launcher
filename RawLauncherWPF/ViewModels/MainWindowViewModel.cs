@@ -1,5 +1,7 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
@@ -16,6 +18,7 @@ namespace RawLauncherWPF.ViewModels
         private readonly ILauncherPane _restorePane;
         private readonly ILauncherPane _updatePane;
         private ILauncherPane _activePane;
+        private bool _isBlocked;
 
         public MainWindowViewModel(MainWindow mainWindow, LauncherViewModel model) : base(mainWindow)
         {
@@ -35,9 +38,18 @@ namespace RawLauncherWPF.ViewModels
             _restorePane = new RestorePane(this);
             _updatePane = new UpdatePane(this);
 
+            LauncherPanes = new List<ILauncherPane> {_playPane, _checkPane, _languagePane, _restorePane, _updatePane};
             PreSelectPane();
         }
 
+        /// <summary>
+        /// Contains the Launcher View Model
+        /// </summary>
+        public LauncherViewModel LauncherViewModel { get; }
+
+        /// <summary>
+        /// Contains the Active Pane
+        /// </summary>
         public ILauncherPane ActivePane
         {
             get { return _activePane; }
@@ -54,7 +66,23 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public LauncherViewModel LauncherViewModel { get; }
+        /// <summary>
+        /// Tells if there is a critical task running which shall prevent from performing other tasks
+        /// </summary>
+        public bool IsBlocked
+        {
+            get { return _isBlocked; }
+            set
+            {
+                if (Equals(value, _isBlocked))
+                    return;
+                _isBlocked = value;
+                LauncherPanes.ForEach(p => p.ViewModel.CanExecute = !_isBlocked);
+                OnPropertyChanged();
+            }
+        }
+
+        private List<ILauncherPane> LauncherPanes { get; }
 
         private void PreSelectPane()
         {

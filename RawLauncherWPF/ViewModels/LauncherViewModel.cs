@@ -102,6 +102,9 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Contains the Session Server used for this launcher instance
+        /// </summary>
         public IServer SessionServer
         {
             get { return _sessionServer; }

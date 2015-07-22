@@ -39,7 +39,7 @@
         
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
             
-            <mafc:ImageButton Height="61" Width="136"
+            <mafc:ImageButton Height="61" Width="136" IsEnabled="{Binding CanExecute}"
                               NormalImage="../Resources/Visual/Check/PatchGamesIdle.png"
                               HoverImage="../Resources/Visual/Check/PatchGamesHover.png"
                               PressedImage="../Resources/Visual/Check/PatchGamesHover.png"

@@ -3,17 +3,19 @@ using RawLauncherWPF.UI;
 
 namespace RawLauncherWPF.ViewModels
 {
-    public class LauncherPaneViewModel : ViewModelBase
+    public abstract class LauncherPaneViewModel : ViewModelBase
     {
         private bool _isActive;
         private bool _isWorking;
         private bool _isBlocking;
-
         protected ILauncherPane LauncherPane;
 
-        public LauncherPaneViewModel(ILauncherPane pane)
+        private bool _canExecute;
+
+        protected LauncherPaneViewModel(ILauncherPane pane)
         {
             LauncherPane = pane;
+            CanExecute = true;
         }
 
         /// <summary>
@@ -57,6 +59,22 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _isBlocking))
                     return;
                 _isBlocking = value;
+                LauncherPane.MainWindowViewModel.IsBlocked = _isBlocking;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Tells if the Pane can Execute a critical task
+        /// </summary>
+        public bool CanExecute
+        {
+            get { return _canExecute; }
+            set
+            {
+                if (Equals(value, _canExecute))
+                    return;
+                _canExecute = value;
                 OnPropertyChanged();
             }
         }

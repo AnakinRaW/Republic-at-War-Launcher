@@ -196,6 +196,8 @@ namespace RawLauncherWPF.ViewModels
 
         private void CheckVersion()
         {
+            IsBlocking = !IsBlocking;
+            MessageBox.Show(CanExecute.ToString());
         }
 
         #endregion
