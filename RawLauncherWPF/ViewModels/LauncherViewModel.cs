@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
@@ -209,8 +210,9 @@ namespace RawLauncherWPF.ViewModels
         private void InitServer()
         {
             HostServer  = new HostServer(Configuration.Config.ServerUrl);
-            SessionServer = new SessionServer(Configuration.Config.SessionServerUrl);
+            SessionServer = new SessionServer(Configuration.Config.SessionServerUrl);        
         }
+
 
         /// <summary>
         /// Initilizes important Data used by the Mod.

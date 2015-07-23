@@ -2,6 +2,7 @@
 using System.IO;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Games
 {
@@ -54,6 +55,18 @@ namespace RawLauncherWPF.Games
             {
                 return false;
             }
+            return true;
+        }
+
+        public bool IsPatched()
+        {
+            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.xml"))
+                return false;
+            if (HashUtilities.GetMd5Hash(GameDirectory + @"Data\XML\GAMECONSTANTS.xml") !=
+                Configuration.Config.GameconstantsUpdateHashEaW)
+                return false;
+            if (Directory.GetFiles(GameDirectory + @"Data\XML").Length != 1)
+                return false;
             return true;
         }
     }

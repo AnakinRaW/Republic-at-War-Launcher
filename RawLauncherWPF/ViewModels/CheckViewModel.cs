@@ -1,13 +1,14 @@
-﻿using System.Threading;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Threading;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using static System.String;
 using static RawLauncherWPF.Utilities.IndicatorImagesHelper;
+using static RawLauncherWPF.Utilities.ProgressBarUtilities;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -58,18 +59,6 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public string GamesPatched
-        {
-            get { return _gamesPatched; }
-            set
-            {
-                if (Equals(value, _gamesPatched))
-                    return;
-                _gamesPatched = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ImageSource GamesPatchedIndicator
         {
             get { return _gamesPatchedIndicator; }
@@ -82,7 +71,19 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public string ModAiCorrect
+        public string GamesPatchedMessage
+        {
+            get { return _gamesPatched; }
+            set
+            {
+                if (Equals(value, _gamesPatched))
+                    return;
+                _gamesPatched = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ModAiCorrectMessage
         {
             get { return _modAiCorrect; }
             set
@@ -130,7 +131,7 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public string ModXmlCorrect
+        public string ModXmlCorrectMessage
         {
             get { return _modXmlCorrect; }
             set
@@ -166,6 +167,37 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
+        async private Task CheckOffline()
+        {
+            if (!Directory.Exists(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir))
+            {
+                await RestoreDirNotValid();
+                return;
+            }
+            if (!File.Exists(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RequiredCheckFiles.xml"))
+            {
+                await RestoreDirNotValid();
+                return;
+            }
+        }
+
+        #region OfflineCheck
+        
+        async private Task RestoreDirNotValid()
+        {
+            ModAiIndicator = SetColor(IndicatorColor.Red);
+            ModAiCorrectMessage = "cout not check";
+            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            MessageBox.Show(
+                "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
+        }
+
+        #endregion
+
+        private void CheckOnline()
+        {
+        }
+
         private void CreatePatchMessage(bool eaw, bool foc)
         {
             if (eaw && foc)
@@ -178,10 +210,110 @@ namespace RawLauncherWPF.ViewModels
                 MessageBox.Show("Foc not successfuly patched\r\nEaw successfuly patched");
         }
 
+        private async Task<bool> IsServerRunning()
+        {
+            return  await Task.FromResult(LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer.IsRunning());
+        }
+
         private bool PatchGame(IGame game)
         {
             return game.Patch();
         }
+
+        private void PrepareForCheck()
+        {
+            Progress = 0;
+            GameFoundIndicator = SetColor(IndicatorColor.Blue);
+            ModFoundIndicator = SetColor(IndicatorColor.Blue);
+            GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
+            ModAiIndicator = SetColor(IndicatorColor.Blue);
+            ModXmlIndicator = SetColor(IndicatorColor.Blue);
+
+            GameFoundMessage = Empty;
+            ModFoundMessage = Empty;
+            GamesPatchedMessage = Empty;
+            ModAiCorrectMessage = Empty;
+            ModXmlCorrectMessage = Empty;
+        }
+
+        private void PreReturn()
+        {
+            IsWorking = false;
+            IsBlocking = false;
+        }
+
+        #region FindGame
+
+        private async Task<bool> CheckFocExistsTask()
+        {
+            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            return LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.Exists();
+        }
+
+        private void FocExistsTasks()
+        {
+            GameFoundIndicator = SetColor(IndicatorColor.Green);
+            GameFoundMessage = "foc found";
+        }
+
+        private void FocNotExistsTasks()
+        {
+            GameFoundIndicator = SetColor(IndicatorColor.Red);
+            GameFoundMessage = "foc not found";
+            PreReturn();
+        }
+
+        #endregion
+
+        #region FindMod
+
+        private async Task<bool> CheckModExistsTask()
+        {
+            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            return LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Exists();
+        }
+
+        private void ModExistsTasks()
+        {
+            ModFoundIndicator = SetColor(IndicatorColor.Green);
+            ModFoundMessage = "raw found";
+        }
+
+        private void ModNotExistsTasks()
+        {
+            ModFoundIndicator = SetColor(IndicatorColor.Red);
+            ModFoundMessage = "raw not found";
+            PreReturn();
+        }
+
+        #endregion
+
+        #region CheckPatch
+
+        private async Task<bool> CheckGameUpdatesInstalled()
+        {
+            var a = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
+            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
+            var b = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
+            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            return a && b;
+        }
+
+        private void GamesNotUpdated()
+        {
+            GamesPatchedIndicator = SetColor(IndicatorColor.Red);
+            GamesPatchedMessage = "games not patched";
+            MessageBox.Show("You need to update your games. Please press the 'patch' button.");
+            PreReturn();
+        }
+
+        private void GamesUpdated()
+        {
+            GamesPatchedIndicator = SetColor(IndicatorColor.Green);
+            GamesPatchedMessage = "games patched";
+        }
+
+        #endregion
 
         #region Commands
 
@@ -197,52 +329,54 @@ namespace RawLauncherWPF.ViewModels
 
         public Command CheckVersionCommand => new Command(CheckVersion);
 
-        async private void CheckVersion()
+        private async void CheckVersion()
         {
             IsBlocking = true;
             IsWorking = true;
 
             PrepareForCheck();
 
-            bool b = await Test1();
-
-            MessageBox.Show(b.ToString());
-
-            GameFoundIndicator = SetColor(IndicatorColor.Gray);
-
-            IsWorking = false;
-            IsBlocking = false;
-
-        }
-
-        private void Test3()
-        {
-            for (int i = 0; i < 101; i++)
+            //Game exists
+            if (!await CheckFocExistsTask())
             {
-                Thread.Sleep(100);
-                Progress++;
+                FocNotExistsTasks();
+                return;
             }
-        }
+            FocExistsTasks();
 
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-        async Task<bool> Test1()
-        {
-            await Task.Run(() =>
+            //Mod exists
+            if (!await CheckModExistsTask())
             {
-                Thread.Sleep(2000);
-                Test3();
-            });
-            return false;
-        }
+                ModNotExistsTasks();
+                return;
+            }
+            ModExistsTasks();
 
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-        private void PrepareForCheck()
-        {
-            GameFoundIndicator = SetColor(IndicatorColor.Blue);
-            ModFoundIndicator = SetColor(IndicatorColor.Blue);
-            GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
-            ModAiIndicator = SetColor(IndicatorColor.Blue);
-            ModXmlIndicator = SetColor(IndicatorColor.Blue);
+            //Games patched
+            if (!await CheckGameUpdatesInstalled())
+            {
+                GamesNotUpdated();
+                return;
+            }
+            GamesUpdated();
+
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            //
+            if (!await IsServerRunning())
+                await CheckOffline();
+            else
+                //TODO: Change
+                await CheckOffline();
+
+            PreReturn();
         }
 
         #endregion

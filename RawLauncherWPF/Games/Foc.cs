@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Games
 {
@@ -23,7 +24,7 @@ namespace RawLauncherWPF.Games
 
         public string Name => "Forces of Corruption";
 
-        public bool Exists() => Directory.Exists(GameDirectory);
+        public bool Exists() => File.Exists(GameDirectory + @"\swfoc.exe");
 
         public IGame FindGame()
         {
@@ -101,6 +102,20 @@ namespace RawLauncherWPF.Games
             {
                 return false;
             }
+            return true;
+        }
+
+        public bool IsPatched()
+        {
+            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") ||
+                !File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
+                return false;
+            if (HashUtilities.GetMd5Hash(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") !=
+                Configuration.Config.GameconstantsUpdateHash)
+                return false;
+            if (HashUtilities.GetMd5Hash(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML") !=
+                Configuration.Config.GraphicdetailsUpdateHash)
+                return false;
             return true;
         }
     }

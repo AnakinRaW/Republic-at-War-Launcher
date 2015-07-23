@@ -20,7 +20,7 @@ namespace RawLauncherWPF.Server
         {
             var request = (HttpWebRequest) WebRequest.Create(ServerRootAddress + resource);
             request.Method = "HEAD";
-            request.Timeout = 3000;
+            request.Timeout = 5000;
             try
             {
                 request.GetResponse();

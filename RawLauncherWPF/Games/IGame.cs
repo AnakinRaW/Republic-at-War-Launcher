@@ -43,5 +43,11 @@ namespace RawLauncherWPF.Games
         /// </summary>
         /// <returns></returns>
         bool Patch();
+
+        /// <summary>
+        /// Checks if the patch is installed
+        /// </summary>
+        /// <returns></returns>
+        bool IsPatched();
     }
 }
