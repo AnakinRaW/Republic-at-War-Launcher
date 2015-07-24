@@ -1,11 +1,17 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml.Schema;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Games;
+using RawLauncherWPF.Properties;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using RawLauncherWPF.Xml;
 using static System.String;
 using static RawLauncherWPF.Utilities.IndicatorImagesHelper;
 using static RawLauncherWPF.Utilities.ProgressBarUtilities;
@@ -179,6 +185,18 @@ namespace RawLauncherWPF.ViewModels
                 await RestoreDirNotValid();
                 return;
             }
+
+            var a = new XmlValidator(Resources.RequiredCheckFiles.ToStream());
+
+            MessageBox.Show(a.Validate(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RequiredCheckFiles.xml").ToString());
+
+
+            var t = (File.ReadAllText(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RequiredCheckFiles.xml")).ParseXml<RequiredCheckFiles>();
+            foreach (var requiredCheckFilesFile in t.Files.Where(requiredCheckFilesFile => requiredCheckFilesFile != null))
+            {
+                MessageBox.Show(requiredCheckFilesFile.FileContentType.ToString());
+            }
+
         }
 
         #region OfflineCheck

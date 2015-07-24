@@ -144,6 +144,7 @@
     <Compile Include="Utilities\ImageUtilities.cs" />
     <Compile Include="Utilities\IndicatorImagesHelper.cs" />
     <Compile Include="Utilities\ProgressBarUtilities.cs" />
+    <Compile Include="Utilities\ResourceToStreamConverter.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />
     <Compile Include="ViewModels\CheckViewModel.cs" />
     <Compile Include="ViewModels\ILauncherViewModel.cs" />
@@ -160,6 +161,9 @@
     <Compile Include="ViewModels\PlayViewModel.cs" />
     <Compile Include="ViewModels\RestoreViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
+    <Compile Include="Xml\Class1.cs" />
+    <Compile Include="Xml\XmlToObjectParser.cs" />
+    <Compile Include="Xml\XmlValidator.cs" />
     <Page Include="UI\CheckPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -214,6 +218,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Resources\Schemes\RequiredCheckFiles.xsc">
+      <DependentUpon>RequiredCheckFiles.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\Schemes\RequiredCheckFiles.xss">
+      <DependentUpon>RequiredCheckFiles.xsd</DependentUpon>
+    </None>
     <Resource Include="Resources\Font\Starjedi.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -357,7 +367,9 @@
   <ItemGroup>
     <Resource Include="Resources\Patch\EaW\GAMECONSTANTS.XML" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Schemes\RequiredCheckFiles.xsd" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Patch\FoC\GAMECONSTANTS.XML" />
     <Resource Include="Resources\Patch\FoC\GRAPHICDETAILS.XML" />
