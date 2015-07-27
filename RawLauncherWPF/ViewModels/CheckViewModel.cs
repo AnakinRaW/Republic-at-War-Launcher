@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -198,7 +199,68 @@ namespace RawLauncherWPF.ViewModels
                     .Parse();
 
             if (fileContainer.Version != LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version)
-                MessageBox.Show("Not same");
+            {
+                await OfflineVersionNotEqual();
+                return;
+            }
+
+            //////////////  Fill Data   /////////////////
+            var aiFolders = new List<FileContainerFolder>();
+            var modFolders = new List<FileContainerFolder>();
+
+            foreach (var folder in fileContainer.Folders)
+            {
+                if (folder.TargetType == TargetType.Ai)
+                    aiFolders.Add(folder);
+                if (folder.TargetType == TargetType.Mod)
+                    modFolders.Add(folder);
+            }
+            //////////////  Fill Data   /////////////////
+
+            //////////////  AI Check   /////////////////
+            bool aiResult = true;
+            foreach (var fileContainerFolder in aiFolders)
+            {
+                if (!CheckFolder(fileContainerFolder))
+                    aiResult = false;
+            }
+            if (!aiResult)
+            {
+                //TODO: Wrong AI 
+                return;
+            }
+            //////////////  AI Check   /////////////////
+
+        }
+
+        private bool CheckFolder(FileContainerFolder folder)
+        {
+            var rootDir = folder.TargetType == TargetType.Ai
+                ? LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory
+                : LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.ModDirectory;
+
+            if (!Directory.Exists(rootDir + folder.TargetPath))
+            {
+                MessageBox.Show("Fail");
+                return false;
+            }
+            if (Directory.GetFiles(rootDir + folder.TargetPath).Length.ToString() != folder.Count)
+            {
+                MessageBox.Show("Count Fail");
+                return false;
+            }
+            //TODO: Check Hash
+
+            return true;
+        }
+
+        async private Task OfflineVersionNotEqual()
+        {
+            ModAiIndicator = SetColor(IndicatorColor.Red);
+            ModAiCorrectMessage = "cout not check";
+            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            MessageBox.Show(
+                "The Version of the mod does not match to the reference file. Please click Restore-Tab and let the launcher redownload the Files.");
         }
 
         async private Task OfflineFilesNotValid()
@@ -391,22 +453,22 @@ namespace RawLauncherWPF.ViewModels
             PrepareForCheck();
 
             //Game exists
-            await CheckGameExists();
+            //await CheckGameExists();
             
-            await ThreadUtilities.SleepThread(750);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //await ThreadUtilities.SleepThread(750);
+            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //Mod exists
-            await CheckModExists();
+            ////Mod exists
+            //await CheckModExists();
             
-            await ThreadUtilities.SleepThread(750);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //await ThreadUtilities.SleepThread(750);
+            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //Games patched
-            await CheckGamePatched();
+            ////Games patched
+            //await CheckGamePatched();
             
-            await ThreadUtilities.SleepThread(750);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //await ThreadUtilities.SleepThread(750);
+            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Check Mod online/offline
             if (!await LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer.CheckRunningAsync())

@@ -34,6 +34,10 @@ namespace RawLauncherWPF.Xml
             {
                 throw new Exception("Unable to deserialize the xml stream.", e.InnerException);
             }
+            finally
+            {
+                FileStream.Close();
+            }
             return instance;
         }
     }

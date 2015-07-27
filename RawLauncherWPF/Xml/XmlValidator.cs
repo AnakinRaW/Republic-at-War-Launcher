@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows;
 using System.Xml;
 using System.Xml.Schema;
-using RawLauncherWPF.ExtensionClasses;
 
 namespace RawLauncherWPF.Xml
 {
@@ -46,7 +45,7 @@ namespace RawLauncherWPF.Xml
             bool result;
             try
             {
-                var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema };
+                var settings = new XmlReaderSettings {ValidationType = ValidationType.Schema};
                 settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation |
                                             XmlSchemaValidationFlags.ReportValidationWarnings;
                 settings.ValidationEventHandler += Settings_ValidationEventHandler;
@@ -68,6 +67,11 @@ namespace RawLauncherWPF.Xml
             catch (Exception)
             {
                 result = false;
+            }
+            finally
+            {
+                SchemeFileStream?.Close();
+                fileStream.Close();
             }
             return result;
         }
