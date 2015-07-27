@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -204,18 +206,8 @@ namespace RawLauncherWPF.ViewModels
                 return;
             }
 
-            //////////////  Fill Data   /////////////////
-            var aiFolders = new List<FileContainerFolder>();
-            var modFolders = new List<FileContainerFolder>();
-
-            foreach (var folder in fileContainer.Folders)
-            {
-                if (folder.TargetType == TargetType.Ai)
-                    aiFolders.Add(folder);
-                if (folder.TargetType == TargetType.Mod)
-                    modFolders.Add(folder);
-            }
-            //////////////  Fill Data   /////////////////
+            var aiFolders = await FillFolderList(fileContainer, TargetType.Ai);
+            var modFolders = await FillFolderList(fileContainer, TargetType.Mod);
 
             //////////////  AI Check   /////////////////
             bool aiResult = true;
@@ -232,6 +224,12 @@ namespace RawLauncherWPF.ViewModels
             //////////////  AI Check   /////////////////
 
         }
+
+        async private Task<List<FileContainerFolder>> FillFolderList(FileContainer fileContainer, TargetType targetType)
+        {
+            return await Task.FromResult(fileContainer.Folders.Where(folder => folder.TargetType == targetType).ToList());
+        }
+
 
         private bool CheckFolder(FileContainerFolder folder)
         {

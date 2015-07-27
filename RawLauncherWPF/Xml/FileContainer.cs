@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using System.Xml.Serialization;
 
 namespace RawLauncherWPF.Xml
@@ -13,11 +12,14 @@ namespace RawLauncherWPF.Xml
     [XmlRoot(Namespace = "", IsNullable = false)]
     public class FileContainer
     {
-        [XmlElement("File")] public List<FileContainerFile> Files;
-
-        [XmlElement("Folder")] public List<FileContainerFolder> Folders;
-
+        [XmlElement("Version", Order = 1)]
         public string Version { get; set; }
+
+        [XmlElement("File", Order = 2)]
+        public List<FileContainerFile> Files;
+
+        [XmlElement("Folder", Order = 3)]
+        public List<FileContainerFolder> Folders;
     }
 
     /// <remarks/>
