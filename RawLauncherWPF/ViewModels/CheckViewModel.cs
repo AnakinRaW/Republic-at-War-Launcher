@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml.Schema;
 using ModernApplicationFramework.Commands;
+using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.UI;
@@ -186,12 +187,12 @@ namespace RawLauncherWPF.ViewModels
                 return;
             }
 
-            var a = new XmlValidator(Resources.RequiredCheckFiles.ToStream());
+            var a = new XmlValidator(Resources.FileContainer.ToStream());
 
-            MessageBox.Show(a.Validate(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RequiredCheckFiles.xml").ToString());
+            MessageBox.Show(a.Validate(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml").ToString());
 
 
-            var t = (File.ReadAllText(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RequiredCheckFiles.xml")).ParseXml<RequiredCheckFiles>();
+            var t = new XmlObjectParser<FileContainer>(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml").Parse();
             foreach (var requiredCheckFilesFile in t.Files.Where(requiredCheckFilesFile => requiredCheckFilesFile != null))
             {
                 MessageBox.Show(requiredCheckFilesFile.FileContentType.ToString());

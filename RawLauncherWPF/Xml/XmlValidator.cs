@@ -8,16 +8,14 @@ namespace RawLauncherWPF.Xml
 {
     public class XmlValidator
     {
-        private int _errors ;
-
-        private Stream FileStream { get; }
+        private int _errors;
 
         public XmlValidator(string file)
         {
             if (!File.Exists(file))
                 throw new FileNotFoundException(nameof(file));
 
-            FileStream  = new FileStream(file, FileMode.Open);
+            FileStream = new FileStream(file, FileMode.Open);
         }
 
         public XmlValidator(Stream fileStream)
@@ -25,13 +23,16 @@ namespace RawLauncherWPF.Xml
             FileStream = fileStream;
         }
 
+        private Stream FileStream { get; }
+
         public bool Validate(string fileName)
         {
             bool result;
             try
             {
-                var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema };
-                settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation | XmlSchemaValidationFlags.ReportValidationWarnings;
+                var settings = new XmlReaderSettings {ValidationType = ValidationType.Schema};
+                settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation |
+                                            XmlSchemaValidationFlags.ReportValidationWarnings;
                 settings.ValidationEventHandler += Settings_ValidationEventHandler;
                 if (FileStream != null)
                     using (var schemaReader = XmlReader.Create(FileStream))
@@ -58,6 +59,7 @@ namespace RawLauncherWPF.Xml
         private void Settings_ValidationEventHandler(object sender, ValidationEventArgs e)
         {
             _errors++;
+            //TODO: Remove this in final
             MessageBox.Show(e.Exception.Message + "\r\n");
         }
     }

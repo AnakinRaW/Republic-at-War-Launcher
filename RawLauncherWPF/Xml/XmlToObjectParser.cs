@@ -1,28 +1,30 @@
 ﻿using System;
 using System.IO;
-using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace RawLauncherWPF.Xml
 {
-    public static class XmlToObjectParser
+    public class XmlObjectParser<T> where T : class
     {
-        public static Stream ToStream(this string @this)
+        public XmlObjectParser(string path)
         {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(@this);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
+            if (!File.Exists(path))
+                throw new FileNotFoundException(nameof(path));
+            FileStream = new FileStream(path, FileMode.Open);
         }
 
-        public static T ParseXml<T>(this string @this) where T : class
+        public XmlObjectParser(Stream fileStream)
         {
-            var reader = XmlReader.Create(@this.Trim().ToStream(),
-                new XmlReaderSettings {ConformanceLevel = ConformanceLevel.Document});
+            FileStream = fileStream;
+        }
 
+        private Stream FileStream { get; }
+
+        public T Parse()
+        {
+            var reader = XmlReader.Create(FileStream,
+                new XmlReaderSettings {ConformanceLevel = ConformanceLevel.Document});
             T instance;
             try
             {
@@ -30,9 +32,9 @@ namespace RawLauncherWPF.Xml
             }
             catch (Exception e)
             {
-                throw new Exception("Unable to deserialize the xml stream." , e.InnerException);
+                throw new Exception("Unable to deserialize the xml stream.", e.InnerException);
             }
             return instance;
-        } 
+        }
     }
 }

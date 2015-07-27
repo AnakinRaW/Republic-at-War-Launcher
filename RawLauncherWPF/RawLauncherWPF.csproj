@@ -106,6 +106,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="ExtensionClasses\StringExtensions.cs" />
     <Compile Include="Models\UpdaterModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -161,7 +162,7 @@
     <Compile Include="ViewModels\PlayViewModel.cs" />
     <Compile Include="ViewModels\RestoreViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
-    <Compile Include="Xml\Class1.cs" />
+    <Compile Include="Xml\FileContainer.cs" />
     <Compile Include="Xml\XmlToObjectParser.cs" />
     <Compile Include="Xml\XmlValidator.cs" />
     <Page Include="UI\CheckPane.xaml">
@@ -218,11 +219,14 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Resources\Schemes\RequiredCheckFiles.xsc">
-      <DependentUpon>RequiredCheckFiles.xsd</DependentUpon>
+    <None Include="Resources\Schemes\FileContainer.xsc">
+      <DependentUpon>FileContainer.xsd</DependentUpon>
     </None>
-    <None Include="Resources\Schemes\RequiredCheckFiles.xss">
-      <DependentUpon>RequiredCheckFiles.xsd</DependentUpon>
+    <Resource Include="Resources\Schemes\FileContainer.xsd">
+      <SubType>Designer</SubType>
+    </Resource>
+    <None Include="Resources\Schemes\FileContainer.xss">
+      <DependentUpon>FileContainer.xsd</DependentUpon>
     </None>
     <Resource Include="Resources\Font\Starjedi.ttf" />
   </ItemGroup>
@@ -366,9 +370,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Patch\EaW\GAMECONSTANTS.XML" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Schemes\RequiredCheckFiles.xsd" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Patch\FoC\GAMECONSTANTS.XML" />
