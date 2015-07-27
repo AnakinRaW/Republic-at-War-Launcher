@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Xml;
 using System.Xml.Schema;
+using RawLauncherWPF.ExtensionClasses;
 
 namespace RawLauncherWPF.Xml
 {
@@ -15,32 +16,47 @@ namespace RawLauncherWPF.Xml
             if (!File.Exists(file))
                 throw new FileNotFoundException(nameof(file));
 
-            FileStream = new FileStream(file, FileMode.Open);
+            SchemeFileStream = new FileStream(file, FileMode.Open);
         }
 
-        public XmlValidator(Stream fileStream)
+        public XmlValidator(Stream schemeFileStream)
         {
-            FileStream = fileStream;
+            SchemeFileStream = schemeFileStream;
         }
 
-        private Stream FileStream { get; }
+        private Stream SchemeFileStream { get; }
 
-        public bool Validate(string fileName)
+        public bool Validate(string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException(nameof(filePath));
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                return InternalValidate(stream);
+            }
+        }
+
+        public bool Validate(Stream fileStream)
+        {
+            return InternalValidate(fileStream);
+        }
+
+        private bool InternalValidate(Stream fileStream)
         {
             bool result;
             try
             {
-                var settings = new XmlReaderSettings {ValidationType = ValidationType.Schema};
+                var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema };
                 settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation |
                                             XmlSchemaValidationFlags.ReportValidationWarnings;
                 settings.ValidationEventHandler += Settings_ValidationEventHandler;
-                if (FileStream != null)
-                    using (var schemaReader = XmlReader.Create(FileStream))
+                if (SchemeFileStream != null)
+                    using (var schemaReader = XmlReader.Create(SchemeFileStream))
                     {
                         settings.Schemas.Add(null, schemaReader);
                     }
 
-                var reader = XmlReader.Create(fileName, settings);
+                var reader = XmlReader.Create(fileStream, settings);
                 while (reader.Read())
                 {
                 }

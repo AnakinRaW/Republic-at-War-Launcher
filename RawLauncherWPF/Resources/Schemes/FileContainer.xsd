@@ -46,7 +46,7 @@
 	<xs:simpleType name="TargetType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Mod"/>
-			<xs:enumeration value="AI"/>
+			<xs:enumeration value="Ai"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

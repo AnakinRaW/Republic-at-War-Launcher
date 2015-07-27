@@ -1,11 +1,7 @@
 ﻿using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Xml.Schema;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Games;
@@ -178,31 +174,42 @@ namespace RawLauncherWPF.ViewModels
         {
             if (!Directory.Exists(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir))
             {
-                await RestoreDirNotValid();
+                await OfflineFilesNotFound();
                 return;
             }
-            if (!File.Exists(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RequiredCheckFiles.xml"))
+            if (!File.Exists(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml"))
             {
-                await RestoreDirNotValid();
+                await OfflineFilesNotFound();
                 return;
             }
 
-            var a = new XmlValidator(Resources.FileContainer.ToStream());
+            var validator = new XmlValidator(Resources.FileContainer.ToStream());
 
-            MessageBox.Show(a.Validate(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml").ToString());
-
-
-            var t = new XmlObjectParser<FileContainer>(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml").Parse();
-            foreach (var requiredCheckFilesFile in t.Files.Where(requiredCheckFilesFile => requiredCheckFilesFile != null))
+            if (!validator.Validate(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir +
+                                    @"CheckModFileContainer.xml"))
             {
-                MessageBox.Show(requiredCheckFilesFile.FileContentType.ToString());
+                await OfflineFilesNotValid();
+                return;
             }
 
+            var fileContainer = new XmlObjectParser<FileContainer>(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml").Parse();
+
+            if (fileContainer.Version != LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version)
+                MessageBox.Show("Not same");
+        }
+
+        async private Task OfflineFilesNotValid()
+        {
+            ModAiIndicator = SetColor(IndicatorColor.Red);
+            ModAiCorrectMessage = "cout not check";
+            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            MessageBox.Show(
+                "The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
         }
 
         #region OfflineCheck
         
-        async private Task RestoreDirNotValid()
+        async private Task OfflineFilesNotFound()
         {
             ModAiIndicator = SetColor(IndicatorColor.Red);
             ModAiCorrectMessage = "cout not check";
