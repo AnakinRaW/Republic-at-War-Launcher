@@ -163,7 +163,7 @@
     <Compile Include="ViewModels\RestoreViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="Xml\FileContainer.cs" />
-    <Compile Include="Xml\XmlToObjectParser.cs" />
+    <Compile Include="Xml\XmlObjectParser.cs" />
     <Compile Include="Xml\XmlValidator.cs" />
     <Page Include="UI\CheckPane.xaml">
       <SubType>Designer</SubType>
