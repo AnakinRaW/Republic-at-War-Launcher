@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using static System.String;
 
@@ -13,26 +14,23 @@ namespace RawLauncherWPF.Server
             ServerRootAddress = address;
         }
 
-        public string ServerRootAddress { get; set; }
-        public bool IsRunning() => UrlExists(Empty);
-
-        public bool UrlExists(string resource)
+        public bool CheckForUpdate(string currentVersion)
         {
-            var request = (HttpWebRequest) WebRequest.Create(ServerRootAddress + resource);
-            request.Method = "HEAD";
-            request.Timeout = 5000;
-            try
+            IsCheckingForUpdate = true;
+            if (!IsRunning())
+                MessageBox.Show("Fail");
+            else
             {
-                request.GetResponse();
-                request.Abort();
+                MessageBox.Show("No Fail");
+                //TODO: Throw exception
             }
-            catch (WebException ex)
-            {
-                var response = ex.Response as HttpWebResponse;
-                return (response != null) && response.StatusCode == HttpStatusCode.Forbidden;
-            }
+
+            IsCheckingForUpdate = false;
             return true;
         }
+
+        public bool IsCheckingForUpdate { get; private set; }
+        public async Task<bool> CheckRunningAsync() => await Task.FromResult(IsRunning());
 
         public string DownloadString(string resource)
         {
@@ -50,20 +48,24 @@ namespace RawLauncherWPF.Server
             return result;
         }
 
-        public bool IsCheckingForUpdate { get; private set; }
+        public bool IsRunning() => UrlExists(Empty);
+        public string ServerRootAddress { get; set; }
 
-        public bool CheckForUpdate(string currentVersion)
+        public bool UrlExists(string resource)
         {
-            IsCheckingForUpdate = true;
-            if (!IsRunning())
-                MessageBox.Show("Fail");
-            else
+            var request = (HttpWebRequest) WebRequest.Create(ServerRootAddress + resource);
+            request.Method = "HEAD";
+            request.Timeout = 5000;
+            try
             {
-                MessageBox.Show("No Fail");
-                //TODO: Throw exception
+                request.GetResponse();
+                request.Abort();
             }
-              
-            IsCheckingForUpdate = false;
+            catch (WebException ex)
+            {
+                var response = ex.Response as HttpWebResponse;
+                return (response != null) && response.StatusCode == HttpStatusCode.Forbidden;
+            }
             return true;
         }
     }

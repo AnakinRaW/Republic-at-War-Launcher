@@ -1,18 +1,38 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace RawLauncherWPF.Server
 {
-    class SessionServer : IServer
+    internal class SessionServer : IServer
     {
         public SessionServer(string address)
         {
             ServerRootAddress = address;
         }
-        public string ServerRootAddress { get; set; }
+
+        public async Task<bool> CheckRunningAsync() => await Task.FromResult(IsRunning());
+
+        public string DownloadString(string resource)
+        {
+            string result;
+            try
+            {
+                var webClient = new WebClient();
+                result = webClient.DownloadString(ServerRootAddress + resource);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Was not able to get data from: " + Path.GetFileName(ServerRootAddress + resource));
+                result = string.Empty;
+            }
+            return result;
+        }
+
         public bool IsRunning() => UrlExists(string.Empty);
+        public string ServerRootAddress { get; set; }
 
         public bool UrlExists(string resource)
         {
@@ -30,22 +50,6 @@ namespace RawLauncherWPF.Server
                 return (response != null) && response.StatusCode == HttpStatusCode.Forbidden;
             }
             return true;
-        }
-
-        public string DownloadString(string resource)
-        {
-            string result;
-            try
-            {
-                var webClient = new WebClient();
-                result = webClient.DownloadString(ServerRootAddress + resource);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Was not able to get data from: " + Path.GetFileName(ServerRootAddress + resource));
-                result = string.Empty;
-            }
-            return result;
         }
     }
 }

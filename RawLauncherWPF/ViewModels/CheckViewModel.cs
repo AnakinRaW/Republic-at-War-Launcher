@@ -192,7 +192,10 @@ namespace RawLauncherWPF.ViewModels
                 return;
             }
 
-            var fileContainer = new XmlObjectParser<FileContainer>(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml").Parse();
+            var fileContainer =
+                new XmlObjectParser<FileContainer>(
+                    LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"CheckModFileContainer.xml")
+                    .Parse();
 
             if (fileContainer.Version != LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version)
                 MessageBox.Show("Not same");
@@ -236,11 +239,6 @@ namespace RawLauncherWPF.ViewModels
                 MessageBox.Show("Foc not successfuly patched\r\nEaw successfuly patched");
         }
 
-        private async Task<bool> IsServerRunning()
-        {
-            return  await Task.FromResult(LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer.IsRunning());
-        }
-
         private bool PatchGame(IGame game)
         {
             return game.Patch();
@@ -270,16 +268,20 @@ namespace RawLauncherWPF.ViewModels
 
         #region FindGame
 
+        async private Task CheckGameExists()
+        {
+            if (!await CheckFocExistsTask())
+            {
+                FocNotExistsTasks();
+                return;
+            }
+            FocExistsTasks();
+        }
+
         private async Task<bool> CheckFocExistsTask()
         {
             await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
             return LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.Exists();
-        }
-
-        private void FocExistsTasks()
-        {
-            GameFoundIndicator = SetColor(IndicatorColor.Green);
-            GameFoundMessage = "foc found";
         }
 
         private void FocNotExistsTasks()
@@ -289,20 +291,30 @@ namespace RawLauncherWPF.ViewModels
             PreReturn();
         }
 
+        private void FocExistsTasks()
+        {
+            GameFoundIndicator = SetColor(IndicatorColor.Green);
+            GameFoundMessage = "foc found";
+        }
+
         #endregion
 
         #region FindMod
 
-        private async Task<bool> CheckModExistsTask()
+        async private Task CheckModExists()
+        {
+            if (!await CheckModExistsTask())
+            {
+                ModNotExistsTasks();
+                return;
+            }
+            ModExistsTasks();
+        }
+
+        async private Task<bool> CheckModExistsTask()
         {
             await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
             return LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Exists();
-        }
-
-        private void ModExistsTasks()
-        {
-            ModFoundIndicator = SetColor(IndicatorColor.Green);
-            ModFoundMessage = "raw found";
         }
 
         private void ModNotExistsTasks()
@@ -312,11 +324,27 @@ namespace RawLauncherWPF.ViewModels
             PreReturn();
         }
 
+        private void ModExistsTasks()
+        {
+            ModFoundIndicator = SetColor(IndicatorColor.Green);
+            ModFoundMessage = "raw found";
+        }
+
         #endregion
 
         #region CheckPatch
 
-        private async Task<bool> CheckGameUpdatesInstalled()
+        async private Task CheckGamePatched()
+        {
+            if (!await CheckGameUpdatesInstalled())
+            {
+                GamesNotUpdated();
+                return;
+            }
+            GamesUpdated();
+        }
+
+        async private Task<bool> CheckGameUpdatesInstalled()
         {
             var a = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
@@ -363,40 +391,25 @@ namespace RawLauncherWPF.ViewModels
             PrepareForCheck();
 
             //Game exists
-            if (!await CheckFocExistsTask())
-            {
-                FocNotExistsTasks();
-                return;
-            }
-            FocExistsTasks();
-
+            await CheckGameExists();
+            
             await ThreadUtilities.SleepThread(750);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Mod exists
-            if (!await CheckModExistsTask())
-            {
-                ModNotExistsTasks();
-                return;
-            }
-            ModExistsTasks();
-
+            await CheckModExists();
+            
             await ThreadUtilities.SleepThread(750);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Games patched
-            if (!await CheckGameUpdatesInstalled())
-            {
-                GamesNotUpdated();
-                return;
-            }
-            GamesUpdated();
-
+            await CheckGamePatched();
+            
             await ThreadUtilities.SleepThread(750);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //
-            if (!await IsServerRunning())
+            //Check Mod online/offline
+            if (!await LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer.CheckRunningAsync())
                 await CheckOffline();
             else
                 //TODO: Change
