@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.Utilities;
@@ -62,7 +63,8 @@ namespace RawLauncherWPF.Games
         {
             if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.xml"))
                 return false;
-            if (HashUtilities.GetMd5Hash(GameDirectory + @"Data\XML\GAMECONSTANTS.xml") !=
+            var hashProvider = new HashProvider();
+            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.xml") !=
                 Configuration.Config.GameconstantsUpdateHashEaW)
                 return false;
             if (Directory.GetFiles(GameDirectory + @"Data\XML").Length != 1)

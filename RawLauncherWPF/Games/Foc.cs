@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.Utilities;
@@ -95,7 +96,7 @@ namespace RawLauncherWPF.Games
                 if (File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
                     File.Delete(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML");
 
-                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Resources.GRAPHICDETAILS);
+                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Resources.GAMECONSTANTS);
                 File.WriteAllText(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML", Resources.GRAPHICDETAILS);
             }
             catch (Exception)
@@ -110,10 +111,11 @@ namespace RawLauncherWPF.Games
             if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") ||
                 !File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
                 return false;
-            if (HashUtilities.GetMd5Hash(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") !=
+            var hashProvider = new HashProvider();
+            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") !=
                 Configuration.Config.GameconstantsUpdateHash)
                 return false;
-            if (HashUtilities.GetMd5Hash(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML") !=
+            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML") !=
                 Configuration.Config.GraphicdetailsUpdateHash)
                 return false;
             return true;

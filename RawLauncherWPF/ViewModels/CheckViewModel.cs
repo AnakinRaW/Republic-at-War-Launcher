@@ -8,6 +8,7 @@ using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Games;
+using RawLauncherWPF.Hash;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
@@ -205,6 +206,10 @@ namespace RawLauncherWPF.ViewModels
                 await OfflineVersionNotEqual();
                 return;
             }
+
+            MessageBox.Show(
+                new HashProvider().GetDirectoryHash(
+                    LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory + @"\Data\XML\"));
 
             var aiFolders = await FillFolderList(fileContainer, TargetType.Ai);
             var modFolders = await FillFolderList(fileContainer, TargetType.Mod);
@@ -408,7 +413,7 @@ namespace RawLauncherWPF.ViewModels
         {
             var a = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
-            var b = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
+            var b = LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.IsPatched();
             await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
             return a && b;
         }
@@ -463,10 +468,10 @@ namespace RawLauncherWPF.ViewModels
             //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             ////Games patched
-            //await CheckGamePatched();
+            await CheckGamePatched();
             
-            //await ThreadUtilities.SleepThread(750);
-            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Check Mod online/offline
             if (!await LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer.CheckRunningAsync())
