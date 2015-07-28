@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -11,7 +12,7 @@ namespace RawLauncherWPF.Xml
         {
             if (!File.Exists(path))
                 throw new FileNotFoundException(nameof(path));
-            FileStream = new FileStream(path, FileMode.Open);
+            FileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         }
 
         public XmlObjectParser(Stream fileStream)
@@ -23,12 +24,13 @@ namespace RawLauncherWPF.Xml
 
         public T Parse()
         {
+            FileStream.Position = 0;
             var reader = XmlReader.Create(FileStream,
-                new XmlReaderSettings {ConformanceLevel = ConformanceLevel.Document});
+                new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Document });
             T instance;
             try
             {
-                instance = new XmlSerializer(typeof (T)).Deserialize(reader) as T;
+                instance = new XmlSerializer(typeof(T)).Deserialize(reader) as T;
             }
             catch (Exception e)
             {
@@ -36,7 +38,7 @@ namespace RawLauncherWPF.Xml
             }
             finally
             {
-                FileStream.Close();
+                //FileStream.Close();
             }
             return instance;
         }

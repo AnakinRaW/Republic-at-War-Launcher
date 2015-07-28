@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using System.Xml.Serialization;
+using RawLauncherWPF.Hash;
 
 namespace RawLauncherWPF.Xml
 {
@@ -20,6 +24,12 @@ namespace RawLauncherWPF.Xml
 
         [XmlElement("Folder", Order = 3)]
         public List<FileContainerFolder> Folders;
+
+        public List<FileContainerFolder> GetFoldersOfType(TargetType type)
+        {
+            return Folders.Where(folder => folder.TargetType == type).ToList();
+        } 
+
     }
 
     /// <remarks/>
@@ -156,6 +166,27 @@ namespace RawLauncherWPF.Xml
         {
             get { return _countField; }
             set { _countField = value; }
+        }
+
+        public bool Check(string referencePath)
+        {
+            if (!Directory.Exists(referencePath))
+            {
+                MessageBox.Show("Exists Fail");
+                return false;
+            }
+            if (Directory.GetFiles(referencePath).Length.ToString() != Count)
+            {
+                MessageBox.Show("Count Fail");
+                return false;
+            }
+            var hashProvider = new HashProvider();
+            if (hashProvider.GetDirectoryHash(referencePath) != Hash)
+            {
+                MessageBox.Show("Hash Fail");
+                return false;
+            }
+            return true;
         }
     }
 

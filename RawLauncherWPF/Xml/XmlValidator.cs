@@ -42,6 +42,8 @@ namespace RawLauncherWPF.Xml
 
         private bool InternalValidate(Stream fileStream)
         {
+            fileStream.Position = 0;
+            SchemeFileStream.Position = 0;
             bool result;
             try
             {
@@ -70,8 +72,7 @@ namespace RawLauncherWPF.Xml
             }
             finally
             {
-                SchemeFileStream?.Close();
-                fileStream.Close();
+                SchemeFileStream?.Dispose();
             }
             return result;
         }

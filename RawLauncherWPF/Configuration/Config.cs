@@ -15,7 +15,7 @@ namespace RawLauncherWPF.Configuration
         public const string ModdbPage = "http://www.moddb.com/mods/republic-at-war";
         public const string FastLaunchFileName = "RawLauncherInfo.txt";
         //TODO: Change to GitHub in future
-        public const string ServerUrl = "http://raworganize.com/RaW_Update/";
+        public const string ServerUrl = "https://raw.githubusercontent.com/Republic-at-War/Republic-At-War/master/";
         public const string SessionServerUrl = "http://raworganize.com/";
         public static string CurrentDirectory => Directory.GetCurrentDirectory();
     }

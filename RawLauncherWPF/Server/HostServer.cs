@@ -42,7 +42,7 @@ namespace RawLauncherWPF.Server
             }
             catch (Exception)
             {
-                MessageBox.Show("Was not able to get data from: " + Path.GetFileName(ServerRootAddress + resource));
+                MessageBox.Show("Was not able to get data from: " + ServerRootAddress + resource);
                 result = Empty;
             }
             return result;
@@ -64,7 +64,9 @@ namespace RawLauncherWPF.Server
             catch (WebException ex)
             {
                 var response = ex.Response as HttpWebResponse;
-                return (response != null) && response.StatusCode == HttpStatusCode.Forbidden;
+                if ((response != null) && (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.BadRequest))
+                    return true;
+                return false;
             }
             return true;
         }
