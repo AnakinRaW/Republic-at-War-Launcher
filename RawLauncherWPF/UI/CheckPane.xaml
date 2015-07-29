@@ -31,11 +31,11 @@
             </DockPanel>
             <DockPanel Margin="0,2,0,0">
                 <Image Source="{Binding ModAiIndicator}" Width="30"/>
-                <mafc:OutlineTextBlock Margin="10,-7,0,0" Text="{Binding ModAiCorrectMessage}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
+                <mafc:OutlineTextBlock Margin="10,-7,0,0" Text="{Binding ModAiMessage}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
             </DockPanel>
             <DockPanel Margin="0,2,0,0">
-                <Image Source="{Binding ModXmlIndicator}" Width="30"/>
-                <mafc:OutlineTextBlock Margin="10,-7,0,0" Text="{Binding ModXmlCorrectMessage}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
+                <Image Source="{Binding ModFilesIndicator}" Width="30"/>
+                <mafc:OutlineTextBlock Margin="10,-7,0,0" Text="{Binding ModFilesMessage}" FontSize="24" Stroke="Black" StrokeThickness="2" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" Foreground="Aqua"/>
             </DockPanel>
 
         </StackPanel>

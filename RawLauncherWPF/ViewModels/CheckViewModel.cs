@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -8,6 +11,7 @@ using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Properties;
+using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using RawLauncherWPF.Xml;
@@ -15,21 +19,23 @@ using static System.String;
 using static RawLauncherWPF.Utilities.FileUtilities;
 using static RawLauncherWPF.Utilities.IndicatorImagesHelper;
 using static RawLauncherWPF.Utilities.ProgressBarUtilities;
+using Enumerable = System.Linq.Enumerable;
 
 namespace RawLauncherWPF.ViewModels
 {
     public sealed class CheckViewModel : LauncherPaneViewModel
     {
+        private const string CheckFileFileName = "CheckModFileContainer.xml";
         private ImageSource _gameFoundIndicator;
         private string _gameFoundMessage;
         private string _gamesPatched;
         private ImageSource _gamesPatchedIndicator;
-        private string _modAiCorrect;
+        private string _modAi;
         private ImageSource _modAiIndicator;
+        private string _modFiles;
+        private ImageSource _modFilesIndicator;
         private ImageSource _modFoundIndicator;
         private string _modFoundMessage;
-        private string _modXmlCorrect;
-        private ImageSource _modXmlIndicator;
         private int _progress;
 
         public CheckViewModel(ILauncherPane pane) : base(pane)
@@ -38,9 +44,91 @@ namespace RawLauncherWPF.ViewModels
             ModFoundIndicator = SetColor(IndicatorColor.Blue);
             GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
             ModAiIndicator = SetColor(IndicatorColor.Blue);
-            ModXmlIndicator = SetColor(IndicatorColor.Blue);
-           CheckFileStream = Stream.Null;
+            ModFilesIndicator = SetColor(IndicatorColor.Blue);
+            CheckFileStream = Stream.Null;
         }
+
+        private string CurrentVersion => LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version;
+        private IHostServer HostServer => LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer;
+        private List<FileContainerFolder> AiFolderList { get; set; }
+        private Stream CheckFileStream { get; set; }
+        private FileContainer FileContainer { get; set; }
+        private List<FileContainerFolder> ModFolderList { get; set; }
+
+        private async Task<bool> CheckFolderList(List<FileContainerFolder> folderList, List<string> excludeList)
+        {
+            var listToCheck = FileContainerFolder.ListFromExcludeList(folderList, excludeList);
+            var result = true;
+            var i = 100 / listToCheck.Count;
+
+            foreach (var folder in listToCheck)
+            {
+                var referenceDir = GetReferenceDir(folder);
+                if (! await Task.Run(() => folder.Check(referenceDir)))
+                    result = false;
+                Debug.WriteLine(referenceDir);
+                await AnimateProgressBar(Progress, Progress + i, 1, this, x => x.Progress);
+            }
+            return result;
+        }
+
+        private string GetReferenceDir(FileContainerFolder folder)
+        {
+            var rootDir = folder.TargetType == TargetType.Ai
+                ? LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory
+                : LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.ModDirectory;
+
+            var referenceDir = rootDir + folder.TargetPath;
+            return referenceDir;
+        }
+
+        private void ModCheckError(string message)
+        {
+            ModAiIndicator = SetColor(IndicatorColor.Red);
+            ModAiMessage = "could not check";
+            ModFilesIndicator = SetColor(IndicatorColor.Red);
+            ModFilesMessage = "could not check";
+            PreReturn();
+            if (!IsNullOrEmpty(message))
+                MessageBox.Show(message);
+        }
+
+        private string PathGenerator(bool online)
+        {
+            if (online)
+                return @"RescueFiles\" + CurrentVersion + @"\";
+            return LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RescueFiles\" +
+                   CurrentVersion + @"\";
+        }
+
+        private void PrepareForCheck()
+        {
+            Progress = 0;
+            GameFoundIndicator = SetColor(IndicatorColor.Blue);
+            ModFoundIndicator = SetColor(IndicatorColor.Blue);
+            GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
+            ModAiIndicator = SetColor(IndicatorColor.Blue);
+            ModFilesIndicator = SetColor(IndicatorColor.Blue);
+
+            IsBlocking = true;
+            IsWorking = true;
+
+            GameFoundMessage = Empty;
+            ModFoundMessage = Empty;
+            GamesPatchedMessage = Empty;
+            ModAiMessage = Empty;
+            ModFilesMessage = Empty;
+        }
+
+        private void PreReturn()
+        {
+            IsWorking = false;
+            IsBlocking = false;
+            CheckFileStream = Stream.Null;
+            FileContainer = null;
+        }
+
+        #region IPropChanged Properties
 
         public ImageSource GameFoundIndicator
         {
@@ -90,14 +178,14 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public string ModAiCorrectMessage
+        public string ModAiMessage
         {
-            get { return _modAiCorrect; }
+            get { return _modAi; }
             set
             {
-                if (Equals(value, _modAiCorrect))
+                if (Equals(value, _modAi))
                     return;
-                _modAiCorrect = value;
+                _modAi = value;
                 OnPropertyChanged();
             }
         }
@@ -138,26 +226,26 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public string ModXmlCorrectMessage
+        public string ModFilesMessage
         {
-            get { return _modXmlCorrect; }
+            get { return _modFiles; }
             set
             {
-                if (Equals(value, _modXmlCorrect))
+                if (Equals(value, _modFiles))
                     return;
-                _modXmlCorrect = value;
+                _modFiles = value;
                 OnPropertyChanged();
             }
         }
 
-        public ImageSource ModXmlIndicator
+        public ImageSource ModFilesIndicator
         {
-            get { return _modXmlIndicator; }
+            get { return _modFilesIndicator; }
             set
             {
-                if (Equals(value, _modXmlIndicator))
+                if (Equals(value, _modFilesIndicator))
                     return;
-                _modXmlIndicator = value;
+                _modFilesIndicator = value;
                 OnPropertyChanged();
             }
         }
@@ -174,90 +262,9 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        private Stream CheckFileStream { get; set; }
-
-        private FileContainer FileContainer { get; set; }
-
-        private List<FileContainerFolder> AiFolderList { get; set; }
-
-        private List<FileContainerFolder> ModFolderList { get; set; }
-
-        async private Task CheckOffline()
-        {
-            if (!Directory.Exists(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RescueFiles\" + LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version) ||
-                !File.Exists(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RescueFiles\" + LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version +
-                             @"\CheckModFileContainer.xml"))
-            {
-                await OfflineFilesNotFound();
-                return;
-            }
-
-            CheckFileStream = await Task.FromResult(FileToStream(LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RescueFiles\" +
-                                             LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version + @"\CheckModFileContainer.xml"));
-        }
-
-        async private Task<bool> CheckFolderList(List<FileContainerFolder> folderList)
-        {
-            var result = true;
-            var i = 100 / folderList.Count;
-            foreach (var folder in folderList)
-            {
-                var referenceDir = GetReferenceDir(folder); 
-                if (!folder.Check(referenceDir))
-                    result = false;
-                Debug.WriteLine(referenceDir);
-                await AnimateProgressBar(Progress, Progress + i, 1, this, x => x.Progress);
-            }
-            return result;
-        }
-
-        private string GetReferenceDir(FileContainerFolder folder)
-        {
-            var rootDir = folder.TargetType == TargetType.Ai
-                ? LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory
-                : LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.ModDirectory;
-
-            var referenceDir = rootDir + folder.TargetPath;
-            return referenceDir;
-        }
-
-        async private Task OfflineVersionNotEqual()
-        {
-            ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiCorrectMessage = "cout not check";
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
-            MessageBox.Show(
-                "The Version of the mod does not match to the reference file. Please click Restore-Tab and let the launcher redownload the Files.");
-        }
-
-        async private Task OfflineFilesNotValid()
-        {
-            ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiCorrectMessage = "cout not check";
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
-            MessageBox.Show(
-                "The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
-        }
-
-        #region OfflineCheck
-        
-        async private Task OfflineFilesNotFound()
-        {
-            ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiCorrectMessage = "cout not check";
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
-            MessageBox.Show(
-                "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
-        }
-
         #endregion
 
-        async private Task CheckOnline()
-        {
-            await Task.FromResult(CheckFileStream =
-                LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer.DownloadString(
-                    "RescueFiles/CheckModFileContainer.xml").ToStream());
-        }
+        #region PatchGames
 
         private void CreatePatchMessage(bool eaw, bool foc)
         {
@@ -276,33 +283,11 @@ namespace RawLauncherWPF.ViewModels
             return game.Patch();
         }
 
-        private void PrepareForCheck()
-        {
-            Progress = 0;
-            GameFoundIndicator = SetColor(IndicatorColor.Blue);
-            ModFoundIndicator = SetColor(IndicatorColor.Blue);
-            GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
-            ModAiIndicator = SetColor(IndicatorColor.Blue);
-            ModXmlIndicator = SetColor(IndicatorColor.Blue);
-
-            GameFoundMessage = Empty;
-            ModFoundMessage = Empty;
-            GamesPatchedMessage = Empty;
-            ModAiCorrectMessage = Empty;
-            ModXmlCorrectMessage = Empty;
-        }
-
-        private void PreReturn()
-        {
-            IsWorking = false;
-            IsBlocking = false;
-            CheckFileStream = Stream.Null;
-            FileContainer = null;
-        }
+        #endregion
 
         #region FindGame
 
-        async private Task<bool> CheckGameExists()
+        private async Task<bool> CheckGameExists()
         {
             if (!await CheckFocExistsTask())
             {
@@ -336,7 +321,7 @@ namespace RawLauncherWPF.ViewModels
 
         #region FindMod
 
-        async private Task<bool> CheckModExists()
+        private async Task<bool> CheckModExists()
         {
             if (!await CheckModExistsTask())
             {
@@ -347,7 +332,7 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        async private Task<bool> CheckModExistsTask()
+        private async Task<bool> CheckModExistsTask()
         {
             await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
             return LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Exists();
@@ -370,7 +355,7 @@ namespace RawLauncherWPF.ViewModels
 
         #region CheckPatch
 
-        async private Task<bool> CheckGamePatched()
+        private async Task<bool> CheckGamePatched()
         {
             if (!await CheckGameUpdatesInstalled())
             {
@@ -381,7 +366,7 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        async private Task<bool> CheckGameUpdatesInstalled()
+        private async Task<bool> CheckGameUpdatesInstalled()
         {
             var a = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
@@ -394,14 +379,120 @@ namespace RawLauncherWPF.ViewModels
         {
             GamesPatchedIndicator = SetColor(IndicatorColor.Red);
             GamesPatchedMessage = "games not patched";
-            MessageBox.Show("You need to update your games. Please press the 'patch' button.");
             PreReturn();
+            MessageBox.Show("You need to update your games. Please press the 'patch' button.");
         }
 
         private void GamesUpdated()
         {
             GamesPatchedIndicator = SetColor(IndicatorColor.Green);
             GamesPatchedMessage = "games patched";
+        }
+
+        #endregion
+
+        #region CheckAI
+
+        private void AiCorrectInstalled()
+        {
+            ModAiIndicator = SetColor(IndicatorColor.Green);
+            ModAiMessage = "ai correct";
+        }
+
+        private void AiWrongInstalled()
+        {
+            ModAiIndicator = SetColor(IndicatorColor.Red);
+            ModAiMessage = "ai wrong";
+            PreReturn();
+        }
+
+        #endregion
+
+        #region CheckMod
+
+        private void ModCorrectInstalled()
+        {
+            ModFilesIndicator = SetColor(IndicatorColor.Green);
+            ModFilesMessage = "mod correct";
+        }
+
+        private void ModWrongInstalled()
+        {
+            ModFilesIndicator = SetColor(IndicatorColor.Red);
+            ModFilesMessage = "mod wrong";
+            PreReturn();
+        }
+
+        #endregion
+
+        #region PrepareXml
+
+        private async Task<bool> PrepareXmlForCheck()
+        {
+            if (!await Task.FromResult(LoadCheckFileStream()))
+                return false;
+
+            if (!await Task.FromResult(ParseXmlFile()))
+                return false;
+            return true;
+        }
+
+        private bool LoadCheckFileStream()
+        {
+            if (!HostServer.IsRunning())
+                GetOffline();
+            else
+                GetOffline();
+
+            if (CheckFileStream.Length == 0 || CheckFileStream == Stream.Null)
+            {
+                ModCheckError(null);
+                return false;
+            }
+            var validator = new XmlValidator(Resources.FileContainer.ToStream());
+
+            if (!validator.Validate(CheckFileStream))
+            {
+                ModCheckError(
+                    "The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
+                return false;
+            }
+            return true;
+        }
+
+        private bool ParseXmlFile()
+        {
+            var parser = new XmlObjectParser<FileContainer>(CheckFileStream);
+            FileContainer = parser.Parse();
+
+            if (FileContainer.Version != LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version)
+            {
+                ModCheckError(
+                    "The Version of the mod does not match to the reference file. Please click Restore-Tab and let the launcher redownload the Files.");
+                return false;
+            }
+
+
+            AiFolderList = FileContainer.GetFoldersOfType(TargetType.Ai);
+            ModFolderList = FileContainer.GetFoldersOfType(TargetType.Mod);
+            return true;
+        }
+
+        private void GetOffline()
+        {
+            if (!Directory.Exists(PathGenerator(false)) || !File.Exists(PathGenerator(false) + CheckFileFileName))
+            {
+                ModCheckError(
+                    "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
+                return;
+            }
+
+            CheckFileStream = FileToStream(PathGenerator(false) + CheckFileFileName);
+        }
+
+        private void GetOnline()
+        {
+            CheckFileStream = HostServer.DownloadString(PathGenerator(true) + CheckFileFileName).ToStream();
         }
 
         #endregion
@@ -420,116 +511,51 @@ namespace RawLauncherWPF.ViewModels
 
         public Command CheckVersionCommand => new Command(CheckVersion);
 
-        async private void CheckVersion()
+        private async void CheckVersion()
         {
-            IsBlocking = true;
-            IsWorking = true;
-
             PrepareForCheck();
 
             ////Game exists
             //if (!await CheckGameExists())
-            //    return;   
+            //    return;
             //await ThreadUtilities.SleepThread(750);
             //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //////Mod exists
             //if (!await CheckModExists())
-            //    return;     
+            //    return;
             //await ThreadUtilities.SleepThread(750);
             //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //////Games patched
+            ////Games patched
             //if (!await CheckGamePatched())
-            //    return;    
+            //    return;
             //await ThreadUtilities.SleepThread(750);
             //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //Check Mod online/offline
 
-            if (!await LoadCheckFileStream())
-            {
+            if (!await PrepareXmlForCheck())
                 return;
-            }
 
 
-            var parser = new XmlObjectParser<FileContainer>(CheckFileStream);
-            FileContainer = parser.Parse();
-            
-            //
-            if (FileContainer.Version != LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version)
-            {
-                await OfflineVersionNotEqual();
-                return;
-            }
+            //if (!await CheckFolderList(AiFolderList, null))
+            //{
+            //    //TODO: Wrong AI 
+            //    AiWrongInstalled();
+            //    return;
+            //}
+            //AiCorrectInstalled();
 
 
-            AiFolderList = FileContainer.GetFoldersOfType(TargetType.Ai);
-            ModFolderList = FileContainer.GetFoldersOfType(TargetType.Mod);
-
-            //////////////  AI Check   /////////////////
-
-            if (!await CheckFolderList(AiFolderList))
+            var excludeList = new List<string> {@"XML\Enum\", @"Audio\Speech\*", @"\", @"Text\"};
+            if (!await CheckFolderList(ModFolderList, excludeList))
             {
                 //TODO: Wrong AI 
-                await AiWrongInstalled();
+                ModWrongInstalled();
                 return;
             }
-            await AiCorrectInstalled();
+            ModCorrectInstalled();
 
-            //////////////  AI Check   /////////////////
-
-
-
-
-            PreReturn();
-        }
-
-        async private Task<bool> LoadCheckFileStream()
-        {
-            if (!await LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer.CheckRunningAsync())
-                await CheckOffline();
-            else
-                await CheckOnline();
-
-            if (CheckFileStream.Length == 0 || CheckFileStream == Stream.Null)
-            {
-                await CheckFileStreamNotValid();
-                return false;
-            }
-            var validator = new XmlValidator(Resources.FileContainer.ToStream());
-
-            if (!validator.Validate(CheckFileStream))
-            {
-                await OfflineFilesNotValid();
-                return false;
-            }
-            return true;
-        }
-
-        async private Task AiCorrectInstalled()
-        {
-            ModAiIndicator = SetColor(IndicatorColor.Green);
-            ModAiCorrectMessage = "ai correct";
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
-            PreReturn();
-        }
-
-        async private Task AiWrongInstalled()
-        {
-            ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiCorrectMessage = "ai wrong";
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
-            PreReturn();
-        }
-
-        async private Task CheckFileStreamNotValid()
-        {
-            ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiCorrectMessage = "could not check";
-            ModXmlIndicator = SetColor(IndicatorColor.Red);
-            ModXmlCorrectMessage = "could not check";
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
             PreReturn();
         }
 

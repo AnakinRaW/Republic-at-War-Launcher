@@ -172,12 +172,12 @@ namespace RawLauncherWPF.Xml
         {
             if (!Directory.Exists(referencePath))
             {
-                MessageBox.Show("Exists Fail");
+                MessageBox.Show("Exists Fail: " + referencePath);
                 return false;
             }
             if (Directory.GetFiles(referencePath).Length.ToString() != Count)
             {
-                MessageBox.Show("Count Fail");
+                MessageBox.Show("Count Fail: " + referencePath);
                 return false;
             }
             var hashProvider = new HashProvider();
@@ -187,6 +187,32 @@ namespace RawLauncherWPF.Xml
                 return false;
             }
             return true;
+        }
+
+        public static List<FileContainerFolder> ListFromExcludeList(List<FileContainerFolder> folderList,
+            List<string> excludeList)
+        {
+            List<FileContainerFolder> list = new List<FileContainerFolder>();
+            if (excludeList == null)
+                return folderList;
+            var subExclude = new List<string>();
+
+            foreach (var folder in folderList)
+            {
+                var exclude = false;
+                foreach (var s in excludeList)
+                {
+                    if (s.Replace(folder.TargetPath, "") == "")
+                        exclude = true;
+                    if (s.Replace(folder.TargetPath, "") == "*")
+                        subExclude.Add(folder.TargetPath);
+                }
+                if (!exclude)
+                    list.Add(folder);
+            }
+            foreach (FileContainerFolder folder in from folder in folderList from s in subExclude where folder.TargetPath.Contains(s) select folder)
+                list.Remove(folder);
+            return list;
         }
     }
 
