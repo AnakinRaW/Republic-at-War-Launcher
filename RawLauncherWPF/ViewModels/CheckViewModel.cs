@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -19,7 +16,6 @@ using static System.String;
 using static RawLauncherWPF.Utilities.FileUtilities;
 using static RawLauncherWPF.Utilities.IndicatorImagesHelper;
 using static RawLauncherWPF.Utilities.ProgressBarUtilities;
-using Enumerable = System.Linq.Enumerable;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -59,15 +55,15 @@ namespace RawLauncherWPF.ViewModels
         {
             var listToCheck = FileContainerFolder.ListFromExcludeList(folderList, excludeList);
             var result = true;
-            var i = 100 / listToCheck.Count;
+            var i = 100/listToCheck.Count;
 
             foreach (var folder in listToCheck)
             {
                 var referenceDir = GetReferenceDir(folder);
-                if (! await Task.Run(() => folder.Check(referenceDir)))
+                if (!await Task.Run(() => folder.Check(referenceDir)))
                     result = false;
                 Debug.WriteLine(referenceDir);
-                await AnimateProgressBar(Progress, Progress + i, 1, this, x => x.Progress);
+                await AnimateProgressBar(Progress, Progress + i + 1, 1, this, x => x.Progress);
             }
             return result;
         }
@@ -80,17 +76,6 @@ namespace RawLauncherWPF.ViewModels
 
             var referenceDir = rootDir + folder.TargetPath;
             return referenceDir;
-        }
-
-        private void ModCheckError(string message)
-        {
-            ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiMessage = "could not check";
-            ModFilesIndicator = SetColor(IndicatorColor.Red);
-            ModFilesMessage = "could not check";
-            PreReturn();
-            if (!IsNullOrEmpty(message))
-                MessageBox.Show(message);
         }
 
         private string PathGenerator(bool online)
@@ -300,7 +285,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async Task<bool> CheckFocExistsTask()
         {
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             return LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.Exists();
         }
 
@@ -334,7 +319,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async Task<bool> CheckModExistsTask()
         {
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             return LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Exists();
         }
 
@@ -369,9 +354,9 @@ namespace RawLauncherWPF.ViewModels
         private async Task<bool> CheckGameUpdatesInstalled()
         {
             var a = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
-            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
+            await AnimateProgressBar(Progress, 51, 10, this, x => x.Progress);
             var b = LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.IsPatched();
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             return a && b;
         }
 
@@ -393,6 +378,17 @@ namespace RawLauncherWPF.ViewModels
 
         #region CheckAI
 
+        private async Task<bool> CheckAiCorrect()
+        {
+            if (!await CheckFolderList(AiFolderList, null))
+            {
+                AiWrongInstalled();
+                return false;
+            }
+            AiCorrectInstalled();
+            return true;
+        }
+
         private void AiCorrectInstalled()
         {
             ModAiIndicator = SetColor(IndicatorColor.Green);
@@ -409,6 +405,18 @@ namespace RawLauncherWPF.ViewModels
         #endregion
 
         #region CheckMod
+
+        private async Task<bool> CheckModCorrect()
+        {
+            var excludeList = new List<string> {@"XML\Enum\", @"Audio\Speech\*", @"\", @"Text\"};
+            if (!await CheckFolderList(ModFolderList, excludeList))
+            {
+                ModWrongInstalled();
+                return false;
+            }
+            ModCorrectInstalled();
+            return true;
+        }
 
         private void ModCorrectInstalled()
         {
@@ -442,7 +450,7 @@ namespace RawLauncherWPF.ViewModels
             if (!HostServer.IsRunning())
                 GetOffline();
             else
-                GetOffline();
+                GetOnline();
 
             if (CheckFileStream.Length == 0 || CheckFileStream == Stream.Null)
             {
@@ -495,6 +503,17 @@ namespace RawLauncherWPF.ViewModels
             CheckFileStream = HostServer.DownloadString(PathGenerator(true) + CheckFileFileName).ToStream();
         }
 
+        private void ModCheckError(string message)
+        {
+            ModAiIndicator = SetColor(IndicatorColor.Red);
+            ModAiMessage = "could not check";
+            ModFilesIndicator = SetColor(IndicatorColor.Red);
+            ModFilesMessage = "could not check";
+            PreReturn();
+            if (!IsNullOrEmpty(message))
+                MessageBox.Show(message);
+        }
+
         #endregion
 
         #region Commands
@@ -515,46 +534,36 @@ namespace RawLauncherWPF.ViewModels
         {
             PrepareForCheck();
 
-            ////Game exists
-            //if (!await CheckGameExists())
-            //    return;
-            //await ThreadUtilities.SleepThread(750);
-            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //Game exists
+            if (!await CheckGameExists())
+                return;
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //////Mod exists
-            //if (!await CheckModExists())
-            //    return;
-            //await ThreadUtilities.SleepThread(750);
-            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //Mod exists
+            if (!await CheckModExists())
+                return;
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            ////Games patched
-            //if (!await CheckGamePatched())
-            //    return;
-            //await ThreadUtilities.SleepThread(750);
-            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //Games patched
+            if (!await CheckGamePatched())
+                return;
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
 
             if (!await PrepareXmlForCheck())
                 return;
 
-
-            //if (!await CheckFolderList(AiFolderList, null))
-            //{
-            //    //TODO: Wrong AI 
-            //    AiWrongInstalled();
-            //    return;
-            //}
-            //AiCorrectInstalled();
-
-
-            var excludeList = new List<string> {@"XML\Enum\", @"Audio\Speech\*", @"\", @"Text\"};
-            if (!await CheckFolderList(ModFolderList, excludeList))
-            {
-                //TODO: Wrong AI 
-                ModWrongInstalled();
+            if (!await CheckAiCorrect())
                 return;
-            }
-            ModCorrectInstalled();
+
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            if (!await CheckModCorrect())
+                return;
 
             PreReturn();
         }
