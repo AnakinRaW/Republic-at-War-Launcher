@@ -75,6 +75,9 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Commander Appo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -375,6 +378,9 @@
   <ItemGroup>
     <Resource Include="Resources\Patch\FoC\GAMECONSTANTS.XML" />
     <Resource Include="Resources\Patch\FoC\GRAPHICDETAILS.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Commander Appo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
