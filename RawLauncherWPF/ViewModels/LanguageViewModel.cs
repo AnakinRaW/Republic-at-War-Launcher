@@ -33,6 +33,8 @@ namespace RawLauncherWPF.ViewModels
 
         private void ChangeMasterTextFile(IMod mod)
         {
+            if (!Directory.Exists(mod.ModDirectory + @"\Text\"))
+                return;
             if (!Directory.EnumerateFiles(mod.ModDirectory + @"\Text\", "MasterTextFile_*").Any())
                 return;
             if (File.Exists(mod.ModDirectory + @"\Text\MasterTextFile_" + SelectedLanguage + ".dat"))
@@ -80,6 +82,8 @@ namespace RawLauncherWPF.ViewModels
 
         private void ChangeSpeechMegFile(IMod mod)
         {
+            if (!Directory.Exists(mod.ModDirectory))
+                return;
             if (!Directory.EnumerateFiles(mod.ModDirectory, "*Speech.meg").Any())
                 return;
 
