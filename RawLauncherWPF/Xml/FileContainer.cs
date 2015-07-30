@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
-using System.Windows.Threading;
 using System.Xml.Serialization;
 using RawLauncherWPF.Hash;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Xml
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
-    [System.Serializable]
+    [Serializable]
     [System.Diagnostics.DebuggerStepThrough]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType(AnonymousType = true)]
@@ -36,7 +35,7 @@ namespace RawLauncherWPF.Xml
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
-    [System.Serializable]
+    [Serializable]
     [System.Diagnostics.DebuggerStepThrough]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType(AnonymousType = true)]
@@ -100,7 +99,7 @@ namespace RawLauncherWPF.Xml
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
-    [System.Serializable]
+    [Serializable]
     public enum FileType
     {
         /// <remarks/>
@@ -115,7 +114,7 @@ namespace RawLauncherWPF.Xml
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
-    [System.Serializable]
+    [Serializable]
     public enum TargetType
     {
         /// <remarks/>
@@ -127,7 +126,7 @@ namespace RawLauncherWPF.Xml
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
-    [System.Serializable]
+    [Serializable]
     [System.Diagnostics.DebuggerStepThrough]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType(AnonymousType = true)]
@@ -174,19 +173,18 @@ namespace RawLauncherWPF.Xml
         {
             if (!Directory.Exists(referencePath))
             {
-                MessageBox.Show("Exists Fail: " + referencePath, "lkjlkjlkj", MessageBoxButton.OK, MessageBoxImage.None,
-                    MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                Show("Exists Fail: " + referencePath);
                 return false;
             }
             if (Directory.GetFiles(referencePath).Length.ToString() != Count)
             {
-                MessageBox.Show("Count Fail: " + referencePath);
+                Show("Count Fail: " + referencePath);
                 return false;
             }
             var hashProvider = new HashProvider();
             if (hashProvider.GetDirectoryHash(referencePath) != Hash)
             {
-                MessageBox.Show("Hash Fail");
+                Show("Hash Fail");
                 return false;
             }
             return true;
@@ -221,7 +219,7 @@ namespace RawLauncherWPF.Xml
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
-    [System.Serializable]
+    [Serializable]
     [System.Diagnostics.DebuggerStepThrough]
     [System.ComponentModel.DesignerCategory("code")]
     [XmlType(AnonymousType = true)]

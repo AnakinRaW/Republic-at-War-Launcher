@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
@@ -16,6 +15,7 @@ using static System.String;
 using static RawLauncherWPF.Utilities.FileUtilities;
 using static RawLauncherWPF.Utilities.IndicatorImagesHelper;
 using static RawLauncherWPF.Utilities.ProgressBarUtilities;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -253,14 +253,15 @@ namespace RawLauncherWPF.ViewModels
 
         private void CreatePatchMessage(bool eaw, bool foc)
         {
+
             if (eaw && foc)
-                MessageBox.Show("Games successfuly patched.");
+                Show("Games successfuly patched.");
             else if (!eaw && !foc)
-                MessageBox.Show("Games not successfuly patched.");
+                Show("Games not successfuly patched.");
             else if (!eaw)
-                MessageBox.Show("Foc successfuly patched.\r\nEaw not successfuly patched.");
+                Show("Foc successfuly patched.\r\nEaw not successfuly patched.");
             else
-                MessageBox.Show("Foc not successfuly patched\r\nEaw successfuly patched");
+                Show("Foc not successfuly patched\r\nEaw successfuly patched");
         }
 
         private bool PatchGame(IGame game)
@@ -365,7 +366,7 @@ namespace RawLauncherWPF.ViewModels
             GamesPatchedIndicator = SetColor(IndicatorColor.Red);
             GamesPatchedMessage = "games not patched";
             PreReturn();
-            MessageBox.Show("You need to update your games. Please press the 'patch' button.");
+            Show("You need to update your games. Please press the 'patch' button.");
         }
 
         private void GamesUpdated()
@@ -511,7 +512,7 @@ namespace RawLauncherWPF.ViewModels
             ModFilesMessage = "could not check";
             PreReturn();
             if (!IsNullOrEmpty(message))
-                MessageBox.Show(message);
+                Show(message);
         }
 
         #endregion
@@ -534,23 +535,23 @@ namespace RawLauncherWPF.ViewModels
         {
             PrepareForCheck();
 
-            ////Game exists
-            //if (!await CheckGameExists())
-            //    return;
-            //await ThreadUtilities.SleepThread(750);
-            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //Game exists
+            if (!await CheckGameExists())
+                return;
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            ////Mod exists
-            //if (!await CheckModExists())
-            //    return;
-            //await ThreadUtilities.SleepThread(750);
-            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //Mod exists
+            if (!await CheckModExists())
+                return;
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            ////Games patched
-            //if (!await CheckGamePatched())
-            //    return;
-            //await ThreadUtilities.SleepThread(750);
-            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            //Games patched
+            if (!await CheckGamePatched())
+                return;
+            await ThreadUtilities.SleepThread(750);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
 
             if (!await PrepareXmlForCheck())
