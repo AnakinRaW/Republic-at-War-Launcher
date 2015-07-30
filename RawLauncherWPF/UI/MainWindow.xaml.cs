@@ -1,4 +1,6 @@
-﻿using RawLauncherWPF.ViewModels;
+﻿using System.Windows;
+using System.Windows.Interop;
+using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.UI
 {

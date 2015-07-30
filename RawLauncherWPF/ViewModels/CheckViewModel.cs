@@ -534,23 +534,23 @@ namespace RawLauncherWPF.ViewModels
         {
             PrepareForCheck();
 
-            //Game exists
-            if (!await CheckGameExists())
-                return;
-            await ThreadUtilities.SleepThread(750);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ////Game exists
+            //if (!await CheckGameExists())
+            //    return;
+            //await ThreadUtilities.SleepThread(750);
+            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //Mod exists
-            if (!await CheckModExists())
-                return;
-            await ThreadUtilities.SleepThread(750);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ////Mod exists
+            //if (!await CheckModExists())
+            //    return;
+            //await ThreadUtilities.SleepThread(750);
+            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            //Games patched
-            if (!await CheckGamePatched())
-                return;
-            await ThreadUtilities.SleepThread(750);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ////Games patched
+            //if (!await CheckGamePatched())
+            //    return;
+            //await ThreadUtilities.SleepThread(750);
+            //await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
 
             if (!await PrepareXmlForCheck())
