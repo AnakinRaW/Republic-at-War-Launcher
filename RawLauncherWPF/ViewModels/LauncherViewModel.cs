@@ -9,6 +9,7 @@ using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -181,7 +182,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (GameExceptions e)
             {
-                MessageBox.Show(e.Message);
+                MessageProvider.Show(e.Message);
                 Environment.Exit(0);
             }
         }
@@ -199,7 +200,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (ModExceptions e)
             {
-                MessageBox.Show(e.Message);
+                MessageProvider.Show(e.Message);
                 Environment.Exit(0);
             }
         }
@@ -235,7 +236,7 @@ namespace RawLauncherWPF.ViewModels
         private void FastLaunchUpdateSearch()
         {
             // TODO: Implement
-            MessageBox.Show("Should check for Update");
+            MessageProvider.Show("Should check for Update");
         }
 
         /// <summary>

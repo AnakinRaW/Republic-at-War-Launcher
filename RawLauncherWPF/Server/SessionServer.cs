@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Server
 {
@@ -25,7 +26,7 @@ namespace RawLauncherWPF.Server
             }
             catch (Exception)
             {
-                MessageBox.Show("Was not able to get data from: " + Path.GetFileName(ServerRootAddress + resource));
+                MessageProvider.Show("Was not able to get data from: " + Path.GetFileName(ServerRootAddress + resource));
                 result = string.Empty;
             }
             return result;

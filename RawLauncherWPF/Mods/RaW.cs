@@ -53,7 +53,7 @@ namespace RawLauncherWPF.Mods
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show(
+                    MessageProvider.Show(
                         "Could not get the current version. Please reinstall the Republic at War and try again.");
                     return null;
                 }

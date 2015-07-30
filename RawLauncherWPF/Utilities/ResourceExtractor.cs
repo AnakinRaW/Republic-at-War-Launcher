@@ -43,7 +43,7 @@ namespace RawLauncherWPF.Utilities
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
-                MessageBox.Show("Created new Directory: " + new DirectoryInfo(directory).Name);
+                MessageProvider.Show("Created new Directory: " + new DirectoryInfo(directory).Name);
             }
 
             foreach (var file in files.Where(file => !File.Exists(Path.Combine(directory, file)) || overrideFile))

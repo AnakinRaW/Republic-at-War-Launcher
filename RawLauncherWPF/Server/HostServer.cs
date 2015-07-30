@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using RawLauncherWPF.Utilities;
 using static System.String;
 
 namespace RawLauncherWPF.Server
@@ -18,10 +19,10 @@ namespace RawLauncherWPF.Server
         {
             IsCheckingForUpdate = true;
             if (!IsRunning())
-                MessageBox.Show("Fail");
+                MessageProvider.Show("Fail");
             else
             {
-                MessageBox.Show("No Fail");
+                MessageProvider.Show("No Fail");
                 //TODO: Throw exception
             }
 
@@ -42,7 +43,7 @@ namespace RawLauncherWPF.Server
             }
             catch (Exception)
             {
-                MessageBox.Show("Was not able to get data from: " + ServerRootAddress + resource);
+                MessageProvider.Show("Was not able to get data from: " + ServerRootAddress + resource);
                 result = Empty;
             }
             return result;

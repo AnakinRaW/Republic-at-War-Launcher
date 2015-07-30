@@ -120,7 +120,7 @@ namespace RawLauncherWPF.ViewModels
                 ChangeSpeechFolderName(mod);
                 MessageToShowAfterChange += "Successfuly Changed Language";
             }
-            MessageBox.Show(MessageToShowAfterChange);
+            MessageProvider.Show(MessageToShowAfterChange);
             MessageToShowAfterChange = Empty;
         }
 
@@ -146,13 +146,13 @@ namespace RawLauncherWPF.ViewModels
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             if (SelectedLanguage == LanguageTypes.None)
             {
-                MessageBox.Show("Select a language, you want to use.");
+                MessageProvider.Show("Select a language, you want to use.");
                 return;
             }
             if ((SelectedLanguage & ExternalSupportedLanguages) != 0)
-                MessageBox.Show(
+                MessageProvider.Show(
                     "There is also a separate specific Version available for this language. Please check Moddb.com for a Language-Pack or check the RaW installer for more options.");
-            MessageBox.Show(
+            MessageProvider.Show(
                 "Note that chaging the language in this case means that any [MISSING]s and missing audio will be replaced with the default english version. For any language packs consider our Moddb page or check the Republic at War installer for language options",
                 "Repuvlic at War Launcher", MessageBoxButton.OK, MessageBoxImage.Information);
             InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);

@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Xml;
 using System.Xml.Schema;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Xml
 {
@@ -81,7 +82,7 @@ namespace RawLauncherWPF.Xml
         {
             _errors++;
             //TODO: Remove this in final
-            MessageBox.Show(e.Exception.Message + "\r\n");
+            MessageProvider.Show(e.Exception.Message + "\r\n");
         }
     }
 }

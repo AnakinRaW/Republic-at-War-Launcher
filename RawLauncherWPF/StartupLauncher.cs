@@ -66,7 +66,7 @@ namespace RawLauncherWPF
             }
             catch (ResourceExtractorException exception)
             {
-                MessageBox.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
+                MessageProvider.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
                 Environment.Exit(0);
             }
         }
@@ -87,7 +87,7 @@ namespace RawLauncherWPF
             }
             catch (ResourceExtractorException exception)
             {
-                MessageBox.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
+                MessageProvider.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
                 Environment.Exit(0);
             }
         }
