@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Interop;
+﻿using System.Windows.Interop;
 using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.UI
@@ -17,6 +16,8 @@ namespace RawLauncherWPF.UI
             LauncherViewModel = model;
             InitializeComponent();
             DataContext = new MainWindowViewModel(this, LauncherViewModel);
+            this.ChangeOwner(new WindowInteropHelper(this).Handle);
+            ChangeOwnerForActivate(new WindowInteropHelper(this).Handle);
         }
     }
 }

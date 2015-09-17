@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
@@ -34,6 +36,8 @@ namespace RawLauncherWPF.ViewModels
         private string _modFoundMessage;
         private int _progress;
 
+        CancellationTokenSource m_source;
+
         public CheckViewModel(ILauncherPane pane) : base(pane)
         {
             GameFoundIndicator = SetColor(IndicatorColor.Blue);
@@ -59,11 +63,18 @@ namespace RawLauncherWPF.ViewModels
 
             foreach (var folder in listToCheck)
             {
-                var referenceDir = GetReferenceDir(folder);
-                if (!await Task.Run(() => folder.Check(referenceDir)))
+                try
+                {
+                    var referenceDir = GetReferenceDir(folder);
+                    if (!await Task.Run(() => folder.Check(referenceDir), m_source.Token))
+                        result = false;
+                    Debug.WriteLine(referenceDir);
+                    await AnimateProgressBar(Progress, Progress + i + 1, 1, this, x => x.Progress);
+                }
+                catch (TaskCanceledException)
+                {
                     result = false;
-                Debug.WriteLine(referenceDir);
-                await AnimateProgressBar(Progress, Progress + i + 1, 1, this, x => x.Progress);
+                }         
             }
             return result;
         }
@@ -381,7 +392,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async Task<bool> CheckAiCorrect()
         {
-            if (!await CheckFolderList(AiFolderList, null))
+            if (!await CheckFolderList(AiFolderList, new List<string> { @"\Data\CustomMaps\"}))
             {
                 AiWrongInstalled();
                 return false;
@@ -531,7 +542,23 @@ namespace RawLauncherWPF.ViewModels
 
         public Command CheckVersionCommand => new Command(CheckVersion);
 
-        private async void CheckVersion()
+        private void CheckVersion()
+        {
+            m_source = new CancellationTokenSource();
+            PerformCheck();
+            
+        }
+
+        public Command CancelCommand => new Command(Cancel);
+
+        private void Cancel()
+        {
+            m_source?.Cancel(false);
+        }
+
+        #endregion
+
+        private async void PerformCheck()
         {
             PrepareForCheck();
 
@@ -540,6 +567,13 @@ namespace RawLauncherWPF.ViewModels
                 return;
             await ThreadUtilities.SleepThread(750);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            if (m_source.IsCancellationRequested)
+            {
+                PreReturn();
+                return;
+            }
+                
 
             //Mod exists
             if (!await CheckModExists())
@@ -568,7 +602,5 @@ namespace RawLauncherWPF.ViewModels
 
             PreReturn();
         }
-
-        #endregion
     }
 }

@@ -39,9 +39,9 @@
             </DockPanel>
 
         </StackPanel>
-        
+
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
-            
+
             <mafc:ImageButton Height="61" Width="136" IsEnabled="{Binding CanExecute}"
                               NormalImage="../Resources/Visual/Check/PatchGamesIdle.png"
                               HoverImage="../Resources/Visual/Check/PatchGamesHover.png"
@@ -49,6 +49,8 @@
                               Command="{Binding PatchGamesCommand}"/>
             <Image Source="../Resources/Visual/Check/PatchInfo.png" Height="24" Width="176" Margin="0,10,0,0"></Image>
             
+             <Button Height="20" Command="{Binding CancelCommand}">Cancel</Button>
+
         </StackPanel>
 
     </Grid>
