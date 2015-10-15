@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RawLauncherWPF.UI;
+﻿using RawLauncherWPF.UI;
 using RawLauncherWPF.Xml;
 
 namespace RawLauncherWPF.Helpers
@@ -21,11 +15,11 @@ namespace RawLauncherWPF.Helpers
             return referenceDir;
         }
 
-        internal static string PathGenerator(bool online, ILauncherPane pane)
+        internal static string RestorePathGenerator(bool online, ILauncherPane pane)
         {
             if (online)
                 return @"RescueFiles\" + pane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version + @"\";
-            return pane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RescueFiles\" +
+            return pane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"\RescueFiles\" +
                    pane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version + @"\";
         }
     }

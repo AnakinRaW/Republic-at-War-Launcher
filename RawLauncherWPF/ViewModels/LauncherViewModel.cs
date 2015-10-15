@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using ModernApplicationFramework.Commands;
@@ -159,10 +160,10 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void InitDirectories()
         {
-            RestoreDownloadDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                 @"\RaW_Modding_Team\";
-            RestoreDownloadDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                 @"\RaW_Modding_Team\";
+            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team")))
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team"));
+            RestoreDownloadDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team");
+            UpdateDownloadDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team");
         }
 
         /// <summary>

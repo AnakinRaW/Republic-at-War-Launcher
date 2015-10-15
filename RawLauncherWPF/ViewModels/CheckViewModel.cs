@@ -481,19 +481,18 @@ namespace RawLauncherWPF.ViewModels
 
         private void GetOffline()
         {
-            if (!Directory.Exists(PathGenerator(false, LauncherPane)) || !File.Exists(PathGenerator(false, LauncherPane) + CheckFileFileName))
+            if (!Directory.Exists(RestorePathGenerator(false, LauncherPane)) || !File.Exists(RestorePathGenerator(false, LauncherPane) + CheckFileFileName))
             {
                 ModCheckError(
                     "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
                 return;
             }
-
-            CheckFileStream = FileToStream(PathGenerator(false, LauncherPane) + CheckFileFileName);
+            CheckFileStream = FileToStream(RestorePathGenerator(false, LauncherPane) + CheckFileFileName);
         }
 
         private void GetOnline()
         {
-            CheckFileStream = HostServer.DownloadString(PathGenerator(true, LauncherPane) + CheckFileFileName).ToStream();
+            CheckFileStream = HostServer.DownloadString(RestorePathGenerator(true, LauncherPane) + CheckFileFileName).ToStream();
         }
 
         private void ModCheckError(string message)
