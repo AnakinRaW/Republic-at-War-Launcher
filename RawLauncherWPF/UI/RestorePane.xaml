@@ -4,9 +4,56 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RawLauncherWPF.UI"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
+     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid HorizontalAlignment="Stretch" Margin="0,10,0,0">
+            <StackPanel>
+                <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <mafc:OutlineTextBlock Text="version to restore:" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua"
+                                   FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <mafc:ComboBox Width="100" Height="25" HorizontalAlignment="Left" Margin="10,0,0,0" ItemsSource="{Binding AvailableVersions}" SelectedIndex="0"/>
+                </DockPanel>
+                <DockPanel Margin="0,5,0,0" HorizontalAlignment="Center">
+                     <mafc:ImageRadioButton Height="19" Width="84" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Restore/noneIdle.png"
+                                   HoverImage="../Resources/Visual/Restore/noneHover.png"
+                                   PressedImage="../Resources/Visual/Restore/noneHover.png"
+                                   CheckedImage="../Resources/Visual/Restore/noneHover.png"
+                                            ToolTip="No Options specified"
+                                   Command="{Binding ChangeOptionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.IgnoreLanguage}"/>
+                    <mafc:ImageRadioButton Height="19" Width="217" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Restore/ignoreLanguageIdle.png"
+                                   HoverImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
+                                   PressedImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
+                                   CheckedImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
+                                           ToolTip="Ignore all language related files. Restoring with this option is faster and your installed language pack will not be delted"
+                                   Command="{Binding ChangeOptionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.IgnoreLanguage}"/>
+                    <mafc:ImageRadioButton Height="19" Width="186" HorizontalAlignment="Left" Margin="15,0,10,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Restore/hardRestoreIdle.png"
+                                   HoverImage="../Resources/Visual/Restore/hardRestoreHover.png"
+                                   PressedImage="../Resources/Visual/Restore/hardRestoreHover.png"
+                                   CheckedImage="../Resources/Visual/Restore/hardRestoreHover.png"
+                                           ToolTip="This option deltes all files and performs a clean install"
+                                   Command="{Binding ChangeOptionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.IgnoreLanguage}"/>
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Width="356" Margin="0,110,0,0">
+            <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
+            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="White" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+        <mafc:ImageButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"
+                              NormalImage="../Resources/Visual/Restore/RestoreIdle.png"
+                              HoverImage="../Resources/Visual/Restore/RestoreHover.png"
+                              PressedImage="../Resources/Visual/Restore/RestoreHover.png"
+                              Command="{Binding RestoreMod}"/>
+        <Button Height="20" Command="{Binding CancelCommand}" VerticalAlignment="Top">Cancel</Button>
+        <Image Source="../Resources/Visual/Restore/InfoText.png" Width="230" Height="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20"/>
     </Grid>
 </UserControl>

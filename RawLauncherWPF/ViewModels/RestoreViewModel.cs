@@ -1,4 +1,5 @@
-﻿using RawLauncherWPF.UI;
+﻿using System;
+using RawLauncherWPF.UI;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -7,5 +8,13 @@ namespace RawLauncherWPF.ViewModels
         public RestoreViewModel(ILauncherPane pane) : base(pane)
         {
         }
+    }
+
+    [Flags]
+    public enum RestoreOptions
+    {
+        None = 1,
+        IgnoreLanguage = 2,
+        Hard = 4
     }
 }

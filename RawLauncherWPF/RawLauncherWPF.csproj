@@ -385,6 +385,25 @@
   <ItemGroup>
     <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Restore\RestoreIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Restore\RestoreHover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Restore\ignoreLanguageHover.png" />
+    <Resource Include="Resources\Visual\Restore\ignoreLanguageIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Restore\hardRestoreHover.png" />
+    <Resource Include="Resources\Visual\Restore\hardRestoreIdle.png" />
+    <Resource Include="Resources\Visual\Restore\noneIdle.png" />
+    <Resource Include="Resources\Visual\Restore\noneHover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Restore\InfoText.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
