@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
@@ -443,9 +444,12 @@ namespace RawLauncherWPF.ViewModels
             if (!HostServer.IsRunning())
                 GetOffline();
             else
+            {
                 GetOnline();
+                WriteOnlineDataToDisk();
+            }
 
-            if (CheckFileStream.Length == 0 || CheckFileStream == Stream.Null)
+            if (CheckFileStream.IsEmpty())
             {
                 ModCheckError(null);
                 return false;
@@ -459,6 +463,13 @@ namespace RawLauncherWPF.ViewModels
                 return false;
             }
             return true;
+        }
+    
+        private void WriteOnlineDataToDisk()
+        {
+            if (CheckFileStream.IsEmpty())
+                return;
+            CheckFileStream.ToFile(RestorePathGenerator(false, LauncherPane) + CheckFileFileName);
         }
 
         private bool ParseXmlFile()
