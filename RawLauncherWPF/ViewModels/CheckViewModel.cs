@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
@@ -37,7 +36,7 @@ namespace RawLauncherWPF.ViewModels
         private string _modFoundMessage;
         private int _progress;
 
-        CancellationTokenSource m_source;
+        private CancellationTokenSource _mSource;
 
         public CheckViewModel(ILauncherPane pane) : base(pane)
         {
@@ -49,12 +48,37 @@ namespace RawLauncherWPF.ViewModels
             CheckFileStream = Stream.Null;
         }
 
+        /// <summary>
+        /// Reference to the HostServer
+        /// </summary>
         private IHostServer HostServer => LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer;
+
+        /// <summary>
+        /// Contains AI Folder Information
+        /// </summary>
         private List<FileContainerFolder> AiFolderList { get; set; }
+
+        /// <summary>
+        /// Stream which contains the XML data
+        /// </summary>
         private Stream CheckFileStream { get; set; }
+
+        /// <summary>
+        /// Container with all information extracted from XML File/Stream
+        /// </summary>
         private FileContainer FileContainer { get; set; }
+
+        /// <summary>
+        /// Contains Mod Folder Information
+        /// </summary>
         private List<FileContainerFolder> ModFolderList { get; set; }
 
+        /// <summary>
+        /// Performs the actuall Folder comparison and throws error messages
+        /// </summary>
+        /// <param name="folderList">List where T is FileContainerFolder.</param>
+        /// <param name="excludeList">List where T is string. Used to exclude some paths</param>
+        /// <returns>Returns if Chekc was successfull or not</returns>
         private async Task<bool> CheckFolderList(List<FileContainerFolder> folderList, List<string> excludeList)
         {
             var listToCheck = FileContainerFolder.ListFromExcludeList(folderList, excludeList);
@@ -66,7 +90,7 @@ namespace RawLauncherWPF.ViewModels
                 try
                 {
                     var referenceDir = GetReferenceDir(folder, LauncherPane);
-                    if (!await Task.Run(() => folder.Check(referenceDir), m_source.Token))
+                    if (!await Task.Run(() => folder.Check(referenceDir), _mSource.Token))
                         result = false;
                     Debug.WriteLine(referenceDir);
                     await AnimateProgressBar(Progress, Progress + i + 1, 1, this, x => x.Progress);
@@ -79,6 +103,9 @@ namespace RawLauncherWPF.ViewModels
             return result;
         }
 
+        /// <summary>
+        /// Inits all messages and status identifier
+        /// </summary>
         private void PrepareForCheck()
         {
             Progress = 0;
@@ -98,6 +125,9 @@ namespace RawLauncherWPF.ViewModels
             ModFilesMessage = Empty;
         }
 
+        /// <summary>
+        /// Resets internal data to init State
+        /// </summary>
         private void PreReturn()
         {
             IsWorking = false;
@@ -244,6 +274,11 @@ namespace RawLauncherWPF.ViewModels
 
         #region PatchGames
 
+        /// <summary>
+        /// Creats a status message whether the games are patches successfully
+        /// </summary>
+        /// <param name="eaw"></param>
+        /// <param name="foc"></param>
         private void CreatePatchMessage(bool eaw, bool foc)
         {
 
@@ -255,11 +290,6 @@ namespace RawLauncherWPF.ViewModels
                 Show("Foc successfuly patched.\r\nEaw not successfuly patched.");
             else
                 Show("Foc not successfuly patched\r\nEaw successfuly patched");
-        }
-
-        private bool PatchGame(IGame game)
-        {
-            return game.Patch();
         }
 
         #endregion
@@ -372,6 +402,10 @@ namespace RawLauncherWPF.ViewModels
 
         #region CheckAI
 
+        /// <summary>
+        /// Checks the AiFileContainer
+        /// </summary>
+        /// <returns>returns if successfull or not</returns>
         private async Task<bool> CheckAiCorrect()
         {
             if (!await CheckFolderList(AiFolderList, new List<string> { @"\Data\CustomMaps\"}))
@@ -400,6 +434,10 @@ namespace RawLauncherWPF.ViewModels
 
         #region CheckMod
 
+        /// <summary>
+        /// Checks the AiFileContainer
+        /// </summary>
+        /// <returns>returns if successfull or not</returns>
         private async Task<bool> CheckModCorrect()
         {
             var excludeList = new List<string> {@"XML\Enum\", @"Audio\Speech\*", @"\", @"Text\"};
@@ -465,6 +503,9 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
     
+        /// <summary>
+        /// Writes XML-Stream to local file for offline check
+        /// </summary>
         private void WriteOnlineDataToDisk()
         {
             if (CheckFileStream.IsEmpty())
@@ -472,6 +513,10 @@ namespace RawLauncherWPF.ViewModels
             CheckFileStream.ToFile(RestorePathGenerator(false, LauncherPane) + CheckFileFileName);
         }
 
+        /// <summary>
+        /// Parses the XML-Stream, checks the Version of it and fills the Containers
+        /// </summary>
+        /// <returns></returns>
         private bool ParseXmlFile()
         {
             var parser = new XmlObjectParser<FileContainer>(CheckFileStream);
@@ -490,6 +535,9 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
+        /// <summary>
+        /// Tries to get local Restore XML
+        /// </summary>
         private void GetOffline()
         {
             if (!Directory.Exists(RestorePathGenerator(false, LauncherPane)) || !File.Exists(RestorePathGenerator(false, LauncherPane) + CheckFileFileName))
@@ -501,6 +549,9 @@ namespace RawLauncherWPF.ViewModels
             CheckFileStream = FileToStream(RestorePathGenerator(false, LauncherPane) + CheckFileFileName);
         }
 
+        /// <summary>
+        /// Tries to get online Restore XML
+        /// </summary>
         private void GetOnline()
         {
             CheckFileStream = HostServer.DownloadString(RestorePathGenerator(true, LauncherPane) + CheckFileFileName).ToStream();
@@ -521,30 +572,39 @@ namespace RawLauncherWPF.ViewModels
 
         #region Commands
 
+        /// <summary>
+        /// Patch the Games
+        /// </summary>
         public Command PatchGamesCommand => new Command(PatchGames);
 
         private void PatchGames()
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            var eaw = PatchGame(LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw);
-            var foc = PatchGame(LauncherPane.MainWindowViewModel.LauncherViewModel.Foc);
+            var eaw = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.Patch();
+            var foc = LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.Patch();
             CreatePatchMessage(eaw, foc);
         }
 
+        /// <summary>
+        /// Check the installed Mod
+        /// </summary>
         public Command CheckVersionCommand => new Command(CheckVersion);
 
         private void CheckVersion()
         {
-            m_source = new CancellationTokenSource();
+            _mSource = new CancellationTokenSource();
             PerformCheck();
             
         }
 
+        /// <summary>
+        /// Cancel the Operation
+        /// </summary>
         public Command CancelCommand => new Command(Cancel);
 
         private void Cancel()
         {
-            m_source?.Cancel(false);
+            _mSource?.Cancel(false);
         }
 
         #endregion
@@ -559,7 +619,7 @@ namespace RawLauncherWPF.ViewModels
             await ThreadUtilities.SleepThread(750);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            if (m_source.IsCancellationRequested)
+            if (_mSource.IsCancellationRequested)
             {
                 PreReturn();
                 return;
@@ -578,16 +638,18 @@ namespace RawLauncherWPF.ViewModels
             await ThreadUtilities.SleepThread(750);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-
+            //Prepare XML-based Check
             if (!await PrepareXmlForCheck())
                 return;
 
+            //Check AI
             if (!await CheckAiCorrect())
                 return;
 
             await ThreadUtilities.SleepThread(750);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
+            //Check Mod
             if (!await CheckModCorrect())
                 return;
 

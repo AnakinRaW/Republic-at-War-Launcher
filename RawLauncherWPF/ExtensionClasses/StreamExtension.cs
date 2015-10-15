@@ -6,6 +6,11 @@ namespace RawLauncherWPF.ExtensionClasses
 {
     public static class StreamExtension
     {
+        /// <summary>
+        /// Reads the stream and converts is to ASCII chars. Writes the result into a file or overrites the existing
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="path"></param>
         public static void ToFile(this Stream stream, string path)
         {
             if (stream.IsEmpty() || path == null)
@@ -19,13 +24,14 @@ namespace RawLauncherWPF.ExtensionClasses
                 return;
             if (!Directory.Exists(dirPath))
                 Directory.CreateDirectory(dirPath);
-
-            if (!File.Exists(path))
-            {
-                File.WriteAllText(path, fileContent);
-            }
+            File.WriteAllText(path, fileContent);
         }
 
+        /// <summary>
+        /// Checks if the Stream is empty
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns>Returns true if Empty</returns>
         public static bool IsEmpty(this Stream stream)
         {
             return stream.Length == 0 || stream == Stream.Null;
