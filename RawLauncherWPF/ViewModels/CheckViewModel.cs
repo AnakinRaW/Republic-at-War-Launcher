@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -14,6 +13,7 @@ using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using RawLauncherWPF.Xml;
 using static System.String;
+using static RawLauncherWPF.Helpers.CheckModHelper;
 using static RawLauncherWPF.Utilities.FileUtilities;
 using static RawLauncherWPF.Utilities.IndicatorImagesHelper;
 using static RawLauncherWPF.Utilities.ProgressBarUtilities;
@@ -48,7 +48,6 @@ namespace RawLauncherWPF.ViewModels
             CheckFileStream = Stream.Null;
         }
 
-        private string CurrentVersion => LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version;
         private IHostServer HostServer => LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer;
         private List<FileContainerFolder> AiFolderList { get; set; }
         private Stream CheckFileStream { get; set; }
@@ -65,7 +64,7 @@ namespace RawLauncherWPF.ViewModels
             {
                 try
                 {
-                    var referenceDir = GetReferenceDir(folder);
+                    var referenceDir = GetReferenceDir(folder, LauncherPane);
                     if (!await Task.Run(() => folder.Check(referenceDir), m_source.Token))
                         result = false;
                     Debug.WriteLine(referenceDir);
@@ -77,24 +76,6 @@ namespace RawLauncherWPF.ViewModels
                 }         
             }
             return result;
-        }
-
-        private string GetReferenceDir(FileContainerFolder folder)
-        {
-            var rootDir = folder.TargetType == TargetType.Ai
-                ? LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory
-                : LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.ModDirectory;
-
-            var referenceDir = rootDir + folder.TargetPath;
-            return referenceDir;
-        }
-
-        private string PathGenerator(bool online)
-        {
-            if (online)
-                return @"RescueFiles\" + CurrentVersion + @"\";
-            return LauncherPane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"RescueFiles\" +
-                   CurrentVersion + @"\";
         }
 
         private void PrepareForCheck()
@@ -500,19 +481,19 @@ namespace RawLauncherWPF.ViewModels
 
         private void GetOffline()
         {
-            if (!Directory.Exists(PathGenerator(false)) || !File.Exists(PathGenerator(false) + CheckFileFileName))
+            if (!Directory.Exists(PathGenerator(false, LauncherPane)) || !File.Exists(PathGenerator(false, LauncherPane) + CheckFileFileName))
             {
                 ModCheckError(
                     "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
                 return;
             }
 
-            CheckFileStream = FileToStream(PathGenerator(false) + CheckFileFileName);
+            CheckFileStream = FileToStream(PathGenerator(false, LauncherPane) + CheckFileFileName);
         }
 
         private void GetOnline()
         {
-            CheckFileStream = HostServer.DownloadString(PathGenerator(true) + CheckFileFileName).ToStream();
+            CheckFileStream = HostServer.DownloadString(PathGenerator(true, LauncherPane) + CheckFileFileName).ToStream();
         }
 
         private void ModCheckError(string message)
