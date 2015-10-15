@@ -2,7 +2,6 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Utilities;
 
