@@ -124,6 +124,7 @@
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\ServerException.cs" />
     <Compile Include="Server\SessionServer.cs" />
+    <Compile Include="Themes\LauncherTheme\LauncherTheme.cs" />
     <Compile Include="UI\CheckPane.xaml.cs">
       <DependentUpon>CheckPane.xaml</DependentUpon>
     </Compile>
@@ -172,6 +173,14 @@
     <Compile Include="Xml\FileContainer.cs" />
     <Compile Include="Xml\XmlObjectParser.cs" />
     <Compile Include="Xml\XmlValidator.cs" />
+    <Page Include="Themes\LauncherTheme\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\LauncherTheme\LauncherTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\CheckPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

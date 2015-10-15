@@ -3,6 +3,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using ModernApplicationFramework.Commands;
+using RawLauncherWPF.Themes.LauncherTheme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using MainWindow = ModernApplicationFramework.Controls.MainWindow;
@@ -38,8 +39,15 @@ namespace RawLauncherWPF.ViewModels
             _restorePane = new RestorePane(this);
             _updatePane = new UpdatePane(this);
 
+            mainWindow.Loaded += MainWindow_Loaded;
+
             LauncherPanes = new List<ILauncherPane> {_playPane, _checkPane, _languagePane, _restorePane, _updatePane};
             PreSelectPane();
+        }
+
+        private void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Theme = new LauncherTheme();
         }
 
         /// <summary>

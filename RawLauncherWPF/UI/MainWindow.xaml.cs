@@ -18,6 +18,7 @@ namespace RawLauncherWPF.UI
             DataContext = new MainWindowViewModel(this, LauncherViewModel);
             this.ChangeOwner(new WindowInteropHelper(this).Handle);
             ChangeOwnerForActivate(new WindowInteropHelper(this).Handle);
+
         }
     }
 }

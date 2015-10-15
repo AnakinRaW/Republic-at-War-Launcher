@@ -9,6 +9,7 @@ using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
+using RawLauncherWPF.Themes.LauncherTheme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 
