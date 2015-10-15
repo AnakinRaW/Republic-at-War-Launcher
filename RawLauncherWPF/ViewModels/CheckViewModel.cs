@@ -426,7 +426,7 @@ namespace RawLauncherWPF.ViewModels
         private void AiWrongInstalled()
         {
             ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiMessage = "ai wrong";
+            ModAiMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "mod wrong";
             PreReturn();
         }
 
@@ -459,7 +459,7 @@ namespace RawLauncherWPF.ViewModels
         private void ModWrongInstalled()
         {
             ModFilesIndicator = SetColor(IndicatorColor.Red);
-            ModFilesMessage = "mod wrong";
+            ModFilesMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "mod wrong";
             PreReturn();
         }
 
@@ -616,7 +616,7 @@ namespace RawLauncherWPF.ViewModels
             //Game exists
             if (!await CheckGameExists())
                 return;
-            await ThreadUtilities.SleepThread(750);
+            await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             if (_mSource.IsCancellationRequested)
@@ -629,13 +629,13 @@ namespace RawLauncherWPF.ViewModels
             //Mod exists
             if (!await CheckModExists())
                 return;
-            await ThreadUtilities.SleepThread(750);
+            await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Games patched
             if (!await CheckGamePatched())
                 return;
-            await ThreadUtilities.SleepThread(750);
+            await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Prepare XML-based Check
@@ -646,7 +646,7 @@ namespace RawLauncherWPF.ViewModels
             if (!await CheckAiCorrect())
                 return;
 
-            await ThreadUtilities.SleepThread(750);
+            await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Check Mod
