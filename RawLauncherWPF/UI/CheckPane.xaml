@@ -14,8 +14,11 @@
                           HoverImage="../Resources/Visual/Check/CheckVersionHover.png"
                           PressedImage="../Resources/Visual/Check/CheckVersionHover.png"
                           Command="{Binding CheckVersionCommand}" IsEnabled="{Binding CanExecute}"/>
-        <ProgressBar Height="47" Width="356" VerticalAlignment="Top" Margin="0,90,0,0" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
-
+        <Grid Width="356">
+            <ProgressBar Height="47" VerticalAlignment="Top" Margin="0,90,0,0" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
+            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,132,0,0" HorizontalAlignment="Left" Foreground="White" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+        
         <StackPanel HorizontalAlignment="Left" Margin="20,150,0,0">
             <DockPanel Margin="0,2,0,0">
                 <Image Source="{Binding GameFoundIndicator}" Width="30"/>
@@ -39,7 +42,6 @@
             </DockPanel>
 
         </StackPanel>
-
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
 
             <mafc:ImageButton Height="61" Width="136" IsEnabled="{Binding CanExecute}"

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -35,6 +36,7 @@ namespace RawLauncherWPF.ViewModels
         private ImageSource _modFoundIndicator;
         private string _modFoundMessage;
         private int _progress;
+        private string _progressStatus;
 
         private CancellationTokenSource _mSource;
 
@@ -92,6 +94,7 @@ namespace RawLauncherWPF.ViewModels
                     var referenceDir = GetReferenceDir(folder, LauncherPane);
                     if (!await Task.Run(() => folder.Check(referenceDir), _mSource.Token))
                         result = false;
+                    ProzessStatus = "Checking: " + Path.GetDirectoryName(referenceDir) ;
                     Debug.WriteLine(referenceDir);
                     await AnimateProgressBar(Progress, Progress + i + 1, 1, this, x => x.Progress);
                 }
@@ -266,6 +269,18 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _progress))
                     return;
                 _progress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ProzessStatus
+        {
+            get { return _progressStatus; }
+            set
+            {
+                if (Equals(value, _progressStatus))
+                    return;
+                _progressStatus = value;
                 OnPropertyChanged();
             }
         }
@@ -614,6 +629,7 @@ namespace RawLauncherWPF.ViewModels
             PrepareForCheck();
 
             //Game exists
+            ProzessStatus = "Checking Game existance";
             if (!await CheckGameExists())
                 return;
             await ThreadUtilities.SleepThread(250);
@@ -624,21 +640,24 @@ namespace RawLauncherWPF.ViewModels
                 PreReturn();
                 return;
             }
-                
+
 
             //Mod exists
+            ProzessStatus = "Checking Mod existance";
             if (!await CheckModExists())
                 return;
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Games patched
+            ProzessStatus = "Checking Game Patches";
             if (!await CheckGamePatched())
                 return;
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Prepare XML-based Check
+            ProzessStatus = "Preparing AI/Mod Check";
             if (!await PrepareXmlForCheck())
                 return;
 
