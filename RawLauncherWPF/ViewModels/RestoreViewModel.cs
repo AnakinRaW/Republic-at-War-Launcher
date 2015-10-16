@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
+using RawLauncherWPF.Helpers;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -21,12 +22,8 @@ namespace RawLauncherWPF.ViewModels
 
         public RestoreViewModel(ILauncherPane pane) : base(pane)
         {
-            var i = new List<ComboBoxItem>();
-            i.Add(new ComboBoxItem {Name = "A", Content = "A"});
-            i.Add(new ComboBoxItem { Name = "B", Content = "B" });
-            AvailableVersions = i;
+            AvailableVersions = RestoreHelper.CreateVersionItems();
             SelectedVersion = AvailableVersions.First();
-
         }
 
         private RestoreOptions SelectedOption { get; set; }
@@ -85,10 +82,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void RestoreMod()
         {
-            foreach (var s in VersionUtilities.GetAllAvailableVersionsOnline())
-            {
-                Show(s);
-            }
         }
 
         public Command CancelCommand => new Command(Cancel);

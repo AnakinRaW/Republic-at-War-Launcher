@@ -113,6 +113,7 @@
     <Compile Include="ExtensionClasses\StringExtensions.cs" />
     <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Helpers\CheckModHelper.cs" />
+    <Compile Include="Helpers\RestoreHelper.cs" />
     <Compile Include="Models\UpdaterModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
