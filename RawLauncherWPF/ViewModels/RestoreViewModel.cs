@@ -85,7 +85,10 @@ namespace RawLauncherWPF.ViewModels
 
         private void RestoreMod()
         {
-            Show(SelectedVersion.Content.ToString());
+            foreach (var s in VersionUtilities.GetAllAvailableVersionsOnline())
+            {
+                Show(s);
+            }
         }
 
         public Command CancelCommand => new Command(Cancel);

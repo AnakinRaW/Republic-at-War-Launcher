@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
+using RawLauncherWPF.Configuration;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.Server;
@@ -492,7 +494,7 @@ namespace RawLauncherWPF.ViewModels
 
         private bool LoadCheckFileStream()
         {
-            if (!HostServer.IsRunning())
+            if (HostServer.IsRunning())
                 GetOffline();
             else
             {
@@ -521,6 +523,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void WriteOnlineDataToDisk()
         {
+            HostServer.DownloadString(Config.VersionListRelativePath).ToStream().ToFile(LauncherViewModel.RestoreDownloadDirStatic + Config.VersionListRelativePath);
             if (CheckFileStream.IsEmpty())
                 return;
             CheckFileStream.ToFile(RestorePathGenerator(false) + CheckFileFileName);
@@ -553,6 +556,11 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void GetOffline()
         {
+            if (!VersionUtilities.GetAllAvailableVersionsOffline().Contains(LauncherViewModel.CurrentModStatic.Version))
+            {
+                Show("Could not find the necessary files to check the available versions. It was also not possible to check them with our server.");
+                return;
+            }
             if (!Directory.Exists(RestorePathGenerator(false)) || !File.Exists(RestorePathGenerator(false) + CheckFileFileName))
             {
                 ModCheckError(
@@ -567,6 +575,11 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void GetOnline()
         {
+            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(LauncherViewModel.CurrentModStatic.Version))
+            {
+                Show("Your installed version is not available to check. Please try later or contact us.");
+                return;
+            }
             CheckFileStream = HostServer.DownloadString(RestorePathGenerator(true) + CheckFileFileName).ToStream();
         }
 
