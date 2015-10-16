@@ -1,26 +1,26 @@
-﻿using RawLauncherWPF.UI;
+﻿using RawLauncherWPF.ViewModels;
 using RawLauncherWPF.Xml;
 
 namespace RawLauncherWPF.Helpers
 {
     public static class CheckModHelper
     {
-        internal static string GetReferenceDir(FileContainerFolder folder, ILauncherPane pane)
+        internal static string GetReferenceDir(FileContainerFolder folder)
         {
             var rootDir = folder.TargetType == TargetType.Ai
-                ? pane.MainWindowViewModel.LauncherViewModel.Foc.GameDirectory
-                : pane.MainWindowViewModel.LauncherViewModel.CurrentMod.ModDirectory;
+                ? LauncherViewModel.FocStatic.GameDirectory
+                : LauncherViewModel.CurrentModStatic.ModDirectory;
 
             var referenceDir = rootDir + folder.TargetPath;
             return referenceDir;
         }
 
-        internal static string RestorePathGenerator(bool online, ILauncherPane pane)
+        internal static string RestorePathGenerator(bool online)
         {
             if (online)
-                return @"RescueFiles\" + pane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version + @"\";
-            return pane.MainWindowViewModel.LauncherViewModel.RestoreDownloadDir + @"\RescueFiles\" +
-                   pane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version + @"\";
+                return @"RescueFiles\" + LauncherViewModel.CurrentModStatic.Version + @"\";
+            return LauncherViewModel.RestoreDownloadDirStatic + @"\RescueFiles\" +
+                  LauncherViewModel.CurrentModStatic.Version + @"\";
         }
     }
 }

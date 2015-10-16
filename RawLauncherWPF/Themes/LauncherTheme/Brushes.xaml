@@ -7,10 +7,10 @@
                      ResourceId=MainWindowBackground}" Color="#FFEEEEF2"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=MainWindowActiveShadowAndBorderColor}" Color="#FF9B9FB9"/>
+                     ResourceId=MainWindowActiveShadowAndBorderColor}" Color="Black"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=MainWindowInactiveShadowAndBorderColor}" Color="#FFCCCEDB"/>
+                     ResourceId=MainWindowInactiveShadowAndBorderColor}" Color="#7B7B7B"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=MainWindowTitleBarBackground}" Color="#FFEEEEF2"/>

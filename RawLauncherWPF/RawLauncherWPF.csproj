@@ -155,6 +155,7 @@
     <Compile Include="Utilities\ProgressBarUtilities.cs" />
     <Compile Include="Utilities\ResourceToStreamConverter.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />
+    <Compile Include="Utilities\VersionUtilities.cs" />
     <Compile Include="ViewModels\CheckViewModel.cs" />
     <Compile Include="ViewModels\ILauncherViewModel.cs" />
     <Compile Include="ViewModels\LanguageViewModel.cs" />
@@ -163,7 +164,6 @@
     <Compile Include="Mods\RaW.cs" />
     <Compile Include="Utilities\DownloadHelper.cs" />
     <Compile Include="Utilities\ResourceExtractorException.cs" />
-    <Compile Include="Utilities\VersionHelper.cs" />
     <Compile Include="Utilities\XmlTools.cs" />
     <Compile Include="ViewModels\LauncherPaneViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

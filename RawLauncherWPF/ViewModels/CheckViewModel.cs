@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
-using RawLauncherWPF.Games;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
@@ -53,7 +51,7 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Reference to the HostServer
         /// </summary>
-        private IHostServer HostServer => LauncherPane.MainWindowViewModel.LauncherViewModel.HostServer;
+        private IHostServer HostServer => LauncherViewModel.HostServerStatic;
 
         /// <summary>
         /// Contains AI Folder Information
@@ -91,7 +89,7 @@ namespace RawLauncherWPF.ViewModels
             {
                 try
                 {
-                    var referenceDir = GetReferenceDir(folder, LauncherPane);
+                    var referenceDir = GetReferenceDir(folder);
                     if (!await Task.Run(() => folder.Check(referenceDir), _mSource.Token))
                         result = false;
                     ProzessStatus = "Checking: " + Path.GetDirectoryName(referenceDir) ;
@@ -525,7 +523,7 @@ namespace RawLauncherWPF.ViewModels
         {
             if (CheckFileStream.IsEmpty())
                 return;
-            CheckFileStream.ToFile(RestorePathGenerator(false, LauncherPane) + CheckFileFileName);
+            CheckFileStream.ToFile(RestorePathGenerator(false) + CheckFileFileName);
         }
 
         /// <summary>
@@ -555,13 +553,13 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void GetOffline()
         {
-            if (!Directory.Exists(RestorePathGenerator(false, LauncherPane)) || !File.Exists(RestorePathGenerator(false, LauncherPane) + CheckFileFileName))
+            if (!Directory.Exists(RestorePathGenerator(false)) || !File.Exists(RestorePathGenerator(false) + CheckFileFileName))
             {
                 ModCheckError(
                     "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
                 return;
             }
-            CheckFileStream = FileToStream(RestorePathGenerator(false, LauncherPane) + CheckFileFileName);
+            CheckFileStream = FileToStream(RestorePathGenerator(false) + CheckFileFileName);
         }
 
         /// <summary>
@@ -569,7 +567,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void GetOnline()
         {
-            CheckFileStream = HostServer.DownloadString(RestorePathGenerator(true, LauncherPane) + CheckFileFileName).ToStream();
+            CheckFileStream = HostServer.DownloadString(RestorePathGenerator(true) + CheckFileFileName).ToStream();
         }
 
         private void ModCheckError(string message)

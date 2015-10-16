@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows;
 using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Server

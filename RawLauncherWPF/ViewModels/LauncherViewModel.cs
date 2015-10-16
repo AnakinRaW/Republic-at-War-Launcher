@@ -1,15 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Security.AccessControl;
-using System.Threading;
-using System.Windows;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
-using RawLauncherWPF.Themes.LauncherTheme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 
@@ -33,6 +29,14 @@ namespace RawLauncherWPF.ViewModels
             SetUpData();
         }
 
+        public static IHostServer HostServerStatic { get; private set; }
+        public static IGame EawStatic { get; private set; }
+        public static IGame FocStatic { get; private set; }
+        public static IMod CurrentModStatic { get; private set; }
+
+        public static string RestoreDownloadDirStatic { get; private set; }
+        public static string UpdateDownloadDirStatic { get; private set; }
+
         /// <summary>
         /// Tells if the raw.txt exists
         /// </summary>
@@ -51,6 +55,7 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _currentMod))
                     return;
                 _currentMod = value;
+                CurrentModStatic = value;
                 OnPropertyChanged();
             }
         }
@@ -68,6 +73,7 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _eawGame))
                     return;
                 _eawGame = value;
+                EawStatic = value;
                 OnPropertyChanged();
             }
         }
@@ -85,6 +91,7 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _focGame))
                     return;
                 _focGame = value;
+                FocStatic = value;
                 OnPropertyChanged();
             }
         }
@@ -102,6 +109,7 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _hostServer))
                     return;
                 _hostServer = value;
+                HostServerStatic = value;
                 OnPropertyChanged();
             }
         }
@@ -135,6 +143,7 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _restoreDir))
                     return;
                 _restoreDir = value;
+                RestoreDownloadDirStatic = value;
                 OnPropertyChanged();
             }
         }
@@ -152,6 +161,7 @@ namespace RawLauncherWPF.ViewModels
                 if (Equals(value, _downloadDir))
                     return;
                 _downloadDir = value;
+                UpdateDownloadDirStatic = value;
                 OnPropertyChanged();
             }
         }
