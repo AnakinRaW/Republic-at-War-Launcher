@@ -1,4 +1,5 @@
-﻿using RawLauncherWPF.ViewModels;
+﻿using System;
+using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Mods
 {
@@ -24,7 +25,7 @@ namespace RawLauncherWPF.Mods
         /// Read the Version from a Mod. Sets the Version of a mod
         ///
         /// </summary>
-        string Version { get; set; }
+        Version Version { get; set; }
 
         /// <summary>
         /// Searches in the current Directory for the presence of the mod and returns a new Mod Object

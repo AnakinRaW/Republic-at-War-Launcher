@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Serialization;
 using RawLauncherWPF.Hash;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -18,7 +19,10 @@ namespace RawLauncherWPF.Xml
     public class FileContainer
     {
         [XmlElement("Version", Order = 1)]
-        public string Version { get; set; }
+        public string StringVersion { get; set; }
+
+        [XmlIgnore]
+        public Version Version => new Version(StringVersion);
 
         [XmlElement("File", Order = 2)]
         public List<FileContainerFile> Files;

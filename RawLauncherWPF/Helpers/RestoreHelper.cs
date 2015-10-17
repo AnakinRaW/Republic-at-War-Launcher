@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ModernApplicationFramework.Controls;
+using RawLauncherWPF.ViewModels;
 using static RawLauncherWPF.Utilities.VersionUtilities;
 
 namespace RawLauncherWPF.Helpers
@@ -8,14 +10,10 @@ namespace RawLauncherWPF.Helpers
     {
         public static List<ComboBoxItem> CreateVersionItems()
         {
-            var list = new List<ComboBoxItem>();
             var versions = GetAllAvailableVersionsOnline();
-            foreach (var version in versions)
-            {
-                //TODO: Do no allow versions higher than installed atm
-                list.Add(new ComboBoxItem {Content = version, DataContext = version});
-            }
-            return list;
+            return (from version in versions
+                where version <= LauncherViewModel.CurrentModStatic.Version
+                select new ComboBoxItem {Content = version, DataContext = version}).ToList();
         } 
     }
 }

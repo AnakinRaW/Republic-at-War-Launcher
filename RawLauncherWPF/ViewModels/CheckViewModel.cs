@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -494,7 +495,7 @@ namespace RawLauncherWPF.ViewModels
 
         private bool LoadCheckFileStream()
         {
-            if (HostServer.IsRunning())
+            if (!HostServer.IsRunning())
                 GetOffline();
             else
             {
@@ -545,7 +546,6 @@ namespace RawLauncherWPF.ViewModels
                 return false;
             }
 
-
             AiFolderList = FileContainer.GetFoldersOfType(TargetType.Ai);
             ModFolderList = FileContainer.GetFoldersOfType(TargetType.Mod);
             return true;
@@ -558,7 +558,7 @@ namespace RawLauncherWPF.ViewModels
         {
             if (!VersionUtilities.GetAllAvailableVersionsOffline().Contains(LauncherViewModel.CurrentModStatic.Version))
             {
-                Show("Could not find the necessary files to check the available versions. It was also not possible to check them with our server.");
+                Show("Your installed version is not available to check. Please try later or contact us.");
                 return;
             }
             if (!Directory.Exists(RestorePathGenerator(false)) || !File.Exists(RestorePathGenerator(false) + CheckFileFileName))

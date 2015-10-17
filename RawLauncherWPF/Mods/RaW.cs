@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Navigation;
 using RawLauncherWPF.Utilities;
 using RawLauncherWPF.ViewModels;
 
@@ -41,7 +42,7 @@ namespace RawLauncherWPF.Mods
         public string ModDirectory { get; }
         public string Name => "Republic at War";
 
-        public string Version
+        public Version Version
         {
             get
             {
@@ -49,7 +50,9 @@ namespace RawLauncherWPF.Mods
                 {
                     var node = XmlTools.GetNodeValue(ModDirectory + @"\XML\Gameobjectfiles.xml",
                         "/Game_Object_Files/Version");
-                    return string.IsNullOrEmpty(node) ? "1.1.5" : node;
+                    if (string.IsNullOrEmpty(node))
+                        return new Version("1.1.5");
+                    return new Version(node);
                 }
                 catch (Exception)
                 {

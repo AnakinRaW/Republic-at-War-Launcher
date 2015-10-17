@@ -120,6 +120,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Schemes\FileContainer.cs">
+      <DependentUpon>FileContainer.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Server\HostServer.cs" />
     <Compile Include="Server\IHostServer.cs" />
     <Compile Include="Server\IServer.cs" />
