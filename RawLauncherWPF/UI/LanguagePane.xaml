@@ -78,7 +78,7 @@
                           NormalImage="../Resources/Visual/Language/ChangeLanguageIdle.png"
                           HoverImage="../Resources/Visual/Language/ChangeLanguageHover.png"
                           PressedImage="../Resources/Visual/Language/ChangeLanguageHover.png"
-                          Command="{Binding ChangeLanguageCommand}"/>
+                          Command="{Binding ChangeLanguageCommand}" IsEnabled="{Binding CanExecute}"/>
         
         <Image Source="../Resources/Visual/Language/LanguageInfo.png" Height="24" Width="223"
                VerticalAlignment="Top" Margin="0,260,0,0"/>

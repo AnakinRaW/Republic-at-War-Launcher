@@ -173,6 +173,7 @@ namespace RawLauncherWPF.Xml
             set { _countField = value; }
         }
 
+        //TODO: Throwing Messages should not be done here ....
         public bool Check(string referencePath)
         {
             if (!Directory.Exists(referencePath))

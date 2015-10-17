@@ -110,7 +110,7 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Inits all messages and status identifier
         /// </summary>
-        private void PrepareForCheck()
+        private void PrepareUi()
         {
             Progress = 0;
             GameFoundIndicator = SetColor(IndicatorColor.Blue);
@@ -132,7 +132,7 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Resets internal data to init State
         /// </summary>
-        private void PreReturn()
+        private void ResetUi()
         {
             IsWorking = false;
             IsBlocking = false;
@@ -333,7 +333,7 @@ namespace RawLauncherWPF.ViewModels
         {
             GameFoundIndicator = SetColor(IndicatorColor.Red);
             GameFoundMessage = "foc not found";
-            PreReturn();
+            ResetUi();
         }
 
         private void FocExistsTasks()
@@ -367,7 +367,7 @@ namespace RawLauncherWPF.ViewModels
         {
             ModFoundIndicator = SetColor(IndicatorColor.Red);
             ModFoundMessage = "raw not found";
-            PreReturn();
+            ResetUi();
         }
 
         private void ModExistsTasks()
@@ -404,7 +404,7 @@ namespace RawLauncherWPF.ViewModels
         {
             GamesPatchedIndicator = SetColor(IndicatorColor.Red);
             GamesPatchedMessage = "games not patched";
-            PreReturn();
+            ResetUi();
             Show("You need to update your games. Please press the 'patch' button.");
         }
 
@@ -443,7 +443,7 @@ namespace RawLauncherWPF.ViewModels
         {
             ModAiIndicator = SetColor(IndicatorColor.Red);
             ModAiMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "mod wrong";
-            PreReturn();
+            ResetUi();
         }
 
         #endregion
@@ -476,7 +476,7 @@ namespace RawLauncherWPF.ViewModels
         {
             ModFilesIndicator = SetColor(IndicatorColor.Red);
             ModFilesMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "mod wrong";
-            PreReturn();
+            ResetUi();
         }
 
         #endregion
@@ -589,7 +589,7 @@ namespace RawLauncherWPF.ViewModels
             ModAiMessage = "could not check";
             ModFilesIndicator = SetColor(IndicatorColor.Red);
             ModFilesMessage = "could not check";
-            PreReturn();
+            ResetUi();
             if (!IsNullOrEmpty(message))
                 Show(message);
         }
@@ -618,6 +618,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void CheckVersion()
         {
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             _mSource = new CancellationTokenSource();
             PerformCheck();
             
@@ -637,7 +638,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async void PerformCheck()
         {
-            PrepareForCheck();
+            PrepareUi();
 
             //Game exists
             ProzessStatus = "Checking Game existance";
@@ -648,7 +649,7 @@ namespace RawLauncherWPF.ViewModels
 
             if (_mSource.IsCancellationRequested)
             {
-                PreReturn();
+                ResetUi();
                 return;
             }
 
@@ -683,7 +684,7 @@ namespace RawLauncherWPF.ViewModels
             if (!await CheckModCorrect())
                 return;
 
-            PreReturn();
+            ResetUi();
         }
     }
 }

@@ -82,6 +82,9 @@ namespace RawLauncherWPF.ViewModels
 
         private void RestoreMod()
         {
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            _mSource = new CancellationTokenSource();
+            PerformRestore();
         }
 
         public Command CancelCommand => new Command(Cancel);
@@ -105,6 +108,38 @@ namespace RawLauncherWPF.ViewModels
         }
 
         #endregion
+
+        private async void PerformRestore()
+        {
+            //TODO: Inform about consequences. Double Check ...
+            PrepareUi();
+            ProzessStatus = "Preparing Restore";
+            //TODO: Perform individual tasks for selcted options
+            await ThreadUtilities.SleepThread(250);
+
+            if (_mSource.IsCancellationRequested)
+            {
+                ResetUi();
+                return;
+            }
+
+            //TODO: Rerform Restore
+
+            ResetUi();
+        }
+
+        private void ResetUi()
+        {
+            IsWorking = false;
+            IsBlocking = false;
+        }
+
+        private void PrepareUi()
+        {
+            Progress = 0;
+            IsBlocking = true;
+            IsWorking = true;
+        }
     }
 
     [Flags]
