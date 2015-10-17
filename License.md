@@ -1,6 +1,6 @@
 Republic at War Launcher License
 
-Note that all license terms are only for the Launcher itself. The other 3rd party libraries have their own license and can be used under teir own license terms. See list of used libraries below
+Note that all license terms are only for the Launcher itself. The other 3rd party libraries have their own license and can be used under their own license terms. See list of used libraries below
 
 You may:
 - View the source code
