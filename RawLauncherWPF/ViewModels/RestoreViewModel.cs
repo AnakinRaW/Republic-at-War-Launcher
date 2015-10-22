@@ -8,7 +8,9 @@ using ModernApplicationFramework.Controls;
 using RawLauncherWPF.Helpers;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using RawLauncherWPF.Xml;
 using static RawLauncherWPF.Utilities.MessageProvider;
+using  static RawLauncherWPF.Utilities.FileUtilities;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -116,6 +118,14 @@ namespace RawLauncherWPF.ViewModels
             ProzessStatus = "Preparing Restore";
             //TODO: Perform individual tasks for selcted options
             await ThreadUtilities.SleepThread(250);
+
+            var fileStream = FileToStream("c:\\test.xml");
+
+            var parser = new XmlObjectParser<FileContainer>(fileStream);
+
+            var Container = parser.Parse();
+
+            Show(Container.Files.First().FileContentType.ToString());
 
             if (_mSource.IsCancellationRequested)
             {
