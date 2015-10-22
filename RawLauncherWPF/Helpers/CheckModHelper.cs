@@ -14,13 +14,5 @@ namespace RawLauncherWPF.Helpers
             var referenceDir = rootDir + folder.TargetPath;
             return referenceDir;
         }
-
-        internal static string RestorePathGenerator(bool online)
-        {
-            if (online)
-                return @"RescueFiles\" + LauncherViewModel.CurrentModStatic.Version + @"\";
-            return LauncherViewModel.RestoreDownloadDirStatic + @"\RescueFiles\" +
-                  LauncherViewModel.CurrentModStatic.Version + @"\";
-        }
     }
 }

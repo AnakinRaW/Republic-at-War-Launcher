@@ -41,6 +41,7 @@ namespace RawLauncherWPF.ViewModels
 
         public CheckViewModel(ILauncherPane pane) : base(pane)
         {
+            LauncherViewModel = LauncherPane.MainWindowViewModel.LauncherViewModel;
             GameFoundIndicator = SetColor(IndicatorColor.Blue);
             ModFoundIndicator = SetColor(IndicatorColor.Blue);
             GamesPatchedIndicator = SetColor(IndicatorColor.Blue);
@@ -52,7 +53,9 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Reference to the HostServer
         /// </summary>
-        private IHostServer HostServer => LauncherViewModel.HostServerStatic;
+        private IHostServer HostServer => LauncherViewModel.HostServer;
+
+        private LauncherViewModel LauncherViewModel { get; }
 
         /// <summary>
         /// Contains AI Folder Information
@@ -483,7 +486,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async Task<bool> PrepareXmlForCheck()
         {
-            if (!await Task.FromResult(LoadCheckFileStream()))
+            if (!await LoadCheckFileStream())
                 return false;
 
             if (!await Task.FromResult(ParseXmlFile()))
@@ -491,13 +494,13 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        private bool LoadCheckFileStream()
+        private async Task<bool> LoadCheckFileStream()
         {
             if (!HostServer.IsRunning())
                 GetOffline();
             else
             {
-                GetOnline();
+                await GetOnline();
                 WriteOnlineDataToDisk();
             }
 
@@ -522,10 +525,10 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void WriteOnlineDataToDisk()
         {
-            HostServer.DownloadString(Config.VersionListRelativePath).ToStream().ToFile(LauncherViewModel.RestoreDownloadDirStatic + Config.VersionListRelativePath);
+            HostServer.DownloadString(Config.VersionListRelativePath).ToStream().ToFile(LauncherViewModel.RestoreDownloadDir + Config.VersionListRelativePath);
             if (CheckFileStream.IsEmpty())
                 return;
-            CheckFileStream.ToFile(RestorePathGenerator(false) + CheckFileFileName);
+            CheckFileStream.ToFile(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName);
         }
 
         /// <summary>
@@ -554,31 +557,31 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void GetOffline()
         {
-            if (!VersionUtilities.GetAllAvailableVersionsOffline().Contains(LauncherViewModel.CurrentModStatic.Version))
+            if (!VersionUtilities.GetAllAvailableVersionsOffline().Contains(LauncherViewModel.CurrentMod.Version))
             {
                 Show("Your installed version is not available to check. Please try later or contact us.");
                 return;
             }
-            if (!Directory.Exists(RestorePathGenerator(false)) || !File.Exists(RestorePathGenerator(false) + CheckFileFileName))
+            if (!Directory.Exists(LauncherViewModel.RescuePathGenerator(false)) || !File.Exists(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName))
             {
                 ModCheckError(
                     "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
                 return;
             }
-            CheckFileStream = FileToStream(RestorePathGenerator(false) + CheckFileFileName);
+            CheckFileStream = FileToStream(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName);
         }
 
         /// <summary>
         /// Tries to get online Restore XML
         /// </summary>
-        private void GetOnline()
+        private async Task GetOnline()
         {
-            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(LauncherViewModel.CurrentModStatic.Version))
+            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(LauncherViewModel.CurrentMod.Version))
             {
                 Show("Your installed version is not available to check. Please try later or contact us.");
                 return;
             }
-            CheckFileStream = HostServer.DownloadString(RestorePathGenerator(true) + CheckFileFileName).ToStream();
+            await Task.Factory.StartNew(() => CheckFileStream = HostServer.DownloadString(LauncherViewModel.RescuePathGenerator(true) + CheckFileFileName).ToStream());
         }
 
         private void ModCheckError(string message)
