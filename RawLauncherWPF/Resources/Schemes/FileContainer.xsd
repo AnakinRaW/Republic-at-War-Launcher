@@ -8,11 +8,10 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"/>
-							<xs:element name="FileContentType" type="FileType" minOccurs="1" maxOccurs="1" />
-							<xs:element name="SourcePath" type="xs:string" minOccurs="1" maxOccurs="1" />
 							<xs:element name="TargetPath" type="xs:string" minOccurs="1" maxOccurs="1" />
 							<xs:element name="TargetType" type="TargetType" minOccurs="1" maxOccurs="1" />
 							<xs:element name="Hash" type="xs:string" minOccurs="1" maxOccurs="1" />
+              <xs:element name="SourcePath" type="xs:string" minOccurs="1" maxOccurs="1" />
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -36,13 +35,6 @@
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
-	<xs:simpleType name="FileType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="Hash"/>
-			<xs:enumeration value="Count"/>
-			<xs:enumeration value="Delete"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:simpleType name="TargetType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Mod"/>

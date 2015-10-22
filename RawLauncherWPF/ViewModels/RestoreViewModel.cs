@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
+using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Helpers;
+using RawLauncherWPF.Properties;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using RawLauncherWPF.Xml;
@@ -121,11 +123,16 @@ namespace RawLauncherWPF.ViewModels
 
             var fileStream = FileToStream("c:\\test.xml");
 
+            var validator = new XmlValidator(Resources.FileContainer.ToStream());
+
+            if (!validator.Validate(fileStream))
+                Show("Error");
+
             var parser = new XmlObjectParser<FileContainer>(fileStream);
 
             var Container = parser.Parse();
 
-            Show(Container.Files.First().FileContentType.ToString());
+           Show(Container.Files.First().Name);
 
             if (_mSource.IsCancellationRequested)
             {
