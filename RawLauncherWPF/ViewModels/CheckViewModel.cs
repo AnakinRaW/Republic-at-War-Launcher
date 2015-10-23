@@ -34,10 +34,9 @@ namespace RawLauncherWPF.ViewModels
         private ImageSource _modFilesIndicator;
         private ImageSource _modFoundIndicator;
         private string _modFoundMessage;
+        private CancellationTokenSource _mSource;
         private int _progress;
         private string _progressStatus;
-
-        private CancellationTokenSource _mSource;
 
         public CheckViewModel(ILauncherPane pane) : base(pane)
         {
@@ -96,16 +95,88 @@ namespace RawLauncherWPF.ViewModels
                     var referenceDir = GetReferenceDir(folder);
                     if (!await Task.Run(() => folder.Check(referenceDir), _mSource.Token))
                         result = false;
-                    ProzessStatus = "Checking: " + Path.GetDirectoryName(referenceDir) ;
+                    ProzessStatus = "Checking: " + Path.GetDirectoryName(referenceDir);
                     Debug.WriteLine(referenceDir);
                     await AnimateProgressBar(Progress, Progress + i + 1, 1, this, x => x.Progress);
                 }
                 catch (TaskCanceledException)
                 {
                     result = false;
-                }         
+                }
             }
             return result;
+        }
+
+        #region PatchGames
+
+        /// <summary>
+        /// Creats a status message whether the games are patches successfully
+        /// </summary>
+        /// <param name="eaw"></param>
+        /// <param name="foc"></param>
+        private void CreatePatchMessage(bool eaw, bool foc)
+        {
+            if (eaw && foc)
+                Show("Games successfuly patched.");
+            else if (!eaw && !foc)
+                Show("Games not successfuly patched.");
+            else if (!eaw)
+                Show("Foc successfuly patched.\r\nEaw not successfuly patched.");
+            else
+                Show("Foc not successfuly patched\r\nEaw successfuly patched");
+        }
+
+        #endregion
+
+        private async void PerformCheck()
+        {
+            PrepareUi();
+
+            //Game exists
+            ProzessStatus = "Checking Game existance";
+            if (!await CheckGameExists())
+                return;
+            await ThreadUtilities.SleepThread(250);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            if (_mSource.IsCancellationRequested)
+            {
+                ResetUi();
+                return;
+            }
+
+
+            //Mod exists
+            ProzessStatus = "Checking Mod existance";
+            if (!await CheckModExists())
+                return;
+            await ThreadUtilities.SleepThread(250);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            //Games patched
+            ProzessStatus = "Checking Game Patches";
+            if (!await CheckGamePatched())
+                return;
+            await ThreadUtilities.SleepThread(250);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            //Prepare XML-based Check
+            ProzessStatus = "Preparing AI/Mod Check";
+            if (!await PrepareXmlForCheck())
+                return;
+
+            //Check AI
+            if (!await CheckAiCorrect())
+                return;
+
+            await ThreadUtilities.SleepThread(250);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            //Check Mod
+            if (!await CheckModCorrect())
+                return;
+
+            ResetUi();
         }
 
         /// <summary>
@@ -289,28 +360,6 @@ namespace RawLauncherWPF.ViewModels
 
         #endregion
 
-        #region PatchGames
-
-        /// <summary>
-        /// Creats a status message whether the games are patches successfully
-        /// </summary>
-        /// <param name="eaw"></param>
-        /// <param name="foc"></param>
-        private void CreatePatchMessage(bool eaw, bool foc)
-        {
-
-            if (eaw && foc)
-                Show("Games successfuly patched.");
-            else if (!eaw && !foc)
-                Show("Games not successfuly patched.");
-            else if (!eaw)
-                Show("Foc successfuly patched.\r\nEaw not successfuly patched.");
-            else
-                Show("Foc not successfuly patched\r\nEaw successfuly patched");
-        }
-
-        #endregion
-
         #region FindGame
 
         private async Task<bool> CheckGameExists()
@@ -425,7 +474,7 @@ namespace RawLauncherWPF.ViewModels
         /// <returns>returns if successfull or not</returns>
         private async Task<bool> CheckAiCorrect()
         {
-            if (!await CheckFolderList(AiFolderList, new List<string> { @"\Data\CustomMaps\"}))
+            if (!await CheckFolderList(AiFolderList, new List<string> {@"\Data\CustomMaps\"}))
             {
                 AiWrongInstalled();
                 return false;
@@ -519,13 +568,15 @@ namespace RawLauncherWPF.ViewModels
             }
             return true;
         }
-    
+
         /// <summary>
         /// Writes XML-Stream to local file for offline check
         /// </summary>
         private void WriteOnlineDataToDisk()
         {
-            HostServer.DownloadString(Config.VersionListRelativePath).ToStream().ToFile(LauncherViewModel.RestoreDownloadDir + Config.VersionListRelativePath);
+            HostServer.DownloadString(Config.VersionListRelativePath)
+                .ToStream()
+                .ToFile(LauncherViewModel.RestoreDownloadDir + Config.VersionListRelativePath);
             if (CheckFileStream.IsEmpty())
                 return;
             CheckFileStream.ToFile(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName);
@@ -562,7 +613,8 @@ namespace RawLauncherWPF.ViewModels
                 Show("Your installed version is not available to check. Please try later or contact us.");
                 return;
             }
-            if (!Directory.Exists(LauncherViewModel.RescuePathGenerator(false)) || !File.Exists(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName))
+            if (!Directory.Exists(LauncherViewModel.RescuePathGenerator(false)) ||
+                !File.Exists(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName))
             {
                 ModCheckError(
                     "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
@@ -581,7 +633,12 @@ namespace RawLauncherWPF.ViewModels
                 Show("Your installed version is not available to check. Please try later or contact us.");
                 return;
             }
-            await Task.Factory.StartNew(() => CheckFileStream = HostServer.DownloadString(LauncherViewModel.RescuePathGenerator(true) + CheckFileFileName).ToStream());
+            await
+                Task.Factory.StartNew(
+                    () =>
+                        CheckFileStream =
+                            HostServer.DownloadString(LauncherViewModel.RescuePathGenerator(true) + CheckFileFileName)
+                                .ToStream());
         }
 
         private void ModCheckError(string message)
@@ -622,7 +679,6 @@ namespace RawLauncherWPF.ViewModels
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             _mSource = new CancellationTokenSource();
             PerformCheck();
-            
         }
 
         /// <summary>
@@ -636,56 +692,5 @@ namespace RawLauncherWPF.ViewModels
         }
 
         #endregion
-
-        private async void PerformCheck()
-        {
-            PrepareUi();
-
-            //Game exists
-            ProzessStatus = "Checking Game existance";
-            if (!await CheckGameExists())
-                return;
-            await ThreadUtilities.SleepThread(250);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-
-            if (_mSource.IsCancellationRequested)
-            {
-                ResetUi();
-                return;
-            }
-
-
-            //Mod exists
-            ProzessStatus = "Checking Mod existance";
-            if (!await CheckModExists())
-                return;
-            await ThreadUtilities.SleepThread(250);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-
-            //Games patched
-            ProzessStatus = "Checking Game Patches";
-            if (!await CheckGamePatched())
-                return;
-            await ThreadUtilities.SleepThread(250);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-
-            //Prepare XML-based Check
-            ProzessStatus = "Preparing AI/Mod Check";
-            if (!await PrepareXmlForCheck())
-                return;
-
-            //Check AI
-            if (!await CheckAiCorrect())
-                return;
-
-            await ThreadUtilities.SleepThread(250);
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-
-            //Check Mod
-            if (!await CheckModCorrect())
-                return;
-
-            ResetUi();
-        }
     }
 }
