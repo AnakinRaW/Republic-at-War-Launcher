@@ -27,21 +27,21 @@
                                    PressedImage="../Resources/Visual/Restore/noneHover.png"
                                    CheckedImage="../Resources/Visual/Restore/noneHover.png"
                                             ToolTip="No Options specified"
-                                   Command="{Binding ChangeOptionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.None}"/>
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.None}"/>
                     <mafc:ImageRadioButton Height="19" Width="217" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
                                    NormalImage="../Resources/Visual/Restore/ignoreLanguageIdle.png"
                                    HoverImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
                                    PressedImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
                                    CheckedImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
                                            ToolTip="Ignore all language related files. Restoring with this option is faster and your installed language pack will not be deleted"
-                                   Command="{Binding ChangeOptionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.IgnoreLanguage}"/>
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.IgnoreLanguage}"/>
                     <mafc:ImageRadioButton Height="19" Width="186" HorizontalAlignment="Left" Margin="15,0,10,0" GroupName="Options"
                                    NormalImage="../Resources/Visual/Restore/hardRestoreIdle.png"
                                    HoverImage="../Resources/Visual/Restore/hardRestoreHover.png"
                                    PressedImage="../Resources/Visual/Restore/hardRestoreHover.png"
                                    CheckedImage="../Resources/Visual/Restore/hardRestoreHover.png"
                                            ToolTip="This option deltes all files and performs a clean install"
-                                   Command="{Binding ChangeOptionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.Hard}"/>
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.Hard}"/>
                 </DockPanel>
             </StackPanel>
         </Grid>
