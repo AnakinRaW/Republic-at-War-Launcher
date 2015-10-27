@@ -121,17 +121,17 @@ namespace RawLauncherWPF.ViewModels
                      "Please try later");
                 return false;
             }
-            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(LauncherViewModel.CurrentModStatic.Version))
+            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(new Version(SelectedVersion.DataContext.ToString())))
             {
                 Show("Your installed version is not available to check. Please try later or contact us.");
                 return false;
             }
+
+            var downloadPath = LauncherViewModel.GetRescueFilePath(RestoreVersionFileFileName, true, (Version) SelectedVersion.DataContext);
+
             await
                 Task.Factory.StartNew(
-                    () =>
-                        RestoreVersionFileStream =
-                            HostServer.DownloadString(LauncherViewModel.RescuePathGenerator(true) +
-                                                      RestoreVersionFileFileName).ToStream());
+                    () => RestoreVersionFileStream = HostServer.DownloadString(downloadPath).ToStream());
 
             if (RestoreVersionFileStream.IsEmpty())
             {
@@ -153,13 +153,6 @@ namespace RawLauncherWPF.ViewModels
         {
             var parser = new XmlObjectParser<FileContainer>(RestoreVersionFileStream);
             RestoreVersionContainer = parser.Parse();
-
-            if (RestoreVersionContainer.Version != LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version)
-            {
-                Show(
-                    "The Version of the mod does not match to the reference file. Please click Restore-Tab and let the launcher redownload the Files.");
-                return false;
-            }
             return true;
         }
 
@@ -177,6 +170,9 @@ namespace RawLauncherWPF.ViewModels
                 return;
             }
 
+            await ThreadUtilities.SleepThread(250);
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
             switch (SelectedOption)
             {
                 case RestoreOptions.None:
@@ -184,7 +180,7 @@ namespace RawLauncherWPF.ViewModels
                     Show("None");
                     break;
                 case RestoreOptions.Hard:
-                    await Task.Factory.StartNew(DoHardRestore);
+                    await PrepareRestore();
                     break;
                 default:
                     Show("IgnoreLanguage");
@@ -201,14 +197,14 @@ namespace RawLauncherWPF.ViewModels
             return result != MessageBoxResult.No;
         }
 
-        private async void DoHardRestore()
+        private async Task<bool> PrepareRestore()
         {
-            await ThreadUtilities.SleepThread(1);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            await ThreadUtilities.SleepThread(250);
+            ProzessStatus = "Deleting Mod Files";
+            Directory.Delete(LauncherViewModel.CurrentMod.ModDirectory, true);
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
-            await ThreadUtilities.SleepThread(250);
-            await AnimateProgressBar(Progress, 100, 10, this, x => x.Progress);
+            await ThreadUtilities.SleepThread(1000);
+            return true;
         }
 
         private void PrepareUi()

@@ -212,6 +212,7 @@ namespace RawLauncherWPF.ViewModels
             FileContainer = null;
         }
 
+
         #region IPropChanged Properties
 
         public ImageSource GameFoundIndicator
@@ -579,7 +580,7 @@ namespace RawLauncherWPF.ViewModels
                 .ToFile(LauncherViewModel.RestoreDownloadDir + Config.VersionListRelativePath);
             if (CheckFileStream.IsEmpty())
                 return;
-            CheckFileStream.ToFile(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName);
+            CheckFileStream.ToFile(LauncherViewModel.GetRescueFilePath(CheckFileFileName, false));
         }
 
         /// <summary>
@@ -613,14 +614,13 @@ namespace RawLauncherWPF.ViewModels
                 Show("Your installed version is not available to check. Please try later or contact us.");
                 return;
             }
-            if (!Directory.Exists(LauncherViewModel.RescuePathGenerator(false)) ||
-                !File.Exists(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName))
+            if (!File.Exists(LauncherViewModel.GetRescueFilePath(CheckFileFileName, false)))
             {
                 ModCheckError(
                     "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
                 return;
             }
-            CheckFileStream = FileToStream(LauncherViewModel.RescuePathGenerator(false) + CheckFileFileName);
+            CheckFileStream = FileToStream(LauncherViewModel.GetRescueFilePath(CheckFileFileName, false));
         }
 
         /// <summary>
@@ -637,7 +637,7 @@ namespace RawLauncherWPF.ViewModels
                 Task.Factory.StartNew(
                     () =>
                         CheckFileStream =
-                            HostServer.DownloadString(LauncherViewModel.RescuePathGenerator(true) + CheckFileFileName)
+                            HostServer.DownloadString(LauncherViewModel.GetRescueFilePath(CheckFileFileName, true))
                                 .ToStream());
         }
 

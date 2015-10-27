@@ -166,13 +166,19 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public string RescuePathGenerator(bool online)
+
+        public string GetRescueFilePath(string fileName, bool online, Version version = null)
         {
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
+            if (version == null)
+                return GetRescueFilePath(fileName, online, CurrentMod.Version);
             if (online)
-                return @"RescueFiles\" + CurrentMod.Version + @"\";
-            return RestoreDownloadDir + @"\RescueFiles\" +
-                  CurrentMod.Version + @"\";
+                return @"RescueFiles\" + version + @"\" + fileName;
+            return RestoreDownloadDir + @"\RescueFiles\" + version + @"\" + fileName;
+
         }
+
 
         /// <summary>
         /// Sets required Folders for Launcher
