@@ -23,9 +23,11 @@ namespace RawLauncherWPF.Mods
         /// <summary>
         /// Checks if the Mod is in Fodlder "../Mods/ModName"
         /// </summary>
-        public bool HasCorrectFolderStructure => ModDirectory.Contains(@"Mods\" + _modFolderName);
+        public bool HasCorrectFolderStructure => ModDirectory.Contains(@"Mods\" + FolderName);
 
-        public string LaunchArgumentPath => "Mods/" + _modFolderName;
+        public string LaunchArgumentPath => "Mods/" + FolderName;
+
+        public string FolderName => "Republic_at_War";
 
         public bool Exists()
         {
@@ -63,7 +65,5 @@ namespace RawLauncherWPF.Mods
             }
             set { throw new NotImplementedException(); }
         }
-
-        private string _modFolderName => "Republic_at_War";
     }
 }

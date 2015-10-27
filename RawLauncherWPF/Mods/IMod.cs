@@ -1,5 +1,4 @@
 ﻿using System;
-using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Mods
 {
@@ -14,6 +13,11 @@ namespace RawLauncherWPF.Mods
         /// Returns the name of the Mod
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Returns the Name of the Folder, where the mod is stored
+        /// </summary>
+        string FolderName { get; }
 
         /// <summary>
         /// Checks whether a mod exists
