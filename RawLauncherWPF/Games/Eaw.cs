@@ -71,5 +71,15 @@ namespace RawLauncherWPF.Games
                 return false;
             return true;
         }
+
+        public void DeleteMod(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearDataFolder()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

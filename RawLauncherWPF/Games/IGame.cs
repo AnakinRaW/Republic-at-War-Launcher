@@ -49,5 +49,16 @@ namespace RawLauncherWPF.Games
         /// </summary>
         /// <returns></returns>
         bool IsPatched();
+
+        /// <summary>
+        /// Deletes a Mod by it's name
+        /// </summary>
+        /// <param name="name"></param>
+        void DeleteMod(string name);
+
+        /// <summary>
+        /// Removes any additional contnet from Rood Data folder.
+        /// </summary>
+        void ClearDataFolder();
     }
 }
