@@ -123,12 +123,20 @@ namespace RawLauncherWPF.Games
 
         public void DeleteMod(string name)
         {
-            throw new NotImplementedException();
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (Directory.Exists(@"Mods\" + name))
+                Directory.Delete(@"Mods\" + name, true);
         }
 
         public void ClearDataFolder()
         {
-            throw new NotImplementedException();
+            if (Directory.Exists(@"Data\CustomMaps"))
+                Directory.Delete(@"Data\CustomMaps");
+            if (Directory.Exists(@"Data\Scripts"))
+                Directory.Delete(@"Data\Scripts");
+            if (Directory.Exists(@"Data\XML"))
+                Directory.Delete(@"Data\XML");
         }
     }
 }
