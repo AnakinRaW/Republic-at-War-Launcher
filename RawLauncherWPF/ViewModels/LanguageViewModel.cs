@@ -33,23 +33,23 @@ namespace RawLauncherWPF.ViewModels
 
         private void ChangeMasterTextFile(IMod mod)
         {
-            if (!Directory.Exists(mod.ModDirectory + @"\Text\"))
+            if (!Directory.Exists(mod.ModDirectory + @"Data\Text\"))
                 return;
-            if (!Directory.EnumerateFiles(mod.ModDirectory + @"\Text\", "MasterTextFile_*").Any())
+            if (!Directory.EnumerateFiles(mod.ModDirectory + @"Data\Text\", "MasterTextFile_*").Any())
                 return;
-            if (File.Exists(mod.ModDirectory + @"\Text\MasterTextFile_" + SelectedLanguage + ".dat"))
+            if (File.Exists(mod.ModDirectory + @"Data\Text\MasterTextFile_" + SelectedLanguage + ".dat"))
             {
                 MessageToShowAfterChange += "MasterTextFile_" + SelectedLanguage +
                                             " already existed. Skipped it's renaming.\n";
                 return;
             }
 
-            var file = Directory.EnumerateFiles(mod.ModDirectory + @"\Text\", "MasterTextFile_*").First();
+            var file = Directory.EnumerateFiles(mod.ModDirectory + @"Data\Text\", "MasterTextFile_*").First();
 
             try
             {
                 File.Move(file,
-                    mod.ModDirectory + @"\Text\MasterTextFile_" + SelectedLanguage.ToString().ToUpper() + ".dat");
+                    mod.ModDirectory + @"Data\Text\MasterTextFile_" + SelectedLanguage.ToString().ToUpper() + ".dat");
             }
             catch (Exception)
             {
@@ -59,20 +59,20 @@ namespace RawLauncherWPF.ViewModels
 
         private void ChangeSpeechFolderName(IMod mod)
         {
-            if (!Directory.Exists(mod.ModDirectory + @"\Audio\Speech\"))
+            if (!Directory.Exists(mod.ModDirectory + @"Data\Audio\Speech\"))
                 return;
-            if (!Directory.EnumerateDirectories(mod.ModDirectory + @"Audio\Speech", "*").Any())
+            if (!Directory.EnumerateDirectories(mod.ModDirectory + @"Data\Audio\Speech", "*").Any())
                 return;
-            if (Directory.Exists(mod.ModDirectory + @"\Audio\Speech\" + SelectedLanguage))
+            if (Directory.Exists(mod.ModDirectory + @"Data\Audio\Speech\" + SelectedLanguage))
             {
                 MessageToShowAfterChange += "A correct named Speech directory already existed. Skipped it's renaming.\n";
                 return;
             }
 
-            var directory = Directory.EnumerateDirectories(mod.ModDirectory + @"Audio\Speech", "*").First();
+            var directory = Directory.EnumerateDirectories(mod.ModDirectory + @"Data\Audio\Speech", "*").First();
             try
             {
-                Directory.Move(directory, mod.ModDirectory + @"\Audio\Speech\" + SelectedLanguage);
+                Directory.Move(directory, mod.ModDirectory + @"Data\Audio\Speech\" + SelectedLanguage);
             }
             catch (Exception)
             {
@@ -82,21 +82,21 @@ namespace RawLauncherWPF.ViewModels
 
         private void ChangeSpeechMegFile(IMod mod)
         {
-            if (!Directory.Exists(mod.ModDirectory))
+            if (!Directory.Exists(mod.ModDirectory + @"\Data\"))
                 return;
-            if (!Directory.EnumerateFiles(mod.ModDirectory, "*Speech.meg").Any())
+            if (!Directory.EnumerateFiles(mod.ModDirectory + @"\Data\", "*Speech.meg").Any())
                 return;
 
             var languageAlias = CreateAliasLanguage(SelectedLanguage);
-            if (File.Exists(mod.ModDirectory + languageAlias + "Speech.meg"))
+            if (File.Exists(mod.ModDirectory + @"\Data\" + languageAlias + "Speech.meg"))
             {
                 MessageToShowAfterChange += languageAlias + "Speech.meg already existed. Skipped it's renaming.\n";
                 return;
             }
-            var file = Directory.EnumerateFiles(mod.ModDirectory, "*Speech.meg").First();
+            var file = Directory.EnumerateFiles(mod.ModDirectory + @"\Data\", "*Speech.meg").First();
             try
             {
-                File.Move(file, mod.ModDirectory + languageAlias + "Speech.meg");
+                File.Move(file, mod.ModDirectory + @"\Data\" + languageAlias + "Speech.meg");
             }
             catch (Exception)
             {
@@ -106,11 +106,11 @@ namespace RawLauncherWPF.ViewModels
 
         private bool CheckAlreadyInstalledLanguage(IMod mod)
         {
-            if (!File.Exists(mod.ModDirectory + @"\Text\MasterTextFile_" + SelectedLanguage + ".dat"))
+            if (!File.Exists(mod.ModDirectory + @"Data\Text\MasterTextFile_" + SelectedLanguage + ".dat"))
                 return false;
 
-            return Directory.Exists(mod.ModDirectory + @"Audio/Speech/" + SelectedLanguage) &&
-                   File.Exists(mod.ModDirectory + CreateAliasLanguage(SelectedLanguage) + "Speech.meg");
+            return Directory.Exists(mod.ModDirectory + @"\Data\Audio\Speech\" + SelectedLanguage) &&
+                   File.Exists(mod.ModDirectory + @"\Data\" + CreateAliasLanguage(SelectedLanguage) + "Speech.meg");
         }
 
         private void InternalChangeLanguage(IMod mod)

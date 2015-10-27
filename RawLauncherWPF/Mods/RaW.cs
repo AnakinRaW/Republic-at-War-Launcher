@@ -31,14 +31,14 @@ namespace RawLauncherWPF.Mods
 
         public bool Exists()
         {
-            return File.Exists(ModDirectory + @"\XML\Gameobjectfiles.xml");
+            return File.Exists(ModDirectory + @"Data\XML\Gameobjectfiles.xml");
         }
 
         public IMod FindMod()
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\XML\Gameobjectfiles.xml"))
                 throw new ModExceptions(Name + " does not exists");
-            return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\");
+            return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\");
         }
 
         public string ModDirectory { get; }
@@ -50,7 +50,7 @@ namespace RawLauncherWPF.Mods
             {
                 try
                 {
-                    var node = XmlTools.GetNodeValue(ModDirectory + @"\XML\Gameobjectfiles.xml",
+                    var node = XmlTools.GetNodeValue(ModDirectory + @"\Data\XML\Gameobjectfiles.xml",
                         "/Game_Object_Files/Version");
                     if (string.IsNullOrEmpty(node))
                         return new Version("1.1.5");
