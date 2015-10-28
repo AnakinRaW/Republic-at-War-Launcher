@@ -507,7 +507,7 @@ namespace RawLauncherWPF.ViewModels
         /// <returns>returns if successfull or not</returns>
         private async Task<bool> CheckModCorrect()
         {
-            var excludeList = new List<string> {@"XML\Enum\", @"Audio\Speech\*", @"\", @"Text\"};
+            var excludeList = new List<string> {@"\Data\Audio\Speech\*", @"\", @"\Data\", @"\Data\Text\"};
             if (!await CheckFolderList(ModFolderList, excludeList))
             {
                 ModWrongInstalled();
