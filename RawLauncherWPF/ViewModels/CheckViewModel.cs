@@ -7,6 +7,7 @@ using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Configuration;
 using RawLauncherWPF.ExtensionClasses;
+using RawLauncherWPF.Models;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;

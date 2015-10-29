@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml.Serialization;
 using RawLauncherWPF.Hash;
-using static RawLauncherWPF.Utilities.MessageProvider;
+using RawLauncherWPF.Utilities;
 
-namespace RawLauncherWPF.Xml
+namespace RawLauncherWPF.Models
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
@@ -154,18 +153,18 @@ namespace RawLauncherWPF.Xml
         {
             if (!Directory.Exists(referencePath))
             {
-                Show("Exists Fail: " + referencePath);
+                MessageProvider.Show("Exists Fail: " + referencePath);
                 return false;
             }
             if (Directory.GetFiles(referencePath).Length.ToString() != Count)
             {
-                Show("Count Fail: " + referencePath);
+                MessageProvider.Show("Count Fail: " + referencePath);
                 return false;
             }
             var hashProvider = new HashProvider();
             if (hashProvider.GetDirectoryHash(referencePath) != Hash)
             {
-                Show("Hash Fail");
+                MessageProvider.Show("Hash Fail");
                 return false;
             }
             return true;

@@ -1,4 +1,5 @@
-﻿using RawLauncherWPF.ViewModels;
+﻿using RawLauncherWPF.Models;
+using RawLauncherWPF.ViewModels;
 using RawLauncherWPF.Xml;
 
 namespace RawLauncherWPF.Helpers

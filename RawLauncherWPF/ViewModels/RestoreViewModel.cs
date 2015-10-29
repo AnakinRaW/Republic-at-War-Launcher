@@ -9,6 +9,7 @@ using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Helpers;
+using RawLauncherWPF.Models;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
@@ -203,7 +204,10 @@ namespace RawLauncherWPF.ViewModels
             ProzessStatus = "Deleting Mod Files";
             LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
             LauncherViewModel.Foc.ClearDataFolder();
+
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
+            ProzessStatus = "Preparing download-table";
+
             await ThreadUtilities.SleepThread(1000);
             return true;
         }

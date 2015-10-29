@@ -114,7 +114,6 @@
     <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Helpers\CheckModHelper.cs" />
     <Compile Include="Helpers\RestoreHelper.cs" />
-    <Compile Include="Models\UpdaterModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -174,7 +173,7 @@
     <Compile Include="ViewModels\PlayViewModel.cs" />
     <Compile Include="ViewModels\RestoreViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
-    <Compile Include="Xml\FileContainer.cs" />
+    <Compile Include="Models\FileContainer.cs" />
     <Compile Include="Xml\XmlObjectParser.cs" />
     <Compile Include="Xml\XmlValidator.cs" />
     <Page Include="Themes\LauncherTheme\Brushes.xaml">
