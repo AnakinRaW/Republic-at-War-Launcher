@@ -36,6 +36,9 @@ namespace RawLauncherWPF.ViewModels
             SelectedVersion = AvailableVersions.First();
         }
 
+        /// <summary>
+        /// Contains all ComboBoxItems with Versions
+        /// </summary>
         public List<ComboBoxItem> AvailableVersions
         {
             get { return _availableVersions; }
@@ -48,6 +51,9 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Progress from 0 to 100
+        /// </summary>
         public int Progress
         {
             get { return _progress; }
@@ -60,6 +66,9 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Indicating message what the Launcehr is doing
+        /// </summary>
         public string ProzessStatus
         {
             get { return _progressStatus; }
@@ -72,6 +81,9 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
+        /// <summary>
+        /// Selected Version as ComboBoxItem
+        /// </summary>
         public ComboBoxItem SelectedVersion
         {
             get { return _selectedVersion; }
@@ -89,6 +101,9 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private IHostServer HostServer => LauncherViewModel.HostServerStatic;
 
+        /// <summary>
+        /// Reference to the LauncherViewModel
+        /// </summary>
         private LauncherViewModel LauncherViewModel { get; }
 
         /// <summary>
@@ -101,62 +116,14 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private Stream RestoreVersionFileStream { get; set; }
 
+        /// <summary>
+        /// Selected Restore Option
+        /// </summary>
         private RestoreOptions SelectedOption { get; set; }
 
-        private async Task<bool> GetRestoreVersionXmlData()
-        {
-            if (!await LoadRestoreVersionStream())
-                return false;
-            await AnimateProgressBar(Progress, 50, 1, this, x => x.Progress);
-            if (!await Task.FromResult(ParseRestoreVersionXml()))
-                return false;
-            await AnimateProgressBar(Progress, 100, 1, this, x => x.Progress);
-            return true;
-        }
-
-        private async Task<bool> LoadRestoreVersionStream()
-        {
-            if (!HostServer.IsRunning())
-            {
-                Show("Could not Download the required files, because the servers are offline.\r\n" +
-                     "Please try later");
-                return false;
-            }
-            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(new Version(SelectedVersion.DataContext.ToString())))
-            {
-                Show("Your installed version is not available to check. Please try later or contact us.");
-                return false;
-            }
-
-            var downloadPath = LauncherViewModel.GetRescueFilePath(RestoreVersionFileFileName, true, (Version) SelectedVersion.DataContext);
-
-            await
-                Task.Factory.StartNew(
-                    () => RestoreVersionFileStream = HostServer.DownloadString(downloadPath).ToStream());
-
-            if (RestoreVersionFileStream.IsEmpty())
-            {
-                Show("Error while downloading the required files.\r\n" + "Please try later");
-                return false;
-            }
-
-            var validator = new XmlValidator(Resources.FileContainer.ToStream());
-            if (!validator.Validate(RestoreVersionFileStream))
-            {
-                Show(
-                    "The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
-                return false;
-            }
-            return true;
-        }
-
-        private bool ParseRestoreVersionXml()
-        {
-            var parser = new XmlObjectParser<FileContainer>(RestoreVersionFileStream);
-            RestoreVersionContainer = parser.Parse();
-            return true;
-        }
-
+        /// <summary>
+        /// Main Procedure to Restore
+        /// </summary>
         private async void PerformRestore()
         {
             if (!AskUserToContinue())
@@ -181,7 +148,7 @@ namespace RawLauncherWPF.ViewModels
                     Show("None");
                     break;
                 case RestoreOptions.Hard:
-                    await PrepareRestore();
+                    await PrepareHardRestore();
                     break;
                 default:
                     Show("IgnoreLanguage");
@@ -190,28 +157,9 @@ namespace RawLauncherWPF.ViewModels
             ResetUi();
         }
 
-        private bool AskUserToContinue()
-        {
-            var result = Show("Are you sure you want to restore Republic at War ?\r\n" + "This cannot be undone\r\n" +
-                              "Modified Files will be delted and restored with the original ones", "Republic at War",
-                MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
-            return result != MessageBoxResult.No;
-        }
-
-        private async Task<bool> PrepareRestore()
-        {
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "Deleting Mod Files";
-            LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
-            LauncherViewModel.Foc.ClearDataFolder();
-
-            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
-            ProzessStatus = "Preparing download-table";
-
-            await ThreadUtilities.SleepThread(1000);
-            return true;
-        }
-
+        /// <summary>
+        /// Inits the ProgressBar and Blocks other commands
+        /// </summary>
         private void PrepareUi()
         {
             Progress = 0;
@@ -219,6 +167,9 @@ namespace RawLauncherWPF.ViewModels
             IsWorking = true;
         }
 
+        /// <summary>
+        /// Restets UI to initail state
+        /// </summary>
         private void ResetUi()
         {
             IsWorking = false;
@@ -257,6 +208,110 @@ namespace RawLauncherWPF.ViewModels
         }
 
         #endregion
+
+        #region Hard
+
+        /// <summary>
+        /// Prepare the Hard-Restore
+        /// </summary>
+        /// <returns>True if was successful</returns>
+        private async Task<bool> PrepareHardRestore()
+        {
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ProzessStatus = "Deleting Mod Files";
+            LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            LauncherViewModel.Foc.ClearDataFolder();
+
+            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
+            ProzessStatus = "Preparing download-table";
+
+            await ThreadUtilities.SleepThread(1000);
+            return true;
+        }
+
+        #endregion
+
+        #region RestoreXML
+
+        /// <summary>
+        /// Main Prcedure to get the RestoreXML Data
+        /// </summary>
+        /// <returns>False if failed</returns>
+        private async Task<bool> GetRestoreVersionXmlData()
+        {
+            if (!await LoadRestoreVersionStream())
+                return false;
+            await AnimateProgressBar(Progress, 50, 1, this, x => x.Progress);
+            if (!await Task.FromResult(ParseRestoreVersionXml()))
+                return false;
+            await AnimateProgressBar(Progress, 100, 1, this, x => x.Progress);
+            return true;
+        }
+
+        /// <summary>
+        /// Procedure to Download and Validate the XML File
+        /// </summary>
+        /// <returns>False if failed</returns>
+        private async Task<bool> LoadRestoreVersionStream()
+        {
+            if (!HostServer.IsRunning())
+            {
+                Show("Could not Download the required files, because the servers are offline.\r\n" +
+                     "Please try later");
+                return false;
+            }
+            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(new Version(SelectedVersion.DataContext.ToString())))
+            {
+                Show("Your installed version is not available to check. Please try later or contact us.");
+                return false;
+            }
+
+            var downloadPath = LauncherViewModel.GetRescueFilePath(RestoreVersionFileFileName, true, (Version)SelectedVersion.DataContext);
+
+            await
+                Task.Factory.StartNew(
+                    () => RestoreVersionFileStream = HostServer.DownloadString(downloadPath).ToStream());
+
+            if (RestoreVersionFileStream.IsEmpty())
+            {
+                Show("Error while downloading the required files.\r\n" + "Please try later");
+                return false;
+            }
+
+            var validator = new XmlValidator(Resources.FileContainer.ToStream());
+            if (!validator.Validate(RestoreVersionFileStream))
+            {
+                Show(
+                    "The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Procedure to Parse the XMLFile into an Object
+        /// </summary>
+        /// <returns>False if failed</returns>
+        private bool ParseRestoreVersionXml()
+        {
+            var parser = new XmlObjectParser<FileContainer>(RestoreVersionFileStream);
+            RestoreVersionContainer = parser.Parse();
+            return true;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Throw a message asking for confirmation about resetting the Mod
+        /// </summary>
+        /// <returns>True if User wants to continue</returns>
+        private bool AskUserToContinue()
+        {
+            var result = Show("Are you sure you want to restore Republic at War ?\r\n" + "This cannot be undone\r\n" +
+                              "Modified Files will be delted and restored with the original ones", "Republic at War",
+                MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
+            return result != MessageBoxResult.No;
+        }
     }
 
     [Flags]
