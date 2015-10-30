@@ -494,7 +494,7 @@ namespace RawLauncherWPF.ViewModels
         private void AiWrongInstalled()
         {
             ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "mod wrong";
+            ModAiMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "ai wrong";
             ResetUi();
         }
 

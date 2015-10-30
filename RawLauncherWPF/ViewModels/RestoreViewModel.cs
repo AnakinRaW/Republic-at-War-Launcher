@@ -9,6 +9,7 @@ using System.Windows;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using RawLauncherWPF.ExtensionClasses;
+using RawLauncherWPF.Hash;
 using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Models;
 using RawLauncherWPF.Properties;
@@ -163,7 +164,7 @@ namespace RawLauncherWPF.ViewModels
             {
                 case RestoreOptions.None:
                 case 0:
-                    Show("None");
+                    await PrepareNormalRestore();
                     break;
                 case RestoreOptions.Hard:
                     await PrepareHardRestore();
@@ -183,27 +184,24 @@ namespace RawLauncherWPF.ViewModels
             ResetUi();
         }
 
-
-        private async Task<bool> InternalRestore()
+        private async Task<bool> DownloadRestoreFiles()
         {
-            //var filesToDownload = RestoreTable.GetFilesOfAction(FileAction.Download);
+            var filesToDownload = RestoreTable.GetFilesOfAction(FileAction.Download);
+            //var filesToDownload = RestoreTable.GetFilesOfType(TargetType.Ai);
+            var i = (double)100 / filesToDownload.Count;
 
-            var filesToDownload = RestoreTable.GetFilesOfType(TargetType.Ai);
-
-            var i = (double) 100/filesToDownload.Count;
-
-            Stopwatch st = new Stopwatch();
+            var st = new Stopwatch();
             st.Start();
 
             var t = filesToDownload.Select(file => Task.Run(async () =>
             {
                 try
                 {
-                    var restorePath = CreateRestorePath(file);
-                    ProzessStatus = "Downloading: " + file.Name;
+                    var restorePath = CreateAbsoluteFilePath(file);
                     await
                         Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath),
                             _mSource.Token);
+                    ProzessStatus = "Downloaded: " + file.Name;
                     Progress = Progress + i;
                 }
                 catch (TaskCanceledException)
@@ -216,29 +214,45 @@ namespace RawLauncherWPF.ViewModels
             st.Stop();
             Trace.WriteLine("Duration:" + st.Elapsed.ToString("mm\\:ss\\.ff"));
 
-
-
-            //foreach (var file in filesToDownload)
-            //{
-            //    try
-            //    {
-            //        var restorePath = CreateRestorePath(file);
-            //        ProzessStatus = "Downloading: " + file.Name;
-            //        await Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath), _mSource.Token);
-            //        Progress = Progress + i;
-            //    }
-            //    catch (TaskCanceledException)
-            //    {
-            //        return false;
-            //    }
-
-            //}
-
-
             return true;
         }
 
-        private string CreateRestorePath(RestoreFile file)
+        private async Task<bool> InternalRestore()
+        {
+            if (RestoreTable == null)
+            {
+                Show("Error while trying to download the mod files. The required Table was empty \r\nPlease try again");
+                return false;
+            }
+            await DownloadRestoreFiles();
+            await DeleteUnneededFiles();
+            return true;
+        }
+
+        private async Task DeleteUnneededFiles()
+        {
+            foreach (var file in await Task.Run(() => RestoreTable.GetFilesOfAction(FileAction.Delete)))
+            {
+                var deletePath = CreateLocalFilePath(file);
+                File.Delete(deletePath);
+            }
+        }
+
+        private string CreateLocalFilePath(RestoreFile file)
+        {
+            if (file.TargetType == TargetType.Ai)
+                return Path.Combine(LauncherViewModel.Foc.GameDirectory, file.TargetPath);
+            return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
+        }
+
+        private string CreateAbsoluteFilePath(RestoreFile file)
+        {
+            if (file.TargetType == TargetType.Ai)
+                return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
+            return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
+        }
+
+        private string CreateAbsoluteFilePath(FileContainerFile file)
         {
             if (file.TargetType == TargetType.Ai)
                 return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
@@ -260,7 +274,7 @@ namespace RawLauncherWPF.ViewModels
 
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
             ProzessStatus = "Preparing download-table";
-             FillRestoreTableHard();
+            FillRestoreTableHard();
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             return true;
         }
@@ -275,19 +289,100 @@ namespace RawLauncherWPF.ViewModels
                 throw new Exception("Versions do not match");
             foreach (var file in RestoreVersionContainer.Files)
             {
-                var restoreFile = new RestoreFile
-                {
-                    Name = file.Name,
-                    TargetPath = file.TargetPath,
-                    SourcePath = file.SourcePath,
-                    TargetType = file.TargetType,
-                    Action = FileAction.Download
-                };
+                var restoreFile = CreateResotreFile(file, FileAction.Download);
                 RestoreTable.Files.Add(restoreFile);
             }
         }
 
         #endregion
+
+        private RestoreFile CreateResotreFile(FileContainerFile file, FileAction action)
+        {
+            var restoreFile = new RestoreFile
+            {
+                Name = file.Name,
+                TargetPath = file.TargetPath,
+                SourcePath = file.SourcePath,
+                TargetType = file.TargetType,
+                Action = action
+            };
+            return restoreFile;
+        }
+
+        #region None
+
+        private async Task<bool> PrepareNormalRestore()
+        {
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ProzessStatus = "Preparing download-table";
+            await FillRestoreTableNormal();
+            return true;
+        }
+
+        private async Task<bool> FillRestoreTableNormal()
+        {
+            RestoreTable = new RestoreTable((Version)SelectedVersion.DataContext);
+            if ((Version)SelectedVersion.DataContext != RestoreVersionContainer.Version)
+                throw new Exception("Versions do not match");
+
+            var i = (double)100 / RestoreVersionContainer.Files.Count;
+
+            var hashProvider = new HashProvider();
+
+            //Find missing/corrupted files to download
+            ProzessStatus = "Checking for missing/corrupted files";
+            foreach (var file in RestoreVersionContainer.Files)
+            {
+                var absolutePath = CreateAbsoluteFilePath(file);
+                if (!await Task.Run(() => File.Exists(absolutePath)) || await Task.Run(() => hashProvider.GetFileHash(absolutePath) != file.Hash))
+                {
+                    var restoreFile = CreateResotreFile(file, FileAction.Download);
+                    RestoreTable.Files.Add(restoreFile);
+                }
+                Progress = Progress + i;
+            }
+
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+            ProzessStatus = "Checking for additional files";
+            //Find unused files to delete (AI Files)
+            foreach (var file in  await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*", SearchOption.AllDirectories)))
+            {
+                Progress = Progress + i;
+                var item = await Task.Run(() =>RestoreVersionContainer.Files.Find(k => k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai && Path.GetFullPath(file).Contains(k.TargetPath)));
+                if (item != null)
+                    continue;
+                var deleteFile = new RestoreFile
+                {
+                    Name = Path.GetFileName(file),
+                    TargetType = TargetType.Ai,
+                    TargetPath = Path.GetFullPath(file),
+                    Action = FileAction.Delete
+                };
+                RestoreTable.Files.Add(deleteFile);
+            }
+
+            //Find unused files to delete (Mod Files)
+            foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*", SearchOption.AllDirectories)))
+            {
+                Progress = Progress + i;
+                var item = await Task.Run(() => RestoreVersionContainer.Files.Find(k => k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod && Path.GetFullPath(file).Contains(k.TargetPath)));
+                if (item != null)
+                    continue;
+                var deleteFile = new RestoreFile
+                {
+                    Name = Path.GetFileName(file),
+                    TargetType = TargetType.Mod,
+                    TargetPath = Path.GetFullPath(file),
+                    Action = FileAction.Delete
+                };
+                RestoreTable.Files.Add(deleteFile);
+            }
+            return true;
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Inits the ProgressBar and Blocks other commands

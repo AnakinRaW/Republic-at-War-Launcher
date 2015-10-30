@@ -164,7 +164,7 @@ namespace RawLauncherWPF.Models
             var hashProvider = new HashProvider();
             if (hashProvider.GetDirectoryHash(referencePath) != Hash)
             {
-                MessageProvider.Show("Hash Fail");
+                MessageProvider.Show("Hash Fail: " + referencePath);
                 return false;
             }
             return true;
