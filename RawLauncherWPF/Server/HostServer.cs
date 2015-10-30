@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows;
 using RawLauncherWPF.Utilities;
 using static System.String;
 
@@ -70,6 +69,24 @@ namespace RawLauncherWPF.Server
                 return false;
             }
             return true;
+        }
+
+        public void DownloadFile(string resource, string storagePath)
+        {
+            if (resource == null || storagePath == null)
+                return;
+            try
+            {
+                var webClient = new WebClient();
+                var s = ServerRootAddress + resource;
+                if (!Directory.Exists(Path.GetDirectoryName(storagePath)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(storagePath));
+                webClient.DownloadFile(new Uri(s), storagePath);
+            }
+            catch (Exception e)
+            {
+                MessageProvider.Show(e.Message +"\r\n Was not able to get data from: " + ServerRootAddress + resource);
+            }
         }
     }
 }

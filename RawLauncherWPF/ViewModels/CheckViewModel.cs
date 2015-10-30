@@ -36,7 +36,7 @@ namespace RawLauncherWPF.ViewModels
         private ImageSource _modFoundIndicator;
         private string _modFoundMessage;
         private CancellationTokenSource _mSource;
-        private int _progress;
+        private double _progress;
         private string _progressStatus;
 
         public CheckViewModel(ILauncherPane pane) : base(pane)
@@ -336,7 +336,7 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public int Progress
+        public double Progress
         {
             get { return _progress; }
             set

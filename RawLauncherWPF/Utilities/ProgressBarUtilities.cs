@@ -8,7 +8,7 @@ namespace RawLauncherWPF.Utilities
 {
     public static class ProgressBarUtilities
     {
-        async public static Task AnimateProgressBar<T>(int oldValue, int newValue,int time,T outobj, Expression<Func<T, int>> progress)
+        async public static Task AnimateProgressBar<T>(double oldValue, double newValue,int time,T outobj, Expression<Func<T, double>> progress)
         {
             if (oldValue == newValue)
                 return;
@@ -18,14 +18,14 @@ namespace RawLauncherWPF.Utilities
 
             if (oldValue > newValue)
             {
-                for (int i = oldValue; i > newValue - 1; i--)
+                for (var i = oldValue; i > newValue - 1; i--)
                 {
                     prop.SetValue(outobj, i, null);
                     await Task.Run(() => Thread.Sleep(time));
                 }
             }
             else
-                for (int i = oldValue; i < newValue + 1; i++)
+                for (var i = oldValue; i <= newValue + 1; i++)
                 {
                     prop.SetValue(outobj, i, null);
                     await Task.Run(() => Thread.Sleep(time));

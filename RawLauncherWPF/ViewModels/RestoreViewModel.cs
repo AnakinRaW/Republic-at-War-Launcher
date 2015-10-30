@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -25,7 +26,7 @@ namespace RawLauncherWPF.ViewModels
         private const string RestoreVersionFileFileName = "RestoreModFileContainer.xml";
         private List<ComboBoxItem> _availableVersions;
         private CancellationTokenSource _mSource;
-        private int _progress;
+        private double _progress;
         private string _progressStatus;
         private ComboBoxItem _selectedVersion;
 
@@ -54,7 +55,7 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Progress from 0 to 100
         /// </summary>
-        public int Progress
+        public double Progress
         {
             get { return _progress; }
             set
@@ -112,6 +113,11 @@ namespace RawLauncherWPF.ViewModels
         private FileContainer RestoreVersionContainer { get; set; }
 
         /// <summary>
+        /// Data which contains the informations to restore the Mod
+        /// </summary>
+        private RestoreTable RestoreTable { get; set; } 
+
+        /// <summary>
         /// Stream which contains the XML data of the version to restore
         /// </summary>
         private Stream RestoreVersionFileStream { get; set; }
@@ -120,6 +126,18 @@ namespace RawLauncherWPF.ViewModels
         /// Selected Restore Option
         /// </summary>
         private RestoreOptions SelectedOption { get; set; }
+
+        /// <summary>
+        /// Throw a message asking for confirmation about resetting the Mod
+        /// </summary>
+        /// <returns>True if User wants to continue</returns>
+        private bool AskUserToContinue()
+        {
+            var result = Show("Are you sure you want to restore Republic at War ?\r\n" + "This cannot be undone\r\n" +
+                              "Modified Files will be delted and restored with the original ones", "Republic at War",
+                MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
+            return result != MessageBoxResult.No;
+        }
 
         /// <summary>
         /// Main Procedure to Restore
@@ -154,8 +172,122 @@ namespace RawLauncherWPF.ViewModels
                     Show("IgnoreLanguage");
                     break;
             }
+
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            if (!await InternalRestore())
+            {
+                ResetUi();
+                return;
+            }
+
             ResetUi();
         }
+
+
+        private async Task<bool> InternalRestore()
+        {
+            //var filesToDownload = RestoreTable.GetFilesOfAction(FileAction.Download);
+
+            var filesToDownload = RestoreTable.GetFilesOfType(TargetType.Ai);
+
+            var i = (double) 100/filesToDownload.Count;
+
+            Stopwatch st = new Stopwatch();
+            st.Start();
+
+            var t = filesToDownload.Select(file => Task.Run(async () =>
+            {
+                try
+                {
+                    var restorePath = CreateRestorePath(file);
+                    ProzessStatus = "Downloading: " + file.Name;
+                    await
+                        Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath),
+                            _mSource.Token);
+                    Progress = Progress + i;
+                }
+                catch (TaskCanceledException)
+                {
+                }
+            }));
+
+            await Task.WhenAll(t.ToArray());
+
+            st.Stop();
+            Trace.WriteLine("Duration:" + st.Elapsed.ToString("mm\\:ss\\.ff"));
+
+
+
+            //foreach (var file in filesToDownload)
+            //{
+            //    try
+            //    {
+            //        var restorePath = CreateRestorePath(file);
+            //        ProzessStatus = "Downloading: " + file.Name;
+            //        await Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath), _mSource.Token);
+            //        Progress = Progress + i;
+            //    }
+            //    catch (TaskCanceledException)
+            //    {
+            //        return false;
+            //    }
+
+            //}
+
+
+            return true;
+        }
+
+        private string CreateRestorePath(RestoreFile file)
+        {
+            if (file.TargetType == TargetType.Ai)
+                return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
+            return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
+        }
+
+        #region Hard
+
+        /// <summary>
+        /// Prepare the Hard-Restore
+        /// </summary>
+        /// <returns>True if was successful</returns>
+        private async Task<bool> PrepareHardRestore()
+        {
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ProzessStatus = "Deleting Mod Files";
+            //LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            //LauncherViewModel.Foc.ClearDataFolder();
+
+            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
+            ProzessStatus = "Preparing download-table";
+             FillRestoreTableHard();
+            await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
+            return true;
+        }
+
+        /// <summary>
+        /// Deletes all files and fills the RestoreTable
+        /// </summary>
+        private void FillRestoreTableHard()
+        {
+            RestoreTable = new RestoreTable((Version) SelectedVersion.DataContext);
+            if ((Version)SelectedVersion.DataContext != RestoreVersionContainer.Version)
+                throw new Exception("Versions do not match");
+            foreach (var file in RestoreVersionContainer.Files)
+            {
+                var restoreFile = new RestoreFile
+                {
+                    Name = file.Name,
+                    TargetPath = file.TargetPath,
+                    SourcePath = file.SourcePath,
+                    TargetType = file.TargetType,
+                    Action = FileAction.Download
+                };
+                RestoreTable.Files.Add(restoreFile);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Inits the ProgressBar and Blocks other commands
@@ -174,6 +306,9 @@ namespace RawLauncherWPF.ViewModels
         {
             IsWorking = false;
             IsBlocking = false;
+            RestoreVersionFileStream = Stream.Null;
+            RestoreVersionContainer = null;
+            RestoreTable = null;
         }
 
         #region Commands
@@ -209,28 +344,6 @@ namespace RawLauncherWPF.ViewModels
 
         #endregion
 
-        #region Hard
-
-        /// <summary>
-        /// Prepare the Hard-Restore
-        /// </summary>
-        /// <returns>True if was successful</returns>
-        private async Task<bool> PrepareHardRestore()
-        {
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "Deleting Mod Files";
-            LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
-            LauncherViewModel.Foc.ClearDataFolder();
-
-            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
-            ProzessStatus = "Preparing download-table";
-
-            await ThreadUtilities.SleepThread(1000);
-            return true;
-        }
-
-        #endregion
-
         #region RestoreXML
 
         /// <summary>
@@ -260,13 +373,16 @@ namespace RawLauncherWPF.ViewModels
                      "Please try later");
                 return false;
             }
-            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(new Version(SelectedVersion.DataContext.ToString())))
+            if (
+                !VersionUtilities.GetAllAvailableVersionsOnline()
+                    .Contains(new Version(SelectedVersion.DataContext.ToString())))
             {
                 Show("Your installed version is not available to check. Please try later or contact us.");
                 return false;
             }
 
-            var downloadPath = LauncherViewModel.GetRescueFilePath(RestoreVersionFileFileName, true, (Version)SelectedVersion.DataContext);
+            var downloadPath = LauncherViewModel.GetRescueFilePath(RestoreVersionFileFileName, true,
+                (Version) SelectedVersion.DataContext);
 
             await
                 Task.Factory.StartNew(
@@ -300,18 +416,6 @@ namespace RawLauncherWPF.ViewModels
         }
 
         #endregion
-
-        /// <summary>
-        /// Throw a message asking for confirmation about resetting the Mod
-        /// </summary>
-        /// <returns>True if User wants to continue</returns>
-        private bool AskUserToContinue()
-        {
-            var result = Show("Are you sure you want to restore Republic at War ?\r\n" + "This cannot be undone\r\n" +
-                              "Modified Files will be delted and restored with the original ones", "Republic at War",
-                MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
-            return result != MessageBoxResult.No;
-        }
     }
 
     [Flags]

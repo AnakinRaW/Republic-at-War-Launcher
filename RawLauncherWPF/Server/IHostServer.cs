@@ -1,4 +1,7 @@
-﻿namespace RawLauncherWPF.Server
+﻿using System;
+using System.Threading.Tasks;
+
+namespace RawLauncherWPF.Server
 {
     public interface IHostServer : IServer
     {
@@ -11,5 +14,7 @@
         /// <param name="currentVersion">Current Version of the mod</param>
         /// <returns>True if update avaiable, false if not</returns>
         bool CheckForUpdate(string currentVersion);
+
+        void DownloadFile(string resource, string storagePath);
     }
 }
