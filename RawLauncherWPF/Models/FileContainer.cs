@@ -1,7 +1,11 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Utilities;
@@ -9,10 +13,10 @@ using RawLauncherWPF.Utilities;
 namespace RawLauncherWPF.Models
 {
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
+    [GeneratedCode("xsd", "4.6.81.0")]
     [Serializable]
-    [System.Diagnostics.DebuggerStepThrough]
-    [System.ComponentModel.DesignerCategory("code")]
+    [DebuggerStepThrough]
+    [DesignerCategory(@"code")]
     [XmlType(AnonymousType = true)]
     [XmlRoot(Namespace = "", IsNullable = false)]
     public class FileContainer
@@ -37,10 +41,10 @@ namespace RawLauncherWPF.Models
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
+    [GeneratedCode("xsd", "4.6.81.0")]
     [Serializable]
-    [System.Diagnostics.DebuggerStepThrough]
-    [System.ComponentModel.DesignerCategory("code")]
+    [DebuggerStepThrough]
+    [DesignerCategory(@"code")]
     [XmlType(AnonymousType = true)]
     public class FileContainerFile
     {
@@ -51,7 +55,7 @@ namespace RawLauncherWPF.Models
         private TargetType _targetTypeField;
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string Name
         {
             get { return _nameField; }
@@ -59,7 +63,7 @@ namespace RawLauncherWPF.Models
         }
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string TargetPath
         {
             get { return _targetPathField; }
@@ -67,7 +71,7 @@ namespace RawLauncherWPF.Models
         }
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public TargetType TargetType
         {
             get { return _targetTypeField; }
@@ -75,7 +79,7 @@ namespace RawLauncherWPF.Models
         }
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string Hash
         {
             get { return _hashField; }
@@ -83,16 +87,61 @@ namespace RawLauncherWPF.Models
         }
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string SourcePath
         {
             get { return _sourcePathField; }
             set { _sourcePathField = value; }
         }
+
+        /// <summary>
+        /// Create a new List where without files that should be excluded. 
+        /// Works like: 
+        /// 
+        /// "\Folder\" -> Exclude all files in folder
+        /// "\Folder\*" -> Exclude all files in folder and Subfolders
+        /// "\Folder\*File.txt" -> Exlude all files having "File.txt" in its name
+        /// </summary>
+        /// <param name="fileList"></param>
+        /// <param name="excludeList"></param>
+        /// <returns></returns>
+        public static List<FileContainerFile> ListFromExcludeList(List<FileContainerFile> fileList,
+            List<string> excludeList)
+        {
+
+            var list = new List<FileContainerFile>();
+            if (excludeList == null)
+                return fileList;
+            foreach (var file in fileList)
+            {
+                var exclude = false;
+                foreach (var s in excludeList)
+                {
+                    if (file.TargetPath.Replace(s, "") == file.Name)
+                        exclude = true;
+                    if (s.Contains("*") && s[s.Length - 1] == '*')
+                    {
+                        var t = s.Remove(s.Length - 1);
+                        if (file.TargetPath.Contains(t))
+                            exclude = true;
+                    }
+                    else if (s.Contains("*"))
+                    {
+                        var t = Path.GetFileName(s);
+                        t = t.Replace("*", "");
+                        if (file.Name.Contains(t))
+                            exclude = true;
+                    }
+                }
+                if (!exclude)
+                    list.Add(file);
+            }
+            return list;
+        }
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
+    [GeneratedCode("xsd", "4.6.81.0")]
     [Serializable]
     public enum TargetType
     {
@@ -104,10 +153,10 @@ namespace RawLauncherWPF.Models
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
+    [GeneratedCode("xsd", "4.6.81.0")]
     [Serializable]
-    [System.Diagnostics.DebuggerStepThrough]
-    [System.ComponentModel.DesignerCategory("code")]
+    [DebuggerStepThrough]
+    [DesignerCategory(@"code")]
     [XmlType(AnonymousType = true)]
     public class FileContainerFolder
     {
@@ -117,7 +166,7 @@ namespace RawLauncherWPF.Models
         private TargetType _targetTypeField;
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string TargetPath
         {
             get { return _targetPathField; }
@@ -125,7 +174,7 @@ namespace RawLauncherWPF.Models
         }
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public TargetType TargetType
         {
             get { return _targetTypeField; }
@@ -133,7 +182,7 @@ namespace RawLauncherWPF.Models
         }
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string Hash
         {
             get { return _hashField; }
@@ -141,7 +190,7 @@ namespace RawLauncherWPF.Models
         }
 
         /// <remarks/>
-        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "integer")]
+        [XmlElement(Form = XmlSchemaForm.Unqualified, DataType = "integer")]
         public string Count
         {
             get { return _countField; }
@@ -198,10 +247,10 @@ namespace RawLauncherWPF.Models
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCode("xsd", "4.6.81.0")]
+    [GeneratedCode("xsd", "4.6.81.0")]
     [Serializable]
-    [System.Diagnostics.DebuggerStepThrough]
-    [System.ComponentModel.DesignerCategory("code")]
+    [DebuggerStepThrough]
+    [DesignerCategory(@"code")]
     [XmlType(AnonymousType = true)]
     [XmlRoot(Namespace = "", IsNullable = false)]
     public class NewDataSet

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -35,7 +34,8 @@ namespace RawLauncherWPF.ViewModels
         {
             LauncherViewModel = LauncherPane.MainWindowViewModel.LauncherViewModel;
             AvailableVersions = RestoreHelper.CreateVersionItems();
-            SelectedVersion = AvailableVersions.First();
+            if (AvailableVersions.Count > 0)
+                SelectedVersion = AvailableVersions.First();
         }
 
         /// <summary>
@@ -109,14 +109,14 @@ namespace RawLauncherWPF.ViewModels
         private LauncherViewModel LauncherViewModel { get; }
 
         /// <summary>
+        /// Data which contains the informations to restore the Mod
+        /// </summary>
+        private RestoreTable RestoreTable { get; set; }
+
+        /// <summary>
         /// Container with all information extracted from Restore XML File/Stream
         /// </summary>
         private FileContainer RestoreVersionContainer { get; set; }
-
-        /// <summary>
-        /// Data which contains the informations to restore the Mod
-        /// </summary>
-        private RestoreTable RestoreTable { get; set; } 
 
         /// <summary>
         /// Stream which contains the XML data of the version to restore
@@ -129,23 +129,16 @@ namespace RawLauncherWPF.ViewModels
         private RestoreOptions SelectedOption { get; set; }
 
         /// <summary>
-        /// Throw a message asking for confirmation about resetting the Mod
-        /// </summary>
-        /// <returns>True if User wants to continue</returns>
-        private bool AskUserToContinue()
-        {
-            var result = Show("Are you sure you want to restore Republic at War ?\r\n" + "This cannot be undone\r\n" +
-                              "Modified Files will be delted and restored with the original ones", "Republic at War",
-                MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
-            return result != MessageBoxResult.No;
-        }
-
-        /// <summary>
         /// Main Procedure to Restore
         /// </summary>
-        private async void PerformRestore()
+        public async void PerformRestore()
         {
-            if (!AskUserToContinue())
+            if (SelectedVersion == null)
+            {
+                Show("You need to select a Version to restore to.");
+                return;
+            }
+            if (!RestoreHelper.AskUserToContinue())
                 return;
 
             PrepareUi();
@@ -164,19 +157,29 @@ namespace RawLauncherWPF.ViewModels
             {
                 case RestoreOptions.None:
                 case 0:
-                    await PrepareNormalRestore();
+                    if (!await PrepareNormalRestore())
+                    {
+                        ResetUi();
+                        return;
+                    }
                     break;
                 case RestoreOptions.Hard:
                     await PrepareHardRestore();
                     break;
                 default:
-                    Show("IgnoreLanguage");
+                    if (!await PrepareLanguageIgnoreRestore())
+                    {
+                        ResetUi();
+                        return;
+                    }
                     break;
             }
 
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
             if (!await InternalRestore())
             {
+                Show("Either you aborted the Progress of something failed");
                 ResetUi();
                 return;
             }
@@ -184,65 +187,113 @@ namespace RawLauncherWPF.ViewModels
             ResetUi();
         }
 
-        private async Task<bool> DownloadRestoreFiles()
+        /// <summary>
+        /// Fills restore Table with files that need to be deleted
+        /// </summary>
+        /// <param name="shallIgnore"></param>
+        /// <returns></returns>
+        private async Task<bool> AddDeleteFilesToRestoreTable(bool shallIgnore)
         {
-            var filesToDownload = RestoreTable.GetFilesOfAction(FileAction.Download);
-            //var filesToDownload = RestoreTable.GetFilesOfType(TargetType.Ai);
-            var i = (double)100 / filesToDownload.Count;
+            var i = (double) 100/RestoreVersionContainer.Files.Count;
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            var st = new Stopwatch();
-            st.Start();
-
-            var t = filesToDownload.Select(file => Task.Run(async () =>
+            try
             {
-                try
+                ProzessStatus = "Checking for additional files";
+                //Find unused files to delete (AI Files)
+                foreach (
+                    var file in
+                        await
+                            Task.Run(
+                                () =>
+                                    Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*",
+                                        SearchOption.AllDirectories), _mSource.Token))
                 {
-                    var restorePath = CreateAbsoluteFilePath(file);
-                    await
-                        Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath),
-                            _mSource.Token);
-                    ProzessStatus = "Downloaded: " + file.Name;
+                    var item =
+                        await
+                            Task.Run(
+                                () =>
+                                    RestoreVersionContainer.Files.Find(
+                                        k =>
+                                            k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
+                                            Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
                     Progress = Progress + i;
+                    if (item != null)
+                        continue;
+                    RestoreTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Ai));
                 }
-                catch (TaskCanceledException)
+
+                //Find unused files to delete (Mod Files)
+                foreach (
+                    var file in
+                        await
+                            Task.Run(
+                                () =>
+                                    Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*",
+                                        SearchOption.AllDirectories), _mSource.Token))
                 {
+                    var item =
+                        await
+                            Task.Run(
+                                () =>
+                                    RestoreVersionContainer.Files.Find(
+                                        k =>
+                                            k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod &&
+                                            Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                    Progress = Progress + i;
+                    if (item != null || (shallIgnore && RestoreHelper.IgnoreFile(file)))
+                        continue;
+                    RestoreTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Mod));
                 }
-            }));
-
-            await Task.WhenAll(t.ToArray());
-
-            st.Stop();
-            Trace.WriteLine("Duration:" + st.Elapsed.ToString("mm\\:ss\\.ff"));
-
-            return true;
-        }
-
-        private async Task<bool> InternalRestore()
-        {
-            if (RestoreTable == null)
+            }
+            catch (TaskCanceledException)
             {
-                Show("Error while trying to download the mod files. The required Table was empty \r\nPlease try again");
+                Show("Restoring aborted");
                 return false;
             }
-            await DownloadRestoreFiles();
-            await DeleteUnneededFiles();
             return true;
         }
 
-        private async Task DeleteUnneededFiles()
+        /// <summary>
+        /// Fille RestoreTable with files taht need to be downloaded
+        /// </summary>
+        /// <param name="excludeList"></param>
+        /// <returns></returns>
+        private async Task<bool> AddDownloadFilesToRestoreTable(List<string> excludeList)
         {
-            foreach (var file in await Task.Run(() => RestoreTable.GetFilesOfAction(FileAction.Delete)))
-            {
-                var deletePath = CreateLocalFilePath(file);
-                File.Delete(deletePath);
-            }
-        }
+            RestoreTable = new RestoreTable((Version) SelectedVersion.DataContext);
+            if ((Version) SelectedVersion.DataContext != RestoreVersionContainer.Version)
+                throw new Exception("Versions do not match");
 
-        private string CreateLocalFilePath(RestoreFile file)
-        {
-            if (file.TargetType == TargetType.Ai)
-                return Path.Combine(LauncherViewModel.Foc.GameDirectory, file.TargetPath);
-            return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
+            var hashProvider = new HashProvider();
+            var listToCheck = RestoreVersionContainer.Files;
+            if (excludeList != null)
+                listToCheck = FileContainerFile.ListFromExcludeList(RestoreVersionContainer.Files, excludeList);
+
+            var i = (double) 100/listToCheck.Count;
+
+            try
+            {
+                //Find missing/corrupted files to download
+                ProzessStatus = "Checking for missing/corrupted files";
+                foreach (var file in listToCheck)
+                {
+                    var absolutePath = CreateAbsoluteFilePath(file);
+                    if (!await Task.Run(() => File.Exists(absolutePath), _mSource.Token) ||
+                        await Task.Run(() => hashProvider.GetFileHash(absolutePath) != file.Hash, _mSource.Token))
+                    {
+                        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
+                        RestoreTable.Files.Add(restoreFile);
+                    }
+                    Progress = Progress + i;
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                Show("Restoring aborted");
+                return false;
+            }
+            return true;
         }
 
         private string CreateAbsoluteFilePath(RestoreFile file)
@@ -259,130 +310,72 @@ namespace RawLauncherWPF.ViewModels
             return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
         }
 
-        #region Hard
-
-        /// <summary>
-        /// Prepare the Hard-Restore
-        /// </summary>
-        /// <returns>True if was successful</returns>
-        private async Task<bool> PrepareHardRestore()
+        private string CreateLocalFilePath(RestoreFile file)
         {
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "Deleting Mod Files";
-            //LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
-            //LauncherViewModel.Foc.ClearDataFolder();
-
-            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
-            ProzessStatus = "Preparing download-table";
-            FillRestoreTableHard();
-            await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
-            return true;
+            if (file.TargetType == TargetType.Ai)
+                return Path.Combine(LauncherViewModel.Foc.GameDirectory, file.TargetPath);
+            return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
         }
 
         /// <summary>
-        /// Deletes all files and fills the RestoreTable
+        /// Deletes all files marked in the RestoreTable
         /// </summary>
-        private void FillRestoreTableHard()
+        /// <returns></returns>
+        private async Task DeleteUnneededFiles()
         {
-            RestoreTable = new RestoreTable((Version) SelectedVersion.DataContext);
-            if ((Version)SelectedVersion.DataContext != RestoreVersionContainer.Version)
-                throw new Exception("Versions do not match");
-            foreach (var file in RestoreVersionContainer.Files)
+            foreach (var file in await Task.Run(() => RestoreTable.GetFilesOfAction(FileAction.Delete)))
             {
-                var restoreFile = CreateResotreFile(file, FileAction.Download);
-                RestoreTable.Files.Add(restoreFile);
+                var deletePath = CreateLocalFilePath(file);
+                File.Delete(deletePath);
             }
         }
 
-        #endregion
-
-        private RestoreFile CreateResotreFile(FileContainerFile file, FileAction action)
+        /// <summary>
+        /// Downloads the marked files in RestoreTable
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> DownloadRestoreFiles()
         {
-            var restoreFile = new RestoreFile
+            var filesToDownload = RestoreTable.GetFilesOfAction(FileAction.Download);
+            var i = (double) 100/filesToDownload.Count;
+            try
             {
-                Name = file.Name,
-                TargetPath = file.TargetPath,
-                SourcePath = file.SourcePath,
-                TargetType = file.TargetType,
-                Action = action
-            };
-            return restoreFile;
-        }
-
-        #region None
-
-        private async Task<bool> PrepareNormalRestore()
-        {
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "Preparing download-table";
-            await FillRestoreTableNormal();
-            return true;
-        }
-
-        private async Task<bool> FillRestoreTableNormal()
-        {
-            RestoreTable = new RestoreTable((Version)SelectedVersion.DataContext);
-            if ((Version)SelectedVersion.DataContext != RestoreVersionContainer.Version)
-                throw new Exception("Versions do not match");
-
-            var i = (double)100 / RestoreVersionContainer.Files.Count;
-
-            var hashProvider = new HashProvider();
-
-            //Find missing/corrupted files to download
-            ProzessStatus = "Checking for missing/corrupted files";
-            foreach (var file in RestoreVersionContainer.Files)
-            {
-                var absolutePath = CreateAbsoluteFilePath(file);
-                if (!await Task.Run(() => File.Exists(absolutePath)) || await Task.Run(() => hashProvider.GetFileHash(absolutePath) != file.Hash))
+                var t = filesToDownload.Select(file => Task.Run(async () =>
                 {
-                    var restoreFile = CreateResotreFile(file, FileAction.Download);
-                    RestoreTable.Files.Add(restoreFile);
-                }
-                Progress = Progress + i;
+                    var restorePath = CreateAbsoluteFilePath(file);
+                    await
+                        Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath),
+                            _mSource.Token);
+                    ProzessStatus = "Downloaded: " + file.Name;
+                    Progress = Progress + i;
+                }));
+
+                await Task.WhenAll(t.ToArray());
             }
-
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-
-            ProzessStatus = "Checking for additional files";
-            //Find unused files to delete (AI Files)
-            foreach (var file in  await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*", SearchOption.AllDirectories)))
+            catch (TaskCanceledException)
             {
-                Progress = Progress + i;
-                var item = await Task.Run(() =>RestoreVersionContainer.Files.Find(k => k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai && Path.GetFullPath(file).Contains(k.TargetPath)));
-                if (item != null)
-                    continue;
-                var deleteFile = new RestoreFile
-                {
-                    Name = Path.GetFileName(file),
-                    TargetType = TargetType.Ai,
-                    TargetPath = Path.GetFullPath(file),
-                    Action = FileAction.Delete
-                };
-                RestoreTable.Files.Add(deleteFile);
-            }
-
-            //Find unused files to delete (Mod Files)
-            foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*", SearchOption.AllDirectories)))
-            {
-                Progress = Progress + i;
-                var item = await Task.Run(() => RestoreVersionContainer.Files.Find(k => k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod && Path.GetFullPath(file).Contains(k.TargetPath)));
-                if (item != null)
-                    continue;
-                var deleteFile = new RestoreFile
-                {
-                    Name = Path.GetFileName(file),
-                    TargetType = TargetType.Mod,
-                    TargetPath = Path.GetFullPath(file),
-                    Action = FileAction.Delete
-                };
-                RestoreTable.Files.Add(deleteFile);
+                Show("Restoring aborted");
+                return false;
             }
             return true;
         }
-
-        #endregion
-
+      
+        /// <summary>
+        /// Main Procedure to Download and Delete marked files
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> InternalRestore()
+        {
+            if (RestoreTable == null)
+            {
+                Show("Error while trying to download the mod files. The required Table was empty \r\nPlease try again");
+                return false;
+            }
+            if (!await DownloadRestoreFiles())
+                return false;
+            await DeleteUnneededFiles();
+            return true;
+        }
 
         /// <summary>
         /// Inits the ProgressBar and Blocks other commands
@@ -405,6 +398,98 @@ namespace RawLauncherWPF.ViewModels
             RestoreVersionContainer = null;
             RestoreTable = null;
         }
+
+        #region Hard
+
+        /// <summary>
+        /// Prepare the Hard-Restore
+        /// </summary>
+        /// <returns>True if was successful</returns>
+        private async Task<bool> PrepareHardRestore()
+        {
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ProzessStatus = "Deleting Mod Files";
+            //TODO: Reactivate
+            //LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            //LauncherViewModel.Foc.ClearDataFolder();
+
+            await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
+            ProzessStatus = "Preparing download-table";
+            FillRestoreTableHard();
+            await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
+            return true;
+        }
+
+        /// <summary>
+        /// Deletes all files and fills the RestoreTable
+        /// </summary>
+        private void FillRestoreTableHard()
+        {
+            RestoreTable = new RestoreTable((Version) SelectedVersion.DataContext);
+            if ((Version) SelectedVersion.DataContext != RestoreVersionContainer.Version)
+                throw new Exception("Versions do not match");
+            foreach (
+                var restoreFile in
+                    RestoreVersionContainer.Files.Select(
+                        file => RestoreFile.CreateResotreFile(file, FileAction.Download)))
+            {
+                RestoreTable.Files.Add(restoreFile);
+            }
+        }
+
+        #endregion
+
+        #region None
+
+        private async Task<bool> PrepareNormalRestore()
+        {
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ProzessStatus = "Preparing download-table";
+            if (!await FillRestoreTableNormal())
+                return false;
+            return true;
+        }
+
+        private async Task<bool> FillRestoreTableNormal()
+        {
+            if (!await AddDownloadFilesToRestoreTable(null))
+                return false;
+            if (!await AddDeleteFilesToRestoreTable(false))
+                return false;
+            return true;
+        }
+
+        #endregion
+
+        #region Igrnore Language
+
+        private async Task<bool> PrepareLanguageIgnoreRestore()
+        {
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ProzessStatus = "Preparing download-table";
+            if (!await FillRestoreTableIgnoreLanguage())
+                return false;
+            return true;
+        }
+
+        private async Task<bool> FillRestoreTableIgnoreLanguage()
+        {
+            if (
+                !await
+                    AddDownloadFilesToRestoreTable(new List<string>
+                    {
+                        @"\Data\Audio\Speech\*",
+                        @"\Data\*Speech.meg",
+                        @"\Data\Text\",
+                        @"\Data\Audio\"
+                    }))
+                return false;
+            if (!await AddDeleteFilesToRestoreTable(true))
+                return false;
+            return true;
+        }
+
+        #endregion
 
         #region Commands
 
