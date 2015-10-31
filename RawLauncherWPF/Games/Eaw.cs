@@ -3,7 +3,6 @@ using System.IO;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
-using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Games
 {
@@ -74,12 +73,12 @@ namespace RawLauncherWPF.Games
 
         public void DeleteMod(string name)
         {
-            throw new NotImplementedException();
+            //Ignored
         }
 
         public void ClearDataFolder()
         {
-            throw new NotImplementedException();
+            //Ignored
         }
     }
 }

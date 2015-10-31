@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Windows;
-using System.Windows.Navigation;
 using RawLauncherWPF.Utilities;
-using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Mods
 {

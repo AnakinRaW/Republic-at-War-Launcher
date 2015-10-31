@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using RawLauncherWPF.ExtensionClasses;
 
 namespace RawLauncherWPF.Utilities
 {

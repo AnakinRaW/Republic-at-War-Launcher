@@ -168,7 +168,6 @@
     <Compile Include="ViewModels\LauncherViewModel.cs" />
     <Compile Include="Mods\ModExceptions.cs" />
     <Compile Include="Mods\RaW.cs" />
-    <Compile Include="Utilities\DownloadHelper.cs" />
     <Compile Include="Utilities\ResourceExtractorException.cs" />
     <Compile Include="Utilities\XmlTools.cs" />
     <Compile Include="ViewModels\LauncherPaneViewModel.cs" />

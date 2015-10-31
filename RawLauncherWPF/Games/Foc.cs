@@ -4,7 +4,6 @@ using System.IO;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
-using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Games
 {
