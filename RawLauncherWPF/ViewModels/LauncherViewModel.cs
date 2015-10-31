@@ -8,6 +8,7 @@ using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using static RawLauncherWPF.NativeMethods.NativeMethods;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -262,6 +263,8 @@ namespace RawLauncherWPF.ViewModels
         private void FastLaunchUpdateSearch()
         {
             // TODO: Implement
+            if (!ComputerHasInternetConnection())
+                return;
             MessageProvider.Show("Should check for Update");
         }
 

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using RawLauncherWPF.ExtensionClasses;
@@ -16,6 +15,7 @@ using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using RawLauncherWPF.Xml;
+using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
 using static RawLauncherWPF.Utilities.ProgressBarUtilities;
 
@@ -33,6 +33,8 @@ namespace RawLauncherWPF.ViewModels
         public RestoreViewModel(ILauncherPane pane) : base(pane)
         {
             LauncherViewModel = LauncherPane.MainWindowViewModel.LauncherViewModel;
+            if (!ComputerHasInternetConnection())
+                return;
             AvailableVersions = RestoreHelper.CreateVersionItems();
             if (AvailableVersions.Count > 0)
                 SelectedVersion = AvailableVersions.First();
@@ -133,6 +135,11 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public async void PerformRestore()
         {
+            if (!ComputerHasInternetConnection())
+            {
+                Show("You need an Internet connction to Restore your mod");
+                return;
+            }
             if (SelectedVersion == null)
             {
                 Show("You need to select a Version to restore to.");

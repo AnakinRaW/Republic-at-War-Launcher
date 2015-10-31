@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Themes.LauncherTheme;
 using RawLauncherWPF.UI;

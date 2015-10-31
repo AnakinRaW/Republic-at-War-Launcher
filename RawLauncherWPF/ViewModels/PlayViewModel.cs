@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using static RawLauncherWPF.NativeMethods.NativeMethods;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -16,7 +17,8 @@ namespace RawLauncherWPF.ViewModels
 
         public PlayViewModel(ILauncherPane pane) : base(pane)
         {
-            SetCurrentSessionAsync();           
+            if (ComputerHasInternetConnection())
+                SetCurrentSessionAsync();           
         }
 
         public string CurrentSessions
