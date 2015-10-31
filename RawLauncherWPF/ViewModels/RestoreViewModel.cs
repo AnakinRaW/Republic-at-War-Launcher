@@ -416,9 +416,8 @@ namespace RawLauncherWPF.ViewModels
         {
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             ProzessStatus = "Deleting Mod Files";
-            //TODO: Reactivate
-            //LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
-            //LauncherViewModel.Foc.ClearDataFolder();
+            LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            LauncherViewModel.Foc.ClearDataFolder();
 
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
             ProzessStatus = "Preparing download-table";
