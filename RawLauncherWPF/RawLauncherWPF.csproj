@@ -117,6 +117,7 @@
     <Compile Include="Models\RestoreFile.cs" />
     <Compile Include="Models\RestoreTable.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -131,6 +132,9 @@
     <Compile Include="Server\ServerException.cs" />
     <Compile Include="Server\SessionServer.cs" />
     <Compile Include="Themes\LauncherTheme\LauncherTheme.cs" />
+    <Compile Include="UI\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\CheckPane.xaml.cs">
       <DependentUpon>CheckPane.xaml</DependentUpon>
     </Compile>
@@ -183,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\LauncherTheme\LauncherTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -154,6 +154,13 @@ namespace RawLauncherWPF.ViewModels
             ActivePane = _updatePane;
         }
 
+        public Command AboutCommand => new Command(ShowAboutWindow);
+
+        private void ShowAboutWindow()
+        {
+            new AboutWindow().Show();
+        }
+
         protected override void Close()
         {
             _mainWindow.Close();

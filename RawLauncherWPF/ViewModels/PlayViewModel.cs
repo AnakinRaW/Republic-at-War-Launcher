@@ -49,6 +49,7 @@ namespace RawLauncherWPF.ViewModels
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Play);
             Thread.Sleep(1100);
+            // TODO: Shuffle .txts if they are irrelevant for MP
             LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
             Application.Current.Shutdown();

@@ -91,5 +91,6 @@
 			HoverImage="../Resources/Visual/MainWindow/QuitHover.png" 
 			PressedImage="../Resources/Visual/MainWindow/QuitHover.png"
                           Command="{Binding CloseCommand}"/>
+        <Button Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Width="100" Content="About" Command="{Binding AboutCommand}"/>
     </Grid>
 </mafc:MainWindow>
