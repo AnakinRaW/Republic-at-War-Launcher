@@ -207,28 +207,29 @@ namespace RawLauncherWPF.ViewModels
             try
             {
                 ProzessStatus = "Checking for additional files";
+                if (Directory.Exists(LauncherViewModel.Foc.GameDirectory + "\\Data\\"))
                 //Find unused files to delete (AI Files)
-                foreach (
-                    var file in
-                        await
-                            Task.Run(
-                                () =>
-                                    Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*",
-                                        SearchOption.AllDirectories), _mSource.Token))
-                {
-                    var item =
-                        await
-                            Task.Run(
-                                () =>
-                                    RestoreVersionContainer.Files.Find(
-                                        k =>
-                                            k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
-                                            Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
-                    Progress = Progress + i;
-                    if (item != null)
-                        continue;
-                    RestoreTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Ai));
-                }
+                    foreach (
+                        var file in
+                            await
+                                Task.Run(
+                                    () =>
+                                        Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*",
+                                            SearchOption.AllDirectories), _mSource.Token))
+                    {
+                        var item =
+                            await
+                                Task.Run(
+                                    () =>
+                                        RestoreVersionContainer.Files.Find(
+                                            k =>
+                                                k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
+                                                Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                        Progress = Progress + i;
+                        if (item != null)
+                            continue;
+                        RestoreTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Ai));
+                    }
 
                 //Find unused files to delete (Mod Files)
                 foreach (
@@ -349,6 +350,12 @@ namespace RawLauncherWPF.ViewModels
             {
                 var t = filesToDownload.Select(file => Task.Run(async () =>
                 {
+                    if (!ComputerHasInternetConnection())
+                    {
+                        Show(
+                            "You lost your Internet connection. In order to prevent much more error messages the progress will be cancelled now.");
+                        return;
+                    }
                     var restorePath = CreateAbsoluteFilePath(file);
                     await
                         Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath),

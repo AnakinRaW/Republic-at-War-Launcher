@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using RawLauncherWPF.Utilities;
 using static System.String;
+using static RawLauncherWPF.NativeMethods.NativeMethods;
 
 namespace RawLauncherWPF.Server
 {
@@ -43,7 +44,8 @@ namespace RawLauncherWPF.Server
             }
             catch (Exception)
             {
-                MessageProvider.Show("Was not able to get data from: " + ServerRootAddress + resource);
+                if (ComputerHasInternetConnection())
+                    MessageProvider.Show("Was not able to get data from: " + ServerRootAddress + resource);
                 result = Empty;
             }
             return result;
@@ -86,7 +88,8 @@ namespace RawLauncherWPF.Server
             }
             catch (Exception e)
             {
-                MessageProvider.Show(e.Message +"\r\n Was not able to get data from: " + ServerRootAddress + resource);
+                if (ComputerHasInternetConnection())
+                    MessageProvider.Show(e.Message +"\r\n Was not able to get data from: " + ServerRootAddress + resource);
             }
         }
     }
