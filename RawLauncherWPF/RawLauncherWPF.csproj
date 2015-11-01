@@ -109,6 +109,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Defreezer\Defreezer.cs" />
+    <Compile Include="Defreezer\RetailSaveGame.cs" />
+    <Compile Include="Defreezer\SaveGame.cs" />
+    <Compile Include="Defreezer\SearchAlgorithm.cs" />
+    <Compile Include="Defreezer\SteamSaveGame.cs" />
+    <Compile Include="Defreezer\UnitRef.cs" />
     <Compile Include="ExtensionClasses\StreamExtension.cs" />
     <Compile Include="ExtensionClasses\StringExtensions.cs" />
     <Compile Include="Hash\HashProvider.cs" />
@@ -426,6 +432,7 @@
   <ItemGroup>
     <Resource Include="Resources\Visual\Restore\InfoText.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

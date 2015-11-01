@@ -5,12 +5,12 @@ using System.Windows;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("RawLauncherWPF")]
+[assembly: AssemblyTitle("Republic at War Launcher")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Republic at War Modding Team")]
-[assembly: AssemblyProduct("RawLauncherWPF")]
-[assembly: AssemblyCopyright("Copyright ©  Anakin_Sklavenwalker")]
+[assembly: AssemblyProduct("Republic at War Launcher")]
+[assembly: AssemblyCopyright("Copyright © Republic at War Team, SmallPox, Fregge")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Windows;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.5.0.0")]
+[assembly: AssemblyFileVersion("0.5.0.0")]
