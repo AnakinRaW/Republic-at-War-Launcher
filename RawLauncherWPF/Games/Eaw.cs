@@ -20,8 +20,22 @@ namespace RawLauncherWPF.Games
         }
 
         public string GameDirectory { get; }
-
         public string Name => "Empire at War";
+
+        public string SaveGameDirectory
+        {
+            get { throw new NotImplementedException();}
+        }
+
+        public void ClearDataFolder()
+        {
+            //Ignored
+        }
+
+        public void DeleteMod(string name)
+        {
+            //Ignored
+        }
 
         public bool Exists() => Directory.Exists(GameDirectory);
 
@@ -32,14 +46,17 @@ namespace RawLauncherWPF.Games
             return new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Star Wars Empire at War\GameData\");
         }
 
-        public void PlayGame()
+        public bool IsPatched()
         {
-            //Ignored
-        }
-
-        public void PlayGame(IMod mod)
-        {
-            //Ignored
+            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.xml"))
+                return false;
+            var hashProvider = new HashProvider();
+            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.xml") !=
+                Configuration.Config.GameconstantsUpdateHashEaW)
+                return false;
+            if (Directory.GetFiles(GameDirectory + @"Data\XML").Length != 1)
+                return false;
+            return true;
         }
 
         public bool Patch()
@@ -58,25 +75,12 @@ namespace RawLauncherWPF.Games
             return true;
         }
 
-        public bool IsPatched()
-        {
-            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.xml"))
-                return false;
-            var hashProvider = new HashProvider();
-            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.xml") !=
-                Configuration.Config.GameconstantsUpdateHashEaW)
-                return false;
-            if (Directory.GetFiles(GameDirectory + @"Data\XML").Length != 1)
-                return false;
-            return true;
-        }
-
-        public void DeleteMod(string name)
+        public void PlayGame()
         {
             //Ignored
         }
 
-        public void ClearDataFolder()
+        public void PlayGame(IMod mod)
         {
             //Ignored
         }

@@ -22,6 +22,19 @@ namespace RawLauncherWPF.Games
 
         public string GameDirectory { get; }
 
+        public string SaveGameDirectory
+        {
+            get
+            {
+                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
+                if (!Directory.Exists(folder))
+                    return "";
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
+            }
+        }
+
         public string Name => "Forces of Corruption";
 
         public bool Exists() => File.Exists(GameDirectory + @"\swfoc.exe");

@@ -10,6 +10,11 @@ namespace RawLauncherWPF.Games
         string GameDirectory { get; }
 
         /// <summary>
+        /// Return the full Path of the SaveGame Directory
+        /// </summary>
+        string SaveGameDirectory { get; }
+
+        /// <summary>
         /// Returns the name of the Game
         /// </summary>
         string Name { get; }

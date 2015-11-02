@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using Microsoft.Win32;
 using ModernApplicationFramework.Commands;
+using RawLauncherWPF.Defreezer;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
@@ -53,6 +56,29 @@ namespace RawLauncherWPF.ViewModels
             LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
             Application.Current.Shutdown();
+        }
+
+        public Command DefreezeCommand => new Command(Defreeze);
+
+        private async void Defreeze()
+        {
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            var oFd = new OpenFileDialog
+            {
+                InitialDirectory = LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.SaveGameDirectory,
+                Filter = "Savegame Files (*.sav; *.PetroglyphFoCSave) | *.sav; *.PetroglyphFoCSave",
+                Title = "Select a Savegame"
+            };
+            if (oFd.ShowDialog() != true)
+                return;
+            SaveGame saveGame;
+            if (Path.GetExtension(oFd.FileName) == ".sav")
+                saveGame = new RetailSaveGame(oFd.FileName);
+            else
+                saveGame = new SteamSaveGame(oFd.FileName);
+            var d = new Defreezer.Defreezer(saveGame);
+            await Task.Run(() => d.DefreezeSaveGame());
+            MessageProvider.Show("Done");
         }
 
         public Command OrganizeGameCommand => new Command(OrganizeGame, CanOrganizeGame);
