@@ -287,6 +287,9 @@ namespace RawLauncherWPF.ViewModels
         {
             _launcher.MainWindow = new MainWindow(this);
             _launcher.MainWindow.Show();
+            var a = (MainWindowViewModel) _launcher.MainWindow.DataContext;
+            a.InstalledVersion = CurrentMod.Version.ToString();
+            a.LatestVersion = VersionUtilities.GetLatestVersion().ToString();
         }
 
         public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);

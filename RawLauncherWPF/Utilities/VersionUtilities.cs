@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using RawLauncherWPF.Configuration;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.ViewModels;
@@ -13,6 +14,11 @@ namespace RawLauncherWPF.Utilities
         {
             var data = LauncherViewModel.HostServerStatic.DownloadString(Config.VersionListRelativePath).ToStream();  
             return SeriallizeVersionsToList(data);
+        }
+
+        public static Version GetLatestVersion()
+        {
+            return GetAllAvailableVersionsOnline().Last();
         }
 
         public static List<Version> GetAllAvailableVersionsOffline()

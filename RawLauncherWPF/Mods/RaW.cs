@@ -60,7 +60,7 @@ namespace RawLauncherWPF.Mods
                     return null;
                 }
             }
-            set { throw new NotImplementedException(); }
+            set {  }
         }
     }
 }

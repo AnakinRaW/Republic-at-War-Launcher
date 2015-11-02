@@ -19,6 +19,8 @@ namespace RawLauncherWPF.ViewModels
         private readonly ILauncherPane _updatePane;
         private ILauncherPane _activePane;
         private bool _isBlocked;
+        private string _installedVersion;
+        private string _latestVersion;
 
         public MainWindowViewModel(MainWindow mainWindow, LauncherViewModel model) : base(mainWindow)
         {
@@ -85,6 +87,26 @@ namespace RawLauncherWPF.ViewModels
                     return;
                 _isBlocked = value;
                 LauncherPanes.ForEach(p => p.ViewModel.CanExecute = !_isBlocked);
+                OnPropertyChanged();
+            }
+        }
+
+        public string InstalledVersion
+        {
+            get { return _installedVersion; }
+            set
+            {
+                _installedVersion = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string LatestVersion
+        {
+            get { return _latestVersion; }
+            set
+            {
+                _latestVersion = value;
                 OnPropertyChanged();
             }
         }
