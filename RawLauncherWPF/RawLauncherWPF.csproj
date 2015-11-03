@@ -167,6 +167,7 @@
     <Compile Include="Utilities\FileUtilities.cs" />
     <Compile Include="Utilities\ImageUtilities.cs" />
     <Compile Include="Utilities\IndicatorImagesHelper.cs" />
+    <Compile Include="Utilities\IsGreaterVersionColorConverter.cs" />
     <Compile Include="Utilities\MessageProvider.cs" />
     <Compile Include="Utilities\ProgressBarUtilities.cs" />
     <Compile Include="Utilities\ResourceToStreamConverter.cs" />

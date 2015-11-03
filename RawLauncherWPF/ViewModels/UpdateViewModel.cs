@@ -7,7 +7,6 @@ using RawLauncherWPF.Models;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
-using static RawLauncherWPF.NativeMethods.NativeMethods;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -21,9 +20,6 @@ namespace RawLauncherWPF.ViewModels
         public UpdateViewModel(ILauncherPane pane) : base(pane)
         {
             LauncherViewModel = LauncherPane.MainWindowViewModel.LauncherViewModel;
-            if (!ComputerHasInternetConnection())
-                return;
-            //TODO: Show if new version is aviable
         }
 
         /// <summary>

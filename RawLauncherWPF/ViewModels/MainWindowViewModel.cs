@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Themes.LauncherTheme;
 using RawLauncherWPF.UI;
@@ -18,9 +20,9 @@ namespace RawLauncherWPF.ViewModels
         private readonly ILauncherPane _restorePane;
         private readonly ILauncherPane _updatePane;
         private ILauncherPane _activePane;
+        private Version _installedVersion;
         private bool _isBlocked;
-        private string _installedVersion;
-        private string _latestVersion;
+        private Version _latestVersion;
 
         public MainWindowViewModel(MainWindow mainWindow, LauncherViewModel model) : base(mainWindow)
         {
@@ -43,12 +45,6 @@ namespace RawLauncherWPF.ViewModels
             mainWindow.Loaded += MainWindow_Loaded;
 
             LauncherPanes = new List<ILauncherPane> {_playPane, _checkPane, _languagePane, _restorePane, _updatePane};
-            PreSelectPane();
-        }
-
-        private void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            Theme = new LauncherTheme();
         }
 
         /// <summary>
@@ -75,6 +71,16 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
+        public Version InstalledVersion
+        {
+            get { return _installedVersion; }
+            set
+            {
+                _installedVersion = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Tells if there is a critical task running which shall prevent from performing other tasks
         /// </summary>
@@ -91,17 +97,7 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        public string InstalledVersion
-        {
-            get { return _installedVersion; }
-            set
-            {
-                _installedVersion = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string LatestVersion
+        public Version LatestVersion
         {
             get { return _latestVersion; }
             set
@@ -113,9 +109,22 @@ namespace RawLauncherWPF.ViewModels
 
         private List<ILauncherPane> LauncherPanes { get; }
 
-        private void PreSelectPane()
+        public void ShowPane(object index, bool hasAudio = false)
         {
-            ActivePane = _playPane;
+            if (hasAudio)
+                AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+            ActivePane = LauncherPanes.ElementAt(Convert.ToInt32(index));
+        }
+
+        private void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Theme = new LauncherTheme();
+            ShowPane(0);
+        }
+
+        private void ShowPaneAudio(object index)
+        {
+            ShowPane(index, true);
         }
 
         #region Commands
@@ -136,44 +145,11 @@ namespace RawLauncherWPF.ViewModels
             Process.Start(Configuration.Config.EeawForum);
         }
 
-        public Command ShowPlayPaneCommand => new Command(ShowPlayPane);
+        public Command<object> ShowPaneAudioCommand => new Command<object>(ShowPaneAudio, CanShowPane);
 
-        private void ShowPlayPane()
+        private bool CanShowPane(object arg)
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            ActivePane = _playPane;
-        }
-
-        public Command ShowCheckPaneCommand => new Command(ShowCheckPane);
-
-        private void ShowCheckPane()
-        {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            ActivePane = _checkPane;
-        }
-
-        public Command ShowLanguagePaneCommand => new Command(ShowLanguage);
-
-        private void ShowLanguage()
-        {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            ActivePane = _languagePane;
-        }
-
-        public Command ShowRestorePaneCommand => new Command(ShowRestorePane);
-
-        private void ShowRestorePane()
-        {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            ActivePane = _restorePane;
-        }
-
-        public Command ShowUpdatePaneCommand => new Command(ShowUpdatePane);
-
-        private void ShowUpdatePane()
-        {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            ActivePane = _updatePane;
+            return true;
         }
 
         public Command AboutCommand => new Command(ShowAboutWindow);

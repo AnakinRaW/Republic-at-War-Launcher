@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using RawLauncherWPF.Configuration;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.ViewModels;
@@ -19,6 +20,15 @@ namespace RawLauncherWPF.Utilities
         public static Version GetLatestVersion()
         {
             return GetAllAvailableVersionsOnline().Last();
+        }
+
+        public static bool AskToUpdate()
+        {
+            var result =
+                        MessageProvider.Show(
+                            $"New Version: {GetLatestVersion()} avaiable." + "\r\nUpdate now ?",
+                            "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+            return result == MessageBoxResult.Yes;
         }
 
         public static List<Version> GetAllAvailableVersionsOffline()

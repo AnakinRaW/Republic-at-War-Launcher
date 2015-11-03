@@ -190,7 +190,8 @@ namespace RawLauncherWPF.ViewModels
                 ResetUi();
                 return;
             }
-
+            LauncherPane.MainWindowViewModel.InstalledVersion = LauncherViewModel.CurrentMod.Version;
+            Show("Restoring Done");
             ResetUi();
         }
 

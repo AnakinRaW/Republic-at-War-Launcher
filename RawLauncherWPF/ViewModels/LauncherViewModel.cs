@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
 using RawLauncherWPF.Games;
@@ -15,14 +16,13 @@ namespace RawLauncherWPF.ViewModels
     public sealed class LauncherViewModel : ViewModelBase, ILauncherViewModel
     {
         private readonly LauncherApp _launcher;
-
         private IMod _currentMod;
+        private string _downloadDir;
         private IGame _eawGame;
         private IGame _focGame;
-        private IServer _sessionServer;
         private IHostServer _hostServer;
-        private string _downloadDir;
         private string _restoreDir;
+        private IServer _sessionServer;
 
         public LauncherViewModel(LauncherApp launcher)
         {
@@ -30,11 +30,10 @@ namespace RawLauncherWPF.ViewModels
             SetUpData();
         }
 
-        public static IHostServer HostServerStatic { get; private set; }
+        public static IMod CurrentModStatic { get; private set; }
         public static IGame EawStatic { get; private set; }
         public static IGame FocStatic { get; private set; }
-        public static IMod CurrentModStatic { get; private set; }
-
+        public static IHostServer HostServerStatic { get; private set; }
         public static string RestoreDownloadDirStatic { get; private set; }
         public static string UpdateDownloadDirStatic { get; private set; }
 
@@ -116,22 +115,6 @@ namespace RawLauncherWPF.ViewModels
         }
 
         /// <summary>
-        /// Contains the Session Server used for this launcher instance
-        /// </summary>
-        public IServer SessionServer
-        {
-            get { return _sessionServer; }
-            set
-            {
-                if (Equals(value, _sessionServer))
-                    return;
-                _sessionServer = value;
-                OnPropertyChanged();
-            }
-
-        }
-
-        /// <summary>
         /// Contains the current Restore Directory
         /// </summary>
         public string RestoreDownloadDir
@@ -147,6 +130,22 @@ namespace RawLauncherWPF.ViewModels
                 RestoreDownloadDirStatic = value;
                 OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Contains the Session Server used for this launcher instance
+        /// </summary>
+        public IServer SessionServer
+        {
+            get { return _sessionServer; }
+            set
+            {
+                if (Equals(value, _sessionServer))
+                    return;
+                _sessionServer = value;
+                OnPropertyChanged();
+            }
+
         }
 
         /// <summary>
@@ -167,7 +166,6 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-
         public string GetRescueFilePath(string fileName, bool online, Version version = null)
         {
             if (fileName == null)
@@ -180,6 +178,17 @@ namespace RawLauncherWPF.ViewModels
 
         }
 
+        public bool NewVersionAvailable() => CurrentMod?.Version < VersionUtilities.GetLatestVersion();
+
+        internal void ShowMainWindow(object index)
+        {
+            _launcher.MainWindow = new MainWindow(this);
+            _launcher.MainWindow.Show();
+            var a = (MainWindowViewModel)_launcher.MainWindow.DataContext;
+            a.ShowPane((int)index);
+            a.InstalledVersion = CurrentMod.Version;
+            a.LatestVersion = VersionUtilities.GetLatestVersion();
+        }
 
         /// <summary>
         /// Sets required Folders for Launcher
@@ -241,7 +250,6 @@ namespace RawLauncherWPF.ViewModels
             SessionServer = new SessionServer(Configuration.Config.SessionServerUrl);        
         }
 
-
         /// <summary>
         /// Initilizes important Data used by the Mod.
         /// </summary>
@@ -256,41 +264,35 @@ namespace RawLauncherWPF.ViewModels
         #region Commands
 
         /// <summary>
-        /// Runs a special View of the Update Search procedure for the Fast-Launch
+        /// Performs a fast Launch
         /// </summary>
-        public Command FastLaunchUpdateSearchCommand => new Command(FastLaunchUpdateSearch);
+        public Command FastLaunchCommand => new Command(FastLaunch);
 
-        private void FastLaunchUpdateSearch()
+        private async void FastLaunch()
         {
-            // TODO: Implement
-            if (!ComputerHasInternetConnection())
-                return;
-            MessageProvider.Show("Should check for Update");
+            if (ComputerHasInternetConnection())
+                if (NewVersionAvailable() && VersionUtilities.AskToUpdate())
+                {
+                    await DeleteFastLaunchFileCommand.Execute();
+                    ShowMainWindow(4);
+                    return;
+                }
+            await Task.Run(() => Foc.PlayGame(CurrentMod));
+            _launcher.Shutdown();
         }
 
         /// <summary>
-        /// Starts the current setted mod
+        /// Perform Normal launch
         /// </summary>
-        public Command StartModCommand => new Command(StartMod);
+        public Command NormalLaunchCommand => new Command(NormalLaunch);
 
-        private void StartMod()
+        private async void NormalLaunch()
         {
-            Foc.PlayGame(CurrentMod);
+            ShowMainWindow(0);
+            if (ComputerHasInternetConnection() && NewVersionAvailable())
+                 await Task.Run(() => MessageProvider.Show($"New Version {VersionUtilities.GetLatestVersion()} is avaiable"));
         }
 
-        /// <summary>
-        /// Sets up a new Mainwindow and Shows it
-        /// </summary>
-        public Command ShowMainWindowCommand => new Command(ShowMainWindow);
-
-        private void ShowMainWindow()
-        {
-            _launcher.MainWindow = new MainWindow(this);
-            _launcher.MainWindow.Show();
-            var a = (MainWindowViewModel) _launcher.MainWindow.DataContext;
-            a.InstalledVersion = CurrentMod.Version.ToString();
-            a.LatestVersion = VersionUtilities.GetLatestVersion().ToString();
-        }
 
         public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);
 
