@@ -13,12 +13,8 @@ namespace RawLauncherWPF.ViewModels
 {
     public sealed class MainWindowViewModel : ModernApplicationFramework.ViewModels.MainWindowViewModel
     {
-        private readonly ILauncherPane _checkPane;
-        private readonly ILauncherPane _languagePane;
         private readonly MainWindow _mainWindow;
         private readonly ILauncherPane _playPane;
-        private readonly ILauncherPane _restorePane;
-        private readonly ILauncherPane _updatePane;
         private ILauncherPane _activePane;
         private Version _installedVersion;
         private bool _isBlocked;
@@ -37,14 +33,14 @@ namespace RawLauncherWPF.ViewModels
             UseSimpleMovement = true;
 
             _playPane = new PlayPane(this);
-            _checkPane = new CheckPane(this);
-            _languagePane = new LanguagePane(this);
-            _restorePane = new RestorePane(this);
-            _updatePane = new UpdatePane(this);
+            ILauncherPane checkPane = new CheckPane(this);
+            ILauncherPane languagePane = new LanguagePane(this);
+            ILauncherPane restorePane = new RestorePane(this);
+            ILauncherPane updatePane = new UpdatePane(this);
 
             mainWindow.Loaded += MainWindow_Loaded;
 
-            LauncherPanes = new List<ILauncherPane> {_playPane, _checkPane, _languagePane, _restorePane, _updatePane};
+            LauncherPanes = new List<ILauncherPane> {_playPane, checkPane, languagePane, restorePane, updatePane};
         }
 
         /// <summary>
@@ -64,7 +60,7 @@ namespace RawLauncherWPF.ViewModels
                     return;
                 if (value == null)
                     return;
-                _playPane.ViewModel.IsActive = false;
+                 _playPane.ViewModel.IsActive = false;
                 _activePane = value;
                 _playPane.ViewModel.IsActive = true;
                 OnPropertyChanged();
