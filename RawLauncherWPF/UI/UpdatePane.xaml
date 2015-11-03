@@ -2,10 +2,33 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid Margin="0,10,0,10">
-        <Button Height="20" Command="{Binding CancelCommand, Mode=OneWayToSource}" VerticalAlignment="Top">Cancel</Button>
+        <Button Height="20" Command="{Binding CancelCommand}" VerticalAlignment="Top">Cancel</Button>
+        
+        <Grid Width="356" Margin="0,60,0,0">
+            <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
+            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="White" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+        
+        <mafc:ImageButton Height="60" Width="144" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,70"
+                              NormalImage="../Resources/Visual/Update/UpdateIdle.png"
+                              HoverImage="../Resources/Visual/Update/UpdateHover.png"
+                              PressedImage="../Resources/Visual/Update/UpdateHover.png"
+                              Command="{Binding UpdateModCommand}"/>
+        
+        <mafc:ImageButton Height="40" Width="140" VerticalAlignment="Bottom" Margin="0,20,0,0"
+                              NormalImage="../Resources/Visual/Update/SeeChangelogIdle.png"
+                              HoverImage="../Resources/Visual/Update/SeeChangelogHover.png"
+                              PressedImage="../Resources/Visual/Update/SeeChangelogHover.png"
+                              Command="{Binding OpenChangelogCommand}"/>
     </Grid>
 </UserControl>
