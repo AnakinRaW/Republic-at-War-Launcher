@@ -120,6 +120,7 @@
     <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Helpers\CheckModHelper.cs" />
     <Compile Include="Helpers\RestoreHelper.cs" />
+    <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Models\RestoreFile.cs" />
     <Compile Include="Models\RestoreTable.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
@@ -442,6 +443,12 @@
   <ItemGroup>
     <Resource Include="Resources\Visual\Update\SeeChangelogHover.png" />
     <Resource Include="Resources\Visual\Update\SeeChangelogIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Update\ignoreVoiceHover.png" />
+    <Resource Include="Resources\Visual\Update\ignoreVoiceIdle.png" />
+    <Resource Include="Resources\Visual\Update\noneHover.png" />
+    <Resource Include="Resources\Visual\Update\noneIdle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

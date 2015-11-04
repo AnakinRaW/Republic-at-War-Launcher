@@ -309,7 +309,7 @@ namespace RawLauncherWPF.ViewModels
         {
             if (file.TargetType == TargetType.Ai)
                 return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
-            return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
+            return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
         }
 
         private string CreateAbsoluteFilePath(FileContainerFile file)

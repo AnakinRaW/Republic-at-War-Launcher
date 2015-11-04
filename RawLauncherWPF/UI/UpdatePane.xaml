@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
@@ -12,13 +13,29 @@
     
     <Grid Margin="0,10,0,10">
         <Button Height="20" Command="{Binding CancelCommand}" VerticalAlignment="Top">Cancel</Button>
+        <DockPanel Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                     <mafc:ImageRadioButton Height="19" Width="84" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Update/noneIdle.png"
+                                   HoverImage="../Resources/Visual/Update/noneHover.png"
+                                   PressedImage="../Resources/Visual/Update/noneHover.png"
+                                   CheckedImage="../Resources/Visual/Update/noneHover.png"
+                                            ToolTip="No Options specified"
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:UpdateOptions.None}" IsEnabled="{Binding CanExecute}"/>
+                    <mafc:ImageRadioButton Height="19" Width="173" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Update/ignoreVoiceIdle.png"
+                                   HoverImage="../Resources/Visual/Update/ignoreVoiceHover.png"
+                                   PressedImage="../Resources/Visual/Update/ignoreVoiceHover.png"
+                                   CheckedImage="../Resources/Visual/Update/ignoreVoiceHover.png"
+                                           ToolTip="Ignore all language related files. Restoring with this option is faster and your installed language pack will not be deleted"
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:UpdateOptions.IgnoreVoice}" IsEnabled="{Binding CanExecute}"/>
+                </DockPanel>
         
-        <Grid Width="356" Margin="0,60,0,0">
+        <Grid Width="356" Margin="0,80,0,0">
             <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
             <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="White" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
         
-        <mafc:ImageButton Height="60" Width="144" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,70"
+        <mafc:ImageButton Height="60" Width="144" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,60"
                               NormalImage="../Resources/Visual/Update/UpdateIdle.png"
                               HoverImage="../Resources/Visual/Update/UpdateHover.png"
                               PressedImage="../Resources/Visual/Update/UpdateHover.png"

@@ -108,35 +108,33 @@ namespace RawLauncherWPF.Models
         public static List<FileContainerFile> ListFromExcludeList(List<FileContainerFile> fileList,
             List<string> excludeList)
         {
+            return excludeList == null ? fileList : fileList.Where(file => !ShallExclude(file, excludeList)).ToList();
+        }
 
-            var list = new List<FileContainerFile>();
+        public static bool ShallExclude(FileContainerFile file, List<string> excludeList)
+        {
+            var exclude = false;
             if (excludeList == null)
-                return fileList;
-            foreach (var file in fileList)
+                return false;
+            foreach (var s in excludeList)
             {
-                var exclude = false;
-                foreach (var s in excludeList)
+                if (file.TargetPath.Replace(s, "") == file.Name)
+                    exclude = true;
+                if (s.Contains("*") && s[s.Length - 1] == '*')
                 {
-                    if (file.TargetPath.Replace(s, "") == file.Name)
+                    var t = s.Remove(s.Length - 1);
+                    if (file.TargetPath.Contains(t))
                         exclude = true;
-                    if (s.Contains("*") && s[s.Length - 1] == '*')
-                    {
-                        var t = s.Remove(s.Length - 1);
-                        if (file.TargetPath.Contains(t))
-                            exclude = true;
-                    }
-                    else if (s.Contains("*"))
-                    {
-                        var t = Path.GetFileName(s);
-                        t = t.Replace("*", "");
-                        if (file.Name.Contains(t))
-                            exclude = true;
-                    }
                 }
-                if (!exclude)
-                    list.Add(file);
+                else if (s.Contains("*"))
+                {
+                    var t = Path.GetFileName(s);
+                    t = t.Replace("*", "");
+                    if (file.Name.Contains(t))
+                        exclude = true;
+                }
             }
-            return list;
+            return exclude;
         }
     }
 
