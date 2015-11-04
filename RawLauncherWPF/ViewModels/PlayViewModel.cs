@@ -53,7 +53,7 @@ namespace RawLauncherWPF.ViewModels
             AudioHelper.PlayAudio(AudioHelper.Audio.Play);
             Thread.Sleep(1100);
             // TODO: Shuffle .txts if they are irrelevant for MP
-            LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.PlayGame(
+            LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
             Application.Current.Shutdown();
         }
@@ -65,7 +65,7 @@ namespace RawLauncherWPF.ViewModels
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             var oFd = new OpenFileDialog
             {
-                InitialDirectory = LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.SaveGameDirectory,
+                InitialDirectory = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.SaveGameDirectory,
                 Filter = "Savegame Files (*.sav; *.PetroglyphFoCSave) | *.sav; *.PetroglyphFoCSave",
                 Title = "Select a Savegame"
             };

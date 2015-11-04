@@ -218,14 +218,14 @@ namespace RawLauncherWPF.ViewModels
             try
             {
                 ProzessStatus = "Checking for additional files";
-                if (Directory.Exists(LauncherViewModel.Foc.GameDirectory + "\\Data\\"))
+                if (Directory.Exists(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\"))
                 //Find unused files to delete (AI Files)
                     foreach (
                         var file in
                             await
                                 Task.Run(
                                     () =>
-                                        Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*",
+                                        Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\", "*.*",
                                             SearchOption.AllDirectories), _mSource.Token))
                     {
                         var item =
@@ -318,21 +318,21 @@ namespace RawLauncherWPF.ViewModels
         private string CreateAbsoluteFilePath(RestoreFile file)
         {
             if (file.TargetType == TargetType.Ai)
-                return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
+                return LauncherViewModel.BaseGame.GameDirectory + file.TargetPath;
             return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
         }
 
         private string CreateAbsoluteFilePath(FileContainerFile file)
         {
             if (file.TargetType == TargetType.Ai)
-                return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
+                return LauncherViewModel.BaseGame.GameDirectory + file.TargetPath;
             return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
         }
 
         private string CreateLocalFilePath(RestoreFile file)
         {
             if (file.TargetType == TargetType.Ai)
-                return Path.Combine(LauncherViewModel.Foc.GameDirectory, file.TargetPath);
+                return Path.Combine(LauncherViewModel.BaseGame.GameDirectory, file.TargetPath);
             return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
         }
 
@@ -434,8 +434,8 @@ namespace RawLauncherWPF.ViewModels
         {
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             ProzessStatus = "Deleting Mod Files";
-            LauncherViewModel.Foc.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
-            LauncherViewModel.Foc.ClearDataFolder();
+            LauncherViewModel.BaseGame.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            LauncherViewModel.BaseGame.ClearDataFolder();
 
             await AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
             ProzessStatus = "Preparing download-table";

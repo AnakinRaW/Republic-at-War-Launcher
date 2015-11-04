@@ -121,8 +121,8 @@ namespace RawLauncherWPF.ViewModels
                 ChangeMasterTextFile(mod);
                 ChangeSpeechMegFile(mod);
                 ChangeSpeechFolderName(mod);
-                MessageToShowAfterChange += "Successfuly Changed Language";
             }
+            MessageToShowAfterChange += "Successfuly Changed Language";
             MessageProvider.Show(MessageToShowAfterChange);
             MessageToShowAfterChange = Empty;
         }

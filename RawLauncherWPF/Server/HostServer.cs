@@ -15,22 +15,6 @@ namespace RawLauncherWPF.Server
             ServerRootAddress = address;
         }
 
-        public bool CheckForUpdate(string currentVersion)
-        {
-            IsCheckingForUpdate = true;
-            if (!IsRunning())
-                MessageProvider.Show("Fail");
-            else
-            {
-                MessageProvider.Show("No Fail");
-                //TODO: Throw exception
-            }
-
-            IsCheckingForUpdate = false;
-            return true;
-        }
-
-        public bool IsCheckingForUpdate { get; private set; }
         public async Task<bool> CheckRunningAsync() => await Task.FromResult(IsRunning());
 
         public string DownloadString(string resource)

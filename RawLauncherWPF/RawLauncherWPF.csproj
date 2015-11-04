@@ -117,9 +117,11 @@
     <Compile Include="Defreezer\UnitRef.cs" />
     <Compile Include="ExtensionClasses\StreamExtension.cs" />
     <Compile Include="ExtensionClasses\StringExtensions.cs" />
+    <Compile Include="Games\SteamGame.cs" />
     <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Helpers\CheckModHelper.cs" />
     <Compile Include="Helpers\RestoreHelper.cs" />
+    <Compile Include="Helpers\SteamHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Models\RestoreFile.cs" />
     <Compile Include="Models\RestoreTable.cs" />

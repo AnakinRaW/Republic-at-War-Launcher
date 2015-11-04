@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
 using RawLauncherWPF.Games;
+using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
@@ -19,7 +20,7 @@ namespace RawLauncherWPF.ViewModels
         private IMod _currentMod;
         private string _downloadDir;
         private IGame _eawGame;
-        private IGame _focGame;
+        private IGame _baseGame;
         private IHostServer _hostServer;
         private string _restoreDir;
         private IServer _sessionServer;
@@ -79,18 +80,18 @@ namespace RawLauncherWPF.ViewModels
         }
 
         /// <summary>
-        /// Contains a game, which should be Foc
+        /// Contains a game, which should be BaseGame
         /// </summary>
-        public IGame Foc
+        public IGame BaseGame
         {
-            get { return _focGame; }
+            get { return _baseGame; }
             set
             {
                 if (value == null)
                     return;
-                if (Equals(value, _focGame))
+                if (Equals(value, _baseGame))
                     return;
-                _focGame = value;
+                _baseGame = value;
                 FocStatic = value;
                 OnPropertyChanged();
             }
@@ -204,17 +205,15 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Initialized both Games EaW and FoC
         /// Check for Steam usage first and create if found.
-        /// If Foc NOT found -> Exit with Message
+        /// If BaseGame NOT found -> Exit with Message
         /// If EaW NOT found -> Continue with Message of limited use. 
         /// </summary>
         private void InitGames()
         {
             try
             {
-                var eaw = new Eaw().FindGame();
-                Eaw = eaw;
-                var foc = new Foc().FindGame();
-                Foc = foc;
+                Eaw = new Eaw().FindGame();
+                BaseGame = SteamHelper.CheckSteamInstallation(Directory.GetCurrentDirectory()) ? new SteamGame().FindGame() : new Foc().FindGame();
             }
             catch (GameExceptions e)
             {
@@ -277,7 +276,7 @@ namespace RawLauncherWPF.ViewModels
                     ShowMainWindow(4);
                     return;
                 }
-            await Task.Run(() => Foc.PlayGame(CurrentMod));
+            await Task.Run(() => BaseGame.PlayGame(CurrentMod));
             _launcher.Shutdown();
         }
 
@@ -292,7 +291,6 @@ namespace RawLauncherWPF.ViewModels
             if (ComputerHasInternetConnection() && NewVersionAvailable())
                  await Task.Run(() => MessageProvider.Show($"New Version {VersionUtilities.GetLatestVersion()} is avaiable"));
         }
-
 
         public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);
 

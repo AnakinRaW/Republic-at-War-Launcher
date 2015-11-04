@@ -10,7 +10,7 @@ namespace RawLauncherWPF.ViewModels
 
         IGame Eaw { get; set; }
 
-        IGame Foc { get; set; }
+        IGame BaseGame { get; set; }
 
         IHostServer HostServer { get; set; }
 

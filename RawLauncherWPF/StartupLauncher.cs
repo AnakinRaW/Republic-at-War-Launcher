@@ -23,8 +23,7 @@ namespace RawLauncherWPF
 
         public static void CleanUp()
         {
-            //TODO: If there is something to clean up put it here.
-            //TODO: Decide if in a catch block we shall perform a Clean-up
+           _launcher = null;
         }
 
         [STAThread]

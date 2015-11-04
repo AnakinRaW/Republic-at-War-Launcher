@@ -9,7 +9,11 @@ namespace RawLauncherWPF.Server
         /// </summary>
         string ServerRootAddress { get; set; }
 
-        Task<bool> CheckRunningAsync();
+        /// <summary>
+        /// Download a file and return the string
+        /// </summary>
+        /// <param name="resource">Relative path to resource</param>
+        /// <returns></returns>
         string DownloadString(string resource);
 
         /// <summary>

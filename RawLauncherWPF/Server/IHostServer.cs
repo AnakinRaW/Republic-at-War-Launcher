@@ -2,16 +2,11 @@
 {
     public interface IHostServer : IServer
     {
-
-        bool IsCheckingForUpdate { get; }
-
         /// <summary>
-        /// Checks if there is an update for the current installed Mod
+        /// Downloads a file sync and save it to the storage Path. If Storage Path does not exists it will be created
         /// </summary>
-        /// <param name="currentVersion">Current Version of the mod</param>
-        /// <returns>True if update avaiable, false if not</returns>
-        bool CheckForUpdate(string currentVersion);
-
+        /// <param name="resource">Relative path to resource</param>
+        /// <param name="storagePath">Absolute file path</param>
         void DownloadFile(string resource, string storagePath);
     }
 }

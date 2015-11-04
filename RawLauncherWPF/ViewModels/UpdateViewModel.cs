@@ -165,9 +165,9 @@ namespace RawLauncherWPF.ViewModels
                 ProzessStatus = "Checking for additional files";
 
                 //Find files to delete (AI files)
-                if (Directory.Exists(LauncherViewModel.Foc.GameDirectory + "\\Data\\"))
+                if (Directory.Exists(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\"))
                 {
-                    foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*", SearchOption.AllDirectories), _mSource.Token))
+                    foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\", "*.*", SearchOption.AllDirectories), _mSource.Token))
                     {
                         var fileToSearch = await Task.Run(
                             () =>
@@ -264,21 +264,21 @@ namespace RawLauncherWPF.ViewModels
         private string CreateAbsoluteFilePath(RestoreFile file)
         {
             if (file.TargetType == TargetType.Ai)
-                return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
+                return LauncherViewModel.BaseGame.GameDirectory + file.TargetPath;
             return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
         }
 
         private string CreateAbsoluteFilePath(FileContainerFile file)
         {
             if (file.TargetType == TargetType.Ai)
-                return LauncherViewModel.Foc.GameDirectory + file.TargetPath;
+                return LauncherViewModel.BaseGame.GameDirectory + file.TargetPath;
             return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
         }
 
         private string CreateLocalFilePath(RestoreFile file)
         {
             if (file.TargetType == TargetType.Ai)
-                return Path.Combine(LauncherViewModel.Foc.GameDirectory, file.TargetPath);
+                return Path.Combine(LauncherViewModel.BaseGame.GameDirectory, file.TargetPath);
             return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
         }
 

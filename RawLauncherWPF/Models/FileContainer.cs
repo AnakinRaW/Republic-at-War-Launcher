@@ -150,6 +150,14 @@ namespace RawLauncherWPF.Models
         Ai,
     }
 
+    public enum CheckResult
+    {
+        None,
+        Exist,
+        Count,
+        Hash
+    }
+
     /// <remarks/>
     [GeneratedCode("xsd", "4.6.81.0")]
     [Serializable]
@@ -195,26 +203,16 @@ namespace RawLauncherWPF.Models
             set { _countField = value; }
         }
 
-        //TODO: Throwing Messages should not be done here ....
-        public bool Check(string referencePath)
+        public CheckResult Check(string referencePath)
         {
             if (!Directory.Exists(referencePath))
-            {
-                MessageProvider.Show("Exists Fail: " + referencePath);
-                return false;
-            }
+                return CheckResult.Exist;
             if (Directory.GetFiles(referencePath).Length.ToString() != Count)
-            {
-                MessageProvider.Show("Count Fail: " + referencePath);
-                return false;
-            }
+                return CheckResult.Count;
             var hashProvider = new HashProvider();
             if (hashProvider.GetDirectoryHash(referencePath) != Hash)
-            {
-                MessageProvider.Show("Hash Fail: " + referencePath);
-                return false;
-            }
-            return true;
+                return CheckResult.Hash;
+            return CheckResult.None;
         }
 
         public static List<FileContainerFolder> ListFromExcludeList(List<FileContainerFolder> folderList,

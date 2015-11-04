@@ -87,18 +87,22 @@ namespace RawLauncherWPF.ViewModels
         {
             var listToCheck = FileContainerFolder.ListFromExcludeList(folderList, excludeList);
             var result = true;
-            var i = 100/listToCheck.Count;
+            var i = (double) 100/listToCheck.Count;
 
             foreach (var folder in listToCheck)
             {
                 try
                 {
                     var referenceDir = GetReferenceDir(folder);
-                    if (!await Task.Run(() => folder.Check(referenceDir), _mSource.Token))
+                    CheckResult error = CheckResult.None;
+                    if (await Task.Run(() => error = folder.Check(referenceDir), _mSource.Token) != CheckResult.None)
+                    {
+                        Show(error +"-Fail: " + referenceDir);
                         result = false;
+                    }
                     ProzessStatus = "Checking: " + Path.GetDirectoryName(referenceDir);
                     Debug.WriteLine(referenceDir);
-                    await AnimateProgressBar(Progress, Progress + i + 1, 1, this, x => x.Progress);
+                    Progress = Progress + i;
                 }
                 catch (TaskCanceledException)
                 {
@@ -122,9 +126,9 @@ namespace RawLauncherWPF.ViewModels
             else if (!eaw && !foc)
                 Show("Games not successfuly patched.");
             else if (!eaw)
-                Show("Foc successfuly patched.\r\nEaw not successfuly patched.");
+                Show("BaseGame successfuly patched.\r\nEaw not successfuly patched.");
             else
-                Show("Foc not successfuly patched\r\nEaw successfuly patched");
+                Show("BaseGame not successfuly patched\r\nEaw successfuly patched");
         }
 
         #endregion
@@ -378,7 +382,7 @@ namespace RawLauncherWPF.ViewModels
         private async Task<bool> CheckFocExistsTask()
         {
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
-            return LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.Exists();
+            return LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.Exists();
         }
 
         private void FocNotExistsTasks()
@@ -447,7 +451,7 @@ namespace RawLauncherWPF.ViewModels
         {
             var a = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
             await AnimateProgressBar(Progress, 51, 10, this, x => x.Progress);
-            var b = LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.IsPatched();
+            var b = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.IsPatched();
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             return a && b;
         }
@@ -666,7 +670,7 @@ namespace RawLauncherWPF.ViewModels
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             var eaw = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.Patch();
-            var foc = LauncherPane.MainWindowViewModel.LauncherViewModel.Foc.Patch();
+            var foc = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.Patch();
             CreatePatchMessage(eaw, foc);
         }
 
