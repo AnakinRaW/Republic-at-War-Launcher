@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -115,9 +116,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void InternalChangeLanguage(IMod mod)
         {
-            if (CheckAlreadyInstalledLanguage(mod))
-                MessageToShowAfterChange = SelectedLanguage + " is already installed";
-            else
+            if (!CheckAlreadyInstalledLanguage(mod))
             {
                 ChangeMasterTextFile(mod);
                 ChangeSpeechMegFile(mod);
@@ -159,6 +158,14 @@ namespace RawLauncherWPF.ViewModels
             MessageProvider.Show(
                 "Note that chaging the language in this case means that any [MISSING]s and missing audio will be replaced with the default english version. For any language packs consider our Moddb page or check the Republic at War installer for language options",
                 "Repuvlic at War Launcher", MessageBoxButton.OK, MessageBoxImage.Information);
+            InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
+        }
+
+        public void ChangeLanguage(LanguageTypes language)
+        {
+            if (language == LanguageTypes.None)
+                return;
+            SelectedLanguage = language;
             InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
         }
 

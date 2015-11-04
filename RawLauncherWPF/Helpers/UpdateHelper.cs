@@ -23,8 +23,6 @@ namespace RawLauncherWPF.Helpers
         {
             if (file == null)
                 throw new NullReferenceException(nameof(file));
-            if (Path.GetFullPath(file).Contains("\\Text\\"))
-                return true;
             if (Path.GetFullPath(file).Contains("\\Audio\\Speech\\"))
                 return true;
             var s = new FileInfo(file).Directory?.Name;

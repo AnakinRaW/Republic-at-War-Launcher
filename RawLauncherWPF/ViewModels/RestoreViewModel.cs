@@ -135,6 +135,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public async void PerformRestore()
         {
+            var l = LauncherViewModel.CurrentMod.InstalledLanguage;
             if (!ComputerHasInternetConnection())
             {
                 Show("You need an Internet connction to Restore your mod");
@@ -191,6 +192,15 @@ namespace RawLauncherWPF.ViewModels
                 return;
             }
             LauncherPane.MainWindowViewModel.InstalledVersion = LauncherViewModel.CurrentMod.Version;
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            ProzessStatus = "Finishing";
+            await Task.Run(() =>
+            {
+                var model = LauncherPane.MainWindowViewModel.LauncherPanes[2].ViewModel;
+                var languageModel = (LanguageViewModel)model;
+                languageModel?.ChangeLanguage(l);
+            });
+            await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             Show("Restoring Done");
             ResetUi();
         }

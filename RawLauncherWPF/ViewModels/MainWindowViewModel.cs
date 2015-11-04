@@ -103,7 +103,7 @@ namespace RawLauncherWPF.ViewModels
             }
         }
 
-        private List<ILauncherPane> LauncherPanes { get; }
+        public List<ILauncherPane> LauncherPanes { get; }
 
         public void ShowPane(object index, bool hasAudio = false)
         {

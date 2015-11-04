@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using RawLauncherWPF.Utilities;
+using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Mods
 {
@@ -25,6 +28,33 @@ namespace RawLauncherWPF.Mods
         public string LaunchArgumentPath => "Mods/" + FolderName;
 
         public string FolderName => "Republic_at_War";
+
+        public LanguageTypes InstalledLanguage
+        {
+            get
+            {
+                if (Directory.EnumerateFiles(ModDirectory + @"Data\Text", "MasterTextFile_*.dat", SearchOption.AllDirectories).Count() < 0)
+                    return LanguageTypes.None;
+                var s =
+                    Path.GetFileName(
+                        Directory.EnumerateFiles(ModDirectory + @"Data\Text", "MasterTextFile*.dat",
+                            SearchOption.AllDirectories).First());
+                var n = s?.Replace("MasterTextFile_", "").Replace(".dat", "").Replace(".DAT", "");
+                n = n.ToLower();
+                n = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(n);
+
+                LanguageTypes result;
+                try
+                {
+                    result = (LanguageTypes)Enum.Parse(typeof(LanguageTypes), n);
+                }
+                catch (Exception)
+                {
+                    result = LanguageTypes.None;
+                }
+                return result;
+            }
+        }
 
         public bool Exists()
         {

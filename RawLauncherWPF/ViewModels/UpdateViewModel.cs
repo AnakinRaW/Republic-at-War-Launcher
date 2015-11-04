@@ -96,6 +96,7 @@ namespace RawLauncherWPF.ViewModels
 
         public async void PerformUpdate()
         {
+            var l = LauncherViewModel.CurrentMod.InstalledLanguage;
             if (!ComputerHasInternetConnection())
             {
                 Show("You need an Internet connction to Restore your mod");
@@ -144,9 +145,120 @@ namespace RawLauncherWPF.ViewModels
             LauncherPane.MainWindowViewModel.InstalledVersion = LauncherViewModel.CurrentMod.Version;
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             ProzessStatus = "Finishing";
+            await Task.Run(() =>
+            {
+                var model =  LauncherPane.MainWindowViewModel.LauncherPanes[2].ViewModel;
+                var languageModel = (LanguageViewModel) model;
+                languageModel?.ChangeLanguage(l);
+            });
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             Show("Updateing Done");
             ResetUi();
+        }
+
+        private async Task<bool> AddDeleteFilesToUpdateTable(bool shallIgnore)
+        {
+            var i = (double)100 / UpdateContainer.Files.Count;
+            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            try
+            {
+                ProzessStatus = "Checking for additional files";
+
+                //Find files to delete (AI files)
+                if (Directory.Exists(LauncherViewModel.Foc.GameDirectory + "\\Data\\"))
+                {
+                    foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*", SearchOption.AllDirectories), _mSource.Token))
+                    {
+                        var fileToSearch = await Task.Run(
+                            () =>
+                                UpdateContainer.Files.Find(
+                                    k =>
+                                        k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
+                                        Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                        Progress = Progress + i;
+                        if (fileToSearch != null)
+                            continue;
+                        // File on disk was not found in XML 
+                        UpdateTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Ai));
+                    }
+                }
+
+                //Find files to delete (Mod files)
+                foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*", SearchOption.AllDirectories), _mSource.Token))
+                {
+                    if (new FileInfo(file).Directory?.Name == "Text")
+                    {
+                        Progress = Progress + i;
+                        continue;
+                    }
+                    if (shallIgnore && UpdateHelper.IgnoreFile(file))
+                    {
+                        Progress = Progress + i;
+                        continue;
+                    }
+                    var fileToSearch = await Task.Run(
+                        () =>
+                            UpdateContainer.Files.Find(
+                                k =>
+                                    k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod &&
+                                    Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                    Progress = Progress + i;
+                    if (fileToSearch == null)
+                        UpdateTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Mod));
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                Show("Restoring aborted");
+                return false;
+            }
+            return true;
+        }
+
+        private async Task<bool> AddDownloadFilesToUpdateTable(List<string> excludeList)
+        {
+            var versionToUpdate = GetLatestVersion();
+            UpdateTable = new RestoreTable(versionToUpdate);
+            if (versionToUpdate != UpdateContainer.Version)
+                throw new Exception("Versions do not match");
+
+            var hashProvider = new Hash.HashProvider();
+            var listToCheck = UpdateContainer.Files;
+            if (excludeList != null)
+                listToCheck = FileContainerFile.ListFromExcludeList(UpdateContainer.Files, excludeList);
+
+            var i = (double) 100/listToCheck.Count;
+
+            try
+            {
+                // Find missing/corrupted files to download
+                ProzessStatus = "Checkign for new and corruppted files";
+                foreach (var file in listToCheck)
+                {
+                    var absolutePath = CreateAbsoluteFilePath(file);
+
+                    //If file does not exists and is corrupted
+                    if (!await Task.Run(() => File.Exists(absolutePath), _mSource.Token) ||
+                        await
+                            Task.Run(
+                                () =>
+                                    (hashProvider.GetFileHash(absolutePath) != file.Hash &&
+                                     !FileContainerFile.ShallExclude(file, excludeList)), _mSource.Token))
+                    {
+                        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
+                        UpdateTable.Files.Add(restoreFile);
+
+                    }
+                    Progress = Progress + i;
+                }
+
+            }
+            catch (TaskCanceledException)
+            {
+                Show("Update aborted");
+                return false;
+            }
+            return true;
         }
 
         private string CreateAbsoluteFilePath(RestoreFile file)
@@ -246,52 +358,6 @@ namespace RawLauncherWPF.ViewModels
             UpdateTable = null;
         }
 
-        private async Task<bool> AddDownloadFilesToUpdateTable(List<string> excludeList)
-        {
-            var versionToUpdate = GetLatestVersion();
-            UpdateTable = new RestoreTable(versionToUpdate);
-            if (versionToUpdate != UpdateContainer.Version)
-                throw new Exception("Versions do not match");
-
-            var hashProvider = new Hash.HashProvider();
-            var listToCheck = UpdateContainer.Files;
-            if (excludeList != null)
-                listToCheck = FileContainerFile.ListFromExcludeList(UpdateContainer.Files, excludeList);
-
-            var i = (double) 100/listToCheck.Count;
-
-            try
-            {
-                // Find missing/corrupted files to download
-                ProzessStatus = "Checkign for new and corruppted files";
-                foreach (var file in listToCheck)
-                {
-                    var absolutePath = CreateAbsoluteFilePath(file);
-
-                    //If file does not exists and is corrupted
-                    if (!await Task.Run(() => File.Exists(absolutePath), _mSource.Token) ||
-                        await
-                            Task.Run(
-                                () =>
-                                    (hashProvider.GetFileHash(absolutePath) != file.Hash &&
-                                     !FileContainerFile.ShallExclude(file, excludeList)), _mSource.Token))
-                    {
-                        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
-                        UpdateTable.Files.Add(restoreFile);
-
-                    }
-                    Progress = Progress + i;
-                }
-
-            }
-            catch (TaskCanceledException)
-            {
-                Show("Update aborted");
-                return false;
-            }
-            return true;
-        }
-
         #region Normal
 
         private async Task<bool> PrepareNormalUpdate()
@@ -314,66 +380,8 @@ namespace RawLauncherWPF.ViewModels
 
         #endregion
 
-        private async Task<bool> AddDeleteFilesToUpdateTable(bool shallIgnore)
-        {
-            var i = (double)100 / UpdateContainer.Files.Count;
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            try
-            {
-                ProzessStatus = "Checking for additional files";
-
-                //Find files to delete (AI files)
-                if (Directory.Exists(LauncherViewModel.Foc.GameDirectory + "\\Data\\"))
-                {
-                    foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.Foc.GameDirectory + "\\Data\\", "*.*", SearchOption.AllDirectories), _mSource.Token))
-                    {
-                        var fileToSearch = await Task.Run(
-                            () =>
-                                UpdateContainer.Files.Find(
-                                    k =>
-                                        k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
-                                        Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
-                        Progress = Progress + i;
-                        if (fileToSearch != null)
-                            continue;
-                        // File on disk was not found in XML 
-                        UpdateTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Ai));
-                    }
-                }
-
-                //Find files to delete (Mod files)
-                foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*", SearchOption.AllDirectories), _mSource.Token))
-                {
-                    if (new FileInfo(file).Directory?.Name == "Text")
-                    {
-                        Progress = Progress + i;
-                        continue;
-                    }
-                    if (shallIgnore && UpdateHelper.IgnoreFile(file))
-                    {
-                        Progress = Progress + i;
-                        continue;
-                    }
-                    var fileToSearch = await Task.Run(
-                        () =>
-                            UpdateContainer.Files.Find(
-                                k =>
-                                    k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod &&
-                                    Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
-                    Progress = Progress + i;
-                    if (fileToSearch == null)
-                        UpdateTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Mod));
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                Show("Restoring aborted");
-                return false;
-            }
-            return true;
-        }
-
         #region IgnoreVoice
+
         private async Task<bool> PrepareVoiceIgnoreUpdate()
         {
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
@@ -389,7 +397,6 @@ namespace RawLauncherWPF.ViewModels
                     {
                         @"\Data\Audio\Speech\*",
                         @"\Data\*Speech.meg",
-                        @"\Data\Text\",
                         @"\Data\Audio\"
                     }))
                 return false;
