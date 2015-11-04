@@ -286,7 +286,7 @@ namespace RawLauncherWPF.ViewModels
         public Command NormalLaunchCommand => new Command(NormalLaunch);
 
         private async void NormalLaunch()
-        {
+        {         
             ShowMainWindow(0);
             if (ComputerHasInternetConnection() && NewVersionAvailable())
                  await Task.Run(() => MessageProvider.Show($"New Version {VersionUtilities.GetLatestVersion()} is avaiable"));
