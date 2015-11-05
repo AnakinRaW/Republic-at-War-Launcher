@@ -1,9 +1,11 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Utilities;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF
 {
@@ -18,7 +20,7 @@ namespace RawLauncherWPF
     /// </summary>
     public static class StartupLauncher
     {
-
+        internal static CultureInfo DisplayCulture = CultureInfo.CreateSpecificCulture("en");
         private static LauncherApp _launcher;
 
         public static void CleanUp()
@@ -31,13 +33,18 @@ namespace RawLauncherWPF
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {
+            SetUpLanguage();
             ExtractLibraries();
-
             _launcher = new LauncherApp();
             _launcher.InitializeComponent();
             _launcher.Run();
 
             CleanUp();
+        }
+
+        private static void SetUpLanguage()
+        {
+            DisplayCulture = CultureInfo.CreateSpecificCulture(CultureInfo.InstalledUICulture.TwoLetterISOLanguageName == "de" ? "de" : "en");
         }
 
 
@@ -64,7 +71,8 @@ namespace RawLauncherWPF
             }
             catch (ResourceExtractorException exception)
             {
-                MessageProvider.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
+
+                Show(GetMessage("ErrorInitLauncher", exception.Message));
                 Environment.Exit(0);
             }
         }
@@ -85,7 +93,7 @@ namespace RawLauncherWPF
             }
             catch (ResourceExtractorException exception)
             {
-                MessageProvider.Show("Something went wrong when initializing the Launcher\n\n" + exception.Message);
+                Show(GetMessage("ErrorInitLauncher", exception.Message));
                 Environment.Exit(0);
             }
         }

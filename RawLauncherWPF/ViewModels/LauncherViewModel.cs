@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
+using System.Reflection;
+using System.Resources;
 using System.Threading.Tasks;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
@@ -7,6 +10,7 @@ using RawLauncherWPF.Games;
 using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
+using RawLauncherWPF.Properties;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
@@ -287,7 +291,9 @@ namespace RawLauncherWPF.ViewModels
 
         private async void NormalLaunch()
         {         
+            var res = new ResourceManager("RawLauncherWPF.Localization.Res", typeof(MainWindow).Assembly);
             ShowMainWindow(0);
+            MessageProvider.Show(MessageProvider.GetMessage("TestMessage", BaseGame.Name));
             if (ComputerHasInternetConnection() && NewVersionAvailable())
                  await Task.Run(() => MessageProvider.Show($"New Version {VersionUtilities.GetLatestVersion()} is avaiable"));
         }
