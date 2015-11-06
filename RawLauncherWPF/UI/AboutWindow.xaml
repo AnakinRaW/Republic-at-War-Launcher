@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mafc="http://modern.framework.com/controls"
         mc:Ignorable="d"
         Title="Republic at War Launcher About" Height="330.816" Width="500" ResizeMode="NoResize">
     <Window.CommandBindings>
@@ -28,7 +29,14 @@
                 <Label >Version:</Label>
                 <Label x:Name="VersionNumber" x:FieldModifier="private"/>
             </DockPanel>
-            <Label Content="{x:Static }">(c) Republic at War Modding Team 2015, 2016</Label>
+            <DockPanel>
+                <Label>Language: </Label>
+                <ComboBox Name="ComboBox" x:FieldModifier="private" Margin="10,0,0,0" Width="150" HorizontalAlignment="Left" SelectionChanged="Selector_OnSelectionChanged">
+                    <ComboBoxItem DataContext="en">English</ComboBoxItem>
+                    <ComboBoxItem DataContext="de">German</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+            <Label>(c) Republic at War Modding Team 2015, 2016</Label>
             <Label>Launcher Created by: TODO!!!!</Label>
             <Label></Label>
             <Label>The Launcher is using the ModernApplicationFramework by AnakinSklavenwalker</Label>
