@@ -4,6 +4,7 @@ using System.IO;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Games
 {
@@ -17,7 +18,7 @@ namespace RawLauncherWPF.Games
         {
             GameDirectory = gameDirectory;
             if (!Exists())
-                throw new GameExceptions("This Game does not exists");
+                throw new GameExceptions(GetMessage("ExceptionGameExist"));
         }
 
         public string GameDirectory { get; }
@@ -42,7 +43,7 @@ namespace RawLauncherWPF.Games
         public IGame FindGame()
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\swfoc.exe"))
-                throw new GameExceptions(Name + " does not exists");
+                throw new GameExceptions(GetMessage("ExceptionGameExistName", Name));
             return new Foc(Directory.GetCurrentDirectory() + @"\");
         }
 
@@ -70,11 +71,11 @@ namespace RawLauncherWPF.Games
         public void PlayGame(IMod mod)
         {
             if (!mod.Exists())
-                throw new ModExceptions("Mod does not exists anymore.");
+                throw new ModExceptions(GetMessage("ExceptionGameModExsit"));
             if (!mod.ModDirectory.StartsWith(GameDirectory))
-                throw new ModExceptions("Mod is not compatible");
+                throw new ModExceptions(GetMessage("ExceptionGameModComatible"));
             if (!mod.HasCorrectFolderStructure)
-                throw new ModExceptions("Mod is not correct installed");
+                throw new ModExceptions(GetMessage("ExceptionGameModWrongInstalled"));
 
             var process = new Process
             {

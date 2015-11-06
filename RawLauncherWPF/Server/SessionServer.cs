@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using RawLauncherWPF.Utilities;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Server
 {
@@ -25,7 +25,7 @@ namespace RawLauncherWPF.Server
             }
             catch (Exception)
             {
-                MessageProvider.Show("Was not able to get data from: " + Path.GetFileName(ServerRootAddress + resource));
+                Show(GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
                 result = string.Empty;
             }
             return result;

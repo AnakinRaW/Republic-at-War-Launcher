@@ -117,13 +117,283 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CheckFolderNotValid" xml:space="preserve">
+    <value>{0}-Fail: {1}</value>
+  </data>
+  <data name="CheckMessageAborted" xml:space="preserve">
+    <value>aborted</value>
+  </data>
+  <data name="CheckMessageAiCorrect" xml:space="preserve">
+    <value>ai correct</value>
+  </data>
+  <data name="CheckMessageAiWrong" xml:space="preserve">
+    <value>ai wrong</value>
+  </data>
+  <data name="CheckMessageCouldNotCheck" xml:space="preserve">
+    <value>could not check</value>
+  </data>
+  <data name="CheckMessageGameFound" xml:space="preserve">
+    <value>foc found</value>
+  </data>
+  <data name="CheckMessageGameNotFound" xml:space="preserve">
+    <value>foc not found</value>
+  </data>
+  <data name="CheckMessageGamesNotPatched" xml:space="preserve">
+    <value>games not patched</value>
+  </data>
+  <data name="CheckMessageGamesPatched" xml:space="preserve">
+    <value>games patched</value>
+  </data>
+  <data name="CheckMessageModCorrect" xml:space="preserve">
+    <value>mod correct</value>
+  </data>
+  <data name="CheckMessageModFound" xml:space="preserve">
+    <value>raw found</value>
+  </data>
+  <data name="CheckMessageModNotFound" xml:space="preserve">
+    <value>raw not found</value>
+  </data>
+  <data name="CheckMessageModWrong" xml:space="preserve">
+    <value>mod wrong</value>
+  </data>
+  <data name="CheckOfflineXmlNotFound" xml:space="preserve">
+    <value>Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.</value>
+  </data>
+  <data name="CheckPatchGamesFailed" xml:space="preserve">
+    <value>Games not successfuly patched.</value>
+  </data>
+  <data name="CheckPatchGamesFailedBase" xml:space="preserve">
+    <value>BaseGame not successfuly patched
+Eaw successfuly patched</value>
+  </data>
+  <data name="CheckPatchGamesFailedEaw" xml:space="preserve">
+    <value>BaseGame successfuly patched.
+Eaw not successfuly patched.</value>
+  </data>
+  <data name="CheckPatchGamesSuccess" xml:space="preserve">
+    <value>Games successfuly patched.</value>
+  </data>
+  <data name="CheckStatusChecking" xml:space="preserve">
+    <value>Checking: {0}</value>
+  </data>
+  <data name="CheckStatusCheckingGameExist" xml:space="preserve">
+    <value>Checking Game existance</value>
+  </data>
+  <data name="CheckStatusCheckingGamePatches" xml:space="preserve">
+    <value>Checking Game Patches</value>
+  </data>
+  <data name="CheckStatusCheckingModExist" xml:space="preserve">
+    <value>Checking Mod existance</value>
+  </data>
+  <data name="CheckStatusPrepareAiModCheck" xml:space="preserve">
+    <value>Preparing AI/Mod Check</value>
+  </data>
+  <data name="CheckVersionNotFound" xml:space="preserve">
+    <value>Your installed version is not available to check. Please try later or contact us.</value>
+  </data>
+  <data name="CheckXmlValidateError" xml:space="preserve">
+    <value>The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.</value>
+  </data>
+  <data name="CheckXmlWrongVersion" xml:space="preserve">
+    <value>The Version of the mod does not match to the reference file. Please click Restore-Tab and let the launcher redownload the Files.</value>
+  </data>
   <data name="ErrorCreateMessageFailed" xml:space="preserve">
     <value>Was unable to create a text</value>
   </data>
   <data name="ErrorInitLauncher" xml:space="preserve">
-    <value>"Something went wrong when initializing the Launcher\n\n"{0}</value>
+    <value>Something went wrong when initializing the Launcher
+
+{0}</value>
+  </data>
+  <data name="ExceptionGameExist" xml:space="preserve">
+    <value>This Game does not exists</value>
+  </data>
+  <data name="ExceptionGameExistName" xml:space="preserve">
+    <value>{0} does not exists.</value>
+  </data>
+  <data name="ExceptionGameModComatible" xml:space="preserve">
+    <value>Mod is not compatible</value>
+  </data>
+  <data name="ExceptionGameModExsit" xml:space="preserve">
+    <value>Mod does not exists anymore.</value>
+  </data>
+  <data name="ExceptionGameModWrongInstalled" xml:space="preserve">
+    <value>Mod is not correct installed</value>
+  </data>
+  <data name="ExceptionHostServerGetData" xml:space="preserve">
+    <value>Was not able to get data from: {0}</value>
+  </data>
+  <data name="ExceptionModExist" xml:space="preserve">
+    <value>This Mod does not exist</value>
+  </data>
+  <data name="ExceptionModExistName" xml:space="preserve">
+    <value>{0} does not exist</value>
+  </data>
+  <data name="ExceptionResourceExtractorNotFound" xml:space="preserve">
+    <value>The Resource could not be found: {0}</value>
+  </data>
+  <data name="ExceptionRestoreVersionNotMatch" xml:space="preserve">
+    <value>Versions do not match</value>
+  </data>
+  <data name="ExceptionUpdateVersionNotMatch" xml:space="preserve">
+    <value>Versions do not match</value>
+  </data>
+  <data name="ExceptionXmlParserError" xml:space="preserve">
+    <value>Unable to deserialize the xml stream.
+{0}</value>
+  </data>
+  <data name="LanguageAdditionalSupport" xml:space="preserve">
+    <value>There is also a separate specific Version available for this language. Please check Moddb.com for a Language-Pack or check the RaW installer for more options.</value>
+  </data>
+  <data name="LanguageMessageChangedSuccess" xml:space="preserve">
+    <value>Successfuly Changed Language</value>
+  </data>
+  <data name="LanguageMessageSpeechFileRenameFailed" xml:space="preserve">
+    <value>Could not change Speech.meg</value>
+  </data>
+  <data name="LanguageMessageSpeechRenameFailed" xml:space="preserve">
+    <value>Could not change Speech folder</value>
+  </data>
+  <data name="LanguageMessageTextRenameFailed" xml:space="preserve">
+    <value>Could not change MasterTextFile</value>
+  </data>
+  <data name="LanguageNoneSelected" xml:space="preserve">
+    <value>Select a language, you want to use.</value>
+  </data>
+  <data name="LangugeOperationQuestion" xml:space="preserve">
+    <value>Note that chaging the language in this case means that any [MISSING]s and missing audio will be replaced with the default english version. For any language packs consider our Moddb page or check the Republic at War installer for language options</value>
+  </data>
+  <data name="LauncherInfoNewVersion" xml:space="preserve">
+    <value>New Version: {0} is avaiable.</value>
+  </data>
+  <data name="ModVersionNotFound" xml:space="preserve">
+    <value>Could not get the current version. Please reinstall the Republic at War and try again.</value>
+  </data>
+  <data name="PlayCurrentSessionWait" xml:space="preserve">
+    <value>wait..</value>
+  </data>
+  <data name="ResourceExtractorNewDirectoryCreated" xml:space="preserve">
+    <value>Created new Directory: {0}</value>
+  </data>
+  <data name="RestoreAborted" xml:space="preserve">
+    <value>Restoring aborted</value>
+  </data>
+  <data name="RestoreDone" xml:space="preserve">
+    <value>Restoring Done</value>
+  </data>
+  <data name="RestoreErrorExit" xml:space="preserve">
+    <value>Either you aborted the Progress of something failed</value>
+  </data>
+  <data name="RestoreHostServerOffline" xml:space="preserve">
+    <value>Could not Download the required files, because the servers are offline.
+Please try later.</value>
+  </data>
+  <data name="RestoreInternetLost" xml:space="preserve">
+    <value>You lost your Internet connection. In order to prevent much more error messages the progress will be cancelled now.</value>
+  </data>
+  <data name="RestoreNoInternet" xml:space="preserve">
+    <value>You need an Internet connction to Restore your mod</value>
+  </data>
+  <data name="RestoreNoVersion" xml:space="preserve">
+    <value>You need to select a Version to restore to.</value>
+  </data>
+  <data name="RestoreOperationQuestion" xml:space="preserve">
+    <value>Are you sure you want to restore Republic at War ?
+This cannot be undone.
+Modified Files will be delted and restored with the original ones.</value>
+  </data>
+  <data name="RestoreStatusCheckAdditionalFiles" xml:space="preserve">
+    <value>Checking for additional files</value>
+  </data>
+  <data name="RestoreStatusCheckMissing" xml:space="preserve">
+    <value>Checking for missing/corrupted files</value>
+  </data>
+  <data name="RestoreStatusDownloaded" xml:space="preserve">
+    <value>Downloaded: {0}</value>
+  </data>
+  <data name="RestoreStatusFinishing" xml:space="preserve">
+    <value>Finishing</value>
+  </data>
+  <data name="RestoreStatusPrepare" xml:space="preserve">
+    <value>Preparing Restore</value>
+  </data>
+  <data name="RestoreStatusPrepareTable" xml:space="preserve">
+    <value>Preparing download-table</value>
+  </data>
+  <data name="RestoreStautsDeletingMod" xml:space="preserve">
+    <value>Deleting Mod Files</value>
+  </data>
+  <data name="RestoreStreamNull" xml:space="preserve">
+    <value>Error while downloading the required files.
+Please try later</value>
+  </data>
+  <data name="RestoreTableNull" xml:space="preserve">
+    <value>Error while trying to download the mod files. The required Table was empty.
+Please try again</value>
+  </data>
+  <data name="RestoreVersionNotMatch" xml:space="preserve">
+    <value>Your installed version is not available to check. Please try later or contact us.</value>
+  </data>
+  <data name="RestoreXmlNotValid" xml:space="preserve">
+    <value>The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.</value>
   </data>
   <data name="TestMessage" xml:space="preserve">
     <value>Test Message</value>
+  </data>
+  <data name="UpdateAborted" xml:space="preserve">
+    <value>Update aborted</value>
+  </data>
+  <data name="UpdateDone" xml:space="preserve">
+    <value>Updateing Done</value>
+  </data>
+  <data name="UpdateErrorExit" xml:space="preserve">
+    <value>Either you aborted the Progress of something failed</value>
+  </data>
+  <data name="UpdateHostOffline" xml:space="preserve">
+    <value>Could not Download the required files, because the servers are offline. 
+Please try later</value>
+  </data>
+  <data name="UpdateInternetLost" xml:space="preserve">
+    <value>You lost your Internet connection. In order to prevent much more error messages the progress will be cancelled now.</value>
+  </data>
+  <data name="UpdateNoInternet" xml:space="preserve">
+    <value>You need an Internet connction to update your mod</value>
+  </data>
+  <data name="UpdateOperationQuestion" xml:space="preserve">
+    <value>Are you sure you want to update Republic at War ?
+This cannot be undone.
+Modified Files will also be delted and restored with the original ones.</value>
+  </data>
+  <data name="UpdateStatusCheckAdditionalFiles" xml:space="preserve">
+    <value>Checking for additional files</value>
+  </data>
+  <data name="UpdateStatusCheckNew" xml:space="preserve">
+    <value>Checking for new and corruppted files</value>
+  </data>
+  <data name="UpdateStatusDownloaded" xml:space="preserve">
+    <value>Downloaded: {0}</value>
+  </data>
+  <data name="UpdateStatusFinishing" xml:space="preserve">
+    <value>Finishing</value>
+  </data>
+  <data name="UpdateStatusPrepare" xml:space="preserve">
+    <value>Preparing Update</value>
+  </data>
+  <data name="UpdateStreamNull" xml:space="preserve">
+    <value>Error while downloading the required files. 
+Please try later</value>
+  </data>
+  <data name="UpdateTableNull" xml:space="preserve">
+    <value>Error while trying to download the mod files. The required Table was empty \r\nPlease try again</value>
+  </data>
+  <data name="UpdateVersionNotFound" xml:space="preserve">
+    <value>Your installed version is not available to check. Please try later or contact us.</value>
+  </data>
+  <data name="UpdateXmlNotValid" xml:space="preserve">
+    <value>The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.</value>
+  </data>
+  <data name="VersionUtilitiesAskForUpdate" xml:space="preserve">
+    <value>New Version: {0} avaiable.
+Update now ?</value>
   </data>
 </root>

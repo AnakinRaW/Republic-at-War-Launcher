@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Resources;
 using System.Threading.Tasks;
 using ModernApplicationFramework.Commands;
@@ -10,11 +8,11 @@ using RawLauncherWPF.Games;
 using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
-using RawLauncherWPF.Properties;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
+using static RawLauncherWPF.Utilities.VersionUtilities;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -183,7 +181,7 @@ namespace RawLauncherWPF.ViewModels
 
         }
 
-        public bool NewVersionAvailable() => CurrentMod?.Version < VersionUtilities.GetLatestVersion();
+        public bool NewVersionAvailable() => CurrentMod?.Version < GetLatestVersion();
 
         internal void ShowMainWindow(object index)
         {
@@ -192,7 +190,7 @@ namespace RawLauncherWPF.ViewModels
             var a = (MainWindowViewModel)_launcher.MainWindow.DataContext;
             a.ShowPane((int)index);
             a.InstalledVersion = CurrentMod.Version;
-            a.LatestVersion = VersionUtilities.GetLatestVersion();
+            a.LatestVersion = GetLatestVersion();
         }
 
         /// <summary>
@@ -274,7 +272,7 @@ namespace RawLauncherWPF.ViewModels
         private async void FastLaunch()
         {
             if (ComputerHasInternetConnection())
-                if (NewVersionAvailable() && VersionUtilities.AskToUpdate())
+                if (NewVersionAvailable() && AskToUpdate())
                 {
                     await DeleteFastLaunchFileCommand.Execute();
                     ShowMainWindow(4);
@@ -291,11 +289,9 @@ namespace RawLauncherWPF.ViewModels
 
         private async void NormalLaunch()
         {         
-            var res = new ResourceManager("RawLauncherWPF.Localization.Res", typeof(MainWindow).Assembly);
             ShowMainWindow(0);
-            MessageProvider.Show(MessageProvider.GetMessage("TestMessage", BaseGame.Name));
             if (ComputerHasInternetConnection() && NewVersionAvailable())
-                 await Task.Run(() => MessageProvider.Show($"New Version {VersionUtilities.GetLatestVersion()} is avaiable"));
+                 await Task.Run(() => MessageProvider.Show(MessageProvider.GetMessage("LauncherInfoNewVersion", GetLatestVersion())));
         }
 
         public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);

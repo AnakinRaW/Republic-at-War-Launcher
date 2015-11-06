@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Resources;
 using System.Windows;
 using RawLauncherWPF.UI;
@@ -8,7 +7,7 @@ namespace RawLauncherWPF.Utilities
 {
     public static class MessageProvider
     {
-        private static ResourceManager _resourceManager = new ResourceManager("RawLauncherWPF.Localization.Res", typeof(MainWindow).Assembly);
+        private static readonly ResourceManager ResourceManager = new ResourceManager("RawLauncherWPF.Localization.Res", typeof(MainWindow).Assembly);
 
         public static MessageBoxResult Show()
         {
@@ -49,14 +48,16 @@ namespace RawLauncherWPF.Utilities
 
         public static string GetMessage(string messageId, params object[] args)
         {
+            if (messageId == null)
+                return string.Empty;
             try
             {
-                var result = string.Format(_resourceManager.GetString(messageId, StartupLauncher.DisplayCulture), args);
+                var result = string.Format(ResourceManager.GetString(messageId, StartupLauncher.DisplayCulture), args);
                 return result;
             }
             catch (Exception)
             {
-                return _resourceManager.GetString("ErrorCreateMessageFailed");
+                return ResourceManager.GetString("ErrorCreateMessageFailed");
             }
             
         }

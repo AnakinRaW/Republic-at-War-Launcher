@@ -99,13 +99,13 @@ namespace RawLauncherWPF.ViewModels
             var l = LauncherViewModel.CurrentMod.InstalledLanguage;
             if (!ComputerHasInternetConnection())
             {
-                Show("You need an Internet connction to Restore your mod");
+                Show(GetMessage("UpdateNoInternet"));
                 return;
             }
             if (!UpdateHelper.AskUserToContinue())
                 return;
             PrepareUi();
-            ProzessStatus = "Preparing Update";
+            ProzessStatus = GetMessage("UpdateStatusPrepare");
             await AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
             if (!await GetUpdateXmlData())
             {
@@ -138,13 +138,13 @@ namespace RawLauncherWPF.ViewModels
 
             if (!await InternalUpdate())
             {
-                Show("Either you aborted the Progress of something failed");
+                Show(GetMessage("UpdateErrorExit"));
                 ResetUi();
                 return;
             }
             LauncherPane.MainWindowViewModel.InstalledVersion = LauncherViewModel.CurrentMod.Version;
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "Finishing";
+            ProzessStatus = "UpdateStatusFinishing";
             await Task.Run(() =>
             {
                 var model =  LauncherPane.MainWindowViewModel.LauncherPanes[2].ViewModel;
@@ -152,7 +152,7 @@ namespace RawLauncherWPF.ViewModels
                 languageModel?.ChangeLanguage(l);
             });
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
-            Show("Updateing Done");
+            Show(GetMessage("UpdateDone"));
             ResetUi();
         }
 
@@ -162,7 +162,7 @@ namespace RawLauncherWPF.ViewModels
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             try
             {
-                ProzessStatus = "Checking for additional files";
+                ProzessStatus = GetMessage("UpdateStatusCheckAdditionalFiles");
 
                 //Find files to delete (AI files)
                 if (Directory.Exists(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\"))
@@ -209,7 +209,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (TaskCanceledException)
             {
-                Show("Restoring aborted");
+                Show(GetMessage("UpdateAborted"));
                 return false;
             }
             return true;
@@ -220,7 +220,7 @@ namespace RawLauncherWPF.ViewModels
             var versionToUpdate = GetLatestVersion();
             UpdateTable = new RestoreTable(versionToUpdate);
             if (versionToUpdate != UpdateContainer.Version)
-                throw new Exception("Versions do not match");
+                throw new Exception(GetMessage("ExceptionUpdateVersionNotMatch"));
 
             var hashProvider = new Hash.HashProvider();
             var listToCheck = UpdateContainer.Files;
@@ -232,7 +232,7 @@ namespace RawLauncherWPF.ViewModels
             try
             {
                 // Find missing/corrupted files to download
-                ProzessStatus = "Checkign for new and corruppted files";
+                ProzessStatus = GetMessage("UpdateStatusCheckNew");
                 foreach (var file in listToCheck)
                 {
                     var absolutePath = CreateAbsoluteFilePath(file);
@@ -255,7 +255,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (TaskCanceledException)
             {
-                Show("Update aborted");
+                Show(GetMessage("UpdateAborted"));
                 return false;
             }
             return true;
@@ -301,15 +301,14 @@ namespace RawLauncherWPF.ViewModels
                 {
                     if (!ComputerHasInternetConnection())
                     {
-                        Show(
-                            "You lost your Internet connection. In order to prevent much more error messages the progress will be cancelled now.");
+                        Show(GetMessage("UpdateInternetLost"));
                         return;
                     }
                     var updatePath = CreateAbsoluteFilePath(file);
                     await
                         Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, updatePath),
                             _mSource.Token);
-                    ProzessStatus = "Downloaded: " + file.Name;
+                    ProzessStatus = GetMessage("UpdateStatusDownloaded", file.Name);
                     Progress = Progress + i;
                 }));
 
@@ -317,7 +316,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (TaskCanceledException)
             {
-                Show("Restoring aborted");
+                Show(GetMessage("UpdateAborted"));
                 return false;
             }
             return true;
@@ -327,7 +326,7 @@ namespace RawLauncherWPF.ViewModels
         {
             if (UpdateTable == null)
             {
-                Show("Error while trying to download the mod files. The required Table was empty \r\nPlease try again");
+                Show(GetMessage("UpdateTableNull"));
                 return false;
             }
             if (!await DownloadUpdateFiles())
@@ -363,7 +362,7 @@ namespace RawLauncherWPF.ViewModels
         private async Task<bool> PrepareNormalUpdate()
         {
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "Preparing download-table";
+            ProzessStatus = "";
             if (!await FillUpdateTableNormal())
                 return false;
             return true;
@@ -385,7 +384,7 @@ namespace RawLauncherWPF.ViewModels
         private async Task<bool> PrepareVoiceIgnoreUpdate()
         {
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "Preparing download-table";
+            ProzessStatus = GetMessage("UpdateStatusPrepare");
             if (!await FillUpdateTableVoice())
                 return false;
             return true;
@@ -432,13 +431,12 @@ namespace RawLauncherWPF.ViewModels
         {
             if (!HostServer.IsRunning())
             {
-                Show("Could not Download the required files, because the servers are offline.\r\n" +
-                     "Please try later");
+                Show(GetMessage("UpdateHostOffline"));
                 return false;
             }
             if (!GetAllAvailableVersionsOnline().Contains(GetLatestVersion()))
             {
-                Show("Your installed version is not available to check. Please try later or contact us.");
+                Show(GetMessage("UpdateVersionNotFound"));
                 return false;
             }
 
@@ -449,15 +447,14 @@ namespace RawLauncherWPF.ViewModels
 
             if (UpdateFileStream.IsEmpty())
             {
-                Show("Error while downloading the required files.\r\n" + "Please try later");
+                Show(GetMessage("UpdateStreamNull"));
                 return false;
             }
 
             var validator = new XmlValidator(Resources.FileContainer.ToStream());
             if (!validator.Validate(UpdateFileStream))
             {
-                Show(
-                    "The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
+                Show(GetMessage("UpdateXmlNotValid"));
                 return false;
             }
             return true;

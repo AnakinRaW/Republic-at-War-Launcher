@@ -120,6 +120,16 @@
   <data name="ErrorCreateMessageFailed" xml:space="preserve">
     <value>Konnte den Text nicht erstellen</value>
   </data>
+  <data name="ErrorInitLauncher" xml:space="preserve">
+    <value>Beim Initieren des Launchers ist ein Fehler aufgetreten.
+
+{0}</value>
+  </data>
+  <data name="RestoreOperationQuestion" xml:space="preserve">
+    <value>Möchtest du Republic at War wirklich wiederherstellen?
+Dieser Prozess kann nicht rückganig gemacht werden
+Alle modifizierten Dateien werden durch die originalen ersetzt.</value>
+  </data>
   <data name="TestMessage" xml:space="preserve">
     <value>Test Nachricht {0}</value>
   </data>

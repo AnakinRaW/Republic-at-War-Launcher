@@ -33,7 +33,6 @@ namespace RawLauncherWPF.Defreezer
         }
 
         public int IntId { get; set; }
-
         public int Position { get; set; }
     }
 }

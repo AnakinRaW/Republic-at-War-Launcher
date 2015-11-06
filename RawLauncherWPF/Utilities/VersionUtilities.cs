@@ -6,6 +6,7 @@ using System.Windows;
 using RawLauncherWPF.Configuration;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.ViewModels;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Utilities
 {
@@ -25,8 +26,7 @@ namespace RawLauncherWPF.Utilities
         public static bool AskToUpdate()
         {
             var result =
-                        MessageProvider.Show(
-                            $"New Version: {GetLatestVersion()} avaiable." + "\r\nUpdate now ?",
+                        Show(GetMessage("VersionUtilitiesAskForUpdate", GetLatestVersion()),
                             "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
             return result == MessageBoxResult.Yes;
         }

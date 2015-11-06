@@ -8,6 +8,7 @@ using RawLauncherWPF.Mods;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static System.String;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -54,7 +55,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (Exception)
             {
-                MessageToShowAfterChange += "Could not change MasterTextFile";
+                MessageToShowAfterChange += GetMessage("LanguageMessageTextRenameFailed");
             }
         }
 
@@ -65,10 +66,7 @@ namespace RawLauncherWPF.ViewModels
             if (!Directory.EnumerateDirectories(mod.ModDirectory + @"Data\Audio\Speech", "*").Any())
                 return;
             if (Directory.Exists(mod.ModDirectory + @"Data\Audio\Speech\" + SelectedLanguage))
-            {
-                MessageToShowAfterChange += "A correct named Speech directory already existed. Skipped it's renaming.\n";
                 return;
-            }
 
             var directory = Directory.EnumerateDirectories(mod.ModDirectory + @"Data\Audio\Speech", "*").First();
             try
@@ -77,7 +75,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (Exception)
             {
-                MessageToShowAfterChange += "Could not change Speech folder";
+                MessageToShowAfterChange += GetMessage("LanguageMessageSpeechRenameFailed");
             }
         }
 
@@ -90,10 +88,7 @@ namespace RawLauncherWPF.ViewModels
 
             var languageAlias = CreateAliasLanguage(SelectedLanguage);
             if (File.Exists(mod.ModDirectory + @"\Data\" + languageAlias + "Speech.meg"))
-            {
-                MessageToShowAfterChange += languageAlias + "Speech.meg already existed. Skipped it's renaming.\n";
                 return;
-            }
             var file = Directory.EnumerateFiles(mod.ModDirectory + @"\Data\", "*Speech.meg").First();
             try
             {
@@ -101,7 +96,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (Exception)
             {
-                MessageToShowAfterChange += "Could not change Speech.meg";
+                MessageToShowAfterChange += GetMessage("LanguageMessageSpeechFileRenameFailed");
             }
         }
 
@@ -122,8 +117,8 @@ namespace RawLauncherWPF.ViewModels
                 ChangeSpeechMegFile(mod);
                 ChangeSpeechFolderName(mod);
             }
-            MessageToShowAfterChange += "Successfuly Changed Language";
-            MessageProvider.Show(MessageToShowAfterChange);
+            MessageToShowAfterChange += GetMessage("LanguageMessageChangedSuccess");
+            Show(MessageToShowAfterChange);
             MessageToShowAfterChange = Empty;
         }
 
@@ -149,15 +144,13 @@ namespace RawLauncherWPF.ViewModels
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             if (SelectedLanguage == LanguageTypes.None)
             {
-                MessageProvider.Show("Select a language, you want to use.");
+                Show(GetMessage("LanguageNoneSelected"));
                 return;
             }
             if ((SelectedLanguage & ExternalSupportedLanguages) != 0)
-                MessageProvider.Show(
-                    "There is also a separate specific Version available for this language. Please check Moddb.com for a Language-Pack or check the RaW installer for more options.");
-            MessageProvider.Show(
-                "Note that chaging the language in this case means that any [MISSING]s and missing audio will be replaced with the default english version. For any language packs consider our Moddb page or check the Republic at War installer for language options",
-                "Repuvlic at War Launcher", MessageBoxButton.OK, MessageBoxImage.Information);
+                Show(GetMessage("LanguageAdditionalSupport"));
+            Show(GetMessage("LangugeOperationQuestion"),
+                "Republic at War Launcher", MessageBoxButton.OK, MessageBoxImage.Information);
             InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
         }
 

@@ -2,9 +2,9 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using RawLauncherWPF.Utilities;
 using static System.String;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Server
 {
@@ -28,7 +28,7 @@ namespace RawLauncherWPF.Server
             catch (Exception)
             {
                 if (ComputerHasInternetConnection())
-                    MessageProvider.Show("Was not able to get data from: " + ServerRootAddress + resource);
+                    Show(GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
                 result = Empty;
             }
             return result;
@@ -69,10 +69,10 @@ namespace RawLauncherWPF.Server
                     Directory.CreateDirectory(Path.GetDirectoryName(storagePath));
                 webClient.DownloadFile(new Uri(s), storagePath);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (ComputerHasInternetConnection())
-                    MessageProvider.Show(e.Message +"\r\n Was not able to get data from: " + ServerRootAddress + resource);
+                    Show(GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
             }
         }
     }

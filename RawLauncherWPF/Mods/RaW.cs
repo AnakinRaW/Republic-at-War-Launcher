@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using RawLauncherWPF.Utilities;
 using RawLauncherWPF.ViewModels;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Mods
 {
@@ -17,7 +18,7 @@ namespace RawLauncherWPF.Mods
         {
             ModDirectory = modDirectory;
             if (!Exists())
-                throw new ModExceptions("This Mod does not exists");
+                throw new ModExceptions(GetMessage("ExceptionModExist"));
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace RawLauncherWPF.Mods
                         Directory.EnumerateFiles(ModDirectory + @"Data\Text", "MasterTextFile*.dat",
                             SearchOption.AllDirectories).First());
                 var n = s?.Replace("MasterTextFile_", "").Replace(".dat", "").Replace(".DAT", "");
-                n = n.ToLower();
+                n = n?.ToLower();
                 n = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(n);
 
                 LanguageTypes result;
@@ -64,7 +65,7 @@ namespace RawLauncherWPF.Mods
         public IMod FindMod()
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\XML\Gameobjectfiles.xml"))
-                throw new ModExceptions(Name + " does not exists");
+                throw new ModExceptions(GetMessage("ExceptionModExistName", Name));
             return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\");
         }
 
@@ -85,8 +86,8 @@ namespace RawLauncherWPF.Mods
                 }
                 catch (Exception)
                 {
-                    MessageProvider.Show(
-                        "Could not get the current version. Please reinstall the Republic at War and try again.");
+                    Show(GetMessage(
+                        "ModVersionNotFound"));
                     return null;
                 }
             }

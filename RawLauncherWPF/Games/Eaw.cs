@@ -3,6 +3,7 @@ using System.IO;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Games
 {
@@ -16,7 +17,7 @@ namespace RawLauncherWPF.Games
         {
             GameDirectory = gameDirectory;
             if (!Exists())
-                throw new GameExceptions("This Game does not exists");
+                throw new GameExceptions(GetMessage("ExceptionGameExist"));
         }
 
         public string GameDirectory { get; }
@@ -42,7 +43,7 @@ namespace RawLauncherWPF.Games
         public IGame FindGame()
         {
             if (!File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Star Wars Empire at War\GameData\sweaw.exe"))
-                throw new GameExceptions(Name + " does not exists");
+                throw new GameExceptions(GetMessage("ExceptionGameExistName", Name));
             return new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Star Wars Empire at War\GameData\");
         }
 

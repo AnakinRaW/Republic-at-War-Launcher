@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Xml
 {
@@ -33,7 +34,7 @@ namespace RawLauncherWPF.Xml
             }
             catch (Exception e)
             {
-                throw new Exception("Unable to deserialize the xml stream.", e.InnerException);
+                throw new Exception(MessageProvider.GetMessage("ExceptionXmlParserError"), e.InnerException);
             }
             finally
             {

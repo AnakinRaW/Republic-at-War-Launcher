@@ -28,7 +28,7 @@
                 <Label >Version:</Label>
                 <Label x:Name="VersionNumber" x:FieldModifier="private"/>
             </DockPanel>
-            <Label>(c) Republic at War Modding Team 2015, 2016</Label>
+            <Label Content="{x:Static }">(c) Republic at War Modding Team 2015, 2016</Label>
             <Label>Launcher Created by: TODO!!!!</Label>
             <Label></Label>
             <Label>The Launcher is using the ModernApplicationFramework by AnakinSklavenwalker</Label>

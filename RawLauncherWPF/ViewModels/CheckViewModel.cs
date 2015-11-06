@@ -97,10 +97,10 @@ namespace RawLauncherWPF.ViewModels
                     CheckResult error = CheckResult.None;
                     if (await Task.Run(() => error = folder.Check(referenceDir), _mSource.Token) != CheckResult.None)
                     {
-                        Show(error +"-Fail: " + referenceDir);
+                        Show(GetMessage("CheckFolderNotValid", error ,referenceDir));
                         result = false;
                     }
-                    ProzessStatus = "Checking: " + Path.GetDirectoryName(referenceDir);
+                    ProzessStatus = GetMessage("Checking: ", Path.GetDirectoryName(referenceDir));
                     Debug.WriteLine(referenceDir);
                     Progress = Progress + i;
                 }
@@ -122,13 +122,13 @@ namespace RawLauncherWPF.ViewModels
         private void CreatePatchMessage(bool eaw, bool foc)
         {
             if (eaw && foc)
-                Show("Games successfuly patched.");
+                Show(GetMessage("CheckPatchGamesSuccess"));
             else if (!eaw && !foc)
-                Show("Games not successfuly patched.");
+                Show(GetMessage("CheckPatchGamesFailed"));
             else if (!eaw)
-                Show("BaseGame successfuly patched.\r\nEaw not successfuly patched.");
+                Show(GetMessage("CheckPatchGamesFailedEaw"));
             else
-                Show("BaseGame not successfuly patched\r\nEaw successfuly patched");
+                Show(GetMessage("CheckPatchGamesFailedBase"));
         }
 
         #endregion
@@ -138,7 +138,7 @@ namespace RawLauncherWPF.ViewModels
             PrepareUi();
 
             //Game exists
-            ProzessStatus = "Checking Game existance";
+            ProzessStatus = GetMessage("CheckStatusCheckingGameExist");
             if (!await CheckGameExists())
                 return;
             await ThreadUtilities.SleepThread(250);
@@ -152,21 +152,21 @@ namespace RawLauncherWPF.ViewModels
 
 
             //Mod exists
-            ProzessStatus = "Checking Mod existance";
+            ProzessStatus = GetMessage("CheckStatusCheckingModExist");
             if (!await CheckModExists())
                 return;
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Games patched
-            ProzessStatus = "Checking Game Patches";
+            ProzessStatus = GetMessage("CheckStatusCheckingGamePatches");
             if (!await CheckGamePatched())
                 return;
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Prepare XML-based Check
-            ProzessStatus = "Preparing AI/Mod Check";
+            ProzessStatus = GetMessage("CheckStatusPrepareAiModCheck");
             if (!await PrepareXmlForCheck())
                 return;
 
@@ -388,14 +388,14 @@ namespace RawLauncherWPF.ViewModels
         private void FocNotExistsTasks()
         {
             GameFoundIndicator = SetColor(IndicatorColor.Red);
-            GameFoundMessage = "foc not found";
+            GameFoundMessage = GetMessage("CheckMessageGameNotFound");
             ResetUi();
         }
 
         private void FocExistsTasks()
         {
             GameFoundIndicator = SetColor(IndicatorColor.Green);
-            GameFoundMessage = "foc found";
+            GameFoundMessage = GetMessage("CheckMessageGameFound");
         }
 
         #endregion
@@ -422,14 +422,14 @@ namespace RawLauncherWPF.ViewModels
         private void ModNotExistsTasks()
         {
             ModFoundIndicator = SetColor(IndicatorColor.Red);
-            ModFoundMessage = "raw not found";
+            ModFoundMessage = GetMessage("CheckMessageModNotFound");
             ResetUi();
         }
 
         private void ModExistsTasks()
         {
             ModFoundIndicator = SetColor(IndicatorColor.Green);
-            ModFoundMessage = "raw found";
+            ModFoundMessage = GetMessage("CheckMessageModFound");
         }
 
         #endregion
@@ -459,7 +459,7 @@ namespace RawLauncherWPF.ViewModels
         private void GamesNotUpdated()
         {
             GamesPatchedIndicator = SetColor(IndicatorColor.Red);
-            GamesPatchedMessage = "games not patched";
+            GamesPatchedMessage = GetMessage("CheckMessageGamesNotPatched");
             ResetUi();
             Show("You need to update your games. Please press the 'patch' button.");
         }
@@ -467,7 +467,7 @@ namespace RawLauncherWPF.ViewModels
         private void GamesUpdated()
         {
             GamesPatchedIndicator = SetColor(IndicatorColor.Green);
-            GamesPatchedMessage = "games patched";
+            GamesPatchedMessage = GetMessage("CheckMessageGamePatched");
         }
 
         #endregion
@@ -492,13 +492,13 @@ namespace RawLauncherWPF.ViewModels
         private void AiCorrectInstalled()
         {
             ModAiIndicator = SetColor(IndicatorColor.Green);
-            ModAiMessage = "ai correct";
+            ModAiMessage = GetMessage("CheckMessageAiCorrect");
         }
 
         private void AiWrongInstalled()
         {
             ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "ai wrong";
+            ModAiMessage = _mSource.Token.IsCancellationRequested ? GetMessage("CheckMessageAborted") : GetMessage("CheckMessageAiWrong");
             ResetUi();
         }
 
@@ -525,13 +525,13 @@ namespace RawLauncherWPF.ViewModels
         private void ModCorrectInstalled()
         {
             ModFilesIndicator = SetColor(IndicatorColor.Green);
-            ModFilesMessage = "mod correct";
+            ModFilesMessage = GetMessage("CheckMessageModCorrect");
         }
 
         private void ModWrongInstalled()
         {
             ModFilesIndicator = SetColor(IndicatorColor.Red);
-            ModFilesMessage = _mSource.Token.IsCancellationRequested ? "aborted" : "mod wrong";
+            ModFilesMessage = _mSource.Token.IsCancellationRequested ? GetMessage("CheckMessageAborted") : GetMessage("CheckMessageModWrong");
             ResetUi();
         }
 
@@ -568,8 +568,7 @@ namespace RawLauncherWPF.ViewModels
 
             if (!validator.Validate(CheckFileStream))
             {
-                ModCheckError(
-                    "The necessary files are not valid. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
+                ModCheckError(GetMessage("CheckXmlValidateError"));
                 return false;
             }
             return true;
@@ -599,8 +598,7 @@ namespace RawLauncherWPF.ViewModels
 
             if (FileContainer.Version != LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Version)
             {
-                ModCheckError(
-                    "The Version of the mod does not match to the reference file. Please click Restore-Tab and let the launcher redownload the Files.");
+                ModCheckError(GetMessage("CheckXmlWrongVersion"));
                 return false;
             }
 
@@ -616,13 +614,12 @@ namespace RawLauncherWPF.ViewModels
         {
             if (!VersionUtilities.GetAllAvailableVersionsOffline().Contains(LauncherViewModel.CurrentMod.Version))
             {
-                Show("Your installed version is not available to check. Please try later or contact us.");
+                Show(GetMessage("CheckVersionNotFound"));
                 return;
             }
             if (!File.Exists(LauncherViewModel.GetRescueFilePath(CheckFileFileName, false)))
             {
-                ModCheckError(
-                    "Could not find the necessary files to check your version. It was also not possible to check them with our server. Please click Restore-Tab and let the launcher redownload the Files.");
+                ModCheckError(GetMessage("CheckOfflineXmlNotFound"));
                 return;
             }
             CheckFileStream = FileToStream(LauncherViewModel.GetRescueFilePath(CheckFileFileName, false));
@@ -635,7 +632,7 @@ namespace RawLauncherWPF.ViewModels
         {
             if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(LauncherViewModel.CurrentMod.Version))
             {
-                Show("Your installed version is not available to check. Please try later or contact us.");
+                Show(GetMessage("CheckVersionNotFound"));
                 return;
             }
             await
@@ -649,9 +646,9 @@ namespace RawLauncherWPF.ViewModels
         private void ModCheckError(string message)
         {
             ModAiIndicator = SetColor(IndicatorColor.Red);
-            ModAiMessage = "could not check";
+            ModAiMessage = GetMessage("CheckMessageCouldNotCheck");
             ModFilesIndicator = SetColor(IndicatorColor.Red);
-            ModFilesMessage = "could not check";
+            ModFilesMessage = GetMessage("CheckMessageCouldNotCheck");
             ResetUi();
             if (!IsNullOrEmpty(message))
                 Show(message);

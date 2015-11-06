@@ -8,7 +8,6 @@ using System.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using RawLauncherWPF.Hash;
-using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Models
 {

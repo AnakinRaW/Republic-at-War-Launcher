@@ -10,6 +10,7 @@ using RawLauncherWPF.Defreezer;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
+using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -78,7 +79,7 @@ namespace RawLauncherWPF.ViewModels
                 saveGame = new SteamSaveGame(oFd.FileName);
             var d = new Defreezer.Defreezer(saveGame);
             await Task.Run(() => d.DefreezeSaveGame());
-            MessageProvider.Show("Done");
+            Show("Done");
         }
 
         public Command OrganizeGameCommand => new Command(OrganizeGame, CanOrganizeGame);
@@ -104,7 +105,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void SetCurrentSessionAsync()
         {
-            CurrentSessions = "Wait..";
+            CurrentSessions = GetMessage("PlayCurrentSessionWait");
             Task.Factory.StartNew(() => CurrentSessions = LauncherPane.MainWindowViewModel.LauncherViewModel.SessionServer.DownloadString("count.php"));
         }
 
