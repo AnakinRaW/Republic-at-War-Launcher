@@ -120,6 +120,9 @@
   <data name="CheckFolderNotValid" xml:space="preserve">
     <value>{0}-Fail: {1}</value>
   </data>
+  <data name="CheckGamesNotPatchedMessage" xml:space="preserve">
+    <value>You need to update your games. Please press the 'patch' button.</value>
+  </data>
   <data name="CheckMessageAborted" xml:space="preserve">
     <value>aborted</value>
   </data>
@@ -328,7 +331,8 @@ Modified Files will be delted and restored with the original ones.</value>
 Please try later</value>
   </data>
   <data name="RestoreTableNull" xml:space="preserve">
-    <value>Error while trying to download the mod files. The required Table was empty.
+    <value>Error while trying to download the mod files. 
+The required Table was empty.
 Please try again</value>
   </data>
   <data name="RestoreVersionNotMatch" xml:space="preserve">
@@ -384,7 +388,8 @@ Modified Files will also be delted and restored with the original ones.</value>
 Please try later</value>
   </data>
   <data name="UpdateTableNull" xml:space="preserve">
-    <value>Error while trying to download the mod files. The required Table was empty \r\nPlease try again</value>
+    <value>Error while trying to download the mod files. The required Table was empty
+Please try again</value>
   </data>
   <data name="UpdateVersionNotFound" xml:space="preserve">
     <value>Your installed version is not available to check. Please try later or contact us.</value>

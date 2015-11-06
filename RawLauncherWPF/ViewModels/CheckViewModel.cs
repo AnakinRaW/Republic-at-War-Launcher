@@ -100,7 +100,7 @@ namespace RawLauncherWPF.ViewModels
                         Show(GetMessage("CheckFolderNotValid", error ,referenceDir));
                         result = false;
                     }
-                    ProzessStatus = GetMessage("Checking: ", Path.GetDirectoryName(referenceDir));
+                    ProzessStatus = GetMessage("CheckStatusChecking", Path.GetDirectoryName(referenceDir));
                     Debug.WriteLine(referenceDir);
                     Progress = Progress + i;
                 }
@@ -461,13 +461,13 @@ namespace RawLauncherWPF.ViewModels
             GamesPatchedIndicator = SetColor(IndicatorColor.Red);
             GamesPatchedMessage = GetMessage("CheckMessageGamesNotPatched");
             ResetUi();
-            Show("You need to update your games. Please press the 'patch' button.");
+            Show(GetMessage("CheckGamesNotPatchedMessage"));
         }
 
         private void GamesUpdated()
         {
             GamesPatchedIndicator = SetColor(IndicatorColor.Green);
-            GamesPatchedMessage = GetMessage("CheckMessageGamePatched");
+            GamesPatchedMessage = GetMessage("CheckMessageGamesPatched");
         }
 
         #endregion
