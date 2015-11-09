@@ -125,17 +125,7 @@
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Localization\English.cs" />
     <Compile Include="Localization\German.cs" />
-    <Compile Include="Localization\ILangueProvider.cs" />
-    <Compile Include="Localization\Res.de.Designer.cs">
-      <DependentUpon>Res.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Res.en.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Res.en.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Localization\Language.cs" />
     <Compile Include="Models\RestoreFile.cs" />
     <Compile Include="Models\RestoreTable.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
@@ -261,14 +251,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Localization\Res.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Res.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Res.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Res.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

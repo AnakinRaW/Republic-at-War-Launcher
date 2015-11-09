@@ -1,14 +1,10 @@
-﻿using System;
-using System.Resources;
-using System.Windows;
-using RawLauncherWPF.UI;
+﻿using System.Windows;
+using RawLauncherWPF.Configuration;
 
 namespace RawLauncherWPF.Utilities
 {
     public static class MessageProvider
     {
-        private static readonly ResourceManager ResourceManager = new ResourceManager("RawLauncherWPF.Localization.Res", typeof(MainWindow).Assembly);
-
         public static MessageBoxResult Show()
         {
             return MessageBox.Show("Test", string.Empty, MessageBoxButton.OK, MessageBoxImage.None, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
@@ -48,19 +44,7 @@ namespace RawLauncherWPF.Utilities
 
         public static string GetMessage(string messageId, params object[] args)
         {
-            //if (messageId == null)
-            //    return string.Empty;
-            //try
-            //{
-            //    var result = string.Format(ResourceManager.GetString(messageId, StartupLauncher.DisplayCulture), args);
-            //    return result;
-            //}
-            //catch (Exception)
-            //{
-            //    return ResourceManager.GetString("ErrorCreateMessageFailed");
-            //}
-            throw new NotImplementedException();
-            
+            return Config.CurrentLanguage.GetStringByKey(messageId, args);           
         }
     }
 }

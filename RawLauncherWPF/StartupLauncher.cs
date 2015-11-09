@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using RawLauncherWPF.Launcher;
+using RawLauncherWPF.Localization;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Configuration.Config;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -44,7 +45,14 @@ namespace RawLauncherWPF
 
         private static void SetUpLanguage()
         {
-            LanguageTable = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName == "de" ? new Localization.German().StringTable : new Localization.English().StringTable;
+            if (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName == "de")
+            {
+                CurrentLanguage = new German();
+            }
+            else
+            {  
+                CurrentLanguage = new English();  
+            }
         }
 
 

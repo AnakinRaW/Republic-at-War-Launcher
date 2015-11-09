@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
+using RawLauncherWPF.Localization;
 
 namespace RawLauncherWPF.Configuration
 {
@@ -9,7 +9,7 @@ namespace RawLauncherWPF.Configuration
     /// </summary>
     internal static class Config
     {
-        internal static Dictionary<string, string> LanguageTable;
+        internal static Language CurrentLanguage;
 
         public const string EeawForum = "http://www.everythingeaw.com/forum/index.php";
         public const string GameconstantsUpdateHash = "4306d0c45d103cd11ff6743d1c3d9366";

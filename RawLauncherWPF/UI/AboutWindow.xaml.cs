@@ -1,8 +1,9 @@
-﻿using System.Globalization;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using RawLauncherWPF.Localization;
+using static RawLauncherWPF.Configuration.Config;
 
 namespace RawLauncherWPF.UI
 {
@@ -16,9 +17,9 @@ namespace RawLauncherWPF.UI
             InitializeComponent();
             VersionNumber.Content = Assembly.GetExecutingAssembly().GetName().Version;
 
-            //if (StartupLauncher.LanguageTable.GetType().Name)
-            //    ComboBox.SelectedIndex = 1;
-            //else ComboBox.SelectedIndex = 0;
+            if (CurrentLanguage is German)
+                ComboBox.SelectedIndex = 1;
+            else ComboBox.SelectedIndex = 0;
         }
 
         private void CloseWindow_CanExec(object sender, CanExecuteRoutedEventArgs e)
@@ -33,7 +34,7 @@ namespace RawLauncherWPF.UI
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //StartupLauncher.DisplayCulture = CultureInfo.CreateSpecificCulture(ComboBox.SelectedIndex == 0 ? "en" : "de");
+            CurrentLanguage = ComboBox.SelectedIndex == 1 ? (Language) new German() : new English();
         }
     }
 }
