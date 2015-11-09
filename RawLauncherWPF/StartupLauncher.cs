@@ -5,8 +5,10 @@ using System.Globalization;
 using System.IO;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Localization;
+using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Configuration.Config;
+using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF
@@ -34,6 +36,7 @@ namespace RawLauncherWPF
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {
+            CheckBeta();
             SetUpLanguage();
             ExtractLibraries();
             _launcher = new LauncherApp();
@@ -43,16 +46,17 @@ namespace RawLauncherWPF
             CleanUp();
         }
 
+        private static void CheckBeta()
+        {
+            new BetaLogin().ShowDialog();
+        }
+
         private static void SetUpLanguage()
         {
             if (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName == "de")
-            {
                 CurrentLanguage = new German();
-            }
-            else
-            {  
+            else 
                 CurrentLanguage = new English();  
-            }
         }
 
 

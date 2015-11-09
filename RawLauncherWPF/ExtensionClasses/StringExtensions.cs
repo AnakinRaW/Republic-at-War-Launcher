@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using RawLauncherWPF.Hash;
 
 namespace RawLauncherWPF.ExtensionClasses
 {
@@ -12,6 +13,11 @@ namespace RawLauncherWPF.ExtensionClasses
             writer.Flush();
             stream.Position = 0;
             return stream;
+        }
+
+        public static string ToMd5(this string @this)
+        {
+            return new HashProvider().GetStringHash(@this);
         }
     }
 }

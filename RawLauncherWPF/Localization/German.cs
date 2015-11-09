@@ -60,6 +60,7 @@ namespace RawLauncherWPF.Localization
 
         private void AddErrorStrings()
         {
+            StringTable.Add("ErrorAlreadyRunning", "Es läuft bereits eine Instanz des Launchers.");
             StringTable.Add("ErrorCreateMessageFailed", "Es konnte kein Text erstellt werden");
             StringTable.Add("ErrorInitLauncher", "Fehler beim initialisieren dem Launcher { 0}");
         }

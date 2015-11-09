@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using RawLauncherWPF.Localization;
 
 namespace RawLauncherWPF.Configuration
@@ -17,10 +18,21 @@ namespace RawLauncherWPF.Configuration
         public const string GraphicdetailsUpdateHash = "4d7e140887fc1dd52f47790a6e20b5c5";
         public const string ModdbPage = "http://www.moddb.com/mods/republic-at-war";
         public const string FastLaunchFileName = "RawLauncherInfo.txt";
-        //TODO: Change to GitHub in future
         public const string ServerUrl = "https://raw.githubusercontent.com/Republic-at-War/Republic-At-War/master/";
         public const string VersionListRelativePath = @"\Versions\AvailableVersions.txt";
         public const string SessionServerUrl = "http://raworganize.com/";
         public static string CurrentDirectory => Directory.GetCurrentDirectory();
+
+        #region Beta Stuff
+        internal static Dictionary<string, string> BetaUsers = new Dictionary<string, string>
+        {
+            {"Anakin_Sklavenwalker", "d783bdc09ad8a57e4afaf4243fd0af7c"}
+        };
+
+        internal const string BetaPassword = "26fb2b525ebc73751cb420e0180b7acc";
+
+        #endregion
+
+
     }
 }

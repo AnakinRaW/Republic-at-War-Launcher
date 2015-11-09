@@ -80,8 +80,6 @@ namespace RawLauncherWPF.Xml
         private void Settings_ValidationEventHandler(object sender, ValidationEventArgs e)
         {
             _errors++;
-            //TODO: Remove this in final
-            MessageProvider.Show(e.Exception.Message);
         }
     }
 }

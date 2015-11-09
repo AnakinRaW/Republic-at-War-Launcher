@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Resources;
 using System.Threading.Tasks;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
