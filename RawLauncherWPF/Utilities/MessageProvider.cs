@@ -48,17 +48,18 @@ namespace RawLauncherWPF.Utilities
 
         public static string GetMessage(string messageId, params object[] args)
         {
-            if (messageId == null)
-                return string.Empty;
-            try
-            {
-                var result = string.Format(ResourceManager.GetString(messageId, StartupLauncher.DisplayCulture), args);
-                return result;
-            }
-            catch (Exception)
-            {
-                return ResourceManager.GetString("ErrorCreateMessageFailed");
-            }
+            //if (messageId == null)
+            //    return string.Empty;
+            //try
+            //{
+            //    var result = string.Format(ResourceManager.GetString(messageId, StartupLauncher.DisplayCulture), args);
+            //    return result;
+            //}
+            //catch (Exception)
+            //{
+            //    return ResourceManager.GetString("ErrorCreateMessageFailed");
+            //}
+            throw new NotImplementedException();
             
         }
     }

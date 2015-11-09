@@ -123,6 +123,9 @@
     <Compile Include="Helpers\RestoreHelper.cs" />
     <Compile Include="Helpers\SteamHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
+    <Compile Include="Localization\English.cs" />
+    <Compile Include="Localization\German.cs" />
+    <Compile Include="Localization\ILangueProvider.cs" />
     <Compile Include="Localization\Res.de.Designer.cs">
       <DependentUpon>Res.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
