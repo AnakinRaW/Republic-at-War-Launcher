@@ -14,7 +14,7 @@ namespace RawLauncherWPF.UI
     public partial class BetaLogin
     {
 
-        private bool Successfull;
+        private bool _successfull;
 
         public BetaLogin()
         {
@@ -23,21 +23,21 @@ namespace RawLauncherWPF.UI
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            if (BetaUsers.FirstOrDefault(x => x.Value == UserName.Text.ToMd5()).Key == null ||
+            if (UserName.Text != Environment.UserName ||BetaUsers.FirstOrDefault(x => x.Value == UserName.Text.ToMd5()).Key == null ||
                 Password.Password.ToMd5() != BetaPassword)
             {
                 MessageProvider.Show("User-Name or Password was wrong");
-                Successfull = false;
+                _successfull = false;
                 return;
             }
-            Successfull = true;
+            _successfull = true;
             Close();
 
         }
 
         private void BetaLogin_OnClosed(object sender, EventArgs e)
         {
-            if (!Successfull)
+            if (!_successfull)
                 Process.GetCurrentProcess().Kill();
         }
     }
