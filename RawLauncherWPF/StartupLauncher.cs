@@ -8,7 +8,6 @@ using RawLauncherWPF.Localization;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Configuration.Config;
-using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF
@@ -36,7 +35,8 @@ namespace RawLauncherWPF
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {
-            CheckBeta();
+            //TODO: Activate
+            //CheckBeta();
             SetUpLanguage();
             ExtractLibraries();
             _launcher = new LauncherApp();

@@ -36,7 +36,7 @@ namespace RawLauncherWPF.ViewModels
             if (!ComputerHasInternetConnection())
                 return;
             AvailableVersions = RestoreHelper.CreateVersionItems();
-            if (AvailableVersions.Count > 0)
+            if (AvailableVersions?.Count > 0)
                 SelectedVersion = AvailableVersions.First();
         }
 

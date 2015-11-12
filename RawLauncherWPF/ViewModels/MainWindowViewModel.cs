@@ -7,6 +7,7 @@ using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Themes.LauncherTheme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using static RawLauncherWPF.Utilities.MessageProvider;
 using MainWindow = ModernApplicationFramework.Controls.MainWindow;
 
 namespace RawLauncherWPF.ViewModels
@@ -41,6 +42,12 @@ namespace RawLauncherWPF.ViewModels
             mainWindow.Loaded += MainWindow_Loaded;
 
             LauncherPanes = new List<ILauncherPane> {_playPane, checkPane, languagePane, restorePane, updatePane};
+
+            if (LauncherViewModel.BaseGame != null && LauncherViewModel.Eaw != null &&
+                LauncherViewModel.CurrentMod != null)
+                return;
+            Show(GetMessage("ErrorInitFailed"));
+            IsBlocked = true;
         }
 
         /// <summary>

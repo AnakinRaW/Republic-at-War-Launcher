@@ -62,6 +62,7 @@ namespace RawLauncherWPF.Localization
             StringTable.Add("ErrorAlreadyRunning", "One instance of the launcher is already running.");
             StringTable.Add("ErrorCreateMessageFailed", "Was unable to create a text");
             StringTable.Add("ErrorInitLauncher", "Something went wrong when initializing the Launcher: {0}");
+            StringTable.Add("ErrorInitFailed", "The launcher was not able to find an installation of the games EaW/FoC or the Mod. Please run the launcher from FoC-Root Directory");
         }
 
         private void AddExceptionStrings()

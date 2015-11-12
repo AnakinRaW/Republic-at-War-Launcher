@@ -188,7 +188,7 @@ namespace RawLauncherWPF.ViewModels
             _launcher.MainWindow.Show();
             var a = (MainWindowViewModel)_launcher.MainWindow.DataContext;
             a.ShowPane((int)index);
-            a.InstalledVersion = CurrentMod.Version;
+            a.InstalledVersion = CurrentMod == null ? new Version("1.0") : CurrentMod.Version;
             a.LatestVersion = GetLatestVersion();
         }
 
@@ -219,7 +219,7 @@ namespace RawLauncherWPF.ViewModels
             catch (GameExceptions e)
             {
                 MessageProvider.Show(e.Message);
-                Environment.Exit(0);
+                //Environment.Exit(0);
             }
         }
 
@@ -237,7 +237,7 @@ namespace RawLauncherWPF.ViewModels
             catch (ModExceptions e)
             {
                 MessageProvider.Show(e.Message);
-                Environment.Exit(0);
+                //Environment.Exit(0);
             }
         }
 
@@ -289,7 +289,7 @@ namespace RawLauncherWPF.ViewModels
         private async void NormalLaunch()
         {         
             ShowMainWindow(0);
-            if (ComputerHasInternetConnection() && NewVersionAvailable())
+            if (ComputerHasInternetConnection() && CurrentMod != null && NewVersionAvailable())
                  await Task.Run(() => MessageProvider.Show(MessageProvider.GetMessage("LauncherInfoNewVersion", GetLatestVersion())));
         }
 

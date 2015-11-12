@@ -15,6 +15,8 @@ namespace RawLauncherWPF.Helpers
         public static List<ComboBoxItem> CreateVersionItems()
         {
             var versions = GetAllAvailableVersionsOnline();
+            if (LauncherViewModel.CurrentModStatic == null)
+                return null;
             return (from version in versions
                 where version <= LauncherViewModel.CurrentModStatic.Version
                 select new ComboBoxItem {Content = version, DataContext = version}).ToList();

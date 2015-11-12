@@ -32,7 +32,7 @@ namespace RawLauncherWPF.Launcher
         /// Can Close Application after this compleded tasks.
         /// Runs CleanUp on Exit
         /// </summary>
-        async private void StartUpLaunncher()
+        private async void StartUpLaunncher()
         {
             // If "RaW.txt" does exists AND Shift is NOT pressed -> Show UpdateScreen and Run Mod afterwards
             // Else Run MainWindow (which inits the the Update View which checks for update on creation)
