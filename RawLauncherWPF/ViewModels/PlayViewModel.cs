@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Defreezer;
+using RawLauncherWPF.Helpers;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
@@ -53,7 +54,6 @@ namespace RawLauncherWPF.ViewModels
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Play);
             Thread.Sleep(1100);
-            // TODO: Shuffle .txts if they are irrelevant for MP
             LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
             Application.Current.Shutdown();

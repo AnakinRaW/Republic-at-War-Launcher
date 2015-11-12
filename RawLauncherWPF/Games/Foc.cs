@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using RawLauncherWPF.Hash;
+using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -76,6 +77,8 @@ namespace RawLauncherWPF.Games
                 throw new ModExceptions(GetMessage("ExceptionGameModCompatible"));
             if (!mod.HasCorrectFolderStructure)
                 throw new ModExceptions(GetMessage("ExceptionGameModWrongInstalled"));
+
+            FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\");
 
             var process = new Process
             {

@@ -120,6 +120,7 @@
     <Compile Include="Games\SteamGame.cs" />
     <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Helpers\CheckModHelper.cs" />
+    <Compile Include="Helpers\FileShuffler.cs" />
     <Compile Include="Helpers\RestoreHelper.cs" />
     <Compile Include="Helpers\SteamHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
