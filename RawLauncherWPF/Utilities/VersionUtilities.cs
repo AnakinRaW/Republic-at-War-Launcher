@@ -20,7 +20,11 @@ namespace RawLauncherWPF.Utilities
 
         public static Version GetLatestVersion()
         {
-            return GetAllAvailableVersionsOnline().Last();
+            var versions = GetAllAvailableVersionsOnline();
+            if (versions == null || versions.Count == 0)
+                versions = GetAllAvailableVersionsOffline();
+
+            return versions != null ? versions.Last() : new Version("0.1");
         }
 
         public static bool AskToUpdate()
