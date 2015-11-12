@@ -434,9 +434,6 @@
     <Resource Include="Commander Appo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Visual\Restore\RestoreIdle.png" />
   </ItemGroup>
   <ItemGroup>
@@ -478,6 +475,9 @@
   <ItemGroup>
     <Resource Include="Resources\Visual\Language\RadioHover.png" />
     <Resource Include="Resources\Visual\Language\RadioIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
