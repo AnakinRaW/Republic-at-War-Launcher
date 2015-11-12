@@ -123,6 +123,7 @@ namespace RawLauncherWPF.ViewModels
         {
             Theme = new LauncherTheme();
             ShowPane(0);
+            Configuration.Config.CurrentLanguage.Reload();
         }
 
         private void ShowPaneAudio(object index)

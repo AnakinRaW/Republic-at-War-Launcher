@@ -186,7 +186,6 @@ namespace RawLauncherWPF.ViewModels
         {
             _launcher.MainWindow = new MainWindow(this);
             _launcher.MainWindow.Show();
-            Configuration.Config.CurrentLanguage.Reload();
             var a = (MainWindowViewModel)_launcher.MainWindow.DataContext;
             a.ShowPane((int)index);
             a.InstalledVersion = CurrentMod == null ? new Version("1.0") : CurrentMod.Version;
