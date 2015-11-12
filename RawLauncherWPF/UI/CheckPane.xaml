@@ -72,7 +72,11 @@
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonPatch}}"/>
                     </mafc:ImageButton.Content>
                 </mafc:ImageButton>
-                <Image Source="../Resources/Visual/Check/PatchInfo.png" Height="24" Width="176" Margin="0,10,0,0"></Image>
+            
+            <mafc:OutlineTextBlock Margin="0,10,0,0" HorizontalAlignment="Center"
+                               Foreground="Aqua" Stroke="Black" FontSize="14" StrokeThickness="1"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextPatch}}"/>               
         </StackPanel>
 
     </Grid>

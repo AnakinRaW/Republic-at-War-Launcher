@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mafc="http://modern.framework.com/controls"
     xmlns:c="clr-namespace:RawLauncherWPF.Utilities"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="RawLauncherWPF.UI.MainWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
+    mc:Ignorable="d" x:Class="RawLauncherWPF.UI.MainWindow"
         Title="MainWindow" Width="780" Height="520" >
     
     <mafc:MainWindow.Resources>
@@ -29,45 +31,70 @@
             <ColumnDefinition Width="24*"/>
         </Grid.ColumnDefinitions>
 
-        <mafc:ImageRadioButton Width="109" Height="31" SnapsToDevicePixels="True"
+        <mafc:ImageTabButton Width="109" Height="31" SnapsToDevicePixels="True"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="../Resources/Visual/MainWindow/PlayIdle.png"
                                HoverImage="../Resources/Visual/MainWindow/PlayHover.png"
                                PressedImage="../Resources/Visual/MainWindow/PlayHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/PlayHover.png" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="-3,0,0,0" Grid.Column="1" Command="{Binding ShowPaneAudioCommand}" CommandParameter="0"/>
+                               VerticalAlignment="Bottom" Margin="-3,0,0,0" Grid.Column="1" Command="{Binding ShowPaneAudioCommand}" CommandParameter="0">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="Aqua" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabPlay}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
 
-        <mafc:ImageRadioButton Width="109" Height="31" 
+        <mafc:ImageTabButton Width="109" Height="31" 
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="../Resources/Visual/MainWindow/CheckIdle.png"
                                HoverImage="../Resources/Visual/MainWindow/CheckHover.png"
                                PressedImage="../Resources/Visual/MainWindow/CheckHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/CheckHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="106,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="1"/>
+                               VerticalAlignment="Bottom" Margin="106,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="1">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="Aqua" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabCheck}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
 
-        <mafc:ImageRadioButton Width="109" Height="31" 
+        <mafc:ImageTabButton Width="109" Height="31" 
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="../Resources/Visual/MainWindow/UpdateIdle.png"
                                HoverImage="../Resources/Visual/MainWindow/UpdateHover.png"
                                PressedImage="../Resources/Visual/MainWindow/UpdateHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/UpdateHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="433,0,0,0" Grid.ColumnSpan="2" Command="{Binding ShowPaneAudioCommand}" CommandParameter="4"/>
+                               VerticalAlignment="Bottom" Margin="433,0,0,0" Grid.ColumnSpan="2" Command="{Binding ShowPaneAudioCommand}" CommandParameter="4">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="Aqua" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabUpdate}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
 
-        <mafc:ImageRadioButton Width="109" Height="31" 
+        <mafc:ImageTabButton Width="109" Height="31" 
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="../Resources/Visual/MainWindow/RestoreIdle.png"
                                HoverImage="../Resources/Visual/MainWindow/RestoreHover.png"
                                PressedImage="../Resources/Visual/MainWindow/RestoreHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/RestoreHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="324,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="3"/>
+                               VerticalAlignment="Bottom" Margin="324,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="3">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="Aqua" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabRestore}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
 
-        <mafc:ImageRadioButton Width="109" Height="31"
+        <mafc:ImageTabButton Width="109" Height="31"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="../Resources/Visual/MainWindow/LanguageIdle.png"
                                HoverImage="../Resources/Visual/MainWindow/LanguageHover.png"
                                PressedImage="../Resources/Visual/MainWindow/LanguageHover.png"
                                CheckedImage="../Resources/Visual/MainWindow/LanguageHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                               VerticalAlignment="Bottom" Margin="215,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="2"/>
+                               VerticalAlignment="Bottom" Margin="215,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="2">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="Aqua" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabLanguage}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
 
         <Border Height="2" Grid.Row="0" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,0,0,0" SnapsToDevicePixels="True">
             <Border.Background>
@@ -88,15 +115,20 @@
 			HoverImage="../Resources/Visual/MainWindow/EeawHover.png" 
 			PressedImage="../Resources/Visual/MainWindow/EeawHover.png"
                           Command="{Binding OpenEeawCommand}"/>
-        <mafc:ImageButton Grid.Row="4" Grid.Column="0" Height="34" Width="98" VerticalAlignment="Top"
-			NormalImage="../Resources/Visual/MainWindow/QuitIdle.png" 
-			HoverImage="../Resources/Visual/MainWindow/QuitHover.png" 
-			PressedImage="../Resources/Visual/MainWindow/QuitHover.png"
-                          Command="{Binding CloseCommand}"/>
+
+
+        <mafc:ImageButton Grid.Row="4" Grid.Column="0" VerticalAlignment="Top"
+                          Command="{Binding CloseCommand}" NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
+            <mafc:ImageButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="Aqua" FontSize="28" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonClose}}"/>
+            </mafc:ImageButton.Content>
+        </mafc:ImageButton>
+        
         <DockPanel Grid.Row="5" Grid.Column="1" Background="{StaticResource WhiteHalfOpacityBrush}" Margin="0,3,0,3">
-            <Label  Foreground="White" Opacity="1">Installed Version:</Label>
+            <Label  Foreground="White" Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainInstalledVersion}}"/>
             <Label  Name="Test" Foreground="White" Opacity="1" Content="{Binding InstalledVersion}"/>
-            <Label Opacity="1">Latest Version:
+            <Label Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainLatestVersion}}">
                 <Label.Foreground>
                     <MultiBinding Converter="{StaticResource IsGreaterConverter}">
                         <Binding ElementName="Test" Path="Content"/>
@@ -112,7 +144,13 @@
                     </MultiBinding>
                 </Label.Foreground>
             </Label>
-            <Button HorizontalAlignment="Right" Width="100" Content="About" Command="{Binding AboutCommand}"/>
+            <mafc:ImageButton HorizontalAlignment="Right" Width="100" Command="{Binding AboutCommand}"
+                              NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonAbout}}"/>
+                </mafc:ImageButton.Content>
+            </mafc:ImageButton>
         </DockPanel>
 
 

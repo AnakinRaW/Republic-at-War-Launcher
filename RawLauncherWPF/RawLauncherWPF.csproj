@@ -471,6 +471,14 @@
     <Resource Include="Resources\Visual\Update\noneHover.png" />
     <Resource Include="Resources\Visual\Update\noneIdle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Play\DefreezeHover.png" />
+    <Resource Include="Resources\Visual\Play\DefreezeIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Visual\Language\RadioHover.png" />
+    <Resource Include="Resources\Visual\Language\RadioIdle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

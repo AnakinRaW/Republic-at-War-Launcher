@@ -15,33 +15,54 @@
         <Grid HorizontalAlignment="Stretch" Margin="0,10,0,0">
             <StackPanel>
                 <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center">
-                    <mafc:OutlineTextBlock Text="version to restore:" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua"
+                    <mafc:OutlineTextBlock Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreVersion}}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua"
                                    FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <mafc:ComboBox Width="100" Height="25" HorizontalAlignment="Left" Margin="10,0,0,0" 
                                    ItemsSource="{Binding AvailableVersions}" SelectedItem="{Binding SelectedVersion}" IsEnabled="{Binding CanExecute}"/>
                 </DockPanel>
                 <DockPanel Margin="0,5,0,0" HorizontalAlignment="Center">
-                     <mafc:ImageRadioButton Height="19" Width="84" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
-                                   NormalImage="../Resources/Visual/Restore/noneIdle.png"
-                                   HoverImage="../Resources/Visual/Restore/noneHover.png"
-                                   PressedImage="../Resources/Visual/Restore/noneHover.png"
-                                   CheckedImage="../Resources/Visual/Restore/noneHover.png"
-                                            ToolTip="No Options specified"
+                    <DockPanel>
+                        <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                            ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.None}" IsEnabled="{Binding CanExecute}"/>
-                    <mafc:ImageRadioButton Height="19" Width="217" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
-                                   NormalImage="../Resources/Visual/Restore/ignoreLanguageIdle.png"
-                                   HoverImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
-                                   PressedImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
-                                   CheckedImage="../Resources/Visual/Restore/ignoreLanguageHover.png"
-                                           ToolTip="Ignore all language related files. Restoring with this option is faster and your installed language pack will not be deleted"
+                        <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" 
+                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreNone}}"
+                                               ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                           ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolLanguage}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.IgnoreLanguage}" IsEnabled="{Binding CanExecute}"/>
-                    <mafc:ImageRadioButton Height="19" Width="186" HorizontalAlignment="Left" Margin="15,0,10,0" GroupName="Options"
-                                   NormalImage="../Resources/Visual/Restore/hardRestoreIdle.png"
-                                   HoverImage="../Resources/Visual/Restore/hardRestoreHover.png"
-                                   PressedImage="../Resources/Visual/Restore/hardRestoreHover.png"
-                                   CheckedImage="../Resources/Visual/Restore/hardRestoreHover.png"
-                                           ToolTip="This option deltes all files and performs a clean install"
+                        <mafc:OutlineTextBlock HorizontalAlignment="Center" Margin="5,0,0,0" 
+                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreLanguage}}"
+                                               ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolLanguage}}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                           ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolHard}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.Hard}" IsEnabled="{Binding CanExecute}"/>
+                        <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"
+                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreHard}}"
+                                               ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolHard}}"/>
+                    </DockPanel>
                 </DockPanel>
             </StackPanel>
         </Grid>
@@ -72,7 +93,9 @@
                 </mafc:ImageButton.Content>
             </mafc:ImageButton>
         </Grid>
-        <Button Height="20" Command="{Binding CancelCommand}" VerticalAlignment="Top">Cancel</Button>
-        <Image Source="../Resources/Visual/Restore/InfoText.png" Width="230" Height="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20"/>
+        <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" 
+                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreInfo}}"/>
     </Grid>
 </UserControl>

@@ -14,21 +14,35 @@
 
     <Grid Margin="0,10,0,10">
         <DockPanel Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                     <mafc:ImageRadioButton Height="19" Width="84" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
-                                   NormalImage="../Resources/Visual/Update/noneIdle.png"
-                                   HoverImage="../Resources/Visual/Update/noneHover.png"
-                                   PressedImage="../Resources/Visual/Update/noneHover.png"
-                                   CheckedImage="../Resources/Visual/Update/noneHover.png"
-                                            ToolTip="No Options specified"
+            <DockPanel>
+                <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                            ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:UpdateOptions.None}" IsEnabled="{Binding CanExecute}"/>
-                    <mafc:ImageRadioButton Height="19" Width="173" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
-                                   NormalImage="../Resources/Visual/Update/ignoreVoiceIdle.png"
-                                   HoverImage="../Resources/Visual/Update/ignoreVoiceHover.png"
-                                   PressedImage="../Resources/Visual/Update/ignoreVoiceHover.png"
-                                   CheckedImage="../Resources/Visual/Update/ignoreVoiceHover.png"
-                                           ToolTip="Ignore all language related files. Restoring with this option is faster and your installed language pack will not be deleted"
+                <mafc:OutlineTextBlock HorizontalAlignment="Center" Margin="5,0,0,0" 
+                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.UpdateNone}}"
+                                       ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"/>
+            </DockPanel>
+            <DockPanel>
+                <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
+                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                           ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolVoice}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:UpdateOptions.IgnoreVoice}" IsEnabled="{Binding CanExecute}"/>
-                </DockPanel>
+                <mafc:OutlineTextBlock HorizontalAlignment="Center" Margin="5,0,0,0" 
+                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.UpdateVoice}}"
+                                       ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolVoice}}"/>
+            </DockPanel>
+        </DockPanel>
         
         <Grid Width="356" Margin="0,80,0,0">
             <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
