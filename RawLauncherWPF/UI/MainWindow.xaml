@@ -78,17 +78,17 @@
         <ContentPresenter Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="4" VerticalAlignment="Stretch" 
                           Content="{Binding ActivePane}" />
 
-        <mafc:ImageButton x:Name="moddbButton" Content="ImageButton" Grid.Row="2" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
+        <mafc:ImageButton Grid.Row="2" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
 			NormalImage="../Resources/Visual/MainWindow/ModdbIdle.png" 
 			HoverImage="../Resources/Visual/MainWindow/ModdbHover.png" 
 			PressedImage="../Resources/Visual/MainWindow/ModdbHover.png"
                           Command="{Binding OpenModdbCommand}"/>
-        <mafc:ImageButton x:Name="eeawButton" Content="ImageButton" Grid.Row="3" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
+        <mafc:ImageButton Grid.Row="3" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
 			NormalImage="../Resources/Visual/MainWindow/EeawIdle.png" 
 			HoverImage="../Resources/Visual/MainWindow/EeawHover.png" 
 			PressedImage="../Resources/Visual/MainWindow/EeawHover.png"
                           Command="{Binding OpenEeawCommand}"/>
-        <mafc:ImageButton x:Name="closeButton" Content="ImageButton" Grid.Row="4" Grid.Column="0" Height="34" Width="98" VerticalAlignment="Top"
+        <mafc:ImageButton Grid.Row="4" Grid.Column="0" Height="34" Width="98" VerticalAlignment="Top"
 			NormalImage="../Resources/Visual/MainWindow/QuitIdle.png" 
 			HoverImage="../Resources/Visual/MainWindow/QuitHover.png" 
 			PressedImage="../Resources/Visual/MainWindow/QuitHover.png"

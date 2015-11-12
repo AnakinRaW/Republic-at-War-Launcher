@@ -126,6 +126,7 @@
     <Compile Include="Localization\English.cs" />
     <Compile Include="Localization\German.cs" />
     <Compile Include="Localization\Language.cs" />
+    <Compile Include="Localization\XmalLanguageKeys.cs" />
     <Compile Include="Models\RestoreFile.cs" />
     <Compile Include="Models\RestoreTable.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
@@ -198,6 +199,14 @@
     <Compile Include="Models\FileContainer.cs" />
     <Compile Include="Xml\XmlObjectParser.cs" />
     <Compile Include="Xml\XmlValidator.cs" />
+    <Page Include="Localization\English.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Localization\German.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\LauncherTheme\Brushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

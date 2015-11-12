@@ -23,5 +23,7 @@ namespace RawLauncherWPF.Localization
         }
 
         protected abstract void FillTable();
+
+        public abstract void Reload();
     }
 }

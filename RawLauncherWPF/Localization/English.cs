@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace RawLauncherWPF.Localization
 {
@@ -24,6 +26,14 @@ namespace RawLauncherWPF.Localization
             AddResourceExtractorStrings();
             AddRestoreStrigns();
             AddUpdateStrings(); AddVersionStrings();
+        }
+
+        public override void Reload()
+        {
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("/RawLauncherWPF;component/Localization/English.xaml", UriKind.Relative)
+            });
         }
 
         private void AddCheckStrigns()

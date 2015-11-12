@@ -12,6 +12,7 @@ namespace RawLauncherWPF.UI
     /// </summary>
     public partial class AboutWindow
     {
+
         public AboutWindow()
         {
             InitializeComponent();
@@ -34,7 +35,8 @@ namespace RawLauncherWPF.UI
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentLanguage = ComboBox.SelectedIndex == 1 ? (Language) new German() : new English();
+            CurrentLanguage = ComboBox.SelectedIndex == 1 ? (Language) new German() : new English();  
+            CurrentLanguage.Reload();   
         }
     }
 }

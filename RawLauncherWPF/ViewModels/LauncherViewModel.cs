@@ -186,6 +186,7 @@ namespace RawLauncherWPF.ViewModels
         {
             _launcher.MainWindow = new MainWindow(this);
             _launcher.MainWindow.Show();
+            Configuration.Config.CurrentLanguage.Reload();
             var a = (MainWindowViewModel)_launcher.MainWindow.DataContext;
             a.ShowPane((int)index);
             a.InstalledVersion = CurrentMod == null ? new Version("1.0") : CurrentMod.Version;
@@ -288,7 +289,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async void NormalLaunch()
         {         
-            ShowMainWindow(0);
+           ShowMainWindow(0);
             if (ComputerHasInternetConnection() && CurrentMod != null && NewVersionAvailable())
                  await Task.Run(() => MessageProvider.Show(MessageProvider.GetMessage("LauncherInfoNewVersion", GetLatestVersion())));
         }
