@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
+             xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="300">
     <Grid>
@@ -73,13 +74,18 @@
                                    CheckedImage="../Resources/Visual/Language/UkrainianHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Ukrainian}"/>
         </StackPanel>
-        
+
         <mafc:ImageButton Height="60" Width="322" VerticalAlignment="Top" Margin="0,180,0,0"
                           NormalImage="../Resources/Visual/Language/ChangeLanguageIdle.png"
                           HoverImage="../Resources/Visual/Language/ChangeLanguageHover.png"
                           PressedImage="../Resources/Visual/Language/ChangeLanguageHover.png"
-                          Command="{Binding ChangeLanguageCommand}" IsEnabled="{Binding CanExecute}"/>
-        
+                          Command="{Binding ChangeLanguageCommand}" IsEnabled="{Binding CanExecute}">
+            <mafc:ImageButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonLanguage}}"/>
+            </mafc:ImageButton.Content>
+        </mafc:ImageButton>
+
         <Image Source="../Resources/Visual/Language/LanguageInfo.png" Height="24" Width="223"
                VerticalAlignment="Top" Margin="0,260,0,0"/>
         

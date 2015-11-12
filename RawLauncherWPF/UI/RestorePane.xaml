@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
+             xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
      <UserControl.Resources>
@@ -48,11 +49,29 @@
             <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
             <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="White" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
-        <mafc:ImageButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"
+        <Grid>
+            <mafc:ImageButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"
                               NormalImage="../Resources/Visual/Restore/RestoreIdle.png"
                               HoverImage="../Resources/Visual/Restore/RestoreHover.png"
                               PressedImage="../Resources/Visual/Restore/RestoreHover.png"
-                              Command="{Binding RestoreModCommand}"/>
+                              Command="{Binding RestoreModCommand}">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonRestore}}"/>
+                </mafc:ImageButton.Content>
+            </mafc:ImageButton>
+            <mafc:ImageButton Height="60" Width="255" VerticalAlignment="Bottom" Margin="0,0,0,50"
+                              Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              NormalImage="../Resources/Visual/Restore/RestoreIdle.png"
+                              HoverImage="../Resources/Visual/Restore/RestoreHover.png"
+                              PressedImage="../Resources/Visual/Restore/RestoreHover.png"
+                              Command="{Binding CancelCommand}">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonCancel}}"/>
+                </mafc:ImageButton.Content>
+            </mafc:ImageButton>
+        </Grid>
         <Button Height="20" Command="{Binding CancelCommand}" VerticalAlignment="Top">Cancel</Button>
         <Image Source="../Resources/Visual/Restore/InfoText.png" Width="230" Height="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20"/>
     </Grid>

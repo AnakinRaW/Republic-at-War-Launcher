@@ -4,22 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              mc:Ignorable="d">
     <Grid>
         <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}" IsEnabled="{Binding CanExecute}"
                           NormalImage="../Resources/Visual/Play/PlayGameIdle.png"
                           HoverImage="../Resources/Visual/Play/PlayGameHover.png"
-                          PressedImage="../Resources/Visual/Play/PlayGameHover.png"/> 
+                          PressedImage="../Resources/Visual/Play/PlayGameHover.png">
+            <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonPlay}}"/>
+                </mafc:ImageButton.Content>
+        </mafc:ImageButton> 
            
         <mafc:ImageButton Height="30" Width="356" VerticalAlignment="Top" Margin="0,100,0,0" Command="{Binding DefreezeCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
                           NormalImage="../Resources/Visual/Play/OrganizeGameIdle.png"
                           HoverImage="../Resources/Visual/Play/OrganizeGameHover.png"
                           PressedImage="../Resources/Visual/Play/OrganizeGameHover.png"/>
-        
+
         <mafc:ImageButton Height="60" Width="356" VerticalAlignment="Top" Margin="0,145,0,0" Command="{Binding OrganizeGameCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
                           NormalImage="../Resources/Visual/Play/OrganizeGameIdle.png"
                           HoverImage="../Resources/Visual/Play/OrganizeGameHover.png"
-                          PressedImage="../Resources/Visual/Play/OrganizeGameHover.png"/>
+                          PressedImage="../Resources/Visual/Play/OrganizeGameHover.png">
+            <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonOrganize}}"/>
+                </mafc:ImageButton.Content>
+        </mafc:ImageButton>
       
         <DockPanel HorizontalAlignment="Center" Width="356" Margin="0,210,0,0" VerticalAlignment="Top">
             <Image Source="../Resources/Visual/Play/CurrentGames.png" Height="17" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>

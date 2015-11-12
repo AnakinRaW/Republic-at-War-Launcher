@@ -159,7 +159,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void ShowAboutWindow()
         {
-            new AboutWindow().Show();
+            new AboutWindow().ShowDialog();
         }
 
         protected override void Close()
