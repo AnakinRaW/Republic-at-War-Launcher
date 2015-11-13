@@ -89,6 +89,7 @@ namespace RawLauncherWPF.Localization
             StringTable.Add("ExceptionRestoreVersionNotMatch", "Versions do not match");
             StringTable.Add("ExceptionUpdateVersionNotMatch", "Versions do not match");
             StringTable.Add("ExceptionXmlParserError", "Unable to deserialize the xml stream. {0}");
+            StringTable.Add("ExceptionSteamClientMissing", "Was unable to find the Steam Client-App");
         }
 
         private void AddLanguageStrings()

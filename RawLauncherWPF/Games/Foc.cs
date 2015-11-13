@@ -11,6 +11,10 @@ namespace RawLauncherWPF.Games
 {
     public class Foc : IGame
     {
+        public const string GameconstantsUpdateHash = "4306d0c45d103cd11ff6743d1c3d9366";
+        public const string GraphicdetailsUpdateHash = "4d7e140887fc1dd52f47790a6e20b5c5";
+
+
         public Foc()
         {
         }
@@ -22,22 +26,23 @@ namespace RawLauncherWPF.Games
                 throw new GameExceptions(GetMessage("ExceptionGameExist"));
         }
 
-        public string GameDirectory { get; }
-
-        public string SaveGameDirectory
+        public void ClearDataFolder()
         {
-            get
-            {
-                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
-                if (!Directory.Exists(folder))
-                    return "";
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
-            }
+            if (Directory.Exists(@"Data\CustomMaps"))
+                Directory.Delete(@"Data\CustomMaps");
+            if (Directory.Exists(@"Data\Scripts"))
+                Directory.Delete(@"Data\Scripts");
+            if (Directory.Exists(@"Data\XML"))
+                Directory.Delete(@"Data\XML");
         }
 
-        public string Name => "Forces of Corruption";
+        public void DeleteMod(string name)
+        {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (Directory.Exists(@"Mods\" + name))
+                Directory.Delete(@"Mods\" + name, true);
+        }
 
         public bool Exists() => File.Exists(GameDirectory + @"\swfoc.exe");
 
@@ -46,6 +51,45 @@ namespace RawLauncherWPF.Games
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\swfoc.exe"))
                 throw new GameExceptions(GetMessage("ExceptionGameExistName", Name));
             return new Foc(Directory.GetCurrentDirectory() + @"\");
+        }
+
+        public string GameDirectory { get; }
+
+        public bool IsPatched()
+        {
+            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") ||
+                !File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
+                return false;
+            var hashProvider = new HashProvider();
+            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") != GameconstantsUpdateHash)
+                return false;
+            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML") != GraphicdetailsUpdateHash)
+                return false;
+            return true;
+        }
+
+        public string Name => "Forces of Corruption";
+
+        public bool Patch()
+        {
+            try
+            {
+                if (!Directory.Exists(GameDirectory + @"Data\XML"))
+                    Directory.CreateDirectory(GameDirectory + @"Data\XML");
+
+                if (File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML"))
+                    File.Delete(GameDirectory + @"Data\XML\GAMECONSTANTS.XML");
+                if (File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
+                    File.Delete(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML");
+
+                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Resources.GAMECONSTANTS);
+                File.WriteAllText(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML", Resources.GRAPHICDETAILS);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         public void PlayGame()
@@ -100,59 +144,17 @@ namespace RawLauncherWPF.Games
             }
         }
 
-        public bool Patch()
+        public string SaveGameDirectory
         {
-            try
+            get
             {
-                if (!Directory.Exists(GameDirectory + @"Data\XML"))
-                    Directory.CreateDirectory(GameDirectory + @"Data\XML");
-
-                if (File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML"))
-                    File.Delete(GameDirectory + @"Data\XML\GAMECONSTANTS.XML");
-                if (File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
-                    File.Delete(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML");
-
-                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Resources.GAMECONSTANTS);
-                File.WriteAllText(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML", Resources.GRAPHICDETAILS);
+                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
+                if (!Directory.Exists(folder))
+                    return "";
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
             }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool IsPatched()
-        {
-            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") ||
-                !File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
-                return false;
-            var hashProvider = new HashProvider();
-            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") !=
-                Configuration.Config.GameconstantsUpdateHash)
-                return false;
-            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML") !=
-                Configuration.Config.GraphicdetailsUpdateHash)
-                return false;
-            return true;
-        }
-
-        public void DeleteMod(string name)
-        {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-            if (Directory.Exists(@"Mods\" + name))
-                Directory.Delete(@"Mods\" + name, true);
-        }
-
-        public void ClearDataFolder()
-        {
-            if (Directory.Exists(@"Data\CustomMaps"))
-                Directory.Delete(@"Data\CustomMaps");
-            if (Directory.Exists(@"Data\Scripts"))
-                Directory.Delete(@"Data\Scripts");
-            if (Directory.Exists(@"Data\XML"))
-                Directory.Delete(@"Data\XML");
         }
     }
 }

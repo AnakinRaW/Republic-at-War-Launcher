@@ -117,12 +117,14 @@
     <Compile Include="Defreezer\UnitRef.cs" />
     <Compile Include="ExtensionClasses\StreamExtension.cs" />
     <Compile Include="ExtensionClasses\StringExtensions.cs" />
+    <Compile Include="Games\GameHelper.cs" />
+    <Compile Include="Games\GameTypes.cs" />
+    <Compile Include="Games\Steam.cs" />
     <Compile Include="Games\SteamGame.cs" />
     <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Helpers\CheckModHelper.cs" />
     <Compile Include="Helpers\FileShuffler.cs" />
     <Compile Include="Helpers\RestoreHelper.cs" />
-    <Compile Include="Helpers\SteamHelper.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Localization\English.cs" />
     <Compile Include="Localization\German.cs" />

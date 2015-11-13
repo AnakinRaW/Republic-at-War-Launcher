@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
 using RawLauncherWPF.Games;
-using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
@@ -213,8 +212,17 @@ namespace RawLauncherWPF.ViewModels
         {
             try
             {
-                Eaw = new Eaw().FindGame();
-                BaseGame = SteamHelper.CheckSteamInstallation(Directory.GetCurrentDirectory()) ? new SteamGame().FindGame() : new Foc().FindGame();
+                if (GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory()) == GameTypes.Disk)
+                {
+                    Eaw = new Eaw().FindGame();
+                    BaseGame = new Foc().FindGame();
+                }
+                else if (GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory()) == GameTypes.SteamGold)
+                {
+                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
+                    BaseGame = new SteamGame().FindGame();
+                }
+                
             }
             catch (GameExceptions e)
             {
