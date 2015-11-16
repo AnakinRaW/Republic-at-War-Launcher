@@ -116,7 +116,7 @@ namespace RawLauncherWPF.Games
         public void PlayGame(IMod mod)
         {
             if (!mod.Exists())
-                throw new ModExceptions(GetMessage("ExceptionGameModExsit"));
+                throw new ModExceptions(GetMessage("ExceptionGameModExist"));
             if (!mod.ModDirectory.StartsWith(GameDirectory))
                 throw new ModExceptions(GetMessage("ExceptionGameModCompatible"));
             if (!mod.HasCorrectFolderStructure)

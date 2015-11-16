@@ -56,7 +56,7 @@ namespace RawLauncherWPF.ViewModels
             Thread.Sleep(1100);
             LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
-            Application.Current.Shutdown();
+            //Application.Current.Shutdown();
         }
 
         public Command DefreezeCommand => new Command(Defreeze);

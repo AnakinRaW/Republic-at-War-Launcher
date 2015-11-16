@@ -8,8 +8,8 @@ using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
-using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
+using static RawLauncherWPF.Utilities.MessageProvider;
 using static RawLauncherWPF.Utilities.VersionUtilities;
 
 namespace RawLauncherWPF.ViewModels
@@ -222,11 +222,10 @@ namespace RawLauncherWPF.ViewModels
                     Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
                     BaseGame = new SteamGame().FindGame();
                 }
-                
             }
             catch (GameExceptions e)
             {
-                MessageProvider.Show(e.Message);
+                Show(e.Message);
                 //Environment.Exit(0);
             }
         }
@@ -244,7 +243,7 @@ namespace RawLauncherWPF.ViewModels
             }
             catch (ModExceptions e)
             {
-                MessageProvider.Show(e.Message);
+                Show(e.Message);
                 //Environment.Exit(0);
             }
         }
@@ -298,7 +297,7 @@ namespace RawLauncherWPF.ViewModels
         {         
            ShowMainWindow(0);
             if (ComputerHasInternetConnection() && CurrentMod != null && NewVersionAvailable())
-                 await Task.Run(() => MessageProvider.Show(MessageProvider.GetMessage("LauncherInfoNewVersion", GetLatestVersion())));
+                 await Task.Run(() => Show(GetMessage("LauncherInfoNewVersion", GetLatestVersion())));
         }
 
         public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);

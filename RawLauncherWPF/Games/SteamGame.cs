@@ -2,6 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
+using Microsoft.Win32;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
@@ -99,24 +102,19 @@ namespace RawLauncherWPF.Games
 
         public void PlayGame(IMod mod)
         {
-            if (SteamExePath == string.Empty)
-                throw new GameExceptions(GetMessage("ExceptionSteamClientMissing"));
 
-            var process = new ProcessStartInfo {FileName = SteamExePath};
-            if (mod == null)
-                process.Arguments = "-applaunch 32470 swfoc";
-            else
-                process.Arguments = "-applaunch 32470 swfoc " + mod.LaunchArgumentPath;
-
-            var steamRoot = Directory.GetParent(GameDirectory);
-            if (!File.Exists(steamRoot + "\\runme.dat") || !File.Exists(steamRoot + "\\runm2.dat"))
-                throw new GameExceptions(GetMessage("ExceptionGameExistName", Name));
-            File.Move(steamRoot + "\\runme.dat", steamRoot + "\\tmp.runme.dat.tmp");
-            File.Copy(steamRoot + "\\runm2.dat", steamRoot + "\\runme.dat");
-            Process.Start(process);
+            var s = Registry.CurrentUser.CreateSubKey("Software\\Valve\\Steam", RegistryKeyPermissionCheck.ReadSubTree).GetValue("SteamExe", null).ToString();
+            var startInfo = new ProcessStartInfo();
+            //startInfo.FileName = Directory.GetParent(Directory.GetCurrentDirectory()) + "\\GameData\\sweaw.exe";
+            startInfo.FileName = Registry.CurrentUser.CreateSubKey("Software\\Valve\\Steam", RegistryKeyPermissionCheck.ReadSubTree).GetValue("SteamExe", null).ToString(); 
+            startInfo.Arguments = "-applaunch 32470 swfoc MODPATH=Mods\\Republic_at_War";
+            string str = Directory.GetParent(new DirectoryInfo(Directory.GetCurrentDirectory()).FullName).FullName;
+            File.Move(str + "\\runme.dat", str + "\\tmp.runme.dat.tmp");
+            File.Copy(str + "\\runm2.dat", str + "\\runme.dat");
+            Process.Start("cmd.exe", s + "-applaunch 32470 swfoc MODPATH=Mods\\Republic_at_War");
             Thread.Sleep(20000);
-            File.Delete(steamRoot + "\\runme.dat");
-            File.Move(steamRoot + "\\tmp.runme.dat.tmp", steamRoot + "\\runme.dat");
+            File.Delete(str + "\\runme.dat");
+            File.Move(str + "\\tmp.runme.dat.tmp", str + "\\runme.dat");
         }
 
         //TODO

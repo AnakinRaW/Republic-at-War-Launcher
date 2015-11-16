@@ -80,7 +80,7 @@ namespace RawLauncherWPF.Localization
             StringTable.Add("ExceptionGameExist", "This Game does not exists");
             StringTable.Add("ExceptionGameExistName", "{0} does not exists.");
             StringTable.Add("ExceptionGameModCompatible", "Mod is not compatible");
-            StringTable.Add("ExceptionGameModExsit", "Mod does not exists anymore.");
+            StringTable.Add("ExceptionGameModExist", "Mod does not exists anymore.");
             StringTable.Add("ExceptionGameModWrongInstalled", "Mod is not correct installed");
             StringTable.Add("ExceptionHostServerGetData", "Was not able to get data from: {0}");
             StringTable.Add("ExceptionModExist", "This Mod does not exist");
