@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows;
-using System.Windows.Threading;
-using Microsoft.Win32;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
@@ -53,7 +52,7 @@ namespace RawLauncherWPF.Games
         {
             if (!File.Exists(Directory.GetCurrentDirectory() + @"\swfoc.exe"))
                 throw new GameExceptions(GetMessage("ExceptionGameExistName", Name));
-            return new Foc(Directory.GetCurrentDirectory() + @"\");
+            return new SteamGame(Directory.GetCurrentDirectory() + @"\");
         }
 
         public string GameDirectory { get; }
@@ -100,19 +99,28 @@ namespace RawLauncherWPF.Games
             PlayGame(null);
         }
 
+
         public void PlayGame(IMod mod)
         {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = SteamExePath,
+            };
 
-            var s = Registry.CurrentUser.CreateSubKey("Software\\Valve\\Steam", RegistryKeyPermissionCheck.ReadSubTree).GetValue("SteamExe", null).ToString();
-            var startInfo = new ProcessStartInfo();
-            //startInfo.FileName = Directory.GetParent(Directory.GetCurrentDirectory()) + "\\GameData\\sweaw.exe";
-            startInfo.FileName = Registry.CurrentUser.CreateSubKey("Software\\Valve\\Steam", RegistryKeyPermissionCheck.ReadSubTree).GetValue("SteamExe", null).ToString(); 
-            startInfo.Arguments = "-applaunch 32470 swfoc MODPATH=Mods\\Republic_at_War";
+            if (mod == null)
+                startInfo.Arguments = "-applaunch 32470 swfoc";
+            else
+                startInfo.Arguments = "-applaunch 32470 swfoc MODPATH=" + mod.LaunchArgumentPath;
+
             string str = Directory.GetParent(new DirectoryInfo(Directory.GetCurrentDirectory()).FullName).FullName;
+
+            if (!Exists())
+                throw new GameExceptions(GetMessage("ExceptionGameExistName", Name));
+
             File.Move(str + "\\runme.dat", str + "\\tmp.runme.dat.tmp");
             File.Copy(str + "\\runm2.dat", str + "\\runme.dat");
-            Process.Start("cmd.exe", s + "-applaunch 32470 swfoc MODPATH=Mods\\Republic_at_War");
-            Thread.Sleep(20000);
+            Process.Start(startInfo);
+            Thread.Sleep(2000);
             File.Delete(str + "\\runme.dat");
             File.Move(str + "\\tmp.runme.dat.tmp", str + "\\runme.dat");
         }

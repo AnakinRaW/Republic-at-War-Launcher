@@ -2,13 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:lang="clr-namespace:RawLauncherWPF.Localization">
-    
- <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonPlay}">play republic at war</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonOrganize}">find/organize game sessions</system:String>
-    
+                     ResourceId=ButtonOrganize}">find/organize game yessions</system:String>
+
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonPatch}">patch</system:String>
     
@@ -16,14 +16,14 @@
                      ResourceId=ButtonCheck}">check version</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonLanguage}">change mod language</system:String>
+                     ResourceId=ButtonLanguage}">change language</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonRestore}">restore mod files</system:String>
+                     ResourceId=ButtonRestore}">restore files</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonUpdate}">update</system:String>
-    
+
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonChangelog}">changelog</system:String>
 
@@ -34,26 +34,26 @@
                      ResourceId=ButtonAbout}">about</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonDefreeze}">defreeze savegame</system:String>
-    
+                     ResourceId=ButtonDefreeze}">defreeze game save</system:String>
+
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonClose}">close</system:String>
-    
-    
-    
-     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=TabPlay}">play</system:String>
-    
-     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=TabCheck}">check</system:String>
-    
-     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=TabLanguage}">language</system:String>
-    
-     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=TabRestore}">restore</system:String>
-    
-     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=TabUpdate}">update</system:String>
 
 
@@ -63,8 +63,8 @@
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangEnglish}">english</system:String>
-    
-     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangFrench}">french</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
@@ -78,8 +78,8 @@
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangSerbian}">serbian</system:String>
-    
-     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangSpanish}">spanish</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
@@ -87,15 +87,15 @@
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangUkrainian}">ukrainian</system:String>
-    
-    
-    
+
+
+
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=RestoreNone}">none</system:String>
-    
+
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=RestoreLanguage}">ignore language</system:String>
-    
+
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=RestoreHard}">hard</system:String>
 
@@ -110,18 +110,18 @@
     
     
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ToolNone}">No Options specified</system:String>
+                     ResourceId=ToolNone}">No Options specified.</system:String>
     
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ToolHard}">This option deltes all files and performs a clean install.</system:String>
+                     ResourceId=ToolHard}">This option deletes all files and performs a clean install.</system:String>
     
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ToolLanguage}">Ignore all language related files. Restoring with this option is faster and your installed language pack will not be deleted.</system:String>
     
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ToolVoice}">Ignore all voice related files. Updating with this option is faster and your installed language pack will not be touched.</system:String>
-    
-    
+                     ResourceId=ToolVoice}">Ignore all voice related files. Updating with this option is faster and your installed language pack will not be modified.</system:String>
+
+
 
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},

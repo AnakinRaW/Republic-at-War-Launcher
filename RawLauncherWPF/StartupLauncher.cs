@@ -3,9 +3,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Threading;
-using System.Windows;
-using Microsoft.Win32;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Localization;
 using RawLauncherWPF.UI;
@@ -21,8 +18,6 @@ namespace RawLauncherWPF
     /// This ought not to interact with the launcher. I made this class static to make this clear
     /// 
     /// The Preparation includes extracting the needed resoures and other stuff that might not have something to do with the launcher.
-    /// 
-    /// TODO: Make this Run for Steam also by using existing code as much as possible. Serverty is very low at the moment. If programming properly it should be easy to add afterwards.
     /// </summary>
     public static class StartupLauncher
     {

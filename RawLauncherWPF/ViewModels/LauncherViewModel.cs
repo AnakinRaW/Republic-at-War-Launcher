@@ -8,6 +8,7 @@ using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
+using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
 using static RawLauncherWPF.Utilities.VersionUtilities;
@@ -219,8 +220,8 @@ namespace RawLauncherWPF.ViewModels
                 }
                 else if (GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory()) == GameTypes.SteamGold)
                 {
-                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
-                    BaseGame = new SteamGame().FindGame();
+;                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
+                     BaseGame = new SteamGame().FindGame();
                 }
             }
             catch (GameExceptions e)
