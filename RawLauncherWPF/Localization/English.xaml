@@ -7,7 +7,7 @@
                      ResourceId=ButtonPlay}">play republic at war</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonOrganize}">find/organize game yessions</system:String>
+                     ResourceId=ButtonOrganize}">find/organize game sessions</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonPatch}">patch</system:String>
