@@ -135,6 +135,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async void PerformCheck()
         {
+            _mSource = new CancellationTokenSource();
             PrepareUi();
 
             //Game exists
@@ -669,6 +670,7 @@ namespace RawLauncherWPF.ViewModels
             var eaw = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.Patch();
             var foc = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.Patch();
             CreatePatchMessage(eaw, foc);
+            PerformCheck();
         }
 
         /// <summary>
@@ -678,8 +680,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void CheckVersion()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            _mSource = new CancellationTokenSource();
+            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress); 
             PerformCheck();
         }
 
