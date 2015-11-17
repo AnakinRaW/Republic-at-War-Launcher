@@ -417,6 +417,8 @@ namespace RawLauncherWPF.ViewModels
         private async Task<bool> CheckModExistsTask()
         {
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
+            if (LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod == null)
+                return false;
             return LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.Exists();
         }
 

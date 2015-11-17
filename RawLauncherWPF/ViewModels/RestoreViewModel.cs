@@ -303,6 +303,8 @@ namespace RawLauncherWPF.ViewModels
                     if (!await Task.Run(() => File.Exists(absolutePath), _mSource.Token) ||
                         await Task.Run(() => hashProvider.GetFileHash(absolutePath) != file.Hash, _mSource.Token))
                     {
+                        if (!File.Exists(absolutePath))
+                            Show("Not Found");
                         var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
                         RestoreTable.Files.Add(restoreFile);
                     }

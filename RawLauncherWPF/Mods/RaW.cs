@@ -28,7 +28,7 @@ namespace RawLauncherWPF.Mods
 
         public string LaunchArgumentPath => "Mods/" + FolderName;
 
-        public string FolderName => "Republic_at_War";
+        public string FolderName => "Republic_At_War";
 
         public LanguageTypes InstalledLanguage
         {
@@ -64,9 +64,9 @@ namespace RawLauncherWPF.Mods
 
         public IMod FindMod()
         {
-            if (!File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\Data\XML\Gameobjectfiles.xml"))
+            if (!File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\Data\XML\Gameobjectfiles.xml"))
                 throw new ModExceptions(GetMessage("ExceptionModExistName", Name));
-            return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\");
+            return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\");
         }
 
         public string ModDirectory { get; }

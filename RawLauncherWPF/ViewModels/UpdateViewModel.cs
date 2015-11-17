@@ -365,6 +365,11 @@ namespace RawLauncherWPF.ViewModels
             UpdateFileStream = Stream.Null;
             UpdateContainer = null;
             UpdateTable = null;
+            if (LauncherViewModel.CurrentMod is DummyMod)
+            {
+                LauncherPane.MainWindowViewModel.IsBlocked = true;
+                CanExecute = true;
+            }
         }
 
         #region Normal
