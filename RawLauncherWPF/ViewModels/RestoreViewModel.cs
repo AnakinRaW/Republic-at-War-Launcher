@@ -297,7 +297,7 @@ namespace RawLauncherWPF.ViewModels
             {
                 //Find missing/corrupted files to download
                 ProzessStatus = GetMessage("RestoreStatusCheckMissing");
-                foreach (var file in listToCheck)
+                var t = listToCheck.Select(file => Task.Run(async () =>
                 {
                     var absolutePath = CreateAbsoluteFilePath(file);
                     if (!await Task.Run(() => File.Exists(absolutePath), _mSource.Token) ||
@@ -309,7 +309,12 @@ namespace RawLauncherWPF.ViewModels
                         RestoreTable.Files.Add(restoreFile);
                     }
                     Progress = Progress + i;
-                }
+                }));
+
+                await Task.WhenAll(t.ToArray());
+
+
+                
             }
             catch (TaskCanceledException)
             {
