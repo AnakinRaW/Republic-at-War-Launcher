@@ -134,6 +134,7 @@
     <Compile Include="Localization\XmalLanguageKeys.cs" />
     <Compile Include="Models\RestoreFile.cs" />
     <Compile Include="Models\RestoreTable.cs" />
+    <Compile Include="Mods\DummyMod.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

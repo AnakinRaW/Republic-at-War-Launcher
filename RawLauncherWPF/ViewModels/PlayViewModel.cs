@@ -116,7 +116,7 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        async private void ToggleFastLaunch(ToggleButton arg)
+        private async void ToggleFastLaunch(ToggleButton arg)
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Checkbox);
             if (arg.IsChecked == true)

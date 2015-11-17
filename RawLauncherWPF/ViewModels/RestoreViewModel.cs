@@ -243,6 +243,8 @@ namespace RawLauncherWPF.ViewModels
                     }
 
                 //Find unused files to delete (Mod Files)
+                if (!Directory.Exists(LauncherViewModel.CurrentMod.ModDirectory))
+                    return true;
                 foreach (
                     var file in
                         await

@@ -20,6 +20,7 @@ namespace RawLauncherWPF.ViewModels
         private Version _installedVersion;
         private bool _isBlocked;
         private Version _latestVersion;
+        private readonly int _startPaneIndex;
 
         public MainWindowViewModel(MainWindow mainWindow, LauncherViewModel model) : base(mainWindow)
         {
@@ -43,11 +44,19 @@ namespace RawLauncherWPF.ViewModels
 
             LauncherPanes = new List<ILauncherPane> {_playPane, checkPane, languagePane, restorePane, updatePane};
 
-            if (LauncherViewModel.BaseGame != null && LauncherViewModel.Eaw != null &&
-                LauncherViewModel.CurrentMod != null)
-                return;
-            Show(GetMessage("ErrorInitFailed"));
-            IsBlocked = true;
+            _startPaneIndex = 0;
+            if (LauncherViewModel.BaseGame == null || LauncherViewModel.Eaw == null)
+            {
+                Show(GetMessage("ErrorInitFailed"));
+                IsBlocked = true;
+            }
+            if (LauncherViewModel.CurrentMod == null)
+            {
+                Show(GetMessage("ErrorInitFailedMod"));
+                IsBlocked = true;
+                updatePane.ViewModel.CanExecute = true;
+                _startPaneIndex = 4;
+            }
         }
 
         /// <summary>
@@ -122,7 +131,7 @@ namespace RawLauncherWPF.ViewModels
         private void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             Theme = new LauncherTheme();
-            ShowPane(0);
+            ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();
         }
 

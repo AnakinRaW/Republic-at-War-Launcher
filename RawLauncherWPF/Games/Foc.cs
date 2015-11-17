@@ -29,11 +29,11 @@ namespace RawLauncherWPF.Games
         public void ClearDataFolder()
         {
             if (Directory.Exists(@"Data\CustomMaps"))
-                Directory.Delete(@"Data\CustomMaps");
+                Directory.Delete(@"Data\CustomMaps", true);
             if (Directory.Exists(@"Data\Scripts"))
-                Directory.Delete(@"Data\Scripts");
+                Directory.Delete(@"Data\Scripts", true);
             if (Directory.Exists(@"Data\XML"))
-                Directory.Delete(@"Data\XML");
+                Directory.Delete(@"Data\XML", true);
         }
 
         public void DeleteMod(string name)

@@ -8,7 +8,7 @@ namespace RawLauncherWPF.Utilities
 {
     public static class ProgressBarUtilities
     {
-        async public static Task AnimateProgressBar<T>(double oldValue, double newValue,int time,T outobj, Expression<Func<T, double>> progress)
+        public static async Task AnimateProgressBar<T>(double oldValue, double newValue,int time,T outobj, Expression<Func<T, double>> progress)
         {
             if (oldValue == newValue)
                 return;

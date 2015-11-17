@@ -31,11 +31,11 @@ namespace RawLauncherWPF.Games
         public void ClearDataFolder()
         {
             if (Directory.Exists(@"Data\CustomMaps"))
-                Directory.Delete(@"Data\CustomMaps");
+                Directory.Delete(@"Data\CustomMaps", true);
             if (Directory.Exists(@"Data\Scripts"))
-                Directory.Delete(@"Data\Scripts");
+                Directory.Delete(@"Data\Scripts", true);
             if (Directory.Exists(@"Data\XML"))
-                Directory.Delete(@"Data\XML");
+                Directory.Delete(@"Data\XML", true);
         }
 
         public void DeleteMod(string name)
@@ -125,7 +125,16 @@ namespace RawLauncherWPF.Games
             File.Move(str + "\\tmp.runme.dat.tmp", str + "\\runme.dat");
         }
 
-        //TODO
-        public string SaveGameDirectory { get; }
+        public string SaveGameDirectory
+        {
+            get
+            {
+                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    @"Saved Games\Petroglyph\Empire At War - Forces of Corruption\Save\");
+                if (!Directory.Exists(folder))
+                    return "";
+                return folder;
+            }
+        }
     }
 }

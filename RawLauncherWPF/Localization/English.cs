@@ -73,6 +73,7 @@ namespace RawLauncherWPF.Localization
             StringTable.Add("ErrorCreateMessageFailed", "Unable to create message text.");
             StringTable.Add("ErrorInitLauncher", "There was a problem initializing the launcher: {0}");
             StringTable.Add("ErrorInitFailed", "The launcher was not able to find Forces of Corruption. Please run the launcher from root Forces of Corruption directory.");
+            StringTable.Add("ErrorInitFailedMod", "The launcher was not able to find Republic at War. Please click the 'Update' tab and install the mod.");
         }
 
         private void AddExceptionStrings()

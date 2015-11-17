@@ -8,7 +8,6 @@ using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
-using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
 using static RawLauncherWPF.Utilities.VersionUtilities;
@@ -187,7 +186,6 @@ namespace RawLauncherWPF.ViewModels
             _launcher.MainWindow = new MainWindow(this);
             _launcher.MainWindow.Show();
             var a = (MainWindowViewModel)_launcher.MainWindow.DataContext;
-            a.ShowPane((int)index);
             a.InstalledVersion = CurrentMod == null ? new Version("1.0") : CurrentMod.Version;
             a.LatestVersion = GetLatestVersion();
         }
@@ -220,13 +218,13 @@ namespace RawLauncherWPF.ViewModels
                 }
                 else if (GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory()) == GameTypes.SteamGold)
                 {
-;                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
-                     BaseGame = new SteamGame().FindGame();
+                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
+                    BaseGame = new SteamGame().FindGame();
                 }
             }
-            catch (GameExceptions e)
+            catch (GameExceptions)
             {
-                Show(e.Message);
+                //Show(e.Message);
                 //Environment.Exit(0);
             }
         }
@@ -242,9 +240,9 @@ namespace RawLauncherWPF.ViewModels
                 var republicAtWar = new RaW().FindMod();
                 CurrentMod = republicAtWar;
             }
-            catch (ModExceptions e)
+            catch (ModExceptions)
             {
-                Show(e.Message);
+                //Show(e.Message);
                 //Environment.Exit(0);
             }
         }

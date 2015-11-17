@@ -9,6 +9,7 @@ using ModernApplicationFramework.Commands;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Models;
+using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
 using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
@@ -96,6 +97,9 @@ namespace RawLauncherWPF.ViewModels
 
         public async void PerformUpdate()
         {
+            if (LauncherViewModel.CurrentMod == null)
+                LauncherViewModel.CurrentMod = new DummyMod();
+
             var l = LauncherViewModel.CurrentMod.InstalledLanguage;
             if (!ComputerHasInternetConnection())
             {
@@ -142,6 +146,10 @@ namespace RawLauncherWPF.ViewModels
                 ResetUi();
                 return;
             }
+
+            if (LauncherViewModel.CurrentMod is DummyMod)
+                LauncherViewModel.CurrentMod = new RaW().FindMod();
+
             LauncherPane.MainWindowViewModel.InstalledVersion = LauncherViewModel.CurrentMod.Version;
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             ProzessStatus = "UpdateStatusFinishing";
@@ -184,6 +192,8 @@ namespace RawLauncherWPF.ViewModels
                 }
 
                 //Find files to delete (Mod files)
+                if (!Directory.Exists(LauncherViewModel.CurrentMod.ModDirectory))
+                    return true;
                 foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*", SearchOption.AllDirectories), _mSource.Token))
                 {
                     if (new FileInfo(file).Directory?.Name == "Text")

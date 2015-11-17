@@ -3,6 +3,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Localization;
 using RawLauncherWPF.UI;
@@ -36,12 +38,22 @@ namespace RawLauncherWPF
             //TODO: Activate
             //CheckBeta();
             SetUpLanguage();
+            CheckRunning();
+
             ExtractLibraries();
             _launcher = new LauncherApp();
             _launcher.InitializeComponent();
             _launcher.Run();
 
             CleanUp();
+        }
+
+        private static void CheckRunning()
+        {
+            if (!IsApplicationAlreadyRunning())
+                return;
+            Show(GetMessage("ErrorAlreadyRunning"));
+            Environment.Exit(0);
         }
 
         private static void CheckBeta()
@@ -106,6 +118,11 @@ namespace RawLauncherWPF
                 Show(GetMessage("ErrorInitLauncher", exception.Message));
                 Environment.Exit(0);
             }
+        }
+
+        static bool IsApplicationAlreadyRunning()
+        {
+            return Process.GetProcesses().Count(p => p.ProcessName.Contains(Assembly.GetExecutingAssembly().FullName.Split(',')[0]) && !p.Modules[0].FileName.Contains("vshost")) > 1;
         }
 
     }
