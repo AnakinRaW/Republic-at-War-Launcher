@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Defreezer;
-using RawLauncherWPF.Helpers;
+using RawLauncherWPF.Mods;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
@@ -64,9 +65,15 @@ namespace RawLauncherWPF.ViewModels
         private async void Defreeze()
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
+
+            var initDir = LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod == null ||
+                             LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod is DummyMod
+                ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
+                : LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.SaveGameDirectory;
+
             var oFd = new OpenFileDialog
             {
-                InitialDirectory = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.SaveGameDirectory,
+                InitialDirectory = initDir,
                 Filter = "Savegame Files (*.sav; *.PetroglyphFoCSave) | *.sav; *.PetroglyphFoCSave",
                 Title = "Select a Savegame"
             };
