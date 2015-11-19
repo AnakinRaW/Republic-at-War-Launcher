@@ -126,9 +126,9 @@
         </mafc:ImageButton>
         
         <DockPanel Grid.Row="5" Grid.Column="1" Background="{StaticResource WhiteHalfOpacityBrush}" Margin="0,3,0,3">
-            <Label  Foreground="White" Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainInstalledVersion}}"/>
-            <Label  Name="Test" Foreground="White" Opacity="1" Content="{Binding InstalledVersion}"/>
-            <Label Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainLatestVersion}}">
+            <Label  Foreground="White" Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainInstalledVersion}}" Margin="0,-3,0,0"/>
+            <Label  Name="Test" Foreground="White" Opacity="1" Content="{Binding InstalledVersion}" Margin="0,-3,0,0"/>
+            <Label Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainLatestVersion}}" Margin="0,-3,0,0">
                 <Label.Foreground>
                     <MultiBinding Converter="{StaticResource IsGreaterConverter}">
                         <Binding ElementName="Test" Path="Content"/>
@@ -136,7 +136,7 @@
                     </MultiBinding>
                 </Label.Foreground>
             </Label>
-            <Label Opacity="1" Name="Test1" Content="{Binding LatestVersion}">
+            <Label Opacity="1" Name="Test1" Content="{Binding LatestVersion}" Margin="0,-3,0,0">
                 <Label.Foreground>
                     <MultiBinding Converter="{StaticResource IsGreaterConverter}">
                         <Binding ElementName="Test" Path="Content"/>
