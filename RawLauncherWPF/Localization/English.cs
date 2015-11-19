@@ -150,7 +150,7 @@ namespace RawLauncherWPF.Localization
         private void AddUpdateStrings()
         {
             StringTable.Add("UpdateAborted", "Update aborted.");
-            StringTable.Add("UpdateDone", "Updateing done.");
+            StringTable.Add("UpdateDone", "Updating done.");
             StringTable.Add("UpdateErrorExit", "Process aborted or failed.");
             StringTable.Add("UpdateHostOffline", "Unable to download the required files as the servers could not be reached. Please try later.");
             StringTable.Add("UpdateInternetLost", "You lost your internet connection. In order to prevent further error messages, the progress will be cancelled now.");

@@ -83,7 +83,7 @@
                      ResourceId=LangSpanish}">spanish</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=LangSwedish}">schwedich</system:String>
+                     ResourceId=LangSwedish}">swedish</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangUkrainian}">ukrainian</system:String>
