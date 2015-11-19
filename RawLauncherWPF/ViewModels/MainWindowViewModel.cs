@@ -50,7 +50,7 @@ namespace RawLauncherWPF.ViewModels
                 Show(GetMessage("ErrorInitFailed"));
                 IsBlocked = true;
             }
-            if (LauncherViewModel.CurrentMod == null)
+            if (LauncherViewModel.CurrentMod == null && LauncherViewModel.BaseGame != null && LauncherViewModel.Eaw != null)
             {
                 Show(GetMessage("ErrorInitFailedMod"));
                 IsBlocked = true;

@@ -57,7 +57,7 @@ namespace RawLauncherWPF.Utilities
                 if (stream == null || stream == Stream.Null)
                     throw new ResourceExtractorException(GetMessage("ExceptionResourceExtractorNotFound", ResourcePath + file));     
 
-                using (var fileStream = new FileStream(Path.Combine(directory, file), FileMode.OpenOrCreate))
+                using (var fileStream = new FileStream(Path.Combine(directory, file), FileMode.OpenOrCreate, FileAccess.Write))
                 {
                     for (var i = 0; i < stream.Length; i++)
                         fileStream.WriteByte((byte)stream.ReadByte());

@@ -35,17 +35,25 @@ namespace RawLauncherWPF
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {
-            //TODO: Activate
-            //CheckBeta();
-            SetUpLanguage();
-            CheckRunning();
+            try
+            {
+                //TODO: Activate
+                //CheckBeta();
+                SetUpLanguage();
+                CheckRunning();
 
-            ExtractLibraries();
-            _launcher = new LauncherApp();
-            _launcher.InitializeComponent();
-            _launcher.Run();
+                ExtractLibraries();
+                _launcher = new LauncherApp();
+                _launcher.InitializeComponent();
+                _launcher.Run();
 
-            CleanUp();
+                CleanUp();
+            }
+            catch (Exception e)
+            {
+                Show(e.Message);
+            }
+            
         }
 
         private static void CheckRunning()
