@@ -35,8 +35,19 @@ namespace RawLauncherWPF.UI
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentLanguage = ComboBox.SelectedIndex == 1 ? (Language) new German() : new English();  
-            CurrentLanguage.Reload();   
+            switch (ComboBox.SelectedIndex)
+            {
+                case 1:
+                    CurrentLanguage = new German();
+                    break;
+                case 2:
+                    CurrentLanguage = new Spanish();
+                    break;
+                default:
+                    CurrentLanguage = new English();
+                    break;
+            }
+            CurrentLanguage.Reload();
         }
     }
 }
