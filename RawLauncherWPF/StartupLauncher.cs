@@ -71,10 +71,18 @@ namespace RawLauncherWPF
 
         private static void SetUpLanguage()
         {
-            if (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName == "de")
-                CurrentLanguage = new German();
-            else 
-                CurrentLanguage = new English();  
+            switch (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName)
+            {
+                case "de":
+                    CurrentLanguage = new German();
+                    break;
+                case "es":
+                    CurrentLanguage = new Spanish();
+                    break;
+                default:
+                    CurrentLanguage = new English();
+                    break;
+            }
         }
 
 

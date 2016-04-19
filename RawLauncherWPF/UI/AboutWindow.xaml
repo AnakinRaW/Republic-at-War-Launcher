@@ -34,6 +34,7 @@
                 <ComboBox Name="ComboBox" x:FieldModifier="private" Margin="10,0,0,0" Width="150" HorizontalAlignment="Left" SelectionChanged="Selector_OnSelectionChanged">
                     <ComboBoxItem DataContext="en">English</ComboBoxItem>
                     <ComboBoxItem DataContext="de">German</ComboBoxItem>
+                    <ComboBoxItem DataContext="de">Spanish</ComboBoxItem>
                 </ComboBox>
             </DockPanel>
             <Label>(c) Republic at War Modding Team 2015, 2016</Label>
