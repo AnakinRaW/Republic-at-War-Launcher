@@ -112,6 +112,7 @@ namespace RawLauncherWPF.Localization
         private void AddModStrings()
         {
             StringTable.Add("ModVersionNotFound", "No se pudo encontrar la versión actual. Por favor reinstale Republic at War e intente nuevamente.");
+            StringTable.Add("UninstallModWarning", "¿Está seguro de que quiere eliminar Republic at War ? Esto no se puede deshacer.");
         }
 
         private void AddPlayStrings()

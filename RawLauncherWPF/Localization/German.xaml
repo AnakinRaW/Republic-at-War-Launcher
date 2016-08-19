@@ -34,6 +34,9 @@
                      ResourceId=ButtonAbout}">über</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+                     ResourceId=ButtonUninstall}">raw löschen</system:String>
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonDefreeze}">defreeze savegame</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},

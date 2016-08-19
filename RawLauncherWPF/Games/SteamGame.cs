@@ -1,12 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
-using RawLauncherWPF.Hash;
+﻿using RawLauncherWPF.Hash;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
 using static RawLauncherWPF.Games.Steam;
 using static RawLauncherWPF.Utilities.MessageProvider;
 
@@ -18,7 +16,7 @@ namespace RawLauncherWPF.Games
         public const string GraphicdetailsUpdateHash = "4d7e140887fc1dd52f47790a6e20b5c5";
 
         public SteamGame()
-        {          
+        {
         }
 
         public SteamGame(string gameDirectory)
@@ -98,7 +96,6 @@ namespace RawLauncherWPF.Games
         {
             PlayGame(null);
         }
-
 
         public void PlayGame(IMod mod)
         {

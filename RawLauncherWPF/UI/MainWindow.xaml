@@ -144,6 +144,13 @@
                     </MultiBinding>
                 </Label.Foreground>
             </Label>
+            <mafc:ImageButton HorizontalAlignment="Right" Margin="10,0,0,0" Width="Auto" Command="{Binding DeleteRawCommand}"
+                              NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonUninstall}}"/>
+                </mafc:ImageButton.Content>
+            </mafc:ImageButton>
             <mafc:ImageButton HorizontalAlignment="Right" Width="100" Command="{Binding AboutCommand}"
                               NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
                 <mafc:ImageButton.Content>

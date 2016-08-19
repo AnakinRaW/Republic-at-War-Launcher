@@ -14,10 +14,7 @@ namespace RawLauncherWPF.Games
         public const string GameconstantsUpdateHash = "4306d0c45d103cd11ff6743d1c3d9366";
         public const string GraphicdetailsUpdateHash = "4d7e140887fc1dd52f47790a6e20b5c5";
 
-
-        public Foc()
-        {
-        }
+        public Foc() {}
 
         public Foc(string gameDirectory)
         {

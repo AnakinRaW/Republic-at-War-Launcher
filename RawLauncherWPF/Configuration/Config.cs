@@ -20,7 +20,7 @@ namespace RawLauncherWPF.Configuration
         #region Beta Stuff
         internal static Dictionary<string, string> BetaUsers = new Dictionary<string, string>
         {
-            {"Anakin_Sklavenwalker", "d783bdc09ad8a57e4afaf4243fd0af7c"}
+            {"Anakin", "d783bdc09ad8a57e4afaf4243fd0af7c"}
         };
 
         internal const string BetaPassword = "26fb2b525ebc73751cb420e0180b7acc";

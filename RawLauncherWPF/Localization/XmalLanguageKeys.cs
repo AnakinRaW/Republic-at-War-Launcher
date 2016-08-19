@@ -5,6 +5,7 @@ namespace RawLauncherWPF.Localization
     internal static class XmalLanguageKeys
     {
         private static ComponentResourceKey _buttonAbout;
+        private static ComponentResourceKey _buttonUninstall;
         private static ComponentResourceKey _buttonPlay;
         private static ComponentResourceKey _buttonDefreeze;
         private static ComponentResourceKey _buttonOrganize;
@@ -99,6 +100,9 @@ namespace RawLauncherWPF.Localization
 
         public static ComponentResourceKey ButtonAbout => _buttonAbout ??
                                                     (_buttonAbout = new ComponentResourceKey(typeof(XmalLanguageKeys), "ButtonAbout"));
+
+        public static ComponentResourceKey ButtonUninstall => _buttonUninstall ??
+                                                    (_buttonUninstall = new ComponentResourceKey(typeof(XmalLanguageKeys), "ButtonUninstall"));
 
         public static ComponentResourceKey ButtonDefreeze => _buttonDefreeze ??
                                                             (_buttonDefreeze = new ComponentResourceKey(typeof(XmalLanguageKeys), "ButtonDefreeze"));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Themes.LauncherTheme;
 using RawLauncherWPF.UI;
@@ -170,6 +171,19 @@ namespace RawLauncherWPF.ViewModels
         private void ShowAboutWindow()
         {
             new AboutWindow().ShowDialog();
+        }
+
+        public Command DeleteRawCommand => new Command(DeleteRaw);
+
+        private void DeleteRaw()
+        {
+            var result = Show(GetMessage("UninstallModWarning"), "Republic at War",
+                  MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
+            if (result == MessageBoxResult.No)
+                return;
+            LauncherViewModel.BaseGame.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            LauncherViewModel.BaseGame.ClearDataFolder();
+            LauncherViewModel.BaseGame.Patch();
         }
 
         protected override void Close()
