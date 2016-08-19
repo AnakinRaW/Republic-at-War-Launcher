@@ -21,6 +21,7 @@ namespace RawLauncherWPF.Games
             GameDirectory = gameDirectory;
             if (!Exists())
                 throw new GameExceptions(GetMessage("ExceptionGameExist"));
+            GameProcessData = new GameProcessData();
         }
 
         public void ClearDataFolder()
@@ -41,6 +42,7 @@ namespace RawLauncherWPF.Games
                 Directory.Delete(@"Mods\" + name, true);
         }
 
+        public GameProcessData GameProcessData { get; }
         public bool Exists() => File.Exists(GameDirectory + @"\swfoc.exe");
 
         public IGame FindGame()
@@ -102,7 +104,8 @@ namespace RawLauncherWPF.Games
             };
             try
             {
-                process.Start();
+                GameProcessData.Process = process;
+                GameProcessData.StartProcess();
             }
             catch (Exception)
             {

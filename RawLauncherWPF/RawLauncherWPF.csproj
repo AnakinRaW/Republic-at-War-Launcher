@@ -120,7 +120,9 @@
     <Compile Include="ExtensionClasses\StreamExtension.cs" />
     <Compile Include="ExtensionClasses\StringExtensions.cs" />
     <Compile Include="Games\GameHelper.cs" />
+    <Compile Include="Games\GameProcessData.cs" />
     <Compile Include="Games\GameTypes.cs" />
+    <Compile Include="Games\ProcessHelper.cs" />
     <Compile Include="Games\Steam.cs" />
     <Compile Include="Games\SteamGame.cs" />
     <Compile Include="Hash\HashProvider.cs" />

@@ -32,6 +32,7 @@ namespace RawLauncherWPF.Games
             //Ignored
         }
 
+        public GameProcessData GameProcessData => new GameProcessData();
         public bool Exists() => Directory.Exists(GameDirectory);
 
         public IGame FindGame()

@@ -20,6 +20,11 @@ namespace RawLauncherWPF.Games
         string Name { get; }
 
         /// <summary>
+        /// Contains Data of the Process
+        /// </summary>
+        GameProcessData GameProcessData { get; }
+
+        /// <summary>
         /// Checks whether a mod exists
         /// </summary>
         /// <returns></returns>
