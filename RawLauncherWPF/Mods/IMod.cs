@@ -1,4 +1,5 @@
 ﻿using System;
+using RawLauncherWPF.Games;
 using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Mods
@@ -57,11 +58,11 @@ namespace RawLauncherWPF.Mods
         /// <summary>
         /// Prepares the mod for starting
         /// </summary>
-        void PrepareStart();
+        void PrepareStart(IGame game);
 
         /// <summary>
         /// Cleans stuff up after the game was palyed
         /// </summary>
-        void CleanUpAferGame();
+        void CleanUpAferGame(IGame game);
     }
 }

@@ -37,6 +37,16 @@ namespace RawLauncherWPF.Games
                 Directory.Delete(@"Data\XML", true);
         }
 
+        public void BackUpAiFiles()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ResotreAiFiles()
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteMod(string name)
         {
             if (name == null)

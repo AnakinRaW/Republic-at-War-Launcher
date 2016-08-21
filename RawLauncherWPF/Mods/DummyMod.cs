@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using RawLauncherWPF.Games;
 using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Mods
@@ -31,12 +32,12 @@ namespace RawLauncherWPF.Mods
             throw new NotImplementedException();
         }
 
-        public void PrepareStart()
+        public void PrepareStart(IGame game)
         {
             throw new NotImplementedException();
         }
 
-        public void CleanUpAferGame()
+        public void CleanUpAferGame(IGame game)
         {
             throw new NotImplementedException();
         }

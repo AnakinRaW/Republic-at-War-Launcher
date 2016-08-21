@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using RawLauncherWPF.Games;
 using RawLauncherWPF.Utilities;
 using RawLauncherWPF.ViewModels;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -69,14 +70,23 @@ namespace RawLauncherWPF.Mods
             return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\");
         }
 
-        public void PrepareStart()
+        public void PrepareStart(IGame game)
         {
-            Show("Prepare");
+            game.BackUpAiFiles();
+            if (!Directory.Exists(Path.Combine(ModDirectory, "RootDataFiles")))
+                return;
+            if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps")))
+                FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps"), Path.Combine(game.GameDirectory, @"Data\CustomMaps\"));
+            if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\Scripts")))
+                FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\Scripts"), Path.Combine(game.GameDirectory, @"Data\Scripts\"));
+            if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\XML")))
+                FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\XML"), Path.Combine(game.GameDirectory, @"Data\XML\"));
         }
 
-        public void CleanUpAferGame()
+        public void CleanUpAferGame(IGame game)
         {
-            Show("Clean");
+            game.ClearDataFolder();
+            game.ResotreAiFiles();
         }
 
         public string ModDirectory { get; }
@@ -90,9 +100,7 @@ namespace RawLauncherWPF.Mods
                 {
                     var node = XmlTools.GetNodeValue(ModDirectory + @"\Data\XML\Gameobjectfiles.xml",
                         "/Game_Object_Files/Version");
-                    if (string.IsNullOrEmpty(node))
-                        return new Version("1.1.5");
-                    return new Version(node);
+                    return string.IsNullOrEmpty(node) ? new Version("1.1.5") : new Version(node);
                 }
                 catch (Exception)
                 {

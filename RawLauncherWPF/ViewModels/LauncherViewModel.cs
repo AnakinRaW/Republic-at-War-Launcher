@@ -290,8 +290,7 @@ namespace RawLauncherWPF.ViewModels
                     ShowMainWindow(4);
                     return;
                 }
-
-            CurrentMod.PrepareStart();
+            CurrentMod.PrepareStart(BaseGame);
             await Task.Run(() => BaseGame.PlayGame(CurrentMod));
 
             BaseGame.GameProcessData.PropertyChanged += GameProcessData_PropertyChanged;
@@ -301,7 +300,7 @@ namespace RawLauncherWPF.ViewModels
         {
             if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
                 return;
-            CurrentMod.CleanUpAferGame();
+            CurrentMod.CleanUpAferGame(BaseGame);
             BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
             _launcher.Shutdown();
         }

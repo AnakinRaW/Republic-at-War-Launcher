@@ -34,6 +34,26 @@ namespace RawLauncherWPF.Games
                 Directory.Delete(@"Data\XML", true);
         }
 
+        public void BackUpAiFiles()
+        {
+            if (Directory.Exists(@"Data\CustomMaps"))
+                Directory.Move(@"Data\CustomMaps", @"Data\CustomMapsBackup");
+            if (Directory.Exists(@"Data\Scripts"))
+                Directory.Move(@"Data\Scripts", @"Data\ScriptsBackup");
+            if (Directory.Exists(@"Data\Xml"))
+                Directory.Move(@"Data\Xml", @"Data\XmlBackup");
+        }
+
+        public void ResotreAiFiles()
+        {
+            if (Directory.Exists(@"Data\CustomMapsBackup"))
+                Directory.Move(@"Data\CustomMapsBackup", @"Data\CustomMaps");
+            if (Directory.Exists(@"Data\ScriptsBackup"))
+                Directory.Move(@"Data\ScriptsBackup", @"Data\Scripts");
+            if (Directory.Exists(@"Data\XmlBackup"))
+                Directory.Move(@"Data\XmlBackup", @"Data\Xml");
+        }
+
         public void DeleteMod(string name)
         {
             if (name == null)

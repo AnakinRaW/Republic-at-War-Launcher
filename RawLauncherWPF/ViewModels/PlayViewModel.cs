@@ -47,7 +47,7 @@ namespace RawLauncherWPF.ViewModels
 
         public Command PlayModCommand => new Command(PlayMod, CanPlayMod);
 
-        private bool CanPlayMod()
+        private static bool CanPlayMod()
         {
             return true;
         }
@@ -56,7 +56,7 @@ namespace RawLauncherWPF.ViewModels
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Play);
             Thread.Sleep(1100);
-            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.PrepareStart();
+            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.PrepareStart(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame);
             LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
 
@@ -69,7 +69,7 @@ namespace RawLauncherWPF.ViewModels
         {
            if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
                 return;
-            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.CleanUpAferGame();
+            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.CleanUpAferGame(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame);
             LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
             Application.Current.Shutdown();
         }

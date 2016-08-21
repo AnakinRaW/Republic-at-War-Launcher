@@ -70,5 +70,9 @@ namespace RawLauncherWPF.Games
         /// Removes any additional contnet from Rood Data folder.
         /// </summary>
         void ClearDataFolder();
+
+        void BackUpAiFiles();
+
+        void ResotreAiFiles();
     }
 }
