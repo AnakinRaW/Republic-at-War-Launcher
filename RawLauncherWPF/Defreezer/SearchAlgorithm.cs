@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Linq;
 
 namespace RawLauncherWPF.Defreezer
 {
@@ -21,11 +20,11 @@ namespace RawLauncherWPF.Defreezer
             var i = 0;
             var T = BuildKmpTable(pattern);
 
-            while ((m + i) < byteArray.Count())
+            while (m + i < byteArray.Length)
             {
                 if (pattern[i] == byteArray[m + i])
                 {
-                    if (i == pattern.Count() - 1)
+                    if (i == pattern.Length - 1)
                         return m;
                     i++;
                 }
@@ -40,12 +39,12 @@ namespace RawLauncherWPF.Defreezer
 
         private static int[] BuildKmpTable(byte[] pattern)
         {
-            var T = new int[pattern.Count()];
+            var T = new int[pattern.Length];
             var pos = 2;
             var cnd = 0;
             T[0] = -1;
             T[1] = 0;
-            while (pos < pattern.Count())
+            while (pos < pattern.Length)
             {
                 if (pattern[pos - 1] == pattern[cnd])
                 {

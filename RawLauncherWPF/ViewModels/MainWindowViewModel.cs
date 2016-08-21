@@ -129,7 +129,7 @@ namespace RawLauncherWPF.ViewModels
             ActivePane = LauncherPanes.ElementAt(Convert.ToInt32(index));
         }
 
-        private void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Theme = new LauncherTheme();
             ShowPane(_startPaneIndex);

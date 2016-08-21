@@ -1,9 +1,5 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using Microsoft.Win32;
 using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Launcher

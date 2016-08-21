@@ -9,9 +9,7 @@ namespace RawLauncherWPF.Games
         {
             if (!File.Exists(path + "\\swfoc.exe"))
                 throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
-            if (CheckSteam(path))
-                return GameTypes.SteamGold;
-            return GameTypes.Disk;
+            return CheckSteam(path) ? GameTypes.SteamGold : GameTypes.Disk;
         }
 
         private static bool CheckSteam(string path)

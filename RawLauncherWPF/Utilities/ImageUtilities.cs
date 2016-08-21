@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 
 namespace RawLauncherWPF.Utilities
 {
-    class ImageUtilities
+    internal class ImageUtilities
     {
         public static ImageSource GetImageSourceFromPath(string path)
         {

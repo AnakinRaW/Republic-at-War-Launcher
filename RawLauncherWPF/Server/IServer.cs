@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace RawLauncherWPF.Server
+﻿namespace RawLauncherWPF.Server
 {
     public interface IServer
     {

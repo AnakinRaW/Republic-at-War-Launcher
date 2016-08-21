@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace RawLauncherWPF.Utilities
 {
@@ -14,8 +13,8 @@ namespace RawLauncherWPF.Utilities
 
         public static void Copy(string sourceDirectory, string targetDirectory)
         {
-            DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
-            DirectoryInfo diTarget = new DirectoryInfo(targetDirectory);
+            var diSource = new DirectoryInfo(sourceDirectory);
+            var diTarget = new DirectoryInfo(targetDirectory);
 
             CopyAll(diSource, diTarget);
         }

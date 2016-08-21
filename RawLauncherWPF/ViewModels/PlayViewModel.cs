@@ -105,12 +105,12 @@ namespace RawLauncherWPF.ViewModels
 
         public Command OrganizeGameCommand => new Command(OrganizeGame, CanOrganizeGame);
 
-        private bool CanOrganizeGame()
+        private static bool CanOrganizeGame()
         {
             return true;
         }
 
-        private void OrganizeGame()
+        private static void OrganizeGame()
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             Process.Start("http://www.raworganize.com");
@@ -132,7 +132,7 @@ namespace RawLauncherWPF.ViewModels
 
         public Command<ToggleButton> ToggleFastLaunchCommand => new Command<ToggleButton>(ToggleFastLaunch, CanToogleFastLaunch);
 
-        private bool CanToogleFastLaunch(ToggleButton arg)
+        private static bool CanToogleFastLaunch(ToggleButton arg)
         {
             return true;
         }
