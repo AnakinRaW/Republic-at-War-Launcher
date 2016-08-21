@@ -30,5 +30,15 @@ namespace RawLauncherWPF.Mods
         {
             throw new NotImplementedException();
         }
+
+        public void PrepareStart()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CleanUpAferGame()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

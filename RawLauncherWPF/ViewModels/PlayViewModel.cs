@@ -8,6 +8,7 @@ using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Defreezer;
+using RawLauncherWPF.Games;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
@@ -55,8 +56,21 @@ namespace RawLauncherWPF.ViewModels
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Play);
             Thread.Sleep(1100);
+            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.PrepareStart();
             LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
+
+            LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.GameProcessData.PropertyChanged += GameProcessData_PropertyChanged;   
+            
+            LauncherPane.MainWindowViewModel. LauncherViewModel.HideMainWindow();     
+        }
+
+        private void GameProcessData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+           if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
+                return;
+            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.CleanUpAferGame();
+            LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
             Application.Current.Shutdown();
         }
 

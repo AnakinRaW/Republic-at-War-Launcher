@@ -69,6 +69,16 @@ namespace RawLauncherWPF.Mods
             return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\");
         }
 
+        public void PrepareStart()
+        {
+            Show("Prepare");
+        }
+
+        public void CleanUpAferGame()
+        {
+            Show("Clean");
+        }
+
         public string ModDirectory { get; }
         public string Name => "Republic at War";
 

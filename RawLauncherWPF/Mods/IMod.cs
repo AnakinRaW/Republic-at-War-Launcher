@@ -53,5 +53,15 @@ namespace RawLauncherWPF.Mods
         /// </summary>
         /// <returns>Returns a new instance of the Mod</returns>
         IMod FindMod();
+
+        /// <summary>
+        /// Prepares the mod for starting
+        /// </summary>
+        void PrepareStart();
+
+        /// <summary>
+        /// Cleans stuff up after the game was palyed
+        /// </summary>
+        void CleanUpAferGame();
     }
 }

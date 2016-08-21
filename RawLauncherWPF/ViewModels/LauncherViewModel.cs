@@ -192,6 +192,11 @@ namespace RawLauncherWPF.ViewModels
             a.LatestVersion = GetLatestVersion();
         }
 
+        internal void HideMainWindow()
+        {
+            _launcher.MainWindow.Hide();
+        }
+
         /// <summary>
         /// Sets required Folders for Launcher
         /// </summary>
@@ -285,7 +290,19 @@ namespace RawLauncherWPF.ViewModels
                     ShowMainWindow(4);
                     return;
                 }
+
+            CurrentMod.PrepareStart();
             await Task.Run(() => BaseGame.PlayGame(CurrentMod));
+
+            BaseGame.GameProcessData.PropertyChanged += GameProcessData_PropertyChanged;
+        }
+
+        private void GameProcessData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
+                return;
+            CurrentMod.CleanUpAferGame();
+            BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
             _launcher.Shutdown();
         }
 

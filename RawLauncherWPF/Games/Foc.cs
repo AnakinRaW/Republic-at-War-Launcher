@@ -136,7 +136,8 @@ namespace RawLauncherWPF.Games
             };
             try
             {
-                process.Start();
+                GameProcessData.Process = process;
+                GameProcessData.StartProcess();
             }
             catch (Exception)
             {
