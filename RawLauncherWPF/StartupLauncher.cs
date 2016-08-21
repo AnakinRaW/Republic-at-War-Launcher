@@ -5,11 +5,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Localization;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Configuration.Config;
+using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF
@@ -41,6 +43,7 @@ namespace RawLauncherWPF
                 //CheckBeta();
                 SetUpLanguage();
                 CheckRunning();
+                CreateShortcut();
 
                 ExtractLibraries();
                 _launcher = new LauncherApp();
@@ -54,6 +57,19 @@ namespace RawLauncherWPF
                 Show(e.Message);
             }
             
+        }
+
+        private static void CreateShortcut()
+        {
+            var link = (IShellLink) new ShellLink();
+
+            link.SetDescription("Open the Republic at War Launcher");
+            link.SetPath(Assembly.GetExecutingAssembly().Location);
+            link.SetWorkingDirectory(AppDomain.CurrentDomain.BaseDirectory);
+
+            var file = (IPersistFile)link;
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            file.Save(Path.Combine(desktopPath, "Republic at War.lnk"), false);
         }
 
         private static void CheckRunning()
