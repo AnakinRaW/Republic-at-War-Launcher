@@ -36,15 +36,7 @@ namespace RawLauncherWPF.Games
 
         public void BackUpAiFiles()
         {
-
-
-            if (Directory.Exists(@"Data\CustomMapsBackup"))
-                Directory.Delete(@"Data\CustomMapsBackup", true);
-            if (Directory.Exists(@"Data\ScriptsBackup"))
-                Directory.Delete(@"Data\ScriptsBackup", true);
-            if (Directory.Exists(@"Data\XmlBackup"))
-                Directory.Delete(@"Data\XmlBackup", true);
-
+            ClearBackupFiles();
             if (Directory.Exists(@"Data\CustomMaps"))
                 Directory.Move(@"Data\CustomMaps", @"Data\CustomMapsBackup");
             if (Directory.Exists(@"Data\Scripts"))
@@ -55,12 +47,26 @@ namespace RawLauncherWPF.Games
 
         public void ResotreAiFiles()
         {
+            ClearDataFolder();
             if (Directory.Exists(@"Data\CustomMapsBackup"))
                 Directory.Move(@"Data\CustomMapsBackup", @"Data\CustomMaps");
             if (Directory.Exists(@"Data\ScriptsBackup"))
                 Directory.Move(@"Data\ScriptsBackup", @"Data\Scripts");
             if (Directory.Exists(@"Data\XmlBackup"))
                 Directory.Move(@"Data\XmlBackup", @"Data\Xml");
+            ClearBackupFiles();
+
+            
+        }
+
+        public void ClearBackupFiles()
+        {
+            if (Directory.Exists(@"Data\CustomMapsBackup"))
+                Directory.Delete(@"Data\CustomMapsBackup", true);
+            if (Directory.Exists(@"Data\ScriptsBackup"))
+                Directory.Delete(@"Data\ScriptsBackup", true);
+            if (Directory.Exists(@"Data\XmlBackup"))
+                Directory.Delete(@"Data\XmlBackup", true);
         }
 
         public void DeleteMod(string name)
