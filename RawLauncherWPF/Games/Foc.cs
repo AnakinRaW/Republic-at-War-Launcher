@@ -36,6 +36,15 @@ namespace RawLauncherWPF.Games
 
         public void BackUpAiFiles()
         {
+
+
+            if (Directory.Exists(@"Data\CustomMapsBackup"))
+                Directory.Delete(@"Data\CustomMapsBackup", true);
+            if (Directory.Exists(@"Data\ScriptsBackup"))
+                Directory.Delete(@"Data\ScriptsBackup", true);
+            if (Directory.Exists(@"Data\XmlBackup"))
+                Directory.Delete(@"Data\XmlBackup", true);
+
             if (Directory.Exists(@"Data\CustomMaps"))
                 Directory.Move(@"Data\CustomMaps", @"Data\CustomMapsBackup");
             if (Directory.Exists(@"Data\Scripts"))
@@ -149,7 +158,7 @@ namespace RawLauncherWPF.Games
                 StartInfo =
                 {
                     FileName = GameDirectory + @"\swfoc.exe",
-                    Arguments = "MODPATH=" + mod.LaunchArgumentPath,
+                    Arguments = "Windowed " + "MODPATH=" + mod.LaunchArgumentPath,
                     WorkingDirectory = GameDirectory,
                     UseShellExecute = false
                 }

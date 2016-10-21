@@ -117,6 +117,7 @@
     <Compile Include="Defreezer\SearchAlgorithm.cs" />
     <Compile Include="Defreezer\SteamSaveGame.cs" />
     <Compile Include="Defreezer\UnitRef.cs" />
+    <Compile Include="ExtensionClasses\ListExtensions.cs" />
     <Compile Include="ExtensionClasses\StreamExtension.cs" />
     <Compile Include="ExtensionClasses\StringExtensions.cs" />
     <Compile Include="Games\GameHelper.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Helpers\CheckModHelper.cs" />
     <Compile Include="Helpers\FileShuffler.cs" />
     <Compile Include="Helpers\RestoreHelper.cs" />
+    <Compile Include="Helpers\UnitNameFile.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />
     <Compile Include="Localization\English.cs" />
     <Compile Include="Localization\German.cs" />
