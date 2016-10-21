@@ -158,7 +158,7 @@ namespace RawLauncherWPF.Games
                 StartInfo =
                 {
                     FileName = GameDirectory + @"\swfoc.exe",
-                    Arguments = "Windowed " + "MODPATH=" + mod.LaunchArgumentPath,
+                    Arguments = "MODPATH=" + mod.LaunchArgumentPath,
                     WorkingDirectory = GameDirectory,
                     UseShellExecute = false
                 }
