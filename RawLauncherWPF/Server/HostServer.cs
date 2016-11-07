@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
+using RawLauncherWPF.Utilities;
 using static System.String;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -10,9 +12,25 @@ namespace RawLauncherWPF.Server
 {
     public class HostServer : IHostServer
     {
+
+        private readonly MessageRecorder _messageRecorder;
+
         public HostServer(string address)
         {
             ServerRootAddress = address;
+            _messageRecorder = new MessageRecorder();
+        }
+
+        public void FlushErrorLog() => _messageRecorder.Flush();
+
+        public void ShowLog()
+        {
+            if (!HasErrors)
+                return;
+
+            var result = Show(GetMessage("DownloadFailedQuestion"), "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.Yes);
+            if (result == MessageBoxResult.Yes)
+                _messageRecorder.Save(GetMessage("DownloadFailed"));
         }
 
         public async Task<bool> CheckRunningAsync() => await Task.FromResult(IsRunning());
@@ -28,7 +46,7 @@ namespace RawLauncherWPF.Server
             catch (Exception)
             {
                 if (ComputerHasInternetConnection())
-                    Show(GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
+                    _messageRecorder.AppandMessage(GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
                 result = Empty;
             }
             return result;
@@ -57,6 +75,8 @@ namespace RawLauncherWPF.Server
             return true;
         }
 
+        public bool HasErrors => _messageRecorder.Count() > 0;
+
         public void DownloadFile(string resource, string storagePath)
         {
             if (resource == null || storagePath == null)
@@ -72,7 +92,7 @@ namespace RawLauncherWPF.Server
             catch (Exception)
             {
                 if (ComputerHasInternetConnection())
-                    Show(GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
+                    _messageRecorder.AppandMessage(GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
             }
         }
     }

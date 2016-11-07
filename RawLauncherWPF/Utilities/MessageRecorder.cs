@@ -7,17 +7,19 @@ namespace RawLauncherWPF.Utilities
     public class MessageRecorder
     {
 
-        private List<string> Messages;
+        private readonly List<string> _messages;
 
         public MessageRecorder()
         {
-            Messages = new List<string>();
+            _messages = new List<string>();
         }
 
         public void AppandMessage(string message)
         {
-            Messages.Add(message);
+            _messages.Add(message);
         }
+
+        public int Count() => _messages.Count;
 
         public void Save()
         {
@@ -26,13 +28,13 @@ namespace RawLauncherWPF.Utilities
 
         public void Save(string titel)
         {
-            var result = Messages.Aggregate(string.Empty, (current, message) => current + (message + "\r\n\r\n"));
+            var result = _messages.Aggregate(string.Empty, (current, message) => current + (message + "\r\n\r\n"));
             NotepadHelper.ShowMessage(result, titel);
         }
 
         public void Flush()
         {
-            Messages.Clear();
+            _messages.Clear();
         }
     }
 }

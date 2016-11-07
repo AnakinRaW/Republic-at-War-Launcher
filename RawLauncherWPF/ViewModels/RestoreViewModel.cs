@@ -149,6 +149,7 @@ namespace RawLauncherWPF.ViewModels
             if (!RestoreHelper.AskUserToContinue())
                 return;
 
+            HostServer.FlushErrorLog();
             PrepareUi();
             ProzessStatus = GetMessage("RestoreStatusPrepare");
             await AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
@@ -187,7 +188,6 @@ namespace RawLauncherWPF.ViewModels
 
             if (!await InternalRestore())
             {
-                Show(GetMessage("RestoreErrorExit"));
                 ResetUi();
                 return;
             }
@@ -318,6 +318,11 @@ namespace RawLauncherWPF.ViewModels
             {
                 Show(GetMessage("RestoreAborted"));
                 return false;
+            }
+            finally
+            {
+                if (HostServer.HasErrors)
+                    HostServer.ShowLog();
             }
             return true;
         }

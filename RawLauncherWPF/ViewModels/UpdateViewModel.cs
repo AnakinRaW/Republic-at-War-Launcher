@@ -68,7 +68,7 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Reference to the HostServer
         /// </summary>
-        private IHostServer HostServer => LauncherViewModel.HostServerStatic;
+        private static IHostServer HostServer => LauncherViewModel.HostServerStatic;
 
         /// <summary>
         /// Reference to the LauncherViewModel
@@ -110,6 +110,7 @@ namespace RawLauncherWPF.ViewModels
                 return;
             PrepareUi();
             ProzessStatus = GetMessage("UpdateStatusPrepare");
+            HostServer.FlushErrorLog();
             await AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
             if (!await GetUpdateXmlData())
             {
@@ -130,6 +131,8 @@ namespace RawLauncherWPF.ViewModels
                         return;
                     }
                     break;
+                case UpdateOptions.IgnoreVoice:
+                    break;
                 default:
                     if (!await PrepareVoiceIgnoreUpdate())
                     {
@@ -142,7 +145,6 @@ namespace RawLauncherWPF.ViewModels
 
             if (!await InternalUpdate())
             {
-                Show(GetMessage("UpdateErrorExit"));
                 ResetUi();
                 return;
             }
@@ -331,6 +333,11 @@ namespace RawLauncherWPF.ViewModels
             {
                 Show(GetMessage("UpdateAborted"));
                 return false;
+            }
+            finally
+            {
+                if (HostServer.HasErrors)
+                    HostServer.ShowLog();
             }
             return true;
         }

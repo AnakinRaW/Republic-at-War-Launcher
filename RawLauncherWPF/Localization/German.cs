@@ -99,6 +99,9 @@ namespace RawLauncherWPF.Localization
             StringTable.Add("ExceptionUpdateVersionNotMatch", "Die Versionen stimmen nicht überein");
             StringTable.Add("ExceptionXmlParserError", "Konnte den Datenstrom nicht umwandeln. {0}");
             StringTable.Add("ExceptionSteamClientMissing", "Konnte den Steam-Client nicht finden.");
+            StringTable.Add("DownloadFailed", "Downloads fehlgeschlagen");
+            StringTable.Add("DownloadFailedQuestion", "Der Download einiger Dateien ist fehlgeschlagen. Versuche es bitte erneut.\r\n\r\n" +
+                                              "Möchtest du dir den Fehlerbericht jetzt anzeigen lassen?");
         }
 
         private void AddLanguageStrings()

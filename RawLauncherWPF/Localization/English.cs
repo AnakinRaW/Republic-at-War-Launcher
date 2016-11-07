@@ -90,7 +90,7 @@ namespace RawLauncherWPF.Localization
             StringTable.Add("ExceptionGameModCompatible", "Mod is not compatible");
             StringTable.Add("ExceptionGameModExist", "Mod could not be found.");
             StringTable.Add("ExceptionGameModWrongInstalled", "Mod is not installed.");
-            StringTable.Add("ExceptionHostServerGetData", "Was not able to get data from: {0}");
+            StringTable.Add("ExceptionHostServerGetData", "Was not able to download data from: {0}");
             StringTable.Add("ExceptionModExist", "Mod could not be found.");
             StringTable.Add("ExceptionModExistName", "{0} could not be found.");
             StringTable.Add("ExceptionResourceExtractorNotFound", "The resource could not be found: {0}");
@@ -98,6 +98,9 @@ namespace RawLauncherWPF.Localization
             StringTable.Add("ExceptionUpdateVersionNotMatch", "Versions do not match");
             StringTable.Add("ExceptionXmlParserError", "Unable to deserialize the xml stream. {0}");
             StringTable.Add("ExceptionSteamClientMissing", "Unable to find the Steam client app");
+            StringTable.Add("DownloadFailed", "Downloads failed");
+            StringTable.Add("DownloadFailedQuestion", "The download of some files failed. Please try again.\r\n\r\n" +
+                                              "Do you wish to see the detailed error report now?");
         }
 
         private void AddLanguageStrings()
