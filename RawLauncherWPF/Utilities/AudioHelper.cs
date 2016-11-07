@@ -12,10 +12,11 @@ namespace RawLauncherWPF.Utilities
         /// <param name="file"></param>
         public static void PlayAudio(Enum file)
         {
-            var audio = new AudioFileReader(Directory.GetCurrentDirectory() + @"\LecSetup\" + file + ".wav");
-            IWavePlayer player = new DirectSoundOut();
-            player.Init(audio);
-            player.Play();
+            var waveReader = new WaveFileReader(Directory.GetCurrentDirectory() + @"\LecSetup\" + file + ".wav");
+            var waveOut = new WaveOut();
+            var output = waveOut;
+            output.Init(waveReader);
+            output.Play();
         }
 
         public enum Audio
