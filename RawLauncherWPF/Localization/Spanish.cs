@@ -38,7 +38,14 @@ namespace RawLauncherWPF.Localization
 
         private void AddCheckStrigns()
         {
-            StringTable.Add("CheckFolderNotValid", "{0}-Falla: {1}");
+            StringTable.Add("CheckFolderNotValid", "Directorio no válido");
+            StringTable.Add("CheckAIFolderNotValid", "El directorio 'data' de su juego no coincide con su versión actualmente instalada de Republic at War.\r\n\r\n"
+                                                     + "¿Desea ver el informe de error detallado ahora?");
+            StringTable.Add("CheckModFolderNotValid", "El directorio de Republic at War no coincide con su versión actualmente instalada de Republic at War.\r\n\r\n"
+                                                     + "¿Desea ver el informe de error detallado ahora?");
+            StringTable.Add("CheckFolderNotValidCount", "El directorio siguiente contiene demasiados o demasiado archivos: {0}");
+            StringTable.Add("CheckFolderNotValidExists", "El directorio siguiente no existe: {0}");
+            StringTable.Add("CheckFolderNotValidHash", "El directorio siguiente contiene archivos no válidos: {0}");
             StringTable.Add("CheckGamesNotPatchedMessage", "Fuerzas de la Corrupción no está actualizado. Por favor presione 'parchear' para actualizar su juego.");
             StringTable.Add("CheckMessageAborted", "abortado");
             StringTable.Add("CheckMessageAiCorrect", "ia configurada");

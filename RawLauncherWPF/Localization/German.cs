@@ -39,7 +39,14 @@ namespace RawLauncherWPF.Localization
 
         private void AddCheckStrigns()
         {
-            StringTable.Add("CheckFolderNotValid", "{0}-Fehler {1}");
+            StringTable.Add("CheckFolderNotValid", "Verzeichnis fehlerhaft");
+            StringTable.Add("CheckAIFolderNotValid", "Das Data Verzeichnis des Spiels stimmt nicht mit deiner installierten Verion von Republic at War überein.\r\n\r\n"
+                                                     + "Möchtest du dir den Fehlerbericht jetzt anzeigen lassen?");
+            StringTable.Add("CheckModFolderNotValid", "Das Mod Verzeichnis von Republic at War stimmt nicht mit deiner installierten Verion von Republic at War überein.\r\n\r\n"
+                                                     + "Möchtest du dir den Fehlerbericht jetzt anzeigen lassen?");
+            StringTable.Add("CheckFolderNotValidCount", "Das folgende Verzeichnis besitzt die falsche Anzahl an Dateien: {0}");
+            StringTable.Add("CheckFolderNotValidExists", "Das folgende Verzeichnis exisitert nicht: {0}");
+            StringTable.Add("CheckFolderNotValidHash", "Das folgende Verzeichnis besitzt fehlerhafte Dateien: {0}");
             StringTable.Add("CheckGamesNotPatchedMessage", "Du musst die Spiele updaten. Bitte drücke den 'Patch'-Button");
             StringTable.Add("CheckMessageAborted", "abgebrochen");
             StringTable.Add("CheckMessageAiCorrect", "ai richtig");

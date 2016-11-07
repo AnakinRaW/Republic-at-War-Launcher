@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.ViewModels;
 using RawLauncherWPF.Games;
@@ -314,7 +315,7 @@ namespace RawLauncherWPF.ViewModels
         {         
            ShowMainWindow();
             if (ComputerHasInternetConnection() && CurrentMod != null && NewVersionAvailable())
-                 await Task.Run(() => Show(GetMessage("LauncherInfoNewVersion", GetLatestVersion())));
+                 await Task.Run(() => Show(GetMessage("LauncherInfoNewVersion", GetLatestVersion()), "Republic at War", MessageBoxButton.OK, MessageBoxImage.Information));
         }
 
         public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);

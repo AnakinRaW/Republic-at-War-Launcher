@@ -190,6 +190,8 @@
     <Compile Include="Utilities\IndicatorImagesHelper.cs" />
     <Compile Include="Utilities\IsGreaterVersionColorConverter.cs" />
     <Compile Include="Utilities\MessageProvider.cs" />
+    <Compile Include="Utilities\MessageRecorder.cs" />
+    <Compile Include="Utilities\NotepadHelper.cs" />
     <Compile Include="Utilities\ProgressBarUtilities.cs" />
     <Compile Include="Utilities\ResourceToStreamConverter.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using RawLauncherWPF.Configuration;
@@ -39,6 +41,8 @@ namespace RawLauncherWPF.ViewModels
         private double _progress;
         private string _progressStatus;
 
+        private readonly MessageRecorder _messageRecorder;
+
         public CheckViewModel(ILauncherPane pane) : base(pane)
         {
             LauncherViewModel = LauncherPane.MainWindowViewModel.LauncherViewModel;
@@ -48,6 +52,8 @@ namespace RawLauncherWPF.ViewModels
             ModAiIndicator = SetColor(IndicatorColor.Blue);
             ModFilesIndicator = SetColor(IndicatorColor.Blue);
             CheckFileStream = Stream.Null;
+
+            _messageRecorder = new MessageRecorder();
         }
 
         /// <summary>
@@ -94,10 +100,11 @@ namespace RawLauncherWPF.ViewModels
                 try
                 {
                     var referenceDir = GetReferenceDir(folder);
-                    CheckResult error = CheckResult.None;
+                    var error = CheckResult.None;
                     if (await Task.Run(() => error = folder.Check(referenceDir), _mSource.Token) != CheckResult.None)
                     {
-                        Show(GetMessage("CheckFolderNotValid", error ,referenceDir));
+                        var errorMessage = CreateErrorMessage(error, referenceDir);
+                        _messageRecorder.AppandMessage(errorMessage);
                         result = false;
                     }
                     ProzessStatus = GetMessage("CheckStatusChecking", Path.GetDirectoryName(referenceDir));
@@ -110,6 +117,23 @@ namespace RawLauncherWPF.ViewModels
                 }
             }
             return result;
+        }
+
+        private string CreateErrorMessage(CheckResult error, string referenceDir)
+        {
+            switch (error)
+            {
+                case CheckResult.Count:
+                    return GetMessage("CheckFolderNotValidCount", referenceDir);
+                case CheckResult.Exist:
+                    return GetMessage("CheckFolderNotValidExists", referenceDir);
+                case CheckResult.Hash:
+                    return GetMessage("CheckFolderNotValidHash", referenceDir);
+                case CheckResult.None:
+                    return Empty;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(error), error, null);
+            }
         }
 
         #region PatchGames
@@ -137,6 +161,7 @@ namespace RawLauncherWPF.ViewModels
         {
             _mSource = new CancellationTokenSource();
             PrepareUi();
+            _messageRecorder.Flush();
 
             //Game exists
             ProzessStatus = GetMessage("CheckStatusCheckingGameExist");
@@ -486,6 +511,10 @@ namespace RawLauncherWPF.ViewModels
             if (!await CheckFolderList(AiFolderList, new List<string> {@"\Data\CustomMaps\"}))
             {
                 AiWrongInstalled();
+                var result = Show(GetMessage("CheckAIFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
+                    MessageBoxImage.Error, MessageBoxResult.Yes);
+                if (result == MessageBoxResult.Yes)
+                    _messageRecorder.Save(GetMessage("CheckFolderNotValid"));
                 return false;
             }
             AiCorrectInstalled();
@@ -519,6 +548,10 @@ namespace RawLauncherWPF.ViewModels
             if (!await CheckFolderList(ModFolderList, excludeList))
             {
                 ModWrongInstalled();
+                var result = Show(GetMessage("CheckModFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
+                    MessageBoxImage.Error, MessageBoxResult.Yes);
+                if (result == MessageBoxResult.Yes)
+                    _messageRecorder.Save(GetMessage("CheckFolderNotValid"));
                 return false;
             }
             ModCorrectInstalled();
