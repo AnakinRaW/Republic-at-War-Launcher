@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -55,7 +54,6 @@ namespace RawLauncherWPF.ViewModels
         private void PlayMod()
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Play);
-            Thread.Sleep(1100);
             LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.PrepareStart(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame);
             LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.PlayGame(
                 LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
@@ -74,9 +72,9 @@ namespace RawLauncherWPF.ViewModels
             Application.Current.Shutdown();
         }
 
-        public Command DefreezeCommand => new Command(Defreeze);
+        public Command DefreezeCommand => new Command(DefreezeAsync);
 
-        private async void Defreeze()
+        private async void DefreezeAsync()
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
 
@@ -130,14 +128,14 @@ namespace RawLauncherWPF.ViewModels
             Task.Factory.StartNew(() => CurrentSessions = LauncherPane.MainWindowViewModel.LauncherViewModel.SessionServer.DownloadString("count.php"));
         }
 
-        public Command<ToggleButton> ToggleFastLaunchCommand => new Command<ToggleButton>(ToggleFastLaunch, CanToogleFastLaunch);
+        public Command<ToggleButton> ToggleFastLaunchCommand => new Command<ToggleButton>(ToggleFastLaunchAsync, CanToogleFastLaunch);
 
         private static bool CanToogleFastLaunch(ToggleButton arg)
         {
             return true;
         }
 
-        private async void ToggleFastLaunch(ToggleButton arg)
+        private async void ToggleFastLaunchAsync(ToggleButton arg)
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Checkbox);
             if (arg.IsChecked == true)

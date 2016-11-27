@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
         mc:Ignorable="d"
-        Title="Republic at War Launcher About" Height="330.816" Width="500" ResizeMode="NoResize">
+        Title="Republic at War Launcher About" Height="380" Width="500" ResizeMode="NoResize">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" 
                         CanExecute="CloseWindow_CanExec" 
@@ -18,13 +17,12 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="69*"/>
-            <RowDefinition Height="199*"/>
-            <RowDefinition Height="27*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label FontSize="32" Grid.Column="1" VerticalAlignment="Bottom" Height="53">Republic at War Launcher</Label>
-        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Height="192">
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
             <DockPanel>
                 <Label >Version:</Label>
                 <Label x:Name="VersionNumber" x:FieldModifier="private"/>
@@ -37,12 +35,13 @@
                     <ComboBoxItem DataContext="de">Spanish</ComboBoxItem>
                 </ComboBox>
             </DockPanel>
-            <Label>(c) Republic at War Modding Team 2015, 2016</Label>
-            <Label>Launcher Created by: TODO!!!!</Label>
+            <Label>(c) Republic at War Modding Team, 2017</Label>
+            <Label>Launcher Created by: Anakin Sklavenwalker</Label>
             <Label></Label>
             <Label>The Launcher is using the ModernApplicationFramework by AnakinSklavenwalker</Label>
             <Label>The Launcher is using Code (c) SmallPox and Fregge (Save-game defreezer)</Label>
             <Label>The Launcher is using Media and Text (c) LucasArts and LucasFilm.</Label>
+            <Label>The Launcher is using the Caliburn.Micro framework</Label>
             <Label>All rights reserved</Label>
         </StackPanel>
         <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="50" Command="{x:Static SystemCommands.CloseWindowCommand}">OK</Button>

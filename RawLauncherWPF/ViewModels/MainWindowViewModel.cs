@@ -25,9 +25,7 @@ namespace RawLauncherWPF.ViewModels
 
         public MainWindowViewModel(MainWindow mainWindow, LauncherViewModel model) : base(mainWindow)
         {
-            if (model == null)
-                throw new NoNullAllowedException(nameof(model));
-            LauncherViewModel = model;
+            LauncherViewModel = model ?? throw new NoNullAllowedException(nameof(model));
             _mainWindow = mainWindow;
 
             IsSimpleWindow = true;

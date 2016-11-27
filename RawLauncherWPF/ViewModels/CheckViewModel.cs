@@ -89,7 +89,7 @@ namespace RawLauncherWPF.ViewModels
         /// <param name="folderList">List where T is FileContainerFolder.</param>
         /// <param name="excludeList">List where T is string. Used to exclude some paths</param>
         /// <returns>Returns if Chekc was successfull or not</returns>
-        private async Task<bool> CheckFolderList(List<FileContainerFolder> folderList, List<string> excludeList)
+        private async Task<bool> CheckFolderListAsync(List<FileContainerFolder> folderList, List<string> excludeList)
         {
             var listToCheck = FileContainerFolder.ListFromExcludeList(folderList, excludeList);
             var result = true;
@@ -157,7 +157,7 @@ namespace RawLauncherWPF.ViewModels
 
         #endregion
 
-        private async void PerformCheck()
+        private async void PerformCheckAsync()
         {
             _mSource = new CancellationTokenSource();
             PrepareUi();
@@ -165,7 +165,7 @@ namespace RawLauncherWPF.ViewModels
 
             //Game exists
             ProzessStatus = GetMessage("CheckStatusCheckingGameExist");
-            if (!await CheckGameExists())
+            if (!await CheckGameExistsAsync())
                 return;
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
@@ -179,32 +179,32 @@ namespace RawLauncherWPF.ViewModels
 
             //Mod exists
             ProzessStatus = GetMessage("CheckStatusCheckingModExist");
-            if (!await CheckModExists())
+            if (!await CheckModExistsAsync())
                 return;
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Games patched
             ProzessStatus = GetMessage("CheckStatusCheckingGamePatches");
-            if (!await CheckGamePatched())
+            if (!await CheckGamePatchedAsync())
                 return;
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Prepare XML-based Check
             ProzessStatus = GetMessage("CheckStatusPrepareAiModCheck");
-            if (!await PrepareXmlForCheck())
+            if (!await PrepareXmlForCheckAsync())
                 return;
 
             //Check AI
-            if (!await CheckAiCorrect())
+            if (!await CheckAiCorrectAsync())
                 return;
 
             await ThreadUtilities.SleepThread(250);
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Check Mod
-            if (!await CheckModCorrect())
+            if (!await CheckModCorrectAsync())
                 return;
 
             ResetUi();
@@ -394,9 +394,9 @@ namespace RawLauncherWPF.ViewModels
 
         #region FindGame
 
-        private async Task<bool> CheckGameExists()
+        private async Task<bool> CheckGameExistsAsync()
         {
-            if (!await CheckFocExistsTask())
+            if (!await CheckFocExistsTaskAsync())
             {
                 FocNotExistsTasks();
                 return false;
@@ -405,7 +405,7 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        private async Task<bool> CheckFocExistsTask()
+        private async Task<bool> CheckFocExistsTaskAsync()
         {
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             return LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.Exists();
@@ -428,9 +428,9 @@ namespace RawLauncherWPF.ViewModels
 
         #region FindMod
 
-        private async Task<bool> CheckModExists()
+        private async Task<bool> CheckModExistsAsync()
         {
-            if (!await CheckModExistsTask())
+            if (!await CheckModExistsTaskAsync())
             {
                 ModNotExistsTasks();
                 return false;
@@ -439,7 +439,7 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        private async Task<bool> CheckModExistsTask()
+        private async Task<bool> CheckModExistsTaskAsync()
         {
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             if (LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod == null)
@@ -464,9 +464,9 @@ namespace RawLauncherWPF.ViewModels
 
         #region CheckPatch
 
-        private async Task<bool> CheckGamePatched()
+        private async Task<bool> CheckGamePatchedAsync()
         {
-            if (!await CheckGameUpdatesInstalled())
+            if (!await CheckGameUpdatesInstalledAsync())
             {
                 GamesNotUpdated();
                 return false;
@@ -475,7 +475,7 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        private async Task<bool> CheckGameUpdatesInstalled()
+        private async Task<bool> CheckGameUpdatesInstalledAsync()
         {
             var a = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.IsPatched();
             await AnimateProgressBar(Progress, 51, 10, this, x => x.Progress);
@@ -506,9 +506,9 @@ namespace RawLauncherWPF.ViewModels
         /// Checks the AiFileContainer
         /// </summary>
         /// <returns>returns if successfull or not</returns>
-        private async Task<bool> CheckAiCorrect()
+        private async Task<bool> CheckAiCorrectAsync()
         {
-            if (!await CheckFolderList(AiFolderList, new List<string> {@"\Data\CustomMaps\"}))
+            if (!await CheckFolderListAsync(AiFolderList, new List<string> {@"\Data\CustomMaps\"}))
             {
                 AiWrongInstalled();
                 var result = Show(GetMessage("CheckAIFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
@@ -542,10 +542,10 @@ namespace RawLauncherWPF.ViewModels
         /// Checks the AiFileContainer
         /// </summary>
         /// <returns>returns if successfull or not</returns>
-        private async Task<bool> CheckModCorrect()
+        private async Task<bool> CheckModCorrectAsync()
         {
             var excludeList = new List<string> {@"\Data\Audio\Speech\*", @"\", @"\Data\", @"\Data\Text\", @"\Data\Audio\"};
-            if (!await CheckFolderList(ModFolderList, excludeList))
+            if (!await CheckFolderListAsync(ModFolderList, excludeList))
             {
                 ModWrongInstalled();
                 var result = Show(GetMessage("CheckModFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
@@ -575,9 +575,9 @@ namespace RawLauncherWPF.ViewModels
 
         #region PrepareXml
 
-        private async Task<bool> PrepareXmlForCheck()
+        private async Task<bool> PrepareXmlForCheckAsync()
         {
-            if (!await LoadCheckFileStream())
+            if (!await LoadCheckFileStreamAsync())
                 return false;
 
             if (!await Task.FromResult(ParseXmlFile()))
@@ -585,13 +585,13 @@ namespace RawLauncherWPF.ViewModels
             return true;
         }
 
-        private async Task<bool> LoadCheckFileStream()
+        private async Task<bool> LoadCheckFileStreamAsync()
         {
             if (!HostServer.IsRunning())
                 GetOffline();
             else
             {
-                await GetOnline();
+                await GetOnlineAsync();
                 WriteOnlineDataToDisk();
             }
 
@@ -664,7 +664,7 @@ namespace RawLauncherWPF.ViewModels
         /// <summary>
         /// Tries to get online Restore XML
         /// </summary>
-        private async Task GetOnline()
+        private async Task GetOnlineAsync()
         {
             if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(LauncherViewModel.CurrentMod.Version))
             {
@@ -705,7 +705,7 @@ namespace RawLauncherWPF.ViewModels
             var eaw = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.Patch();
             var foc = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.Patch();
             CreatePatchMessage(eaw, foc);
-            PerformCheck();
+            PerformCheckAsync();
         }
 
         /// <summary>
@@ -716,7 +716,7 @@ namespace RawLauncherWPF.ViewModels
         private void CheckVersion()
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress); 
-            PerformCheck();
+            PerformCheckAsync();
         }
 
         /// <summary>

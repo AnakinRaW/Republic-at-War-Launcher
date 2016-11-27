@@ -80,10 +80,6 @@
     <ApplicationIcon>Commander Appo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\NAudio.dll</HintPath>
@@ -327,7 +323,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\Ionic.Zip.dll" />
     <EmbeddedResource Include="Libraries\NAudio.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -495,6 +490,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Commander Appo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Libraries\Caliburn.Micro.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

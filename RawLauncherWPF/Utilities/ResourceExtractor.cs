@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -46,7 +48,7 @@ namespace RawLauncherWPF.Utilities
                 Show(GetMessage("ResourceExtractorNewDirectoryCreated", new DirectoryInfo(directory).Name));
             }
 
-            foreach (var file in files.Where(file => !File.Exists(Path.Combine(directory, file)) || overrideFile))
+            foreach (var file in files.Where(file => !File.Exists(Path.Combine(directory, file)) ||  overrideFile))
                 InternalExtractFile(directory, file);
         }
 
