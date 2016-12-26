@@ -43,7 +43,7 @@ namespace RawLauncherWPF.Localization
                                                      +"Do you wish to see the detailed error report now?");
             StringTable.Add("CheckModFolderNotValid", "The directory of your Republic at War installation does not match to your currently installed version of Republic at War.\r\n\r\n"
                                                      + "Do you wish to see the detailed error report now?");
-            StringTable.Add("CheckFolderNotValidCount", "The following directory contains too many or too much files: {0}");
+            StringTable.Add("CheckFolderNotValidCount", "The following directory contains the wrong number of files: {0}");
             StringTable.Add("CheckFolderNotValidExists", "The following directory does not exist: {0}");
             StringTable.Add("CheckFolderNotValidHash", "The following directory contains invalid files: {0}");
             StringTable.Add("CheckGamesNotPatchedMessage", "Forces of Corruption is not up to date. Please press 'patch' to update your game.");

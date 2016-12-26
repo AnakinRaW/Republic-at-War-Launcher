@@ -127,31 +127,31 @@
         
         <DockPanel Grid.Row="5" Grid.Column="1" Background="{StaticResource WhiteHalfOpacityBrush}" Margin="0,3,0,3">
             <Label  Foreground="White" Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainInstalledVersion}}" Margin="0,-3,0,0"/>
-            <Label  Name="Test" Foreground="White" Opacity="1" Content="{Binding InstalledVersion}" Margin="0,-3,0,0"/>
+            <Label  Name="InstalledVerionLb" Foreground="White" Opacity="1" Content="{Binding InstalledVersion, FallbackValue='1.1.5'}" Margin="0,-3,0,0"/>
             <Label Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainLatestVersion}}" Margin="0,-3,0,0">
                 <Label.Foreground>
                     <MultiBinding Converter="{StaticResource IsGreaterConverter}">
-                        <Binding ElementName="Test" Path="Content"/>
-                        <Binding ElementName="Test1" Path="Content"/>
+                        <Binding ElementName="InstalledVerionLb" Path="Content"/>
+                        <Binding ElementName="latestVerionLb" Path="Content"/>
                     </MultiBinding>
                 </Label.Foreground>
             </Label>
-            <Label Opacity="1" Name="Test1" Content="{Binding LatestVersion}" Margin="0,-3,0,0">
+            <Label Opacity="1" Name="latestVerionLb" Content="{Binding LatestVersion, FallbackValue='1.2'}" Margin="0,-3,0,0" >
                 <Label.Foreground>
                     <MultiBinding Converter="{StaticResource IsGreaterConverter}">
-                        <Binding ElementName="Test" Path="Content"/>
-                        <Binding ElementName="Test1" Path="Content"/>
+                        <Binding ElementName="InstalledVerionLb" Path="Content"/>
+                        <Binding ElementName="latestVerionLb" Path="Content"/>
                     </MultiBinding>
                 </Label.Foreground>
             </Label>
-            <mafc:ImageButton HorizontalAlignment="Right" Margin="10,0,0,0" Width="Auto" Command="{Binding DeleteRawCommand}"
-                              NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
+            <mafc:ImageButton HorizontalAlignment="Right" Margin="10,-5,0,0" Width="Auto" Command="{Binding DeleteRawCommand}"
+                              NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}" VerticalContentAlignment="Center">
                 <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
-                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonUninstall}}"/>
+                                            Text="delete raw"/>
                 </mafc:ImageButton.Content>
             </mafc:ImageButton>
-            <mafc:ImageButton HorizontalAlignment="Right" Width="100" Command="{Binding AboutCommand}"
+            <mafc:ImageButton HorizontalAlignment="Right" Width="100" Command="{Binding AboutCommand}" Margin="0,-5,0,0"
                               NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
                 <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
