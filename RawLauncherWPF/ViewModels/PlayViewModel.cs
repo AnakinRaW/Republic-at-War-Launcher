@@ -65,11 +65,19 @@ namespace RawLauncherWPF.ViewModels
 
         private void GameProcessData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-           if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
-                return;
-            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.CleanUpAferGame(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame);
-            LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
-            Application.Current.Shutdown();
+            try
+            {
+                if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
+                    return;
+                LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.CleanUpAferGame(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame);
+                LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
+
+                ThreadUtilities.ThreadSaveShutdown();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         public Command DefreezeCommand => new Command(DefreezeAsync);
