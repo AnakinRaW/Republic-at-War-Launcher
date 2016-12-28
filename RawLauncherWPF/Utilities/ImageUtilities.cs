@@ -11,7 +11,7 @@ namespace RawLauncherWPF.Utilities
         {
             if (string.IsNullOrEmpty(path))
                 throw new NoNullAllowedException(nameof(path));
-            return new BitmapImage(new Uri(@"pack://application:,,,/RawLauncherWPF;component/" + path));
+            return new BitmapImage(new Uri(@"pack://application:,,,/RawLauncher.Theme;component/" + path));
         }
     }
 }

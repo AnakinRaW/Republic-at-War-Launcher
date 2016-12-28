@@ -12,9 +12,9 @@
     <Grid>
         <Grid>
             <mafc:ImageButton Height="61" Width="231" VerticalAlignment="Top" Margin="0,20,0,0" 
-                          NormalImage="../Resources/Visual/Check/CheckVersionIdle.png"
-                          HoverImage="../Resources/Visual/Check/CheckVersionHover.png"
-                          PressedImage="../Resources/Visual/Check/CheckVersionHover.png"
+                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Check/CheckVersionIdle.png"
+                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Check/CheckVersionHover.png"
+                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Check/CheckVersionHover.png"
                           Command="{Binding CheckVersionCommand}" IsEnabled="{Binding CanExecute}">
             <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
@@ -23,9 +23,9 @@
         </mafc:ImageButton>
             <mafc:ImageButton Height="61" Width="231" VerticalAlignment="Top" Margin="0,20,0,0" 
                               Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"
-                              NormalImage="../Resources/Visual/Check/CheckVersionIdle.png"
-                              HoverImage="../Resources/Visual/Check/CheckVersionHover.png"
-                              PressedImage="../Resources/Visual/Check/CheckVersionHover.png"
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Check/CheckVersionIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Check/CheckVersionHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Check/CheckVersionHover.png"
                               Command="{Binding CancelCommand}">
                 <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
@@ -63,9 +63,9 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
             <mafc:ImageButton Height="61" Width="136" IsEnabled="{Binding CanExecute}"
-                              NormalImage="../Resources/Visual/Check/PatchGamesIdle.png"
-                              HoverImage="../Resources/Visual/Check/PatchGamesHover.png"
-                              PressedImage="../Resources/Visual/Check/PatchGamesHover.png"
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Check/PatchGamesIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Check/PatchGamesHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Check/PatchGamesHover.png"
                               Command="{Binding PatchGamesCommand}">
                     <mafc:ImageButton.Content>
                         <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"

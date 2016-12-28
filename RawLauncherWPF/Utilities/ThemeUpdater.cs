@@ -25,8 +25,8 @@ namespace RawLauncherWPF.Utilities
             if (LatestVersion == null)
                 return;
 
-            if (CurrentVersion < LatestVersion)
-                UpdateTheme();
+            //if (CurrentVersion < LatestVersion)
+            //    UpdateTheme();
         }
 
         public Version CurrentVersion

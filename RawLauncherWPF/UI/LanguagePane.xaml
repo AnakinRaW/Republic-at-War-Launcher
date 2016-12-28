@@ -16,10 +16,10 @@
         <StackPanel Margin="10,30,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="0">
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Dutch}" />
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -28,10 +28,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.English}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -40,10 +40,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.French}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -52,10 +52,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.German}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -64,10 +64,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Italian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -80,10 +80,10 @@
         <StackPanel Margin="10,30,10,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1">
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Russian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -92,10 +92,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Serbian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -104,10 +104,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Spanish}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -116,10 +116,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Swedish}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -128,10 +128,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="0,5,0,0" GroupName="Languages"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Ukrainian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
                                Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -141,9 +141,9 @@
         </StackPanel>
 
         <mafc:ImageButton Height="60" Width="322" VerticalAlignment="Top" Margin="0,180,0,0"
-                          NormalImage="../Resources/Visual/Language/ChangeLanguageIdle.png"
-                          HoverImage="../Resources/Visual/Language/ChangeLanguageHover.png"
-                          PressedImage="../Resources/Visual/Language/ChangeLanguageHover.png"
+                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/ChangeLanguageIdle.png"
+                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/ChangeLanguageHover.png"
+                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/ChangeLanguageHover.png"
                           Command="{Binding ChangeLanguageCommand}" IsEnabled="{Binding CanExecute}" Grid.ColumnSpan="2">
             <mafc:ImageButton.Content>
                 <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"

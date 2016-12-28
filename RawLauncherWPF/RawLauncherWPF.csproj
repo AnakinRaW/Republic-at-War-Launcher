@@ -324,114 +324,12 @@
     <EmbeddedResource Include="Libraries\NAudio.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\QuitHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\QuitIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Audio\ButtonPress.WAV" />
     <EmbeddedResource Include="Audio\Checkbox.WAV" />
     <EmbeddedResource Include="Audio\LauncherStartup.wav" />
     <EmbeddedResource Include="Audio\MouseHover.WAV" />
     <EmbeddedResource Include="Audio\Play.WAV" />
     <EmbeddedResource Include="Audio\QuitPress.WAV" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\RaWLauncherBackground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\EeawHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\ModdbHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\ModdbIdle.png" />
-    <Resource Include="Resources\Visual\MainWindow\EeawIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\CheckHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\CheckIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\TabBarBorder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\LanguageHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\languageIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\PlayHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\PlayIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\RestoreHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\RestoreIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\MainWindow\UpdateHover.png" />
-    <Resource Include="Resources\Visual\MainWindow\UpdateIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Play\FastPlayHover.png" />
-    <Resource Include="Resources\Visual\Play\FastPlayIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Play\OrganizeGameHover.png" />
-    <Resource Include="Resources\Visual\Play\OrganizeGameIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Play\PlayGameHover.png" />
-    <Resource Include="Resources\Visual\Play\PlayGameIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Play\RefreshHover.png" />
-    <Resource Include="Resources\Visual\Play\RefreshIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Play\CurrentGames.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Language\DutchIdle.png" />
-    <Resource Include="Resources\Visual\Language\DutchHover.png" />
-    <Resource Include="Resources\Visual\Language\EnglishIdle.png" />
-    <Resource Include="Resources\Visual\Language\EnglishHover.png" />
-    <Resource Include="Resources\Visual\Language\FrenchIdle.png" />
-    <Resource Include="Resources\Visual\Language\FrenchHover.png" />
-    <Resource Include="Resources\Visual\Language\GermanIdle.png" />
-    <Resource Include="Resources\Visual\Language\GermanHover.png" />
-    <Resource Include="Resources\Visual\Language\ItalianIdle.png" />
-    <Resource Include="Resources\Visual\Language\ItalianHover.png" />
-    <Resource Include="Resources\Visual\Language\RussianIdle.png" />
-    <Resource Include="Resources\Visual\Language\RussianHover.png" />
-    <Resource Include="Resources\Visual\Language\SerbianIdle.png" />
-    <Resource Include="Resources\Visual\Language\SerbianHover.png" />
-    <Resource Include="Resources\Visual\Language\SpanishIdle.png" />
-    <Resource Include="Resources\Visual\Language\SpanishHover.png" />
-    <Resource Include="Resources\Visual\Language\SwedishIdle.png" />
-    <Resource Include="Resources\Visual\Language\SwedishHover.png" />
-    <Resource Include="Resources\Visual\Language\UkrainianIdle.png" />
-    <Resource Include="Resources\Visual\Language\UkrainianHover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Language\ChangeLanguageHover.png" />
-    <Resource Include="Resources\Visual\Language\ChangeLanguageIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Language\LanguageInfo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Check\CheckVersionHover.png" />
-    <Resource Include="Resources\Visual\Check\CheckVersionIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Check\PatchGamesHover.png" />
-    <Resource Include="Resources\Visual\Check\PatchGamesIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Check\BlueIndicator.png" />
-    <Resource Include="Resources\Visual\Check\GrayIndicator.png" />
-    <Resource Include="Resources\Visual\Check\GreenIndicator.png" />
-    <Resource Include="Resources\Visual\Check\RedIndicator.png" />
-    <Resource Include="Resources\Visual\Check\YellowIndicator.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Check\PatchInfo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Patch\EaW\GAMECONSTANTS.XML" />
@@ -442,49 +340,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Commander Appo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Restore\RestoreIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Restore\RestoreHover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Restore\ignoreLanguageHover.png" />
-    <Resource Include="Resources\Visual\Restore\ignoreLanguageIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Restore\hardRestoreHover.png" />
-    <Resource Include="Resources\Visual\Restore\hardRestoreIdle.png" />
-    <Resource Include="Resources\Visual\Restore\noneIdle.png" />
-    <Resource Include="Resources\Visual\Restore\noneHover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Restore\InfoText.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Update\UpdateIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Update\UpdateHover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Update\SeeChangelogHover.png" />
-    <Resource Include="Resources\Visual\Update\SeeChangelogIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Update\ignoreVoiceHover.png" />
-    <Resource Include="Resources\Visual\Update\ignoreVoiceIdle.png" />
-    <Resource Include="Resources\Visual\Update\noneHover.png" />
-    <Resource Include="Resources\Visual\Update\noneIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Play\DefreezeHover.png" />
-    <Resource Include="Resources\Visual\Play\DefreezeIdle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Visual\Language\RadioHover.png" />
-    <Resource Include="Resources\Visual\Language\RadioIdle.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />

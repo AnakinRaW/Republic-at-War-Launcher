@@ -16,10 +16,10 @@
         <DockPanel Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                             ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:UpdateOptions.None}" IsEnabled="{Binding CanExecute}"/>
                 <mafc:OutlineTextBlock HorizontalAlignment="Center" Margin="5,0,0,0" 
@@ -30,10 +30,10 @@
             </DockPanel>
             <DockPanel>
                 <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
-                                   NormalImage="../Resources/Visual/Language/RadioIdle.png"
-                                   HoverImage="../Resources/Visual/Language/RadioHover.png"
-                                   PressedImage="../Resources/Visual/Language/RadioHover.png"
-                                   CheckedImage="../Resources/Visual/Language/RadioHover.png"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                            ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolVoice}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:UpdateOptions.IgnoreVoice}" IsEnabled="{Binding CanExecute}"/>
                 <mafc:OutlineTextBlock HorizontalAlignment="Center" Margin="5,0,0,0" 
@@ -51,9 +51,9 @@
 
         <Grid>
             <mafc:ImageButton Height="60" Width="144" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,60"
-                              NormalImage="../Resources/Visual/Update/UpdateIdle.png"
-                              HoverImage="../Resources/Visual/Update/UpdateHover.png"
-                              PressedImage="../Resources/Visual/Update/UpdateHover.png"
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateHover.png"
                               Command="{Binding UpdateModCommand}">
                 <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
@@ -62,9 +62,9 @@
             </mafc:ImageButton>
             <mafc:ImageButton Height="60" Width="144"  VerticalAlignment="Bottom" Margin="0,0,0,60"
                               Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"
-                              NormalImage="../Resources/Visual/Update/UpdateIdle.png"
-                              HoverImage="../Resources/Visual/Update/UpdateHover.png"
-                              PressedImage="../Resources/Visual/Update/UpdateHover.png"
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateHover.png"
                               Command="{Binding CancelCommand}">
                 <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
@@ -75,9 +75,9 @@
         </Grid>
 
         <mafc:ImageButton Height="40" Width="140" VerticalAlignment="Bottom" Margin="0,20,0,0"
-                              NormalImage="../Resources/Visual/Update/SeeChangelogIdle.png"
-                              HoverImage="../Resources/Visual/Update/SeeChangelogHover.png"
-                              PressedImage="../Resources/Visual/Update/SeeChangelogHover.png"
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Update/SeeChangelogIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Update/SeeChangelogHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Update/SeeChangelogHover.png"
                               Command="{Binding OpenChangelogCommand}">
             <mafc:ImageButton.Content>
                 <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"

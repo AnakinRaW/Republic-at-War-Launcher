@@ -8,9 +8,9 @@
              mc:Ignorable="d">
     <Grid>
         <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}" IsEnabled="{Binding CanExecute}"
-                          NormalImage="../Resources/Visual/Play/PlayGameIdle.png"
-                          HoverImage="../Resources/Visual/Play/PlayGameHover.png"
-                          PressedImage="../Resources/Visual/Play/PlayGameHover.png">
+                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameIdle.png"
+                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png"
+                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png">
             <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonPlay}}"/>
@@ -18,9 +18,9 @@
         </mafc:ImageButton>
 
         <mafc:ImageButton Height="60" Width="300" VerticalAlignment="Top" Margin="0,105,0,0" Command="{Binding DefreezeCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
-                          NormalImage="../Resources/Visual/Play/DefreezeIdle.png"
-                          HoverImage="../Resources/Visual/Play/DefreezeHover.png"
-                          PressedImage="../Resources/Visual/Play/DefreezeHover.png">
+                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeIdle.png"
+                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png"
+                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png">
             <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonDefreeze}}"/>
@@ -28,9 +28,9 @@
         </mafc:ImageButton>
 
         <mafc:ImageButton Height="60" Width="356" VerticalAlignment="Top" Margin="0,170,0,0" Command="{Binding OrganizeGameCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
-                          NormalImage="../Resources/Visual/Play/OrganizeGameIdle.png"
-                          HoverImage="../Resources/Visual/Play/OrganizeGameHover.png"
-                          PressedImage="../Resources/Visual/Play/OrganizeGameHover.png">
+                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameIdle.png"
+                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameHover.png"
+                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameHover.png">
             <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonOrganize}}"/>
@@ -45,17 +45,17 @@
             <mafc:OutlineTextBlock Text="{Binding CurrentSessions}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua" Margin="20,-5,0,0"
                                    FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>    
             <mafc:ImageButton Height="33" Width="33" VerticalAlignment="Center" Margin="0,0,30,0" Command="{Binding RefreshSessionsCommand}" HorizontalAlignment="Right"
-                              NormalImage="../Resources/Visual/Play/RefreshIdle.png"
-                              HoverImage="../Resources/Visual/Play/RefreshHover.png"
-                              PressedImage="../Resources/Visual/Play/RefreshHover.png"/>           
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/RefreshIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/RefreshHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/RefreshHover.png"/>           
         </DockPanel>
 
         <DockPanel Margin="0,270,0,0" Dock="Right" HorizontalAlignment="Center" Height="34">
             <mafc:ImageToggleButton HorizontalAlignment="Center" VerticalAlignment="Top" Height="34" Width="34" 
-                                NormalImage="../Resources/Visual/Play/FastPlayIdle.png"
-                                HoverImage="../Resources/Visual/Play/FastPlayHover.png"
-                                PressedImage="../Resources/Visual/Play/FastPlayHover.png"
-                                CheckedImage="../Resources/Visual/Play/FastPlayHover.png"
+                                NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayIdle.png"
+                                HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"
+                                PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"
+                                CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"
                                 Command="{Binding ToggleFastLaunchCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Content="Test"/>
             <mafc:OutlineTextBlock VerticalAlignment="Center" Margin="10,0,0,0"
                                    Foreground="Aqua" Stroke="Black" FontSize="16" StrokeThickness="1"
