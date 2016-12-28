@@ -41,8 +41,10 @@ namespace RawLauncherWPF.Utilities
 
         public void UpdateTheme()
         {
-            DeleteCurrentTheme();
             var server = new HostServer(Config.ServerUrl);
+            if (!server.IsRunning())
+                return;
+            DeleteCurrentTheme();
             server.DownloadFile("Themes/" + LatestVersion + "/" + FileName, Path.Combine(Directory.GetCurrentDirectory(), FileName));
         }
 
