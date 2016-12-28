@@ -14,7 +14,7 @@ namespace RawLauncherWPF.Helpers
     {
         public static List<ComboBoxItem> CreateVersionItems()
         {
-            var versions = GetAllAvailableVersionsOnline();
+            var versions = GetAllAvailableModVersionsOnline();
             if (LauncherViewModel.CurrentModStatic == null)
                 return null;
             return (from version in versions

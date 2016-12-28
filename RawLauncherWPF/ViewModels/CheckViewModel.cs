@@ -615,9 +615,9 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void WriteOnlineDataToDisk()
         {
-            HostServer.DownloadString(Config.VersionListRelativePath)
+            HostServer.DownloadString(Config.ModVersionListRelativePath)
                 .ToStream()
-                .ToFile(LauncherViewModel.RestoreDownloadDir + Config.VersionListRelativePath);
+                .ToFile(LauncherViewModel.RestoreDownloadDir + Config.ModVersionListRelativePath);
             if (CheckFileStream.IsEmpty())
                 return;
             CheckFileStream.ToFile(LauncherViewModel.GetRescueFilePath(CheckFileFileName, false));
@@ -648,7 +648,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void GetOffline()
         {
-            if (!VersionUtilities.GetAllAvailableVersionsOffline().Contains(LauncherViewModel.CurrentMod.Version))
+            if (!VersionUtilities.GetAllAvailableModVersionsOffline().Contains(LauncherViewModel.CurrentMod.Version))
             {
                 Show(GetMessage("CheckVersionNotFound"));
                 return;
@@ -666,7 +666,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private async Task GetOnlineAsync()
         {
-            if (!VersionUtilities.GetAllAvailableVersionsOnline().Contains(LauncherViewModel.CurrentMod.Version))
+            if (!VersionUtilities.GetAllAvailableModVersionsOnline().Contains(LauncherViewModel.CurrentMod.Version))
             {
                 Show(GetMessage("CheckVersionNotFound"));
                 return;

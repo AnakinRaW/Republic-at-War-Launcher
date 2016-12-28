@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RawLauncherWPF.Utilities
+namespace RawLauncherWPF.Utilities.ResourceExtractor
 {
     internal class ResourceExtractorException : Exception
     {

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace RawLauncherWPF.Utilities
+namespace RawLauncherWPF.Utilities.Converters
 {
     class BoolToIndexConverter : IValueConverter
     {

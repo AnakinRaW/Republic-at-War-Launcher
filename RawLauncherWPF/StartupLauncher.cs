@@ -10,6 +10,7 @@ using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Localization;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
+using RawLauncherWPF.Utilities.ResourceExtractor;
 using static RawLauncherWPF.Configuration.Config;
 using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
@@ -46,6 +47,10 @@ namespace RawLauncherWPF
                 CreateShortcut();
 
                 ExtractLibraries();
+
+                var tu = new ThemeUpdater();
+                tu.UpdateIfNewVersionExists();
+
                 _launcher = new LauncherApp();
                 _launcher.InitializeComponent();
                 _launcher.Run();
@@ -142,7 +147,7 @@ namespace RawLauncherWPF
                 audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),
                     new[]
                     {
-                        "NAudio.dll", "ModernApplicationFramework.dll", "Caliburn.Micro.dll"
+                        "NAudio.dll", "ModernApplicationFramework.dll", "Caliburn.Micro.dll", "RawLauncher.Theme.dll"
                     });
             }
             catch (ResourceExtractorException exception)

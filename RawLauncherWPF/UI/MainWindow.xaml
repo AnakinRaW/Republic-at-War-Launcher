@@ -5,12 +5,13 @@
     xmlns:c="clr-namespace:RawLauncherWPF.Utilities"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
+    xmlns:converters="clr-namespace:RawLauncherWPF.Utilities.Converters"
     mc:Ignorable="d" x:Class="RawLauncherWPF.UI.MainWindow"
         Title="MainWindow" Width="780" Height="520" >
     
     <mafc:MainWindow.Resources>
-        <c:BoolToIndexConverter x:Key="BoolToIndexConverter"/>
-        <c:IsGreaterVersionColorConverter x:Key="IsGreaterConverter"/>
+        <converters:BoolToIndexConverter x:Key="BoolToIndexConverter"/>
+        <converters:IsGreaterVersionColorConverter x:Key="IsGreaterConverter"/>
         <SolidColorBrush Color="Black" Opacity=".8" x:Key="WhiteHalfOpacityBrush"/>
     </mafc:MainWindow.Resources>
     <mafc:MainWindow.Background>

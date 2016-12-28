@@ -180,7 +180,7 @@ namespace RawLauncherWPF.ViewModels
 
         }
 
-        public bool NewVersionAvailable() => CurrentMod?.Version < GetLatestVersion();
+        public bool NewVersionAvailable() => CurrentMod?.Version < GetLatestModVersion();
 
         internal void ShowMainWindow(object index = null)
         {
@@ -190,7 +190,7 @@ namespace RawLauncherWPF.ViewModels
             if (index != null)
                 a.ShowPane(index);
             a.InstalledVersion = CurrentMod == null ? new Version("1.0") : CurrentMod.Version;
-            a.LatestVersion = GetLatestVersion();
+            a.LatestVersion = GetLatestModVersion();
         }
 
         internal void HideMainWindow()
@@ -275,6 +275,15 @@ namespace RawLauncherWPF.ViewModels
             InitServer();
         }
 
+
+        private bool AskToUpdate()
+        {
+            var result =
+                        Show(GetMessage("VersionUtilitiesAskForUpdate", GetLatestModVersion()),
+                            "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+            return result == MessageBoxResult.Yes;
+        }
+
         #region Commands
 
         /// <summary>
@@ -315,7 +324,7 @@ namespace RawLauncherWPF.ViewModels
         {         
            ShowMainWindow();
             if (ComputerHasInternetConnection() && CurrentMod != null && NewVersionAvailable())
-                 await Task.Run(() => Show(GetMessage("LauncherInfoNewVersion", GetLatestVersion()), "Republic at War", MessageBoxButton.OK, MessageBoxImage.Information));
+                 await Task.Run(() => Show(GetMessage("LauncherInfoNewVersion", GetLatestModVersion()), "Republic at War", MessageBoxButton.OK, MessageBoxImage.Information));
         }
 
         public Command CreateFastLaunchFileCommand => new Command(CreateFastLaunchFile);

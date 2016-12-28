@@ -15,6 +15,16 @@ namespace RawLauncherWPF.NativeMethods
             return InternetGetConnectedState(out desc, 0);
         }
 
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowText")]
+        internal static extern int SetWindowText(IntPtr hWnd, string text);
+
+        [DllImport("user32.dll", EntryPoint = "FindWindowEx")]
+        internal static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+        [DllImport("User32.dll", EntryPoint = "SendMessage")]
+        internal static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
+
         [ComImport]
         [Guid("00021401-0000-0000-C000-000000000046")]
         internal class ShellLink

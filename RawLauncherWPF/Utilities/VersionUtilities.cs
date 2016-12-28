@@ -2,46 +2,55 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using RawLauncherWPF.Configuration;
 using RawLauncherWPF.ExtensionClasses;
+using RawLauncherWPF.Server;
 using RawLauncherWPF.ViewModels;
-using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Utilities
 {
     public static class VersionUtilities
     {
-        public static List<Version> GetAllAvailableVersionsOnline()
+        public static List<Version> GetAllAvailableModVersionsOnline()
         {
-            var data = LauncherViewModel.HostServerStatic.DownloadString(Config.VersionListRelativePath).ToStream();  
+            var server = new HostServer(Config.ServerUrl);
+            var data = server.DownloadString(Config.ModVersionListRelativePath).ToStream();  
             return SeriallizeVersionsToList(data);
         }
 
-        public static Version GetLatestVersion()
+        public static Version GetLatestModVersion()
         {
-            var versions = GetAllAvailableVersionsOnline();
+            var versions = GetAllAvailableModVersionsOnline();
             if (versions == null || versions.Count == 0)
-                versions = GetAllAvailableVersionsOffline();
+                versions = GetAllAvailableModVersionsOffline();
 
             return versions != null ? versions.Last() : new Version("0.1");
         }
 
-        public static bool AskToUpdate()
+
+        public static Version GetLatestThemeVersion()
         {
-            var result =
-                        Show(GetMessage("VersionUtilitiesAskForUpdate", GetLatestVersion()),
-                            "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
-            return result == MessageBoxResult.Yes;
+            var versions = GetAllAvailableThemeVersionsOnline();
+            if (versions == null || versions.Count == 0)
+                return null;
+            return versions.Last();
         }
 
-        public static List<Version> GetAllAvailableVersionsOffline()
+        private static List<Version> GetAllAvailableThemeVersionsOnline()
+        {
+            var server = new HostServer(Config.ServerUrl);
+            var data = server.DownloadString(Config.ThemeVersionListRelativePath).ToStream();
+            return SeriallizeVersionsToList(data);
+        }
+
+
+        public static List<Version> GetAllAvailableModVersionsOffline()
         {
             if (!Directory.Exists(LauncherViewModel.RestoreDownloadDirStatic) ||
-                !File.Exists(LauncherViewModel.RestoreDownloadDirStatic + Config.VersionListRelativePath))
+                !File.Exists(LauncherViewModel.RestoreDownloadDirStatic + Config.ModVersionListRelativePath))
                 return SeriallizeVersionsToList(Stream.Null);
             var data =
-                FileUtilities.FileToStream(LauncherViewModel.RestoreDownloadDirStatic + Config.VersionListRelativePath);
+                FileUtilities.FileToStream(LauncherViewModel.RestoreDownloadDirStatic + Config.ModVersionListRelativePath);
             return SeriallizeVersionsToList(data);
         }
 

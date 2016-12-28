@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using ModernApplicationFramework.Commands;
-using RawLauncherWPF.Themes.LauncherTheme;
+using RawLauncher.Theme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Utilities.MessageProvider;

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static RawLauncherWPF.Utilities.MessageProvider;
 
-namespace RawLauncherWPF.Utilities
+namespace RawLauncherWPF.Utilities.ResourceExtractor
 {
     internal class ResourceExtractor
     {
@@ -45,7 +42,7 @@ namespace RawLauncherWPF.Utilities
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
-                Show(GetMessage("ResourceExtractorNewDirectoryCreated", new DirectoryInfo(directory).Name));
+                MessageProvider.Show(MessageProvider.GetMessage("ResourceExtractorNewDirectoryCreated", new DirectoryInfo(directory).Name));
             }
 
             foreach (var file in files.Where(file => !File.Exists(Path.Combine(directory, file)) ||  overrideFile))
@@ -57,7 +54,7 @@ namespace RawLauncherWPF.Utilities
             using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(Assembly + @"." + ResourcePath + file))
             {
                 if (stream == null || stream == Stream.Null)
-                    throw new ResourceExtractorException(GetMessage("ExceptionResourceExtractorNotFound", ResourcePath + file));     
+                    throw new ResourceExtractorException(MessageProvider.GetMessage("ExceptionResourceExtractorNotFound", ResourcePath + file));     
 
                 using (var fileStream = new FileStream(Path.Combine(directory, file), FileMode.OpenOrCreate, FileAccess.Write))
                 {

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace RawLauncherWPF.Utilities
+namespace RawLauncherWPF.Xml
 {
     public static class XmlTools
     {

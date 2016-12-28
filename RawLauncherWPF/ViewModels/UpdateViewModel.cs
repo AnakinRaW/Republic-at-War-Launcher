@@ -229,7 +229,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async Task<bool> AddDownloadFilesToUpdateTable(List<string> excludeList)
         {
-            var versionToUpdate = GetLatestVersion();
+            var versionToUpdate = GetLatestModVersion();
             UpdateTable = new RestoreTable(versionToUpdate);
             if (versionToUpdate != UpdateContainer.Version)
                 throw new Exception(GetMessage("ExceptionUpdateVersionNotMatch"));
@@ -459,13 +459,13 @@ namespace RawLauncherWPF.ViewModels
                 Show(GetMessage("UpdateHostOffline"));
                 return false;
             }
-            if (!GetAllAvailableVersionsOnline().Contains(GetLatestVersion()))
+            if (!GetAllAvailableModVersionsOnline().Contains(GetLatestModVersion()))
             {
                 Show(GetMessage("UpdateVersionNotFound"));
                 return false;
             }
 
-            var downloadPath = LauncherViewModel.GetRescueFilePath(UpdateFileName, true, GetLatestVersion());
+            var downloadPath = LauncherViewModel.GetRescueFilePath(UpdateFileName, true, GetLatestModVersion());
             await
                 Task.Factory.StartNew(
                     () => UpdateFileStream = HostServer.DownloadString(downloadPath).ToStream());

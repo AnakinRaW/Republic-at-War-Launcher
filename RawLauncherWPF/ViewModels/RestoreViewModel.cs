@@ -588,7 +588,7 @@ namespace RawLauncherWPF.ViewModels
                 return false;
             }
             if (
-                !VersionUtilities.GetAllAvailableVersionsOnline()
+                !VersionUtilities.GetAllAvailableModVersionsOnline()
                     .Contains(new Version(SelectedVersion.DataContext.ToString())))
             {
                 Show(GetMessage("RestoreVersionNotMatch"));

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace RawLauncherWPF.Utilities
+namespace RawLauncherWPF.Utilities.Converters
 {
     public static class ResourceToStreamConverter
     {
