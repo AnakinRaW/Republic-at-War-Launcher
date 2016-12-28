@@ -25,6 +25,8 @@ namespace RawLauncherWPF.Utilities
                     return ImageUtilities.GetImageSourceFromPath("Resources/Visual/Check/YellowIndicator.png");
                 case IndicatorColor.Green:
                     return ImageUtilities.GetImageSourceFromPath("Resources/Visual/Check/GreenIndicator.png");
+                case IndicatorColor.Gray:
+                    return ImageUtilities.GetImageSourceFromPath("Resources/Visual/Check/GrayIndicator.png");
                 default:
                     return ImageUtilities.GetImageSourceFromPath("Resources/Visual/Check/GrayIndicator.png");
             }

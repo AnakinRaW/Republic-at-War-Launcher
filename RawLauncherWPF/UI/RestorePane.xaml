@@ -9,13 +9,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
      <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/RawLauncher.Theme;component/LauncherTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- other resources go here -->
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid HorizontalAlignment="Stretch" Margin="0,10,0,0">
             <StackPanel>
                 <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center">
-                    <mafc:OutlineTextBlock Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreVersion}}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua"
+                    <mafc:OutlineTextBlock Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreVersion}}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="{StaticResource LabelRestoreMessageForeground}"
                                    FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <mafc:ComboBox Width="100" Height="25" HorizontalAlignment="Left" Margin="10,0,0,0" 
                                    ItemsSource="{Binding AvailableVersions}" SelectedItem="{Binding SelectedVersion}" IsEnabled="{Binding CanExecute}"/>
@@ -30,7 +36,7 @@
                                             ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.None}" IsEnabled="{Binding CanExecute}"/>
                         <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" 
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelRestoreOptionForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreNone}}"
                                                ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"/>
@@ -44,7 +50,7 @@
                                            ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolLanguage}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.IgnoreLanguage}" IsEnabled="{Binding CanExecute}"/>
                         <mafc:OutlineTextBlock HorizontalAlignment="Center" Margin="5,0,0,0" 
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelRestoreOptionForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreLanguage}}"
                                                ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolLanguage}}"/>
@@ -58,7 +64,7 @@
                                            ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolHard}}"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:RestoreOptions.Hard}" IsEnabled="{Binding CanExecute}"/>
                         <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelRestoreOptionForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreHard}}"
                                                ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolHard}}"/>
@@ -68,7 +74,7 @@
         </Grid>
         <Grid Width="356" Margin="0,110,0,0">
             <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
-            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="White" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="{StaticResource LabelProcessForeground}" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
         <Grid>
             <mafc:ImageButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"
@@ -77,7 +83,7 @@
                               PressedImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
                               Command="{Binding RestoreModCommand}">
                 <mafc:ImageButton.Content>
-                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonRestoreForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonRestore}}"/>
                 </mafc:ImageButton.Content>
             </mafc:ImageButton>
@@ -88,13 +94,13 @@
                               PressedImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
                               Command="{Binding CancelCommand}">
                 <mafc:ImageButton.Content>
-                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonCancelForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonCancel}}"/>
                 </mafc:ImageButton.Content>
             </mafc:ImageButton>
         </Grid>
         <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" 
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelRestoreInfoForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreInfo}}"/>
     </Grid>

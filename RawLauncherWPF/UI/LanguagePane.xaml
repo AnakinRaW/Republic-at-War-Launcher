@@ -8,6 +8,14 @@
              xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/RawLauncher.Theme;component/LauncherTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- other resources go here -->
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -22,7 +30,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                    Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Dutch}" />
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangDutch}}"/>
             </DockPanel>
@@ -34,7 +42,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.English}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangEnglish}}"/>
             </DockPanel>
@@ -46,7 +54,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.French}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangFrench}}"/>
             </DockPanel>
@@ -58,7 +66,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.German}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangGerman}}"/>
             </DockPanel>
@@ -70,7 +78,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Italian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangItalian}}"/>
             </DockPanel>
@@ -86,7 +94,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Russian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangRussian}}"/>
             </DockPanel>
@@ -98,7 +106,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Serbian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangSerbian}}"/>
             </DockPanel>
@@ -110,7 +118,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Spanish}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangSpanish}}"/>
             </DockPanel>
@@ -122,7 +130,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Swedish}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangSwedish}}"/>
             </DockPanel>
@@ -134,7 +142,7 @@
                                    CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
                                     Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static viewModels:LanguageTypes.Ukrainian}"/>
                 <mafc:OutlineTextBlock Margin="10,0,0,0" VerticalAlignment="Center"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.LangUkrainian}}"/>
             </DockPanel>
@@ -146,16 +154,14 @@
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/ChangeLanguageHover.png"
                           Command="{Binding ChangeLanguageCommand}" IsEnabled="{Binding CanExecute}" Grid.ColumnSpan="2">
             <mafc:ImageButton.Content>
-                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonLanaugeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonLanguage}}"/>
             </mafc:ImageButton.Content>
         </mafc:ImageButton>
 
         <mafc:OutlineTextBlock Height="24" Width="223" VerticalAlignment="Top" Margin="50,260,50,0"
-                               Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               Foreground="{StaticResource LabelLanaugeMessageForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextLanguage}}" Grid.ColumnSpan="2"/>
-
-
     </Grid>
 </UserControl>

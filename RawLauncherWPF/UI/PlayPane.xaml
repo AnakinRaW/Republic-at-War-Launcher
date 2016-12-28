@@ -6,13 +6,21 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/RawLauncher.Theme;component/LauncherTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- other resources go here -->
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}" IsEnabled="{Binding CanExecute}"
                           NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameIdle.png"
                           HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png"
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png">
             <mafc:ImageButton.Content>
-                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonPlayForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonPlay}}"/>
                 </mafc:ImageButton.Content>
         </mafc:ImageButton>
@@ -22,7 +30,7 @@
                           HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png"
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png">
             <mafc:ImageButton.Content>
-                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDefreezeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonDefreeze}}"/>
                 </mafc:ImageButton.Content>
         </mafc:ImageButton>
@@ -32,17 +40,17 @@
                           HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameHover.png"
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameHover.png">
             <mafc:ImageButton.Content>
-                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonOrganizeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonOrganize}}"/>
                 </mafc:ImageButton.Content>
         </mafc:ImageButton>
       
         <DockPanel HorizontalAlignment="Center" Width="356" Margin="0,240,0,0" VerticalAlignment="Top">
             <mafc:OutlineTextBlock Height="17" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                   Foreground="Aqua" Stroke="Black" FontSize="18" StrokeThickness="1"
+                                   Foreground="{StaticResource LabelGameSessionsForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
                                    FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                    Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextPlayCurrentGames}}"/>
-            <mafc:OutlineTextBlock Text="{Binding CurrentSessions}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="Aqua" Margin="20,-5,0,0"
+            <mafc:OutlineTextBlock Text="{Binding CurrentSessions}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="{StaticResource LabelGameSessionsForeground}" Margin="20,-5,0,0"
                                    FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>    
             <mafc:ImageButton Height="33" Width="33" VerticalAlignment="Center" Margin="0,0,30,0" Command="{Binding RefreshSessionsCommand}" HorizontalAlignment="Right"
                               NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/RefreshIdle.png"
@@ -58,10 +66,9 @@
                                 CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"
                                 Command="{Binding ToggleFastLaunchCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Content="Test"/>
             <mafc:OutlineTextBlock VerticalAlignment="Center" Margin="10,0,0,0"
-                                   Foreground="Aqua" Stroke="Black" FontSize="16" StrokeThickness="1"
+                                   Foreground="{StaticResource LabelSilentForeground}" Stroke="Black" FontSize="16" StrokeThickness="1"
                                    FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                    Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextDoNotShowAgain}}"/>
-
         </DockPanel>
     </Grid>
 </UserControl>
