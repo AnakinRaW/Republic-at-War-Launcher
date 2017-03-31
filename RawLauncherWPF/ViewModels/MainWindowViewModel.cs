@@ -4,7 +4,9 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Interfaces;
 using RawLauncher.Theme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
@@ -134,6 +136,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            IoC.Get<IThemeManager>().Theme = new LauncherTheme();
             ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();
         }
