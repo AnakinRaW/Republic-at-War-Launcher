@@ -68,7 +68,7 @@ namespace RawLauncherWPF.Server
             catch (WebException ex)
             {
                 var response = ex.Response as HttpWebResponse;
-                if ((response != null) && (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.BadRequest))
+                if ((response != null) && (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound))
                     return true;
                 return false;
             }

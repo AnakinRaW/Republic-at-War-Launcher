@@ -35,7 +35,6 @@
             <ColumnDefinition Width="533*"/>
             <ColumnDefinition Width="24*"/>
         </Grid.ColumnDefinitions>
-
         <mafc:ImageTabButton Width="109" Height="31" SnapsToDevicePixels="True"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/PlayIdle.png"

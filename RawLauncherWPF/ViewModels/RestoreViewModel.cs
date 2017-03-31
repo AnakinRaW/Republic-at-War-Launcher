@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Hash;

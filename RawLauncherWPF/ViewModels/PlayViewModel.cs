@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using RawLauncherWPF.Defreezer;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Mods;

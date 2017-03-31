@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;

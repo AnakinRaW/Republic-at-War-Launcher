@@ -16,8 +16,6 @@ namespace RawLauncherWPF.UI
             LauncherViewModel = model;
             InitializeComponent();
             DataContext = new MainWindowViewModel(this, LauncherViewModel);
-            ChangeOwner(new WindowInteropHelper(this).Handle);
-            ChangeOwnerForActivate(new WindowInteropHelper(this).Handle);        
         }
 
         protected override bool ShouldAutoSize => false;

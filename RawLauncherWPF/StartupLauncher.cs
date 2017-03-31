@@ -38,6 +38,7 @@ namespace RawLauncherWPF
         [GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {
+
             try
             {
                 //TODO: Activate

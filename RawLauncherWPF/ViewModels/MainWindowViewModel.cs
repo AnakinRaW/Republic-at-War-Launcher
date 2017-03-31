@@ -4,7 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using RawLauncher.Theme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
@@ -13,7 +13,7 @@ using MainWindow = ModernApplicationFramework.Controls.MainWindow;
 
 namespace RawLauncherWPF.ViewModels
 {
-    public sealed class MainWindowViewModel : ModernApplicationFramework.ViewModels.MainWindowViewModel
+    public sealed class MainWindowViewModel : ModernApplicationFramework.Basics.ViewModels.MainWindowViewModel
     {
         private readonly MainWindow _mainWindow;
         private readonly ILauncherPane _playPane;
@@ -36,6 +36,7 @@ namespace RawLauncherWPF.ViewModels
             UseStatusBar = false;
             UseTitleBar = false;
             UseSimpleMovement = true;
+            UseMenu = false;
 
             _playPane = new PlayPane(this);
             ILauncherPane checkPane = new CheckPane(this);
@@ -133,7 +134,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Theme = new LauncherTheme();
             ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();
         }

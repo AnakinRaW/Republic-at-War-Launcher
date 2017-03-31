@@ -2,8 +2,8 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using ModernApplicationFramework.Commands;
-using ModernApplicationFramework.ViewModels;
+using ModernApplicationFramework.Basics.ViewModels;
+using ModernApplicationFramework.CommandBase;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
