@@ -2,8 +2,8 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using ModernApplicationFramework.Basics.ViewModels;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Core;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;
@@ -49,7 +49,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public IMod CurrentMod
         {
-            get { return _currentMod; }
+            get => _currentMod;
             set
             {
                 if (value ==null)
@@ -67,7 +67,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public IGame Eaw
         {
-            get { return _eawGame; }
+            get => _eawGame;
             set
             {
                 if (value == null)
@@ -85,7 +85,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public IGame BaseGame
         {
-            get { return _baseGame; }
+            get => _baseGame;
             set
             {
                 if (value == null)
@@ -103,7 +103,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public IHostServer HostServer
         {
-            get { return _hostServer; }
+            get => _hostServer;
             set
             {
                 if (value == null)
@@ -121,7 +121,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public string RestoreDownloadDir
         {
-            get { return _restoreDir; }
+            get => _restoreDir;
             set
             {
                 if (value == null)
@@ -139,7 +139,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public IServer SessionServer
         {
-            get { return _sessionServer; }
+            get => _sessionServer;
             set
             {
                 if (Equals(value, _sessionServer))
@@ -155,7 +155,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public string UpdateDownloadDir
         {
-            get { return _downloadDir; }
+            get => _downloadDir;
             set
             {
                 if (value == null)

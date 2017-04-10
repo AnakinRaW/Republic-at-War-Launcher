@@ -15,7 +15,7 @@ using MainWindow = ModernApplicationFramework.Controls.MainWindow;
 
 namespace RawLauncherWPF.ViewModels
 {
-    public sealed class MainWindowViewModel : ModernApplicationFramework.Basics.ViewModels.MainWindowViewModel
+    public sealed class MainWindowViewModel : ModernApplicationFramework.Basics.MainWindowViewModel
     {
         private readonly MainWindow _mainWindow;
         private readonly ILauncherPane _playPane;
@@ -75,7 +75,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public ILauncherPane ActivePane
         {
-            get { return _activePane; }
+            get => _activePane;
             set
             {
                 if (Equals(value, _activePane))
@@ -91,7 +91,7 @@ namespace RawLauncherWPF.ViewModels
 
         public Version InstalledVersion
         {
-            get { return _installedVersion; }
+            get => _installedVersion;
             set
             {
                 _installedVersion = value;
@@ -104,7 +104,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public bool IsBlocked
         {
-            get { return _isBlocked; }
+            get => _isBlocked;
             set
             {
                 if (Equals(value, _isBlocked))
@@ -117,7 +117,7 @@ namespace RawLauncherWPF.ViewModels
 
         public Version LatestVersion
         {
-            get { return _latestVersion; }
+            get => _latestVersion;
             set
             {
                 _latestVersion = value;

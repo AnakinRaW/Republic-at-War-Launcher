@@ -148,7 +148,8 @@ namespace RawLauncherWPF
                 audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),
                     new[]
                     {
-                        "NAudio.dll", "ModernApplicationFramework.dll", "Caliburn.Micro.dll", "RawLauncher.Theme.dll"
+                        "NAudio.dll", "ModernApplicationFramework.dll", "System.Windows.Interactivity.dll" ,"Caliburn.Micro.dll","Caliburn.Micro.Platform.Core.dll",
+                        "Caliburn.Micro.Platform.dll", "RawLauncher.Theme.dll"
                     });
             }
             catch (ResourceExtractorException exception)

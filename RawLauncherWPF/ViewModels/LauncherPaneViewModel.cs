@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.ViewModels;
+﻿using ModernApplicationFramework.Core;
 using RawLauncherWPF.UI;
 
 namespace RawLauncherWPF.ViewModels
@@ -23,7 +23,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public bool IsActive
         {
-            get { return _isActive; }
+            get => _isActive;
             set
             {
                 if (Equals(value, _isActive))
@@ -38,7 +38,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public bool IsWorking
         {
-            get { return _isWorking; }
+            get => _isWorking;
             set
             {
                 if (Equals(value, _isWorking))
@@ -53,7 +53,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public bool IsBlocking
         {
-            get { return _isBlocking; }
+            get => _isBlocking;
             set
             {
                 if (Equals(value, _isBlocking))
@@ -69,7 +69,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public bool CanExecute
         {
-            get { return _canExecute; }
+            get => _canExecute;
             set
             {
                 if (Equals(value, _canExecute))
