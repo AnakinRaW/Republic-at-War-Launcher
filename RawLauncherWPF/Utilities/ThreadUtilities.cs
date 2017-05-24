@@ -14,14 +14,13 @@ namespace RawLauncherWPF.Utilities
 
         public static void ThreadSaveShutdown()
         {
-            ThreadStart ts = delegate
-            {
-                Application.Current.Dispatcher.BeginInvoke((Action)delegate {
-                    Application.Current.Shutdown();
-                });
-            };
-            var t = new Thread(ts);
+            var t = new Thread(Ts);
             t.Start();
+
+            void Ts()
+            {
+                Application.Current.Dispatcher.BeginInvoke((Action)delegate { Application.Current.Shutdown(); });
+            }
         }
     }
 }

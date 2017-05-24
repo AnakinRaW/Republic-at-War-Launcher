@@ -55,8 +55,6 @@ namespace RawLauncherWPF.Games
             if (Directory.Exists(@"Data\XmlBackup"))
                 Directory.Move(@"Data\XmlBackup", @"Data\Xml");
             ClearBackupFiles();
-
-            
         }
 
         public void ClearBackupFiles()

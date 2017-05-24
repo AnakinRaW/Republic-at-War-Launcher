@@ -7,7 +7,8 @@ namespace RawLauncher.Theme
     [Export(typeof(ModernApplicationFramework.Core.Themes.Theme))]
     public class LauncherTheme : ModernApplicationFramework.Core.Themes.Theme
     {
-        public override string Name { get; }
+        public override string Name => Text;
+        public override string Text => "RaWTheme";
 
         public override Uri GetResourceUri()
         {

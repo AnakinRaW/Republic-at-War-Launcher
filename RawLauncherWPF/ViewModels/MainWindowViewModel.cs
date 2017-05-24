@@ -137,6 +137,7 @@ namespace RawLauncherWPF.ViewModels
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             IoC.Get<IThemeManager>().Theme = new LauncherTheme();
+            ModernApplicationFramework.Basics.EnvironmentGeneralOptions.Instance.ShowStatusBar = false;
             ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();
         }

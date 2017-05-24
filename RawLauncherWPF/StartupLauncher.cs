@@ -60,7 +60,7 @@ namespace RawLauncherWPF
             }
             catch (Exception e)
             {
-                Show(e.Message);
+                Show(e.Message + "\r\n" + e.InnerException?.Message + "\r\n" + e.TargetSite);
             }
             
         }

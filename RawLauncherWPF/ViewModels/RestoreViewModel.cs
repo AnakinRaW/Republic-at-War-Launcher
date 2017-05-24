@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Hash;
 using RawLauncherWPF.Helpers;
@@ -24,11 +26,11 @@ namespace RawLauncherWPF.ViewModels
     public sealed class RestoreViewModel : LauncherPaneViewModel
     {
         private const string RestoreVersionFileFileName = "RestoreModFileContainer.xml";
-        private List<ComboBoxItem> _availableVersions;
         private CancellationTokenSource _mSource;
         private double _progress;
         private string _progressStatus;
-        private ComboBoxItem _selectedVersion;
+
+        private ComboBoxDataSource _dataSource;
 
         public RestoreViewModel(ILauncherPane pane) : base(pane)
         {
@@ -36,21 +38,23 @@ namespace RawLauncherWPF.ViewModels
             if (!ComputerHasInternetConnection())
                 return;
             AvailableVersions = RestoreHelper.CreateVersionItems();
-            if (AvailableVersions?.Count > 0)
-                SelectedVersion = AvailableVersions.First();
+
+            DataSource = new ComboBoxDataSource(AvailableVersions);
         }
 
         /// <summary>
         /// Contains all ComboBoxItems with Versions
         /// </summary>
-        public List<ComboBoxItem> AvailableVersions
+        public ObservableCollection<IHasTextProperty> AvailableVersions { get; set; }
+
+
+        public ComboBoxDataSource DataSource
         {
-            get { return _availableVersions; }
+            get => _dataSource;
             set
             {
-                if (Equals(value, _availableVersions))
-                    return;
-                _availableVersions = value;
+                if (Equals(value, _dataSource)) return;
+                _dataSource = value;
                 OnPropertyChanged();
             }
         }
@@ -60,7 +64,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public double Progress
         {
-            get { return _progress; }
+            get => _progress;
             set
             {
                 if (Equals(value, _progress))
@@ -75,27 +79,12 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public string ProzessStatus
         {
-            get { return _progressStatus; }
+            get => _progressStatus;
             set
             {
                 if (Equals(value, _progressStatus))
                     return;
                 _progressStatus = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Selected Version as ComboBoxItem
-        /// </summary>
-        public ComboBoxItem SelectedVersion
-        {
-            get { return _selectedVersion; }
-            set
-            {
-                if (Equals(value, _selectedVersion))
-                    return;
-                _selectedVersion = value;
                 OnPropertyChanged();
             }
         }
@@ -141,7 +130,7 @@ namespace RawLauncherWPF.ViewModels
                 Show(GetMessage("RestoreNoInternet"));
                 return;
             }
-            if (SelectedVersion == null)
+            if (DataSource.DisplayedItem == null)
             {
                 Show(GetMessage("RestoreNoVersion"));
                 return;
@@ -282,8 +271,11 @@ namespace RawLauncherWPF.ViewModels
         /// <returns></returns>
         private async Task<bool> AddDownloadFilesToRestoreTable(List<string> excludeList)
         {
-            RestoreTable = new RestoreTable((Version) SelectedVersion.DataContext);
-            if ((Version) SelectedVersion.DataContext != RestoreVersionContainer.Version)
+            if (!Version.TryParse(DataSource.DisplayedItem.Text, out Version version))
+                throw new ArgumentException();
+
+            RestoreTable = new RestoreTable(version);
+            if (version != RestoreVersionContainer.Version)
                 throw new Exception(GetMessage("ExceptionRestoreVersionNotMatch"));
 
             var hashProvider = new HashProvider();
@@ -312,7 +304,25 @@ namespace RawLauncherWPF.ViewModels
                 await Task.WhenAll(t.ToArray());
 
 
-                
+                //foreach (var file in listToCheck)
+                //{
+                //    var absolutePath = CreateAbsoluteFilePath(file);
+                //    if (File.Exists(absolutePath))
+                //    {
+                //        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
+                //        RestoreTable.Files.Add(restoreFile);
+                //    }
+                //    else if (hashProvider.GetFileHash(absolutePath) != file.Hash)
+                //    {
+                //        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
+                //        RestoreTable.Files.Add(restoreFile);
+                //    }
+                //    Progress = Progress + i;
+                //}
+
+
+
+
             }
             catch (TaskCanceledException)
             {
@@ -337,8 +347,8 @@ namespace RawLauncherWPF.ViewModels
         private string CreateAbsoluteFilePath(FileContainerFile file)
         {
             if (file.TargetType == TargetType.Ai)
-                return LauncherViewModel.BaseGame.GameDirectory + file.TargetPath;
-            return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
+                return Path.GetFullPath(LauncherViewModel.BaseGame.GameDirectory + file.TargetPath);
+            return Path.GetFullPath(LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath);
         }
 
         private string CreateLocalFilePath(RestoreFile file)
@@ -460,8 +470,11 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         private void FillRestoreTableHard()
         {
-            RestoreTable = new RestoreTable((Version) SelectedVersion.DataContext);
-            if ((Version) SelectedVersion.DataContext != RestoreVersionContainer.Version)
+            if (!Version.TryParse(DataSource.DisplayedItem.Text, out Version version))
+                throw new ArgumentException();
+
+            RestoreTable = new RestoreTable(version);
+            if (version != RestoreVersionContainer.Version)
                 throw new Exception(GetMessage("ExceptionRestoreVersionNotMatch"));
             foreach (
                 var restoreFile in
@@ -582,6 +595,10 @@ namespace RawLauncherWPF.ViewModels
         /// <returns>False if failed</returns>
         private async Task<bool> LoadRestoreVersionStream()
         {
+
+            if (!Version.TryParse(DataSource.DisplayedItem.Text, out Version version))
+                throw new ArgumentException();
+
             if (!HostServer.IsRunning())
             {
                 Show(GetMessage("RestoreHostServerOffline"));
@@ -589,14 +606,14 @@ namespace RawLauncherWPF.ViewModels
             }
             if (
                 !VersionUtilities.GetAllAvailableModVersionsOnline()
-                    .Contains(new Version(SelectedVersion.DataContext.ToString())))
+                    .Contains(new Version(version.ToString())))
             {
                 Show(GetMessage("RestoreVersionNotMatch"));
                 return false;
             }
 
             var downloadPath = LauncherViewModel.GetRescueFilePath(RestoreVersionFileFileName, true,
-                (Version) SelectedVersion.DataContext);
+                version);
 
             await
                 Task.Factory.StartNew(

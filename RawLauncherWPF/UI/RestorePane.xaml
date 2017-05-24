@@ -23,8 +23,18 @@
                 <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center">
                     <mafc:OutlineTextBlock Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreVersion}}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="{StaticResource LabelRestoreMessageForeground}"
                                    FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <mafc:ComboBox Width="100" Height="25" HorizontalAlignment="Left" Margin="10,0,0,0" 
-                                   ItemsSource="{Binding AvailableVersions}" SelectedItem="{Binding SelectedVersion}" IsEnabled="{Binding CanExecute}"/>
+                    <mafc:ComboBox Width="100" Height="25" HorizontalAlignment="Left" Margin="10,0,0,0" DataSource="{Binding DataSource}"
+                                   ItemsSource="{Binding AvailableVersions}" IsEnabled="{Binding CanExecute}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <Binding Path="Text"/>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </mafc:ComboBox>
                 </DockPanel>
                 <DockPanel Margin="0,5,0,0" HorizontalAlignment="Center">
                     <DockPanel>

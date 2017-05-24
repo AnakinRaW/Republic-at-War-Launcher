@@ -1,25 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
-using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces;
+using RawLauncherWPF.Annotations;
 using RawLauncherWPF.ViewModels;
 using static RawLauncherWPF.Utilities.MessageProvider;
 using static RawLauncherWPF.Utilities.VersionUtilities;
 
 namespace RawLauncherWPF.Helpers
 {
+
+    internal class VersionComboBoxItem : IHasTextProperty
+    {
+        private string _text;
+
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                if (value == _text) return;
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public VersionComboBoxItem(string text)
+        {
+            _text = text;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+
     public static class RestoreHelper
     {
-        public static List<ComboBoxItem> CreateVersionItems()
+        public static ObservableCollection<IHasTextProperty> CreateVersionItems()
         {
             var versions = GetAllAvailableModVersionsOnline();
             if (LauncherViewModel.CurrentModStatic == null)
                 return null;
-            return (from version in versions
-                where version <= LauncherViewModel.CurrentModStatic.Version
-                select new ComboBoxItem {Content = version, DataContext = version}).ToList();
+
+            var list = new ObservableCollection<IHasTextProperty>();
+            foreach (var version in versions)
+                if (version <= LauncherViewModel.CurrentModStatic.Version)
+                    list.Add(new VersionComboBoxItem(version.ToString()));
+            return list;
         }
 
         /// <summary>

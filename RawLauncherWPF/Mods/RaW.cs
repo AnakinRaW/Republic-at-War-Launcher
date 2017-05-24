@@ -32,10 +32,15 @@ namespace RawLauncherWPF.Mods
 
         public string FolderName => "Republic_At_War";
 
+
+        protected bool CleanUpAfterGameClose { get; set; }
+
         public LanguageTypes InstalledLanguage
         {
             get
             {
+                if (!Directory.Exists(Path.Combine(ModDirectory, @"Data\Text")))
+                    return LanguageTypes.None;
                 if (Directory.EnumerateFiles(ModDirectory + @"Data\Text", "MasterTextFile_*.dat", SearchOption.AllDirectories).Count() < 0)
                     return LanguageTypes.None;
                 var s =
@@ -73,19 +78,25 @@ namespace RawLauncherWPF.Mods
 
         public void PrepareStart(IGame game)
         {
-            game.BackUpAiFiles();
             if (!Directory.Exists(Path.Combine(ModDirectory, "RootDataFiles")))
+            {
+                CleanUpAfterGameClose = false;
                 return;
+            }
+            game.BackUpAiFiles();
             if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps")))
                 FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps"), Path.Combine(game.GameDirectory, @"Data\CustomMaps\"));
             if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\Scripts")))
                 FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\Scripts"), Path.Combine(game.GameDirectory, @"Data\Scripts\"));
             if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\XML")))
                 FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\XML"), Path.Combine(game.GameDirectory, @"Data\XML\"));
+            CleanUpAfterGameClose = true;
         }
 
         public void CleanUpAferGame(IGame game)
         {
+            if (!CleanUpAfterGameClose)
+                return;
             game.ClearDataFolder();
             game.ResotreAiFiles();
         }
