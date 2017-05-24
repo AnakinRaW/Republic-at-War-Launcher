@@ -336,9 +336,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\NAudio.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Audio\ButtonPress.WAV" />
     <EmbeddedResource Include="Audio\Checkbox.WAV" />
     <EmbeddedResource Include="Audio\LauncherStartup.wav" />
@@ -357,22 +354,15 @@
     <Resource Include="Commander Appo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Commander Appo.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Libraries\Caliburn.Micro.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Libraries\RawLauncher.Theme.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Libraries\Caliburn.Micro.Platform.Core.dll" />
     <EmbeddedResource Include="Libraries\Caliburn.Micro.Platform.dll" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
+    <EmbeddedResource Include="Libraries\NAudio.dll" />
+    <EmbeddedResource Include="Libraries\RawLauncher.Theme.dll" />
     <EmbeddedResource Include="Libraries\System.Windows.Interactivity.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
