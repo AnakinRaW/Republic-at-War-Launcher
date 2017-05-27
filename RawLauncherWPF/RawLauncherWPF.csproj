@@ -119,7 +119,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Defreezer\Defreezer.cs" />
     <Compile Include="Defreezer\RetailSaveGame.cs" />

@@ -1,13 +1,13 @@
 ﻿<Application x:Class="RawLauncherWPF.Launcher.LauncherApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:rawLauncherWpf="clr-namespace:RawLauncherWPF"
+             xmlns:mafb="http://modern.framework.com/basics"
              Startup="App_OnStartup">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <rawLauncherWpf:Bootstrapper x:Key="bootstrapper" />
+                    <mafb:Bootstrapper x:Key="bootstrapper"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
