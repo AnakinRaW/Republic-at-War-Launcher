@@ -84,8 +84,6 @@ namespace RawLauncherWPF.ViewModels
 
         private async void DefreezeAsync()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-
             var initDir = LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod == null ||
                              LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod is DummyMod
                 ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
@@ -118,15 +116,13 @@ namespace RawLauncherWPF.ViewModels
 
         private static void OrganizeGame()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             Process.Start("http://www.raworganize.com");
         }
 
         public Command RefreshSessionsCommand => new Command(RefreshSessions);
 
         private void RefreshSessions()
-        {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);      
+        {  
             SetCurrentSessionAsync();
         }
 

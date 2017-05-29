@@ -152,7 +152,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void OpenModdb()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             Process.Start(Configuration.Config.ModdbPage);
         }
 
@@ -160,7 +159,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void OpenEeaw()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             Process.Start(Configuration.Config.EeawForum);
         }
 

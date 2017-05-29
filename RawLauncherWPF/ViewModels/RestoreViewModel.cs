@@ -38,7 +38,6 @@ namespace RawLauncherWPF.ViewModels
             if (!ComputerHasInternetConnection())
                 return;
             AvailableVersions = RestoreHelper.CreateVersionItems();
-
             DataSource = new ComboBoxDataSource(AvailableVersions);
         }
 
@@ -207,29 +206,35 @@ namespace RawLauncherWPF.ViewModels
             try
             {
                 ProzessStatus = GetMessage("RestoreStatusCheckAdditionalFiles");
-                if (Directory.Exists(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\"))
+
+
                 //Find unused files to delete (AI Files)
-                    foreach (
-                        var file in
-                            await
-                                Task.Run(
-                                    () =>
-                                        Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\", "*.*",
-                                            SearchOption.AllDirectories), _mSource.Token))
+                if (Directory.Exists(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\"))
+                {
+                    var files = Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\XML\\", "*.*", SearchOption.AllDirectories).ToList();
+                    files.AddRange(Directory.EnumerateFiles(
+                        LauncherViewModel.BaseGame.GameDirectory + "\\Data\\Scripts\\", "*.*",
+                        SearchOption.AllDirectories));
+                    files.AddRange(Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\CustomMaps\\", "*.*", SearchOption.AllDirectories));
+
+                    foreach (var file in files)
                     {
-                        var item =
+                        var flag =
                             await
                                 Task.Run(
                                     () =>
-                                        RestoreVersionContainer.Files.Find(
+                                        RestoreVersionContainer.Files.Any(
                                             k =>
-                                                k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
-                                                Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                                                k.Name.Equals(Path.GetFileName(file), StringComparison.InvariantCultureIgnoreCase) && k.TargetType == TargetType.Ai &&
+                                                Path.GetFullPath(file).IndexOf(k.TargetPath, StringComparison.InvariantCultureIgnoreCase) >= 0), _mSource.Token);
+
                         Progress = Progress + i;
-                        if (item != null)
+                        if (flag)
                             continue;
                         RestoreTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Ai));
                     }
+                }
+
 
                 //Find unused files to delete (Mod Files)
                 if (!Directory.Exists(LauncherViewModel.CurrentMod.ModDirectory))
@@ -242,6 +247,9 @@ namespace RawLauncherWPF.ViewModels
                                     Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*",
                                         SearchOption.AllDirectories), _mSource.Token))
                 {
+                    if (shallIgnore && RestoreHelper.IgnoreFile(file))
+                        continue;
+
                     var item =
                         await
                             Task.Run(
@@ -249,9 +257,13 @@ namespace RawLauncherWPF.ViewModels
                                     RestoreVersionContainer.Files.Find(
                                         k =>
                                             k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod &&
-                                            Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                                            Path.GetFullPath(file).IndexOf(k.TargetPath, StringComparison.CurrentCultureIgnoreCase) >= 0), _mSource.Token);
+
+
+
+
                     Progress = Progress + i;
-                    if (item != null || (shallIgnore && RestoreHelper.IgnoreFile(file)))
+                    if (item != null)
                         continue;
                     RestoreTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Mod));
                 }
@@ -307,7 +319,7 @@ namespace RawLauncherWPF.ViewModels
                 //foreach (var file in listToCheck)
                 //{
                 //    var absolutePath = CreateAbsoluteFilePath(file);
-                //    if (File.Exists(absolutePath))
+                //    if (!File.Exists(absolutePath))
                 //    {
                 //        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
                 //        RestoreTable.Files.Add(restoreFile);
@@ -390,7 +402,7 @@ namespace RawLauncherWPF.ViewModels
                     }
                     var restorePath = CreateAbsoluteFilePath(file);
                     await
-                        Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, restorePath),
+                        Task.Run(() => HostServer.DownloadFile(file.SourcePath, restorePath),
                             _mSource.Token);
                     ProzessStatus = GetMessage("RestoreStatusDownloaded", file.Name);
                     Progress = Progress + i;
@@ -545,7 +557,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void RestoreMod()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             _mSource = new CancellationTokenSource();
             PerformRestore();
         }

@@ -40,7 +40,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public double Progress
         {
-            get { return _progress; }
+            get => _progress;
             set
             {
                 if (Equals(value, _progress))
@@ -55,7 +55,7 @@ namespace RawLauncherWPF.ViewModels
         /// </summary>
         public string ProzessStatus
         {
-            get { return _progressStatus; }
+            get => _progressStatus;
             set
             {
                 if (Equals(value, _progressStatus))
@@ -184,7 +184,7 @@ namespace RawLauncherWPF.ViewModels
                                 UpdateContainer.Files.Find(
                                     k =>
                                         k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
-                                        Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                                        Path.GetFullPath(file).IndexOf(k.TargetPath, StringComparison.CurrentCultureIgnoreCase) >= 0), _mSource.Token);
                         Progress = Progress + i;
                         if (fileToSearch != null)
                             continue;
@@ -213,7 +213,7 @@ namespace RawLauncherWPF.ViewModels
                             UpdateContainer.Files.Find(
                                 k =>
                                     k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod &&
-                                    Path.GetFullPath(file).Contains(k.TargetPath)), _mSource.Token);
+                                    Path.GetFullPath(file).IndexOf(k.TargetPath, StringComparison.CurrentCultureIgnoreCase) >= 0), _mSource.Token);
                     Progress = Progress + i;
                     if (fileToSearch == null)
                         UpdateTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Mod));
@@ -321,7 +321,7 @@ namespace RawLauncherWPF.ViewModels
                     }
                     var updatePath = CreateAbsoluteFilePath(file);
                     await
-                        Task.Run(() => HostServer.DownloadFile("Versions" + file.SourcePath, updatePath),
+                        Task.Run(() => HostServer.DownloadFile(file.SourcePath, updatePath),
                             _mSource.Token);
                     ProzessStatus = GetMessage("UpdateStatusDownloaded", file.Name);
                     Progress = Progress + i;
@@ -505,7 +505,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void UpdateMod()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             _mSource = new CancellationTokenSource();
             PerformUpdate();
         }
@@ -527,8 +526,7 @@ namespace RawLauncherWPF.ViewModels
 
         private async void OpenChangelog()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            await Task.Run(() => HostServer.DownloadFile("Versions/" + ChangelogFileName, LauncherViewModel.RestoreDownloadDir + ChangelogFileName));
+            await Task.Run(() => HostServer.DownloadFile("master\\" + ChangelogFileName, LauncherViewModel.RestoreDownloadDir + ChangelogFileName));
             var process = new Process { StartInfo = { FileName = LauncherViewModel.RestoreDownloadDir + ChangelogFileName } };
             process.Start();
         }

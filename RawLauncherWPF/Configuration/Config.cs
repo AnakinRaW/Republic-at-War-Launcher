@@ -13,9 +13,9 @@ namespace RawLauncherWPF.Configuration
         public const string EeawForum = "http://www.everythingeaw.com/forum/index.php";
         public const string ModdbPage = "http://www.moddb.com/mods/republic-at-war";
         public const string FastLaunchFileName = "RawLauncherInfo.txt";
-        public const string ServerUrl = "https://gitlab.com/Republic-at-War/Republic-At-War/raw/master/";
-        public const string ModVersionListRelativePath = @"\Versions\AvailableModVersions.txt";
-        public const string ThemeVersionListRelativePath = @"\Versions\AvailableThemeVersions.txt";
+        public const string ServerUrl = "https://gitlab.com/Republic-at-War/Republic-At-War/raw/";
+        public const string ModVersionListRelativePath = @"\master\AvailableModVersions.txt";
+        public const string ThemeVersionListRelativePath = @"\master\AvailableThemeVersions.txt";
         public const string SessionServerUrl = "http://raworganize.com/";
 
         #region Beta Stuff

@@ -120,6 +120,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Controls\ImageSoundClickButton.cs" />
     <Compile Include="Defreezer\Defreezer.cs" />
     <Compile Include="Defreezer\RetailSaveGame.cs" />
     <Compile Include="Defreezer\SaveGame.cs" />

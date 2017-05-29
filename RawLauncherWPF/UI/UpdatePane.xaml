@@ -6,6 +6,7 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
+             xmlns:controls="clr-namespace:RawLauncherWPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
@@ -56,7 +57,7 @@
         </Grid>
 
         <Grid>
-            <mafc:ImageButton Height="60" Width="144" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,60"
+            <controls:ImageSoundClickButton Height="60" Width="144" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,60"
                               NormalImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateIdle.png"
                               HoverImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateHover.png"
                               PressedImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateHover.png"
@@ -65,8 +66,8 @@
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonUpdateForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonUpdate}}"/>
                 </mafc:ImageButton.Content>
-            </mafc:ImageButton>
-            <mafc:ImageButton Height="60" Width="144"  VerticalAlignment="Bottom" Margin="0,0,0,60"
+            </controls:ImageSoundClickButton>
+            <controls:ImageSoundClickButton Height="60" Width="144"  VerticalAlignment="Bottom" Margin="0,0,0,60"
                               Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"
                               NormalImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateIdle.png"
                               HoverImage="/RawLauncher.Theme;component/Resources/Visual/Update/UpdateHover.png"
@@ -76,11 +77,11 @@
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonCancelForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonCancel}}"/>
                 </mafc:ImageButton.Content>
-            </mafc:ImageButton>
+            </controls:ImageSoundClickButton>
 
         </Grid>
 
-        <mafc:ImageButton Height="40" Width="140" VerticalAlignment="Bottom" Margin="0,20,0,0"
+        <controls:ImageSoundClickButton Height="40" Width="140" VerticalAlignment="Bottom" Margin="0,20,0,0"
                               NormalImage="/RawLauncher.Theme;component/Resources/Visual/Update/SeeChangelogIdle.png"
                               HoverImage="/RawLauncher.Theme;component/Resources/Visual/Update/SeeChangelogHover.png"
                               PressedImage="/RawLauncher.Theme;component/Resources/Visual/Update/SeeChangelogHover.png"
@@ -89,6 +90,13 @@
                 <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonChangelogForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonChangelog}}"/>
             </mafc:ImageButton.Content>
-        </mafc:ImageButton>
+        </controls:ImageSoundClickButton>
     </Grid>
 </UserControl>
+
+
+
+
+
+
+

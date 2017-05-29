@@ -108,7 +108,7 @@ namespace RawLauncherWPF.ViewModels
                    File.Exists(mod.ModDirectory + @"\Data\" + CreateAliasLanguage(SelectedLanguage) + "Speech.meg");
         }
 
-        private void InternalChangeLanguage(IMod mod)
+        private void InternalChangeLanguage(IMod mod, bool showMessage = false)
         {
             if (!CheckAlreadyInstalledLanguage(mod))
             {
@@ -116,8 +116,11 @@ namespace RawLauncherWPF.ViewModels
                 ChangeSpeechMegFile(mod);
                 ChangeSpeechFolderName(mod);
             }
-            MessageToShowAfterChange += GetMessage("LanguageMessageChangedSuccess");
-            Show(MessageToShowAfterChange);
+            if (showMessage)
+            {
+                MessageToShowAfterChange += GetMessage("LanguageMessageChangedSuccess");
+                Show(MessageToShowAfterChange);
+            }
             MessageToShowAfterChange = Empty;
         }
 
@@ -140,7 +143,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void ChangeLanguage()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             if (SelectedLanguage == LanguageTypes.None)
             {
                 Show(GetMessage("LanguageNoneSelected"));
@@ -150,15 +152,15 @@ namespace RawLauncherWPF.ViewModels
                 Show(GetMessage("LanguageAdditionalSupport"));
             Show(GetMessage("LangugeOperationQuestion"),
                 "Republic at War Launcher", MessageBoxButton.OK, MessageBoxImage.Information);
-            InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
+            InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod, true);
         }
 
-        public void ChangeLanguage(LanguageTypes language)
+        public void ChangeLanguage(LanguageTypes language, bool showMesage = false)
         {
             if (language == LanguageTypes.None)
                 return;
             SelectedLanguage = language;
-            InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
+            InternalChangeLanguage(LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod, showMesage);
         }
 
         #endregion

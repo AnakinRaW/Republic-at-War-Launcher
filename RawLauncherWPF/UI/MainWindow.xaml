@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
     xmlns:converters="clr-namespace:RawLauncherWPF.Utilities.Converters"
+    xmlns:controls="clr-namespace:RawLauncherWPF.Controls"
     mc:Ignorable="d" x:Class="RawLauncherWPF.UI.MainWindow"
     Title="MainWindow" Width="780" Height="520" >
 
@@ -109,12 +110,12 @@
         <ContentPresenter Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="4" VerticalAlignment="Stretch" 
                           Content="{Binding ActivePane}" />
 
-        <mafc:ImageButton Grid.Row="2" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
+        <controls:ImageSoundClickButton Grid.Row="2" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
 			NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbIdle.png" 
 			HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbHover.png" 
 			PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbHover.png"
                           Command="{Binding OpenModdbCommand}"/>
-        <mafc:ImageButton Grid.Row="3" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
+        <controls:ImageSoundClickButton Grid.Row="3" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
 			NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/EeawIdle.png" 
 			HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/EeawHover.png" 
 			PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/EeawHover.png"

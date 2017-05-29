@@ -6,6 +6,7 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
+             xmlns:controls="clr-namespace:RawLauncherWPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300">
     <UserControl.Resources>
@@ -148,7 +149,7 @@
             </DockPanel>
         </StackPanel>
 
-        <mafc:ImageButton Height="60" Width="322" VerticalAlignment="Top" Margin="0,180,0,0"
+        <controls:ImageSoundClickButton Height="60" Width="322" VerticalAlignment="Top" Margin="0,180,0,0"
                           NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/ChangeLanguageIdle.png"
                           HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/ChangeLanguageHover.png"
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/ChangeLanguageHover.png"
@@ -157,7 +158,7 @@
                 <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonLanaugeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonLanguage}}"/>
             </mafc:ImageButton.Content>
-        </mafc:ImageButton>
+        </controls:ImageSoundClickButton>
 
         <mafc:OutlineTextBlock Height="24" Width="223" VerticalAlignment="Top" Margin="50,260,50,0"
                                Foreground="{StaticResource LabelLanaugeMessageForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -165,3 +166,4 @@
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextLanguage}}" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>
+

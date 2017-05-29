@@ -6,6 +6,7 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
+             xmlns:controls="clr-namespace:RawLauncherWPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
      <UserControl.Resources>
@@ -87,7 +88,7 @@
             <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="{StaticResource LabelProcessForeground}" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
         <Grid>
-            <mafc:ImageButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"
+            <controls:ImageSoundClickButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"
                               NormalImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreIdle.png"
                               HoverImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
                               PressedImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
@@ -96,8 +97,8 @@
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonRestoreForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonRestore}}"/>
                 </mafc:ImageButton.Content>
-            </mafc:ImageButton>
-            <mafc:ImageButton Height="60" Width="255" VerticalAlignment="Bottom" Margin="0,0,0,50"
+            </controls:ImageSoundClickButton>
+            <controls:ImageSoundClickButton Height="60" Width="255" VerticalAlignment="Bottom" Margin="0,0,0,50"
                               Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"
                               NormalImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreIdle.png"
                               HoverImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
@@ -107,7 +108,7 @@
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonCancelForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonCancel}}"/>
                 </mafc:ImageButton.Content>
-            </mafc:ImageButton>
+            </controls:ImageSoundClickButton>
         </Grid>
         <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" 
                                Foreground="{StaticResource LabelRestoreInfoForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
@@ -115,3 +116,6 @@
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreInfo}}"/>
     </Grid>
 </UserControl>
+
+
+

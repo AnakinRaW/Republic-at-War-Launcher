@@ -87,7 +87,8 @@ namespace RawLauncherWPF.Server
                 var s = ServerRootAddress + resource;
                 if (!Directory.Exists(Path.GetDirectoryName(storagePath)))
                     Directory.CreateDirectory(Path.GetDirectoryName(storagePath));
-                webClient.DownloadFile(new Uri(s), storagePath);
+                var uri = new Uri(s);
+                webClient.DownloadFile(uri, storagePath);
             }
             catch (Exception)
             {

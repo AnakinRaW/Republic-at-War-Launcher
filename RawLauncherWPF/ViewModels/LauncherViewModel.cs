@@ -175,7 +175,7 @@ namespace RawLauncherWPF.ViewModels
             if (version == null)
                 return GetRescueFilePath(fileName, online, CurrentMod.Version);
             if (online)
-                return @"RescueFiles\" + version + @"\" + fileName;
+                return version + @"\RescueFiles\" + fileName;
             return RestoreDownloadDir + @"\RescueFiles\" + version + @"\" + fileName;
 
         }

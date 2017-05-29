@@ -701,7 +701,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void PatchGames()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
             var eaw = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.Patch();
             var foc = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.Patch();
             CreatePatchMessage(eaw, foc);
@@ -715,7 +714,6 @@ namespace RawLauncherWPF.ViewModels
 
         private void CheckVersion()
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress); 
             PerformCheckAsync();
         }
 
