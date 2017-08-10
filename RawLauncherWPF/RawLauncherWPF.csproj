@@ -96,10 +96,6 @@
     <Reference Include="ModernApplicationFramework.Utilities">
       <HintPath>..\Libraries\ModernApplicationFramework.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\NAudio.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -335,6 +331,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RawLauncher.Framework\RawLauncher.Framework.csproj">
+      <Project>{b1b20b97-7009-4cd4-9b6d-8c69b53b2623}</Project>
+      <Name>RawLauncher.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RawLauncher.Theme\RawLauncher.Theme.csproj">
       <Project>{8dcb2da9-e0f1-442a-a094-d79e955671ed}</Project>
       <Name>RawLauncher.Theme</Name>

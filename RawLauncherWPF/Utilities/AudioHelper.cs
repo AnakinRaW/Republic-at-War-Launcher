@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-using NAudio.Wave;
+using RawLauncher.Framework.NAudio.Wave.WaveOutputs;
+using RawLauncher.Framework.NAudio.Wave.WaveStreams;
 
 namespace RawLauncherWPF.Utilities
 {
@@ -13,8 +14,7 @@ namespace RawLauncherWPF.Utilities
         public static void PlayAudio(Enum file)
         {
             var waveReader = new WaveFileReader(Directory.GetCurrentDirectory() + @"\LecSetup\" + file + ".wav");
-            var waveOut = new WaveOut();
-            var output = waveOut;
+            var output = new WaveOut();
             output.Init(waveReader);
             output.Play();
         }
