@@ -5,6 +5,7 @@ using RawLauncherWPF.Hash;
 using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.Properties;
+using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Utilities.MessageProvider;
 
 namespace RawLauncherWPF.Games
@@ -27,11 +28,11 @@ namespace RawLauncherWPF.Games
         public void ClearDataFolder()
         {
             if (Directory.Exists(@"Data\CustomMaps"))
-                Directory.Delete(@"Data\CustomMaps", true);
+                FileUtilities.DeleteDirectory(@"Data\CustomMaps");
             if (Directory.Exists(@"Data\Scripts"))
-                Directory.Delete(@"Data\Scripts", true);
+                FileUtilities.DeleteDirectory(@"Data\Scripts");
             if (Directory.Exists(@"Data\XML"))
-                Directory.Delete(@"Data\XML", true);
+                FileUtilities.DeleteDirectory(@"Data\XML");
         }
 
         public void BackUpAiFiles()
@@ -72,7 +73,7 @@ namespace RawLauncherWPF.Games
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
             if (Directory.Exists(@"Mods\" + name))
-                Directory.Delete(@"Mods\" + name, true);
+                FileUtilities.DeleteDirectory(@"Mods\" + name);
         }
 
         public GameProcessData GameProcessData { get; }

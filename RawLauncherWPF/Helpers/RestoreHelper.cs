@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using ModernApplicationFramework.Interfaces;
@@ -67,22 +65,6 @@ namespace RawLauncherWPF.Helpers
             var result = Show(GetMessage("RestoreOperationQuestion"), "Republic at War",
                 MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
             return result != MessageBoxResult.No;
-        }
-
-        public static bool IgnoreFile(string file)
-        {
-            if (file == null)
-                throw new NullReferenceException(nameof(file));
-            if (Path.GetFullPath(file).Contains("\\Text\\"))
-                return true;
-            if (Path.GetFullPath(file).Contains("\\Audio\\Speech\\"))
-                return true;
-            var s = new FileInfo(file).Directory?.Name;
-            if (s == "Audio")
-                return true;
-            if (Path.GetFileName(file).Contains("Speech.meg"))
-                return true;
-            return false;
         }
     }
 }

@@ -6,16 +6,16 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using RawLauncher.Theme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Utilities.MessageProvider;
-using MainWindow = ModernApplicationFramework.Controls.MainWindow;
+using MainWindow = ModernApplicationFramework.Controls.Windows.MainWindow;
 
 namespace RawLauncherWPF.ViewModels
 {
-    public sealed class MainWindowViewModel : ModernApplicationFramework.Basics.MainWindowViewModel
+    public sealed class MainWindowViewModel : ModernApplicationFramework.Controls.Windows.MainWindowViewModel
     {
         private readonly MainWindow _mainWindow;
         private readonly ILauncherPane _playPane;
@@ -35,7 +35,6 @@ namespace RawLauncherWPF.ViewModels
             _mainWindow = mainWindow;
 
             IsSimpleWindow = true;
-            UseStatusBar = false;
             UseTitleBar = false;
             UseSimpleMovement = true;
             UseMenu = false;
@@ -137,6 +136,7 @@ namespace RawLauncherWPF.ViewModels
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             IoC.Get<IThemeManager>().Theme = new LauncherTheme();
+            IoC.Get<IStatusBarDataModelService>().SetVisibility(0);
             ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();
         }
@@ -162,7 +162,7 @@ namespace RawLauncherWPF.ViewModels
             Process.Start(Configuration.Config.EeawForum);
         }
 
-        public Command<object> ShowPaneAudioCommand => new Command<object>(ShowPaneAudio, CanShowPane);
+        public Command<object> ShowPaneAudioCommand => new ObjectCommand(ShowPaneAudio, CanShowPane);
 
         private bool CanShowPane(object arg)
         {

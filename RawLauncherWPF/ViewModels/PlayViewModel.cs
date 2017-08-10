@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using Microsoft.Win32;
 using ModernApplicationFramework.CommandBase;
 using RawLauncherWPF.Defreezer;
@@ -29,10 +30,7 @@ namespace RawLauncherWPF.ViewModels
 
         public string CurrentSessions
         {
-            get
-            {
-                return _currentSessions;
-            }
+            get => _currentSessions;
             set
             {
                 if (Equals(value, _currentSessions))
@@ -132,19 +130,22 @@ namespace RawLauncherWPF.ViewModels
             Task.Factory.StartNew(() => CurrentSessions = LauncherPane.MainWindowViewModel.LauncherViewModel.SessionServer.DownloadString("count.php"));
         }
 
-        public Command<ToggleButton> ToggleFastLaunchCommand => new Command<ToggleButton>(ToggleFastLaunchAsync, CanToogleFastLaunch);
+        public ICommand ToggleFastLaunchCommand => new ObjectCommand(ToggleFastLaunchAsync, CanToogleFastLaunch);
 
-        private static bool CanToogleFastLaunch(ToggleButton arg)
+        private static bool CanToogleFastLaunch(object arg)
         {
             return true;
         }
 
-        private async void ToggleFastLaunchAsync(ToggleButton arg)
+        private async void ToggleFastLaunchAsync(object arg)
         {
+            var toggleButton = arg as ToggleButton;
+            if (toggleButton == null)
+                return;;
             AudioHelper.PlayAudio(AudioHelper.Audio.Checkbox);
-            if (arg.IsChecked == true)
+            if (toggleButton.IsChecked == true)
                  await LauncherPane.MainWindowViewModel.LauncherViewModel.CreateFastLaunchFileCommand.Execute();
-            if (arg.IsChecked == false)
+            if (toggleButton.IsChecked == false)
                 await LauncherPane.MainWindowViewModel.LauncherViewModel.DeleteFastLaunchFileCommand.Execute();
         }
 

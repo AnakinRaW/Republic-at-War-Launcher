@@ -1,121 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ModernApplicationFramework.CommandBase;
-using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Helpers;
-using RawLauncherWPF.Models;
 using RawLauncherWPF.Mods;
-using RawLauncherWPF.Properties;
-using RawLauncherWPF.Server;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
-using RawLauncherWPF.Xml;
-using static RawLauncherWPF.NativeMethods.NativeMethods;
 using static RawLauncherWPF.Utilities.MessageProvider;
 using static RawLauncherWPF.Utilities.ProgressBarUtilities;
 using static RawLauncherWPF.Utilities.VersionUtilities;
 
 namespace RawLauncherWPF.ViewModels
 {
-    public sealed class UpdateViewModel : LauncherPaneViewModel
+    public sealed class UpdateViewModel : RestoreUpdateViewModel
     {
         private const string ChangelogFileName = "Changelog.txt";
-        private const string UpdateFileName = "RestoreModFileContainer.xml";
-        private CancellationTokenSource _mSource;
-        private double _progress;
-        private string _progressStatus;
 
         public UpdateViewModel(ILauncherPane pane) : base(pane)
         {
-            LauncherViewModel = LauncherPane.MainWindowViewModel.LauncherViewModel;
         }
 
         /// <summary>
-        /// Progress from 0 to 100
-        /// </summary>
-        public double Progress
-        {
-            get => _progress;
-            set
-            {
-                if (Equals(value, _progress))
-                    return;
-                _progress = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Indicating message what the Launcehr is doing
-        /// </summary>
-        public string ProzessStatus
-        {
-            get => _progressStatus;
-            set
-            {
-                if (Equals(value, _progressStatus))
-                    return;
-                _progressStatus = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Reference to the HostServer
-        /// </summary>
-        private static IHostServer HostServer => LauncherViewModel.HostServerStatic;
-
-        /// <summary>
-        /// Reference to the LauncherViewModel
-        /// </summary>
-        private LauncherViewModel LauncherViewModel { get; }
-
-        /// <summary>
-        /// Selected Restore Option
+        ///     Selected Restore Option
         /// </summary>
         private UpdateOptions SelectedOption { get; set; }
 
-        /// <summary>
-        /// Container with all information extracted from Restore XML File/Stream
-        /// </summary>
-        private FileContainer UpdateContainer { get; set; }
 
-        /// <summary>
-        /// Stream which contains the XML data of the version to restore
-        /// </summary>
-        private Stream UpdateFileStream { get; set; }
-
-        /// <summary>
-        /// Data which contains the informations to update the Mod
-        /// </summary>
-        private RestoreTable UpdateTable { get; set; }
-
-        public async void PerformUpdate()
+        public async Task<UpdateRestoreStatus> PerformUpdate()
         {
+            var prepareResult = PrepareUpdateRestore(GetLatestModVersion());
+            if (prepareResult != PrepareUpdateRestoreResult.Succeeded)
+            {
+                switch (prepareResult)
+                {
+                    case PrepareUpdateRestoreResult.NoInternet:
+                        Show(GetMessage("UpdateNoInternet"));
+                        break;
+                }
+                return UpdateRestoreStatus.Error;
+            }
+
+            ProzessStatus = GetMessage("UpdateStatusPrepare");
+
+
             if (LauncherViewModel.CurrentMod == null)
                 LauncherViewModel.CurrentMod = new DummyMod();
-
             var l = LauncherViewModel.CurrentMod.InstalledLanguage;
-            if (!ComputerHasInternetConnection())
-            {
-                Show(GetMessage("UpdateNoInternet"));
-                return;
-            }
-            if (!UpdateHelper.AskUserToContinue())
-                return;
-            PrepareUi();
-            ProzessStatus = GetMessage("UpdateStatusPrepare");
-            HostServer.FlushErrorLog();
+
             await AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
-            if (!await GetUpdateXmlData())
+
+            var getXmlResult = await GetXmlData(GetLatestModVersion());
+            if (getXmlResult != LoadRestoreUpdateResult.Suceeded)
             {
-                ResetUi();
-                return;
+                switch (getXmlResult)
+                {
+                    case LoadRestoreUpdateResult.Offline:
+                        GetMessage("UpdateHostOffline");
+                        break;
+                    case LoadRestoreUpdateResult.WrongVersion:
+                        GetMessage("UpdateVersionNotFound");
+                        break;
+                    case LoadRestoreUpdateResult.StreamEmpty:
+                        GetMessage("UpdateStreamNull");
+                        break;
+                    case LoadRestoreUpdateResult.StreamBroken:
+                        GetMessage("UpdateXmlNotValid");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                return UpdateRestoreStatus.Error;
             }
 
             await ThreadUtilities.SleepThread(250);
@@ -125,28 +81,30 @@ namespace RawLauncherWPF.ViewModels
             {
                 case UpdateOptions.None:
                 case 0:
-                    if (!await PrepareNormalUpdate())
+                    var result = await PrepareNormalUpdate();
+                    if (result != UpdateRestoreStatus.Succeeded)
                     {
-                        ResetUi();
-                        return;
+                        return result;
                     }
                     break;
                 case UpdateOptions.IgnoreVoice:
                     break;
                 default:
-                    if (!await PrepareVoiceIgnoreUpdate())
+                    result = await PrepareVoiceIgnoreUpdate();
+                    if (result != UpdateRestoreStatus.Succeeded)
                     {
-                        ResetUi();
-                        return;
+                        return result;
                     }
                     break;
             }
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            if (!await InternalUpdate())
+            var internalRestoreResult = await InternalRestoreUpdate();
+            if (internalRestoreResult != UpdateRestoreStatus.Succeeded)
             {
-                ResetUi();
-                return;
+                if (internalRestoreResult == UpdateRestoreStatus.Error)
+                    Show(GetMessage("UpdateTableNull"));
+                return UpdateRestoreStatus.Error;
             }
 
             if (LauncherViewModel.CurrentMod is DummyMod)
@@ -157,388 +115,102 @@ namespace RawLauncherWPF.ViewModels
             ProzessStatus = "UpdateStatusFinishing";
             await Task.Run(() =>
             {
-                var model =  LauncherPane.MainWindowViewModel.LauncherPanes[2].ViewModel;
+                var model = LauncherPane.MainWindowViewModel.LauncherPanes[2].ViewModel;
                 var languageModel = (LanguageViewModel) model;
                 languageModel?.ChangeLanguage(l);
             });
             await AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
-            Show(GetMessage("UpdateDone"));
-            ResetUi();
+            return UpdateRestoreStatus.Succeeded;
         }
 
-        private async Task<bool> AddDeleteFilesToUpdateTable(bool shallIgnore)
+        protected override void ResetUi()
         {
-            var i = (double)100 / UpdateContainer.Files.Count;
-            await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            try
-            {
-                ProzessStatus = GetMessage("UpdateStatusCheckAdditionalFiles");
-
-                //Find files to delete (AI files)
-                if (Directory.Exists(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\"))
-                {
-                    foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\", "*.*", SearchOption.AllDirectories), _mSource.Token))
-                    {
-                        var fileToSearch = await Task.Run(
-                            () =>
-                                UpdateContainer.Files.Find(
-                                    k =>
-                                        k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Ai &&
-                                        Path.GetFullPath(file).IndexOf(k.TargetPath, StringComparison.CurrentCultureIgnoreCase) >= 0), _mSource.Token);
-                        Progress = Progress + i;
-                        if (fileToSearch != null)
-                            continue;
-                        // File on disk was not found in XML 
-                        UpdateTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Ai));
-                    }
-                }
-
-                //Find files to delete (Mod files)
-                if (!Directory.Exists(LauncherViewModel.CurrentMod.ModDirectory))
-                    return true;
-                foreach (var file in await Task.Run(() => Directory.EnumerateFiles(LauncherViewModel.CurrentMod.ModDirectory, "*.*", SearchOption.AllDirectories), _mSource.Token))
-                {
-                    if (new FileInfo(file).Directory?.Name == "Text")
-                    {
-                        Progress = Progress + i;
-                        continue;
-                    }
-                    if (shallIgnore && UpdateHelper.IgnoreFile(file))
-                    {
-                        Progress = Progress + i;
-                        continue;
-                    }
-                    var fileToSearch = await Task.Run(
-                        () =>
-                            UpdateContainer.Files.Find(
-                                k =>
-                                    k.Name == Path.GetFileName(file) && k.TargetType == TargetType.Mod &&
-                                    Path.GetFullPath(file).IndexOf(k.TargetPath, StringComparison.CurrentCultureIgnoreCase) >= 0), _mSource.Token);
-                    Progress = Progress + i;
-                    if (fileToSearch == null)
-                        UpdateTable.Files.Add(RestoreFile.CreateDeleteFile(file, TargetType.Mod));
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                Show(GetMessage("UpdateAborted"));
-                return false;
-            }
-            return true;
+            base.ResetUi();
+            if (!(LauncherViewModel.CurrentMod is DummyMod))
+                return;
+            LauncherPane.MainWindowViewModel.IsBlocked = true;
+            CanExecute = true;
         }
 
-        private async Task<bool> AddDownloadFilesToUpdateTable(List<string> excludeList)
-        {
-            var versionToUpdate = GetLatestModVersion();
-            UpdateTable = new RestoreTable(versionToUpdate);
-            if (versionToUpdate != UpdateContainer.Version)
-                throw new Exception(GetMessage("ExceptionUpdateVersionNotMatch"));
+        protected override bool AskUserToContinue() => UpdateHelper.AskUserToContinue();
 
-            var hashProvider = new Hash.HashProvider();
-            var listToCheck = UpdateContainer.Files;
-            if (excludeList != null)
-                listToCheck = FileContainerFile.ListFromExcludeList(UpdateContainer.Files, excludeList);
-
-            var i = (double) 100/listToCheck.Count;
-
-            try
-            {
-                // Find missing/corrupted files to download
-                ProzessStatus = GetMessage("UpdateStatusCheckNew");
-
-                var t = listToCheck.Select(file => Task.Run(async () =>
-                {
-                    var absolutePath = CreateAbsoluteFilePath(file);
-
-                    //If file does not exists and is corrupted
-                    if (!await Task.Run(() => File.Exists(absolutePath), _mSource.Token) ||
-                        await
-                            Task.Run(
-                                () =>
-                                    (hashProvider.GetFileHash(absolutePath) != file.Hash &&
-                                     !FileContainerFile.ShallExclude(file, excludeList)), _mSource.Token))
-                    {
-                        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
-                        UpdateTable.Files.Add(restoreFile);
-
-                    }
-                    Progress = Progress + i;
-                }));
-
-                await Task.WhenAll(t.ToArray());
-
-            }
-            catch (TaskCanceledException)
-            {
-                Show(GetMessage("UpdateAborted"));
-                return false;
-            }
-            return true;
-        }
-
-        private string CreateAbsoluteFilePath(RestoreFile file)
-        {
-            if (file.TargetType == TargetType.Ai)
-                return LauncherViewModel.BaseGame.GameDirectory + file.TargetPath;
-            return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
-        }
-
-        private string CreateAbsoluteFilePath(FileContainerFile file)
-        {
-            if (file.TargetType == TargetType.Ai)
-                return LauncherViewModel.BaseGame.GameDirectory + file.TargetPath;
-            return LauncherViewModel.CurrentMod.ModDirectory + file.TargetPath;
-        }
-
-        private string CreateLocalFilePath(RestoreFile file)
-        {
-            if (file.TargetType == TargetType.Ai)
-                return Path.Combine(LauncherViewModel.BaseGame.GameDirectory, file.TargetPath);
-            return Path.Combine(LauncherViewModel.CurrentMod.ModDirectory, file.TargetPath);
-        }
-
-        private async Task DeleteUnneededFiles()
-        {
-            foreach (var file in await Task.Run(() => UpdateTable.GetFilesOfAction(FileAction.Delete)))
-            {
-                var deletePath = CreateLocalFilePath(file);
-                File.Delete(deletePath);
-            }
-        }
-
-        private async Task<bool> DownloadUpdateFiles()
-        {
-            var filesToDownload = UpdateTable.GetFilesOfAction(FileAction.Download);
-            var i = (double) 100/filesToDownload.Count;
-            try
-            {
-                var t = filesToDownload.Select(file => Task.Run(async () =>
-                {
-                    if (!ComputerHasInternetConnection())
-                    {
-                        Show(GetMessage("UpdateInternetLost"));
-                        return;
-                    }
-                    var updatePath = CreateAbsoluteFilePath(file);
-                    await
-                        Task.Run(() => HostServer.DownloadFile(file.SourcePath, updatePath),
-                            _mSource.Token);
-                    ProzessStatus = GetMessage("UpdateStatusDownloaded", file.Name);
-                    Progress = Progress + i;
-                }));
-
-                await Task.WhenAll(t.ToArray());
-            }
-            catch (TaskCanceledException)
-            {
-                Show(GetMessage("UpdateAborted"));
-                return false;
-            }
-            finally
-            {
-                if (HostServer.HasErrors)
-                    HostServer.ShowLog();
-            }
-            return true;
-        }
-
-        private async Task<bool> InternalUpdate()
-        {
-            if (UpdateTable == null)
-            {
-                Show(GetMessage("UpdateTableNull"));
-                return false;
-            }
-            if (!await DownloadUpdateFiles())
-                return false;
-            await DeleteUnneededFiles();
-            return true;
-        }
-
-        /// <summary>
-        /// Inits the ProgressBar and Blocks other commands
-        /// </summary>
-        private void PrepareUi()
-        {
-            Progress = 0;
-            IsBlocking = true;
-            IsWorking = true;
-        }
-
-        /// <summary>
-        /// Restets UI to initail state
-        /// </summary>
-        private void ResetUi()
-        {
-            IsWorking = false;
-            IsBlocking = false;
-            UpdateFileStream = Stream.Null;
-            UpdateContainer = null;
-            UpdateTable = null;
-            if (LauncherViewModel.CurrentMod is DummyMod)
-            {
-                LauncherPane.MainWindowViewModel.IsBlocked = true;
-                CanExecute = true;
-            }
-        }
-
-        #region Normal
-
-        private async Task<bool> PrepareNormalUpdate()
+        private async Task<UpdateRestoreStatus> PrepareNormalUpdate()
         {
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             ProzessStatus = "";
-            if (!await FillUpdateTableNormal())
-                return false;
-            return true;
+            return await FillUpdateTableNormal();
         }
 
-        private async Task<bool> FillUpdateTableNormal()
+        private async Task<UpdateRestoreStatus> FillUpdateTableNormal()
         {
-            if (!await AddDownloadFilesToUpdateTable(null))
-                return false;
-            if (!await AddDeleteFilesToUpdateTable(false))
-                return false;
-            return true;
+            var result = await AddDownloadFilesToRestoreTable(GetLatestModVersion(), null);
+            if (result != UpdateRestoreStatus.Succeeded)
+            {
+                if (result == UpdateRestoreStatus.Error)
+                    Show(GetMessage("ExceptionUpdateVersionNotMatch"));
+                return result;
+            }
+            return await AddDeleteFilesToRestoreTable(false);
         }
 
-        #endregion
-
-        #region IgnoreVoice
-
-        private async Task<bool> PrepareVoiceIgnoreUpdate()
+        private async Task<UpdateRestoreStatus> PrepareVoiceIgnoreUpdate()
         {
             await AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             ProzessStatus = GetMessage("UpdateStatusPrepare");
-            if (!await FillUpdateTableVoice())
-                return false;
-            return true;
+            return await FillUpdateTableVoice();
         }
 
-        private async Task<bool> FillUpdateTableVoice()
+        private async Task<UpdateRestoreStatus> FillUpdateTableVoice()
         {
-            if (!await AddDownloadFilesToUpdateTable(new List<string>
-                    {
-                        @"\Data\Audio\Speech\*",
-                        @"\Data\*Speech.meg",
-                        @"\Data\Audio\"
-                    }))
-                return false;
-            if (!await AddDeleteFilesToUpdateTable(false))
-                return false;
-            return true;
-        }
-
-        #endregion
-
-        #region UpdateXML
-
-        /// <summary>
-        /// Main Prcedure to get the Update XML Data
-        /// </summary>
-        /// <returns>False if failed</returns>
-        private async Task<bool> GetUpdateXmlData()
-        {
-            if (!await LoadUpdateStream())
-                return false;
-            await AnimateProgressBar(Progress, 50, 1, this, x => x.Progress);
-            if (!await Task.FromResult(ParseUpdateXml()))
-                return false;
-            await AnimateProgressBar(Progress, 100, 1, this, x => x.Progress);
-            return true;
-        }
-
-        /// <summary>
-        /// Procedure to Download and Validate the XML File
-        /// </summary>
-        /// <returns>False if failed</returns>
-        private async Task<bool> LoadUpdateStream()
-        {
-            if (!HostServer.IsRunning())
+            var result = await AddDownloadFilesToRestoreTable(GetLatestModVersion(), new List<string>
             {
-                Show(GetMessage("UpdateHostOffline"));
-                return false;
-            }
-            if (!GetAllAvailableModVersionsOnline().Contains(GetLatestModVersion()))
+                @"\Data\Audio\Speech\*",
+                @"\Data\*Speech.meg",
+                @"\Data\Audio\"
+            });
+            if (result != UpdateRestoreStatus.Succeeded)
             {
-                Show(GetMessage("UpdateVersionNotFound"));
-                return false;
+                if (result == UpdateRestoreStatus.Error)
+                    Show(GetMessage("ExceptionRestoreVersionNotMatch"));
+                return result;
             }
-
-            var downloadPath = LauncherViewModel.GetRescueFilePath(UpdateFileName, true, GetLatestModVersion());
-            await
-                Task.Factory.StartNew(
-                    () => UpdateFileStream = HostServer.DownloadString(downloadPath).ToStream());
-
-            if (UpdateFileStream.IsEmpty())
-            {
-                Show(GetMessage("UpdateStreamNull"));
-                return false;
-            }
-
-            var validator = new XmlValidator(Resources.FileContainer.ToStream());
-            if (!validator.Validate(UpdateFileStream))
-            {
-                Show(GetMessage("UpdateXmlNotValid"));
-                return false;
-            }
-            return true;
-
+            return await AddDeleteFilesToRestoreTable(false);
         }
-
-        /// <summary>
-        /// Procedure to Parse the XMLFile into an Object
-        /// </summary>
-        /// <returns>False if failed</returns>
-        private bool ParseUpdateXml()
-        {
-            var parser = new XmlObjectParser<FileContainer>(UpdateFileStream);
-            UpdateContainer = parser.Parse();
-            return true;
-        }
-
-        #endregion
-
-        #region Commands
 
         public Command UpdateModCommand => new Command(UpdateMod);
 
-        private void UpdateMod()
+        private async void UpdateMod()
         {
-            _mSource = new CancellationTokenSource();
-            PerformUpdate();
+            PrepareUi();
+            MSource = new CancellationTokenSource();
+            var result = await PerformUpdate();
+            if (result == UpdateRestoreStatus.Succeeded)
+                Show(GetMessage("UpdateDone"));
+            else if (result == UpdateRestoreStatus.Canceled)
+                Show(GetMessage("UpdateAborted"));
+            ResetUi();
         }
 
-        public Command<object> ChangeSelectionCommand => new Command<object>(ChangeSelection, CanChangeSelection);
+        protected override RestoreUpdateOperation ViewModelOperation => RestoreUpdateOperation.Update;
 
-        private void ChangeSelection(object obj)
+        protected override void ChangeSelection(object obj)
         {
-            AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            SelectedOption = (UpdateOptions)obj;
-        }
-
-        private bool CanChangeSelection(object arg)
-        {
-            return true;
+            base.ChangeSelection(obj);
+            SelectedOption = (UpdateOptions) obj;
         }
 
         public Command OpenChangelogCommand => new Command(OpenChangelog);
 
         private async void OpenChangelog()
         {
-            await Task.Run(() => HostServer.DownloadFile("master\\" + ChangelogFileName, LauncherViewModel.RestoreDownloadDir + ChangelogFileName));
-            var process = new Process { StartInfo = { FileName = LauncherViewModel.RestoreDownloadDir + ChangelogFileName } };
+            await Task.Run(() => HostServer.DownloadFile("master\\" + ChangelogFileName,
+                LauncherViewModel.RestoreDownloadDir + ChangelogFileName));
+            var process = new Process
+            {
+                StartInfo = {FileName = LauncherViewModel.RestoreDownloadDir + ChangelogFileName}
+            };
             process.Start();
         }
-
-        public Command CancelCommand => new Command(Cancel);
-
-        private void Cancel()
-        {
-            _mSource?.Cancel(false);
-        }
-
-        #endregion
     }
 
     [Flags]

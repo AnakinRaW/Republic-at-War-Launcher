@@ -81,13 +81,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.0.3\lib\net45\Caliburn.Micro.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.Core.3.1.0\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro.Platform, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernApplicationFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\ModernApplicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernApplicationFramework.Utilities">
+      <HintPath>..\Libraries\ModernApplicationFramework.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -99,7 +106,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.3.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -203,6 +210,7 @@
     <Compile Include="Utilities\NotepadHelper.cs" />
     <Compile Include="Utilities\ProgressBarUtilities.cs" />
     <Compile Include="Utilities\Converters\ResourceToStreamConverter.cs" />
+    <Compile Include="Utilities\RestoreUpdateUtilities.cs" />
     <Compile Include="Utilities\ThemeUpdater.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />
     <Compile Include="Utilities\VersionUtilities.cs" />
@@ -213,6 +221,7 @@
     <Compile Include="Mods\ModExceptions.cs" />
     <Compile Include="Mods\RaW.cs" />
     <Compile Include="Utilities\ResourceExtractor\ResourceExtractorException.cs" />
+    <Compile Include="ViewModels\RestoreUpdateViewModel.cs" />
     <Compile Include="Xml\XmlTools.cs" />
     <Compile Include="ViewModels\LauncherPaneViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -326,10 +335,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ModernApplicationFramework\ModernApplicationFramework\ModernApplicationFramework.csproj">
-      <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
-      <Name>ModernApplicationFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RawLauncher.Theme\RawLauncher.Theme.csproj">
       <Project>{8dcb2da9-e0f1-442a-a094-d79e955671ed}</Project>
       <Name>RawLauncher.Theme</Name>
@@ -364,6 +369,9 @@
     <EmbeddedResource Include="Libraries\NAudio.dll" />
     <EmbeddedResource Include="Libraries\RawLauncher.Theme.dll" />
     <EmbeddedResource Include="Libraries\System.Windows.Interactivity.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Libraries\ModernApplicationFramework.Utilities.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

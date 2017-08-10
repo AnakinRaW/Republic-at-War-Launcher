@@ -149,7 +149,7 @@ namespace RawLauncherWPF
                     new[]
                     {
                         "NAudio.dll", "ModernApplicationFramework.dll", "System.Windows.Interactivity.dll" ,"Caliburn.Micro.dll","Caliburn.Micro.Platform.Core.dll",
-                        "Caliburn.Micro.Platform.dll", "RawLauncher.Theme.dll"
+                        "Caliburn.Micro.Platform.dll", "RawLauncher.Theme.dll", "ModernApplicationFramework.Utilities.dll"
                     });
             }
             catch (ResourceExtractorException exception)

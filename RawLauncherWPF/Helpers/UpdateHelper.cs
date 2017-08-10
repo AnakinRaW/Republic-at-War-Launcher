@@ -17,19 +17,5 @@ namespace RawLauncherWPF.Helpers
                 MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
             return result != MessageBoxResult.No;
         }
-
-        public static bool IgnoreFile(string file)
-        {
-            if (file == null)
-                throw new NullReferenceException(nameof(file));
-            if (Path.GetFullPath(file).Contains("\\Audio\\Speech\\"))
-                return true;
-            var s = new FileInfo(file).Directory?.Name;
-            if (s == "Audio")
-                return true;
-            if (Path.GetFileName(file).Contains("Speech.meg"))
-                return true;
-            return false;
-        }
     }
 }

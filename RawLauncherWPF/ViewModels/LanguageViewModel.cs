@@ -126,7 +126,7 @@ namespace RawLauncherWPF.ViewModels
 
         #region Commands
 
-        public Command<object> ChangeSelectionCommand => new Command<object>(ChangeSelection, CanChangeSelection);
+        public Command<object> ChangeSelectionCommand => new ObjectCommand(ChangeSelection, CanChangeSelection);
 
         private void ChangeSelection(object obj)
         {

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mafc="http://modern.framework.com/controls"
+        xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
         mc:Ignorable="d"
         Title="BetaLogin" Height="132.558" Width="378.488"
         Closed="BetaLogin_OnClosed">
@@ -11,7 +12,7 @@
         <StackPanel>
             <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="26" Width="243">
                 <Label>Windows User Name:</Label>
-                <mafc:TextBox x:Name="UserName" Height="20" Width="120" TabIndex="0"/>
+                <textBoxes:TextBox x:Name="UserName" Height="20" Width="120" TabIndex="0"/>
             </DockPanel>
             <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="26" Width="243">
                 <Label>Launcher Password:</Label>
