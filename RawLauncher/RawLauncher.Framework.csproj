@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>RawLauncher.Framework</RootNamespace>
+    <AssemblyName>RawLauncher.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\Libraries\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform">
+      <HintPath>..\Libraries\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core">
+      <HintPath>..\Libraries\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernApplicationFramework">
+      <HintPath>..\Libraries\ModernApplicationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernApplicationFramework.Utilities">
+      <HintPath>..\Libraries\ModernApplicationFramework.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio, Version=1.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.2\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Controls\ImageSoundClickButton.cs" />
+    <Compile Include="Defreezer\Defreezer.cs" />
+    <Compile Include="Defreezer\RetailSaveGame.cs" />
+    <Compile Include="Defreezer\SaveGame.cs" />
+    <Compile Include="Defreezer\SearchAlgorithm.cs" />
+    <Compile Include="Defreezer\SteamSaveGame.cs" />
+    <Compile Include="Defreezer\UnitRef.cs" />
+    <Compile Include="EmbeddedAssembly.cs" />
+    <Compile Include="ExtensionClasses\ListExtensions.cs" />
+    <Compile Include="ExtensionClasses\StreamExtension.cs" />
+    <Compile Include="ExtensionClasses\StringExtensions.cs" />
+    <Compile Include="Games\Eaw.cs" />
+    <Compile Include="Games\Foc.cs" />
+    <Compile Include="Games\GameExceptions.cs" />
+    <Compile Include="Games\GameHelper.cs" />
+    <Compile Include="Games\GameProcessData.cs" />
+    <Compile Include="Games\GameTypes.cs" />
+    <Compile Include="Games\IGame.cs" />
+    <Compile Include="Games\ProcessHelper.cs" />
+    <Compile Include="Games\Steam.cs" />
+    <Compile Include="Games\SteamGame.cs" />
+    <Compile Include="Hash\HashProvider.cs" />
+    <Compile Include="Helpers\CheckModHelper.cs" />
+    <Compile Include="Helpers\FileShuffler.cs" />
+    <Compile Include="Helpers\RestoreHelper.cs" />
+    <Compile Include="Helpers\UnitNameFile.cs" />
+    <Compile Include="Helpers\UpdateHelper.cs" />
+    <Compile Include="Launcher\LauncherApp.xaml.cs">
+      <DependentUpon>LauncherApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\English.cs" />
+    <Compile Include="Localization\German.cs" />
+    <Compile Include="Localization\Language.cs" />
+    <Compile Include="Localization\Spanish.cs" />
+    <Compile Include="Localization\XmalLanguageKeys.cs" />
+    <Compile Include="Models\FileContainer.cs" />
+    <Compile Include="Models\RestoreFile.cs" />
+    <Compile Include="Models\RestoreTable.cs" />
+    <Compile Include="Mods\DummyMod.cs" />
+    <Compile Include="Mods\IMod.cs" />
+    <Compile Include="Mods\ModExceptions.cs" />
+    <Compile Include="Mods\RaW.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Resources\Schemes\FileContainer.cs">
+      <DependentUpon>FileContainer.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Schemes\FileContainer.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileContainer.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Server\HostServer.cs" />
+    <Compile Include="Server\IHostServer.cs" />
+    <Compile Include="Server\IServer.cs" />
+    <Compile Include="Server\ServerException.cs" />
+    <Compile Include="Server\SessionServer.cs" />
+    <Compile Include="UI\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BetaLogin.xaml.cs">
+      <DependentUpon>BetaLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CheckPane.xaml.cs">
+      <DependentUpon>CheckPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ILauncherPane.cs" />
+    <Compile Include="UI\LanguagePane.xaml.cs">
+      <DependentUpon>LanguagePane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PlayPane.xaml.cs">
+      <DependentUpon>PlayPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RestorePane.xaml.cs">
+      <DependentUpon>RestorePane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UpdatePane.xaml.cs">
+      <DependentUpon>UpdatePane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\AudioHelper.cs" />
+    <Compile Include="Utilities\Converters\BoolToIndexConverter.cs" />
+    <Compile Include="Utilities\Converters\IsGreaterVersionColorConverter.cs" />
+    <Compile Include="Utilities\Converters\ResourceToStreamConverter.cs" />
+    <Compile Include="Utilities\FileUtilities.cs" />
+    <Compile Include="Utilities\ImageUtilities.cs" />
+    <Compile Include="Utilities\IndicatorImagesHelper.cs" />
+    <Compile Include="Utilities\MessageProvider.cs" />
+    <Compile Include="Utilities\MessageRecorder.cs" />
+    <Compile Include="Utilities\NotepadHelper.cs" />
+    <Compile Include="Utilities\ProgressBarUtilities.cs" />
+    <Compile Include="Utilities\RestoreUpdateUtilities.cs" />
+    <Compile Include="Utilities\ThreadUtilities.cs" />
+    <Compile Include="Utilities\VersionUtilities.cs" />
+    <Compile Include="ViewModels\CheckViewModel.cs" />
+    <Compile Include="ViewModels\ILauncherViewModel.cs" />
+    <Compile Include="ViewModels\LanguageViewModel.cs" />
+    <Compile Include="ViewModels\LauncherPaneViewModel.cs" />
+    <Compile Include="ViewModels\LauncherViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\PlayViewModel.cs" />
+    <Compile Include="ViewModels\RestoreUpdateViewModel.cs" />
+    <Compile Include="ViewModels\RestoreViewModel.cs" />
+    <Compile Include="ViewModels\UpdateViewModel.cs" />
+    <Compile Include="Xml\XmlObjectParser.cs" />
+    <Compile Include="Xml\XmlTools.cs" />
+    <Compile Include="Xml\XmlValidator.cs" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\Schemes\FileContainer.xsc">
+      <DependentUpon>FileContainer.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\Schemes\FileContainer.xss">
+      <DependentUpon>FileContainer.xsd</DependentUpon>
+    </None>
+    <Resource Include="Resources\Schemes\FileContainer.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FileContainer.Designer.cs</LastGenOutput>
+    </Resource>
+    <Resource Include="Resources\Font\Starjedi.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Launcher\LauncherApp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Localization\English.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Localization\German.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Localization\Spanish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\AboutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\BetaLogin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\CheckPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\LanguagePane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\PlayPane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\RestorePane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\UpdatePane.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Commander Appo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Patch\EaW\GAMECONSTANTS.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Patch\FoC\GAMECONSTANTS.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Patch\FoC\GRAPHICDETAILS.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RawLauncher.Theme\RawLauncher.Theme.csproj">
+      <Project>{8dcb2da9-e0f1-442a-a094-d79e955671ed}</Project>
+      <Name>RawLauncher.Theme</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ButtonPress.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Checkbox.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LauncherStartup.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MouseHover.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QuitPress.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Libraries\Caliburn.Micro.dll" />
+    <EmbeddedResource Include="Libraries\Caliburn.Micro.Platform.Core.dll" />
+    <EmbeddedResource Include="Libraries\Caliburn.Micro.Platform.dll" />
+    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
+    <EmbeddedResource Include="Libraries\ModernApplicationFramework.Utilities.dll" />
+    <EmbeddedResource Include="Libraries\NAudio.dll" />
+    <EmbeddedResource Include="Libraries\System.Windows.Interactivity.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

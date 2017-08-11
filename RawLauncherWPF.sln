@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncherWPF", "RawLaunch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Theme", "RawLauncher.Theme\RawLauncher.Theme.csproj", "{8DCB2DA9-E0F1-442A-A094-D79E955671ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Framework", "RawLauncher\RawLauncher.Framework.csproj", "{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8DCB2DA9-E0F1-442A-A094-D79E955671ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DCB2DA9-E0F1-442A-A094-D79E955671ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DCB2DA9-E0F1-442A-A094-D79E955671ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

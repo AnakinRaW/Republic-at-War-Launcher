@@ -6,35 +6,16 @@ namespace RawLauncherWPF.NativeMethods
 {
     internal class NativeMethods
     {
-        [DllImport("wininet.dll")]
-        private static extern bool InternetGetConnectedState(out int description, int reservedValue);
-
-        public static bool ComputerHasInternetConnection()
-        {
-            int desc;
-            return InternetGetConnectedState(out desc, 0);
-        }
-
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowText")]
-        internal static extern int SetWindowText(IntPtr hWnd, string text);
-
-        [DllImport("user32.dll", EntryPoint = "FindWindowEx")]
-        internal static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
-
-        [DllImport("User32.dll", EntryPoint = "SendMessage")]
-        internal static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
-
         [ComImport]
         [Guid("00021401-0000-0000-C000-000000000046")]
-        internal class ShellLink
+        public class ShellLink
         {
         }
 
         [ComImport]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         [Guid("000214F9-0000-0000-C000-000000000046")]
-        internal interface IShellLink
+        public interface IShellLink
         {
             void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cchMaxPath, out IntPtr pfd, int fFlags);
             void GetIDList(out IntPtr ppidl);
