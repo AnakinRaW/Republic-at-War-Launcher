@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:mafc="http://modern.framework.com/controls"
              xmlns:viewModels="clr-namespace:RawLauncherWPF.ViewModels"
              xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              xmlns:controls="clr-namespace:RawLauncherWPF.Controls"
+             xmlns:mafc="http://modern.framework.com/controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
      <UserControl.Resources>
@@ -116,6 +116,10 @@
                                Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreInfo}}"/>
     </Grid>
 </UserControl>
+
+
+
+
 
 
 

@@ -2,8 +2,8 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core;
+using ModernApplicationFramework.Input.Command;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Mods;

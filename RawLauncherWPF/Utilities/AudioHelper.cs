@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using RawLauncher.Framework.NAudio.Wave.WaveOutputs;
-using RawLauncher.Framework.NAudio.Wave.WaveStreams;
+using NAudio.Wave;
 
 namespace RawLauncherWPF.Utilities
 {

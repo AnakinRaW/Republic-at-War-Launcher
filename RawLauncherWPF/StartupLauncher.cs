@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
+using System.Windows.Markup;
+using ModernApplicationFramework.Basics.Services;
 using RawLauncherWPF.Launcher;
 using RawLauncherWPF.Localization;
 using RawLauncherWPF.UI;
@@ -49,8 +51,10 @@ namespace RawLauncherWPF
 
                 ExtractLibraries();
 
-                var tu = new ThemeUpdater();
+                 var tu = new ThemeUpdater();
                 tu.UpdateIfNewVersionExists();
+
+                LoadAssemblies();
 
                 _launcher = new LauncherApp();
                 _launcher.InitializeComponent();
@@ -59,10 +63,15 @@ namespace RawLauncherWPF
                 CleanUp();
             }
             catch (Exception e)
-            {
-                Show(e.Message + "\r\n" + e.InnerException?.Message + "\r\n" + e.TargetSite);
+            { 
+                Show(e.GetType().FullName + "\r\n" + e.Message + "\r\n" + e.InnerException?.Message + "\r\n" + e.TargetSite);
             }
             
+        }
+
+        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return EmbeddedAssembly.Get(args.Name);
         }
 
         private static void CreateShortcut()
@@ -108,6 +117,18 @@ namespace RawLauncherWPF
         }
 
 
+        public static void LoadAssemblies()
+        {
+            EmbeddedAssembly.Load("RawLauncherWPF.Libraries.System.Windows.Interactivity.dll", "System.Windows.Interactivity.dll");
+            EmbeddedAssembly.Load("RawLauncherWPF.Libraries.NAudio.dll", "NAudio.dll");
+            EmbeddedAssembly.Load("RawLauncherWPF.Libraries.Caliburn.Micro.dll", "Caliburn.Micro.dll");
+            EmbeddedAssembly.Load("RawLauncherWPF.Libraries.Caliburn.Micro.Platform.Core.dll", "Caliburn.Micro.Platform.Core.dll");
+            EmbeddedAssembly.Load("RawLauncherWPF.Libraries.Caliburn.Micro.Platform.dll", "Caliburn.Micro.Platform.dll");
+            EmbeddedAssembly.Load("RawLauncherWPF.Libraries.ModernApplicationFramework.Utilities.dll", "ModernApplicationFramework.Utilities.dll");
+            EmbeddedAssembly.Load("RawLauncherWPF.Libraries.ModernApplicationFramework.dll", "ModernApplicationFramework.dll");
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        }
+
         public static void ExtractLibraries()
         {
             ExtractLirbaries();
@@ -142,21 +163,21 @@ namespace RawLauncherWPF
         /// </summary>
         private static void ExtractLirbaries()
         {
-            var audioExtractor = new ResourceExtractor("Libraries");
-            try
-            {
-                audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),
-                    new[]
-                    {
-                        "NAudio.dll", "ModernApplicationFramework.dll", "System.Windows.Interactivity.dll" ,"Caliburn.Micro.dll","Caliburn.Micro.Platform.Core.dll",
-                        "Caliburn.Micro.Platform.dll", "RawLauncher.Theme.dll", "ModernApplicationFramework.Utilities.dll"
-                    });
-            }
-            catch (ResourceExtractorException exception)
-            {
-                Show(GetMessage("ErrorInitLauncher", exception.Message));
-                Environment.Exit(0);
-            }
+            //var audioExtractor = new ResourceExtractor("Libraries");
+            //try
+            //{
+            //    audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),
+            //        new[]
+            //        {
+            //            "NAudio.dll", "ModernApplicationFramework.dll", "System.Windows.Interactivity.dll" ,"Caliburn.Micro.dll","Caliburn.Micro.Platform.Core.dll",
+            //            "Caliburn.Micro.Platform.dll", "RawLauncher.Theme.dll", "ModernApplicationFramework.Utilities.dll"
+            //        });
+            //}
+            //catch (ResourceExtractorException exception)
+            //{
+            //    Show(GetMessage("ErrorInitLauncher", exception.Message));
+            //    Environment.Exit(0);
+            //}
         }
 
         static bool IsApplicationAlreadyRunning()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using RawLauncherWPF.Helpers;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.UI;

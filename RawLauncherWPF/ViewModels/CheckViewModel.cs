@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using RawLauncherWPF.Configuration;
 using RawLauncherWPF.ExtensionClasses;
 using RawLauncherWPF.Models;

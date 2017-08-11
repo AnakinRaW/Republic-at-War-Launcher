@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Microsoft.Win32;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using RawLauncherWPF.Defreezer;
 using RawLauncherWPF.Games;
 using RawLauncherWPF.Mods;

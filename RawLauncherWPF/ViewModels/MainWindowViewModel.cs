@@ -5,13 +5,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Base;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
-using RawLauncher.Theme;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;
 using static RawLauncherWPF.Utilities.MessageProvider;
-using MainWindow = ModernApplicationFramework.Controls.Windows.MainWindow;
 
 namespace RawLauncherWPF.ViewModels
 {
@@ -135,7 +134,7 @@ namespace RawLauncherWPF.ViewModels
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            IoC.Get<IThemeManager>().Theme = new LauncherTheme();
+            //IoC.Get<IThemeManager>().Theme = new LauncherTheme();
             IoC.Get<IStatusBarDataModelService>().SetVisibility(0);
             ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();

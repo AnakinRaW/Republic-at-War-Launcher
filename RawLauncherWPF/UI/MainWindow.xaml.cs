@@ -1,11 +1,7 @@
-﻿using System.Windows.Interop;
-using RawLauncherWPF.ViewModels;
+﻿using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.UI
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public sealed partial class MainWindow
     {
 
@@ -17,7 +13,6 @@ namespace RawLauncherWPF.UI
             InitializeComponent();
             DataContext = new MainWindowViewModel(this, LauncherViewModel);
         }
-
         protected override bool ShouldAutoSize => false;
     }
 }

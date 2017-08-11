@@ -1,5 +1,4 @@
-﻿using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Controls.Buttons;
+﻿using ModernApplicationFramework.Controls.Buttons;
 using RawLauncherWPF.Utilities;
 
 namespace RawLauncherWPF.Controls

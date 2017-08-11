@@ -1,12 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics.Services;
 using RawLauncherWPF.ViewModels;
 
 namespace RawLauncherWPF.Launcher
 {
-    /// <summary>
-    /// Interaktionslogik für "LauncherApp.xaml"
-    /// </summary>
     public partial class LauncherApp
     {
         public object DataContext { get; }
@@ -16,6 +14,7 @@ namespace RawLauncherWPF.Launcher
 
         public LauncherApp()
         {
+            new Bootstrapper(false);
             DataContext = new LauncherViewModel(this);
             _launcherViewModel = (LauncherViewModel) DataContext;
         }

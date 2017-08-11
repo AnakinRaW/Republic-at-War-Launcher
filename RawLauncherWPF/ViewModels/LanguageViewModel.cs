@@ -2,7 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Base;
+using ModernApplicationFramework.Input.Command;
 using RawLauncherWPF.Mods;
 using RawLauncherWPF.UI;
 using RawLauncherWPF.Utilities;

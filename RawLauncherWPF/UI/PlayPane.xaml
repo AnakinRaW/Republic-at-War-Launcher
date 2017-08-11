@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              xmlns:controls="clr-namespace:RawLauncherWPF.Controls"
+             xmlns:lang="clr-namespace:RawLauncherWPF.Localization"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -31,7 +31,7 @@
                           HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png"
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png">
             <mafc:ImageButton.Content>
-                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDefreezeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDefreezeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncherWPF;component/Resources/Font/#Star Jedi"
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonDefreeze}}"/>
                 </mafc:ImageButton.Content>
         </controls:ImageSoundClickButton>
