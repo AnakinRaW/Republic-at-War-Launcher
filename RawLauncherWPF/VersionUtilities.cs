@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RawLauncher.Framework.Configuration;
-using RawLauncher.Framework.ExtensionClasses;
-using RawLauncher.Framework.Server;
+using RawLauncherWPF.Updaters;
 
 namespace RawLauncherWPF
 {
@@ -20,7 +18,7 @@ namespace RawLauncherWPF
 
         private static List<Version> GetAllAvailableThemeVersionsOnline(string versionsRelativePath)
         {
-            var server = new HostServer(Config.ServerUrl);
+            var server = new UpdateServer(StartupLauncher.ServerUrl);
             var data = server.DownloadString(versionsRelativePath).ToStream();
             return SeriallizeVersionsToList(data);
         }

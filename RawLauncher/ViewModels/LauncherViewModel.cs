@@ -40,7 +40,7 @@ namespace RawLauncher.Framework.ViewModels
         /// <summary>
         /// Tells if the raw.txt exists
         /// </summary>
-        public bool FastLaunchFileExists => File.Exists(Directory.GetCurrentDirectory() + @"\" + RawLauncher.Framework.Configuration.Config.FastLaunchFileName);
+        public bool FastLaunchFileExists => File.Exists(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName);
 
         /// <summary>
         /// Contains the mod that shall be used for this launcher instance
@@ -182,7 +182,7 @@ namespace RawLauncher.Framework.ViewModels
 
         internal void ShowMainWindow(object index = null)
         {
-            _launcher.MainWindow = new Framework.UI.MainWindow(this);
+            _launcher.MainWindow = new MainWindow(this);
             _launcher.MainWindow.Show();
             var a = (MainWindowViewModel)_launcher.MainWindow.DataContext;
             if (index != null)
@@ -258,8 +258,8 @@ namespace RawLauncher.Framework.ViewModels
         /// </summary>
         private void InitServer()
         {
-            HostServer  = new HostServer(RawLauncher.Framework.Configuration.Config.ServerUrl);
-            SessionServer = new SessionServer(RawLauncher.Framework.Configuration.Config.SessionServerUrl);        
+            HostServer  = new HostServer(Configuration.Config.ServerUrl);
+            SessionServer = new SessionServer(Configuration.Config.SessionServerUrl);        
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace RawLauncher.Framework.ViewModels
 
         private async void FastLaunch()
         {
-            if (RawLauncher.Framework.NativeMethods.NativeMethods.ComputerHasInternetConnection())
+            if (NativeMethods.NativeMethods.ComputerHasInternetConnection())
                 if (NewVersionAvailable() && AskToUpdate())
                 {
                     await DeleteFastLaunchFileCommand.Execute();
@@ -321,7 +321,7 @@ namespace RawLauncher.Framework.ViewModels
         private async void NormalLaunch()
         {         
            ShowMainWindow();
-            if (RawLauncher.Framework.NativeMethods.NativeMethods.ComputerHasInternetConnection() && CurrentMod != null && NewVersionAvailable())
+            if (NativeMethods.NativeMethods.ComputerHasInternetConnection() && CurrentMod != null && NewVersionAvailable())
                  await Task.Run(() => MessageProvider.Show(MessageProvider.GetMessage("LauncherInfoNewVersion", VersionUtilities.GetLatestModVersion()), "Republic at War", MessageBoxButton.OK, MessageBoxImage.Information));
         }
 
@@ -333,7 +333,7 @@ namespace RawLauncher.Framework.ViewModels
                 return;
             try
             {
-                File.WriteAllText(Directory.GetCurrentDirectory() + @"\" + RawLauncher.Framework.Configuration.Config.FastLaunchFileName,
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName,
                     CurrentMod.Version + "\r\n" + DateTime.Now.ToShortDateString() + "\r\n" + 
                     "Press and hold SHIFT while starting the launcher to access it again.") ;
             }
@@ -351,7 +351,7 @@ namespace RawLauncher.Framework.ViewModels
                 return;
             try
             {
-                File.Delete(Directory.GetCurrentDirectory() + @"\" + RawLauncher.Framework.Configuration.Config.FastLaunchFileName);
+                File.Delete(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName);
             }
             catch (Exception)
             {

@@ -41,7 +41,7 @@ namespace RawLauncher.Framework.Launcher
             DataContext = new LauncherViewModel(this);
             _launcherViewModel = (LauncherViewModel) DataContext;
         }
-
+        
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
             StartUpLaunncher();  

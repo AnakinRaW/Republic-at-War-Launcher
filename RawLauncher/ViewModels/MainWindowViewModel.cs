@@ -10,6 +10,7 @@ using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using RawLauncher.Framework.UI;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Theme;
 using AboutWindow = RawLauncher.Framework.UI.AboutWindow;
 using CheckPane = RawLauncher.Framework.UI.CheckPane;
 using LanguagePane = RawLauncher.Framework.UI.LanguagePane;
@@ -139,7 +140,7 @@ namespace RawLauncher.Framework.ViewModels
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //IoC.Get<IThemeManager>().Theme = new LauncherTheme();
+            IoC.Get<IThemeManager>().Theme = new LauncherTheme();
             IoC.Get<IStatusBarDataModelService>().SetVisibility(0);
             ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();
