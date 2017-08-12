@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using ModernApplicationFramework.Input.Base;
 using ModernApplicationFramework.Input.Command;
@@ -12,6 +13,7 @@ using RawLauncher.Framework.UI;
 using RawLauncher.Framework.Utilities;
 using RawLauncher.Theme;
 using AboutWindow = RawLauncher.Framework.UI.AboutWindow;
+using Action = System.Action;
 using CheckPane = RawLauncher.Framework.UI.CheckPane;
 using LanguagePane = RawLauncher.Framework.UI.LanguagePane;
 using PlayPane = RawLauncher.Framework.UI.PlayPane;
@@ -51,22 +53,8 @@ namespace RawLauncher.Framework.ViewModels
             ILauncherPane updatePane = new UpdatePane(this);
 
             mainWindow.Loaded += MainWindow_Loaded;
-
             LauncherPanes = new List<ILauncherPane> {_playPane, checkPane, languagePane, restorePane, updatePane};
-
             _startPaneIndex = 0;
-            if (LauncherViewModel.BaseGame == null || LauncherViewModel.Eaw == null)
-            {
-                MessageProvider.Show(MessageProvider.GetMessage("ErrorInitFailed"));
-                IsBlocked = true;
-            }
-            if (LauncherViewModel.CurrentMod == null && LauncherViewModel.BaseGame != null && LauncherViewModel.Eaw != null)
-            {
-                MessageProvider.Show(MessageProvider.GetMessage("ErrorInitFailedMod"));
-                IsBlocked = true;
-                updatePane.ViewModel.CanExecute = true;
-                _startPaneIndex = 4;
-            }
         }
 
         /// <summary>
@@ -144,6 +132,26 @@ namespace RawLauncher.Framework.ViewModels
             IoC.Get<IStatusBarDataModelService>().SetVisibility(0);
             ShowPane(_startPaneIndex);
             Configuration.Config.CurrentLanguage.Reload();
+
+            if (LauncherViewModel.BaseGame == null || LauncherViewModel.Eaw == null)
+            {    
+                IsBlocked = true;
+                ShowPane(0);
+                _mainWindow.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(() =>
+                {
+                    MessageProvider.ShowError(MessageProvider.GetMessage("ErrorInitFailed"));
+                }));
+            }
+            if (LauncherViewModel.CurrentMod == null && LauncherViewModel.BaseGame != null && LauncherViewModel.Eaw != null)
+            {
+                IsBlocked = true;
+                LauncherPanes.First(x => x.GetType() == typeof(UpdatePane)).ViewModel.CanExecute = true;
+                ShowPane(4);
+                _mainWindow.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(() =>
+                {
+                    MessageProvider.ShowError(MessageProvider.GetMessage("ErrorInitFailedMod"));
+                }));        
+            }
         }
 
         private void ShowPaneAudio(object index)

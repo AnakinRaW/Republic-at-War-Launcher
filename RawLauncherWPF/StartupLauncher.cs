@@ -46,6 +46,10 @@ namespace RawLauncherWPF
                           
                 ExtractLirbaries();
 
+
+                if (!File.Exists(Directory.GetCurrentDirectory() + @"\" + "RawLauncherInfo.txt"))
+                    SplashScreen.ShowSplashScreen();
+
                 var fu = new FrameworkUpdater();
                 fu.UpdateIfNewVersionExists();
 
@@ -57,10 +61,6 @@ namespace RawLauncherWPF
                 SetUpLanguage();
                 CheckRunning();
                 CreateShortcut();
-
-
-                if (!File.Exists(Directory.GetCurrentDirectory() + @"\" + "RawLauncherInfo.txt"))
-                    SplashScreen.ShowSplashScreen();
 
                 try
                 {

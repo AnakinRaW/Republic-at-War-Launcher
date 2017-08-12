@@ -5,6 +5,11 @@ namespace RawLauncher.Framework.Utilities
 {
     public static class MessageProvider
     {
+        public static MessageBoxResult ShowError(string message)
+        {
+            return MessageBox.Show(message, "Republic at War", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+        }
+
         public static MessageBoxResult Show()
         {
             return MessageBox.Show("Test", string.Empty, MessageBoxButton.OK, MessageBoxImage.None, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
