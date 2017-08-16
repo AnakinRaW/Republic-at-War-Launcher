@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using RawLauncher.Framework.Annotations;
 
 namespace RawLauncher.Framework.Games
@@ -55,8 +57,37 @@ namespace RawLauncher.Framework.Games
 
         public void StartProcess()
         {
-            Process?.Start();
+            if (Process == null)
+            {
+                IsProcessRunning = false;
+                return;
+            }
+
+
+            var wd = Process.StartInfo.WorkingDirectory;
+            var a = Process.StartInfo.Arguments;
+
+            CreateShortcut(wd, a);
+
+            Process = new Process
+            {
+                StartInfo = {FileName = Path.Combine(wd, "tmp.lnk") }
+            };
+            Process.Start();
             IsProcessRunning = true;
+        }
+
+        private static void CreateShortcut(string path ,string arguments)
+        {
+            var link = (NativeMethods.NativeMethods.IShellLink) new NativeMethods.NativeMethods.ShellLink();
+
+            link.SetPath(Path.Combine(path, "swfoc.exe"));
+            link.SetWorkingDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            link.SetArguments(arguments);
+            var exeFile = Path.Combine(Directory.GetCurrentDirectory(), "RawLauncher.Theme.dll");
+            link.SetIconLocation(exeFile, 0);
+            var file = (IPersistFile)link;
+            file.Save(Path.Combine(path, "tmp.lnk"), false);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

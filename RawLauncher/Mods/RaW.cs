@@ -98,6 +98,7 @@ namespace RawLauncher.Framework.Mods
                 return;
             game.ClearDataFolder();
             game.ResotreAiFiles();
+            File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "tmp.lnk"));
         }
 
         public string ModDirectory { get; }
