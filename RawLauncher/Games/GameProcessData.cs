@@ -63,11 +63,11 @@ namespace RawLauncher.Framework.Games
                 return;
             }
 
-
+            var fileName = Process.StartInfo.FileName;
             var wd = Process.StartInfo.WorkingDirectory;
             var a = Process.StartInfo.Arguments;
 
-            CreateShortcut(wd, a);
+            CreateShortcut(fileName, wd, a);
 
             Process = new Process
             {
@@ -77,11 +77,11 @@ namespace RawLauncher.Framework.Games
             IsProcessRunning = true;
         }
 
-        private static void CreateShortcut(string path ,string arguments)
+        private static void CreateShortcut(string filePath, string path ,string arguments)
         {
             var link = (NativeMethods.NativeMethods.IShellLink) new NativeMethods.NativeMethods.ShellLink();
 
-            link.SetPath(Path.Combine(path, "swfoc.exe"));
+            link.SetPath(filePath);
             link.SetWorkingDirectory(AppDomain.CurrentDomain.BaseDirectory);
             link.SetArguments(arguments);
             var exeFile = Path.Combine(Directory.GetCurrentDirectory(), "RawLauncher.Theme.dll");
