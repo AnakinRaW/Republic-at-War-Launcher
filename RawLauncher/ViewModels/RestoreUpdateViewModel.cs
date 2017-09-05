@@ -131,7 +131,7 @@ namespace RawLauncher.Framework.ViewModels
         /// <returns></returns>
         protected async Task<UpdateRestoreStatus> AddDeleteFilesToRestoreTable(bool shallIgnore)
         {
-            var i = (double) 100 / FileContainer.Files.Count;
+            var i = (double)100 / FileContainer.Files.Count;
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             try
@@ -144,12 +144,16 @@ namespace RawLauncher.Framework.ViewModels
                 //Find unused files to delete (AI Files)
                 if (Directory.Exists(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\"))
                 {
-                    var files = Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\XML\\",
-                        "*.*", SearchOption.AllDirectories).ToList();
-                    files.AddRange(Directory.EnumerateFiles(
+                    var files = new List<string>();
+                    if (Directory.Exists(Path.Combine(LauncherViewModel.BaseGame.GameDirectory, @"\Data\XML\")))
+                        files.AddRange(Directory.EnumerateFiles(LauncherViewModel.BaseGame.GameDirectory + "\\Data\\XML\\",
+                            "*.*", SearchOption.AllDirectories).ToList());
+                    if (Directory.Exists(Path.Combine(LauncherViewModel.BaseGame.GameDirectory, @"\Data\Scripts\")))
+                        files.AddRange(Directory.EnumerateFiles(
                         LauncherViewModel.BaseGame.GameDirectory + "\\Data\\Scripts\\", "*.*",
                         SearchOption.AllDirectories));
-                    files.AddRange(Directory.EnumerateFiles(
+                    if (Directory.Exists(Path.Combine(LauncherViewModel.BaseGame.GameDirectory, @"\Data\CustomMaps\")))
+                        files.AddRange(Directory.EnumerateFiles(
                         LauncherViewModel.BaseGame.GameDirectory + "\\Data\\CustomMaps\\", "*.*",
                         SearchOption.AllDirectories));
 
@@ -249,7 +253,7 @@ namespace RawLauncher.Framework.ViewModels
             if (excludeList != null)
                 listToCheck = FileContainerFile.ListFromExcludeList(FileContainer.Files, excludeList);
 
-            var i = (double) 100 / listToCheck.Count;
+            var i = (double)100 / listToCheck.Count;
 
             try
             {
@@ -290,12 +294,12 @@ namespace RawLauncher.Framework.ViewModels
         protected async Task<UpdateRestoreStatus> DownloadFiles()
         {
             var filesToDownload = RestoreTable.GetFilesOfAction(FileAction.Download);
-            var i = (double) 100 / filesToDownload.Count;
+            var i = (double)100 / filesToDownload.Count;
             try
             {
                 var t = filesToDownload.Select(file => Task.Run(async () =>
                 {
-                    if (!RawLauncher.Framework.NativeMethods.NativeMethods.ComputerHasInternetConnection())
+                    if (!NativeMethods.NativeMethods.ComputerHasInternetConnection())
                     {
                         MessageProvider.Show(ViewModelOperation == RestoreUpdateOperation.Restore
                             ? MessageProvider.GetMessage("RestoreInternetLost")
