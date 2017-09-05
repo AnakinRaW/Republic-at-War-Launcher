@@ -21,6 +21,11 @@ namespace RawLauncher.Framework.Games
                 throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
         }
 
+        public void DeleteMod(IMod mod)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ClearDataFolder()
         {
             //Ignored

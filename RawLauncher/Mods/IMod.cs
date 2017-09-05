@@ -12,16 +12,6 @@ namespace RawLauncher.Framework.Mods
         string FolderName { get; }
 
         /// <summary>
-        /// Tests if the Mods folder structure matches an expected pattern
-        /// </summary>
-        bool HasCorrectFolderStructure { get; }
-
-        /// <summary>
-        /// Returns the Value needed to lauch the mod with command arguments
-        /// </summary>
-        string LaunchArgumentPath { get; }
-
-        /// <summary>
         /// Returns the full Path of the Mods Root Directory
         /// </summary>
         string ModDirectory { get; }
@@ -41,6 +31,11 @@ namespace RawLauncher.Framework.Mods
         /// Get the current installed language
         /// </summary>
         LanguageTypes InstalledLanguage { get; }
+
+        /// <summary>
+        /// Identifies whether the mod is a Steam Workshop instance
+        /// </summary>
+        bool WorkshopMod { get; }
 
         /// <summary>
         /// Checks whether a mod exists
@@ -64,5 +59,7 @@ namespace RawLauncher.Framework.Mods
         /// Cleans stuff up after the game was palyed
         /// </summary>
         void CleanUpAferGame(IGame game);
+
+        void Delete();
     }
 }

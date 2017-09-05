@@ -10,6 +10,11 @@ namespace RawLauncher.Framework.Utilities
             return MessageBox.Show(message, "Republic at War", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
         }
 
+        public static MessageBoxResult ShowInformation(string message)
+        {
+            return MessageBox.Show(message, "Republic at War", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+        }
+
         public static MessageBoxResult Show()
         {
             return MessageBox.Show("Test", string.Empty, MessageBoxButton.OK, MessageBoxImage.None, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);

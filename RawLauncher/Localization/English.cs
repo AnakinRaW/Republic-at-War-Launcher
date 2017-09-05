@@ -80,7 +80,8 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("ErrorCreateMessageFailed", "Unable to create message text.");
             StringTable.Add("ErrorInitLauncher", "There was a problem initializing the launcher: {0}");
             StringTable.Add("ErrorInitFailed", "The launcher was not able to find Forces of Corruption. Please run the launcher from root Forces of Corruption directory.");
-            StringTable.Add("ErrorInitFailedMod", "The launcher was not able to find Republic at War. Please click the 'Update' tab and install the mod.");
+            StringTable.Add("ErrorInitFailedMod", "The launcher was not able to find Republic at War. Please click the 'Update' tab and install the mod.\r\n" +
+                                                  "\r\nIf this game is the Steam version of Forces of Corruption consider downloading Republic at War from Steam Workshops first.");
         }
 
         private void AddExceptionStrings()

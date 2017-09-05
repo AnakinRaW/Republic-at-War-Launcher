@@ -16,12 +16,12 @@ namespace RawLauncher.Framework.Mods
         }
 
         public string FolderName { get; }
-        public bool HasCorrectFolderStructure { get; }
-        public string LaunchArgumentPath { get; }
         public string ModDirectory { get; }
         public string Name { get; }
         public Version Version { get; set; }
         public LanguageTypes InstalledLanguage { get; }
+        public bool WorkshopMod => false;
+
         public bool Exists()
         {
             throw new NotImplementedException();
@@ -38,6 +38,11 @@ namespace RawLauncher.Framework.Mods
         }
 
         public void CleanUpAferGame(IGame game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete()
         {
             throw new NotImplementedException();
         }

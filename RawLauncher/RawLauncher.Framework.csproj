@@ -88,6 +88,7 @@
     <Compile Include="Games\GameExceptions.cs" />
     <Compile Include="Games\GameHelper.cs" />
     <Compile Include="Games\GameProcessData.cs" />
+    <Compile Include="Games\GameStartHelper.cs" />
     <Compile Include="Games\GameTypes.cs" />
     <Compile Include="Games\IGame.cs" />
     <Compile Include="Games\ProcessHelper.cs" />

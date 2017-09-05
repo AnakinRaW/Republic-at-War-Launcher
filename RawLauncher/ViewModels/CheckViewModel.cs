@@ -242,7 +242,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public ImageSource GameFoundIndicator
         {
-            get { return _gameFoundIndicator; }
+            get => _gameFoundIndicator;
             set
             {
                 if (Equals(value, _gameFoundIndicator))
@@ -254,7 +254,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public string GameFoundMessage
         {
-            get { return _gameFoundMessage; }
+            get => _gameFoundMessage;
             set
             {
                 if (Equals(value, _gameFoundMessage))
@@ -266,7 +266,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public ImageSource GamesPatchedIndicator
         {
-            get { return _gamesPatchedIndicator; }
+            get => _gamesPatchedIndicator;
             set
             {
                 if (Equals(value, _gamesPatchedIndicator))
@@ -278,7 +278,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public string GamesPatchedMessage
         {
-            get { return _gamesPatched; }
+            get => _gamesPatched;
             set
             {
                 if (Equals(value, _gamesPatched))
@@ -290,7 +290,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public string ModAiMessage
         {
-            get { return _modAi; }
+            get => _modAi;
             set
             {
                 if (Equals(value, _modAi))
@@ -302,7 +302,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public ImageSource ModAiIndicator
         {
-            get { return _modAiIndicator; }
+            get => _modAiIndicator;
             set
             {
                 if (Equals(value, _modAiIndicator))
@@ -314,7 +314,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public ImageSource ModFoundIndicator
         {
-            get { return _modFoundIndicator; }
+            get => _modFoundIndicator;
             set
             {
                 if (Equals(value, _modFoundIndicator))
@@ -326,7 +326,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public string ModFoundMessage
         {
-            get { return _modFoundMessage; }
+            get => _modFoundMessage;
             set
             {
                 if (Equals(value, _modFoundMessage))
@@ -338,7 +338,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public string ModFilesMessage
         {
-            get { return _modFiles; }
+            get => _modFiles;
             set
             {
                 if (Equals(value, _modFiles))
@@ -350,7 +350,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public ImageSource ModFilesIndicator
         {
-            get { return _modFilesIndicator; }
+            get => _modFilesIndicator;
             set
             {
                 if (Equals(value, _modFilesIndicator))
@@ -362,7 +362,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public double Progress
         {
-            get { return _progress; }
+            get => _progress;
             set
             {
                 if (Equals(value, _progress))
@@ -374,7 +374,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public string ProzessStatus
         {
-            get { return _progressStatus; }
+            get => _progressStatus;
             set
             {
                 if (Equals(value, _progressStatus))

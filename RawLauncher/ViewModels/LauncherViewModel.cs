@@ -300,18 +300,19 @@ namespace RawLauncher.Framework.ViewModels
                 }
             CurrentMod.PrepareStart(BaseGame);
             await Task.Run(() => BaseGame.PlayGame(CurrentMod));
+            ThreadUtilities.ThreadSaveShutdown();
 
-            BaseGame.GameProcessData.PropertyChanged += GameProcessData_PropertyChanged;
+            //BaseGame.GameProcessData.PropertyChanged += GameProcessData_PropertyChanged;
         }
 
-        private void GameProcessData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
-                return;
-            CurrentMod.CleanUpAferGame(BaseGame);
-            BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
-            _launcher.Shutdown();
-        }
+        //private void GameProcessData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
+        //        return;
+        //    CurrentMod.CleanUpAferGame(BaseGame);
+        //    BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
+        //    _launcher.Shutdown();
+        //}
 
         /// <summary>
         /// Perform Normal launch

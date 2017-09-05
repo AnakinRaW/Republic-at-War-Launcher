@@ -64,15 +64,15 @@ namespace RawLauncher.Framework.Games
         /// Deletes a Mod by it's name
         /// </summary>
         /// <param name="name"></param>
-        void DeleteMod(string name);
+        void DeleteMod(IMod mod);
 
         /// <summary>
         /// Removes any additional contnet from Rood Data folder.
         /// </summary>
         void ClearDataFolder();
 
-        void BackUpAiFiles();
+        //void BackUpAiFiles();
 
-        void ResotreAiFiles();
+        //void ResotreAiFiles();
     }
 }

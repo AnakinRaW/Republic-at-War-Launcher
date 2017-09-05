@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using NAudio.Wave;
 
 namespace RawLauncher.Framework.Utilities

@@ -81,7 +81,8 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("ErrorCreateMessageFailed", "Es konnte kein Text erstellt werden");
             StringTable.Add("ErrorInitLauncher", "Fehler beim initialisieren dem Launcher { 0}");
             StringTable.Add("ErrorInitFailed", "Der Launcher konnte die Spiele EaW oder Foc nicht finden. Bitte starte den Launcher im Hauptverzeichnis von FoC.");
-            StringTable.Add("ErrorInitFailedMod", "Der Launcher konnte Republic at War nicht finden. Klick auf 'Update' im Update-Tab und installiere Republic at War jetzt.");
+            StringTable.Add("ErrorInitFailedMod", "Der Launcher konnte Republic at War nicht finden. Klick auf 'Update' im Update-Tab und installiere Republic at War jetzt.\r\n" +
+                                                  "\r\nSolltest das Hauptspiel die Steam-Version sein, sollte Republic at War zunächst über den Steam Workshops heruntergeladen werden.");
         }
 
         private void AddExceptionStrings()

@@ -20,7 +20,7 @@ namespace RawLauncher.Framework.ViewModels
 
         public RestoreViewModel(ILauncherPane pane) : base(pane)
         {
-            if (!RawLauncher.Framework.NativeMethods.NativeMethods.ComputerHasInternetConnection())
+            if (!NativeMethods.NativeMethods.ComputerHasInternetConnection())
                 return;
             AvailableVersions = RestoreHelper.CreateVersionItems();
             DataSource = new ComboBoxDataSource(AvailableVersions);
@@ -151,8 +151,9 @@ namespace RawLauncher.Framework.ViewModels
         {
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
             ProzessStatus = MessageProvider.GetMessage("RestoreStautsDeletingMod");
-            LauncherViewModel.BaseGame.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            LauncherViewModel.BaseGame.DeleteMod(LauncherViewModel.CurrentMod);
             LauncherViewModel.BaseGame.ClearDataFolder();
+            LauncherViewModel.BaseGame.Patch();
 
             await ProgressBarUtilities.AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
             ProzessStatus = MessageProvider.GetMessage("RestoreStatusPrepareTable");

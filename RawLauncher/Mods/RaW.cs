@@ -15,21 +15,16 @@ namespace RawLauncher.Framework.Mods
         {
         }
 
-        public RaW(string modDirectory)
+        public RaW(string modDirectory, bool workshopMod = false)
         {
             ModDirectory = modDirectory;
             if (!Exists())
                 throw new ModExceptions(MessageProvider.GetMessage("ExceptionModExist"));
+            WorkshopMod = workshopMod;
+            FolderName = new DirectoryInfo(ModDirectory).Name;
         }
 
-        /// <summary>
-        /// Checks if the Mod is in Fodlder "../Mods/ModName"
-        /// </summary>
-        public bool HasCorrectFolderStructure => ModDirectory.Contains(@"Mods\" + FolderName);
-
-        public string LaunchArgumentPath => "Mods/" + FolderName;
-
-        public string FolderName => "Republic_At_War";
+        public string FolderName { get; }
 
 
         protected bool CleanUpAfterGameClose { get; set; }
@@ -63,6 +58,8 @@ namespace RawLauncher.Framework.Mods
             }
         }
 
+        public bool WorkshopMod { get; }
+
         public bool Exists()
         {
             return File.Exists(ModDirectory + @"Data\XML\Gameobjectfiles.xml");
@@ -70,35 +67,47 @@ namespace RawLauncher.Framework.Mods
 
         public IMod FindMod()
         {
-            if (!File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\Data\XML\Gameobjectfiles.xml"))
+            if (File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\Data\XML\Gameobjectfiles.xml"))
+                return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\");
+            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\workshop\content\32470\")))
                 throw new ModExceptions(MessageProvider.GetMessage("ExceptionModExistName", Name));
-            return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\");
+            var modfile =
+                new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\workshop\content\32470\"))
+                    .GetFiles("Republic at War Changelog.txt", SearchOption.AllDirectories).FirstOrDefault();
+            if (modfile == null)
+                throw new ModExceptions(MessageProvider.GetMessage("ExceptionModExistName", Name));
+            return new RaW(modfile.Directory.FullName + "\\", true);
         }
 
         public void PrepareStart(IGame game)
         {
-            if (!Directory.Exists(Path.Combine(ModDirectory, "RootDataFiles")))
-            {
-                CleanUpAfterGameClose = false;
-                return;
-            }
-            game.BackUpAiFiles();
-            if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps")))
-                FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps"), Path.Combine(game.GameDirectory, @"Data\CustomMaps\"));
-            if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\Scripts")))
-                FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\Scripts"), Path.Combine(game.GameDirectory, @"Data\Scripts\"));
-            if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\XML")))
-                FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\XML"), Path.Combine(game.GameDirectory, @"Data\XML\"));
-            CleanUpAfterGameClose = true;
+            //if (!Directory.Exists(Path.Combine(ModDirectory, "RootDataFiles")))
+            //{
+            //    CleanUpAfterGameClose = false;
+            //    return;
+            //}
+            //game.BackUpAiFiles();
+            //if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps")))
+            //    FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\CustomMaps"), Path.Combine(game.GameDirectory, @"Data\CustomMaps\"));
+            //if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\Scripts")))
+            //    FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\Scripts"), Path.Combine(game.GameDirectory, @"Data\Scripts\"));
+            //if (Directory.Exists(Path.Combine(ModDirectory, @"RootDataFiles\XML")))
+            //    FileUtilities.Copy(Path.Combine(ModDirectory, @"RootDataFiles\XML"), Path.Combine(game.GameDirectory, @"Data\XML\"));
+            //CleanUpAfterGameClose = true;
         }
 
         public void CleanUpAferGame(IGame game)
         {
-            if (!CleanUpAfterGameClose)
-                return;
-            game.ClearDataFolder();
-            game.ResotreAiFiles();
-            File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "tmp.lnk"));
+            //if (!CleanUpAfterGameClose)
+            //    return;
+            //game.ClearDataFolder();
+            //game.ResotreAiFiles();
+            //File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "tmp.lnk"));
+        }
+
+        public void Delete()
+        {
+            throw new NotImplementedException();
         }
 
         public string ModDirectory { get; }
@@ -121,7 +130,7 @@ namespace RawLauncher.Framework.Mods
                     return null;
                 }
             }
-            set {  }
+            set { }
         }
     }
 }

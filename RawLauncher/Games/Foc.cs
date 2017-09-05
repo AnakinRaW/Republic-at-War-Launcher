@@ -33,45 +33,46 @@ namespace RawLauncher.Framework.Games
                 FileUtilities.DeleteDirectory(@"Data\XML");
         }
 
-        public void BackUpAiFiles()
-        {
-            ClearBackupFiles();
-            if (Directory.Exists(@"Data\CustomMaps"))
-                Directory.Move(@"Data\CustomMaps", @"Data\CustomMapsBackup");
-            if (Directory.Exists(@"Data\Scripts"))
-                Directory.Move(@"Data\Scripts", @"Data\ScriptsBackup");
-            if (Directory.Exists(@"Data\Xml"))
-                Directory.Move(@"Data\Xml", @"Data\XmlBackup");
-        }
+        //public void BackUpAiFiles()
+        //{
+        //    ClearBackupFiles();
+        //    if (Directory.Exists(@"Data\CustomMaps"))
+        //        Directory.Move(@"Data\CustomMaps", @"Data\CustomMapsBackup");
+        //    if (Directory.Exists(@"Data\Scripts"))
+        //        Directory.Move(@"Data\Scripts", @"Data\ScriptsBackup");
+        //    if (Directory.Exists(@"Data\Xml"))
+        //        Directory.Move(@"Data\Xml", @"Data\XmlBackup");
+        //}
 
-        public void ResotreAiFiles()
-        {
-            ClearDataFolder();
-            if (Directory.Exists(@"Data\CustomMapsBackup"))
-                Directory.Move(@"Data\CustomMapsBackup", @"Data\CustomMaps");
-            if (Directory.Exists(@"Data\ScriptsBackup"))
-                Directory.Move(@"Data\ScriptsBackup", @"Data\Scripts");
-            if (Directory.Exists(@"Data\XmlBackup"))
-                Directory.Move(@"Data\XmlBackup", @"Data\Xml");
-            ClearBackupFiles();
-        }
+        //public void ResotreAiFiles()
+        //{
+        //    ClearDataFolder();
+        //    if (Directory.Exists(@"Data\CustomMapsBackup"))
+        //        Directory.Move(@"Data\CustomMapsBackup", @"Data\CustomMaps");
+        //    if (Directory.Exists(@"Data\ScriptsBackup"))
+        //        Directory.Move(@"Data\ScriptsBackup", @"Data\Scripts");
+        //    if (Directory.Exists(@"Data\XmlBackup"))
+        //        Directory.Move(@"Data\XmlBackup", @"Data\Xml");
+        //    ClearBackupFiles();
+        //}
 
-        public void ClearBackupFiles()
-        {
-            if (Directory.Exists(@"Data\CustomMapsBackup"))
-                Directory.Delete(@"Data\CustomMapsBackup", true);
-            if (Directory.Exists(@"Data\ScriptsBackup"))
-                Directory.Delete(@"Data\ScriptsBackup", true);
-            if (Directory.Exists(@"Data\XmlBackup"))
-                Directory.Delete(@"Data\XmlBackup", true);
-        }
+        //public void ClearBackupFiles()
+        //{
+        //    if (Directory.Exists(@"Data\CustomMapsBackup"))
+        //        Directory.Delete(@"Data\CustomMapsBackup", true);
+        //    if (Directory.Exists(@"Data\ScriptsBackup"))
+        //        Directory.Delete(@"Data\ScriptsBackup", true);
+        //    if (Directory.Exists(@"Data\XmlBackup"))
+        //        Directory.Delete(@"Data\XmlBackup", true);
+        //}
 
-        public void DeleteMod(string name)
+        public void DeleteMod(IMod mod)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-            if (Directory.Exists(@"Mods\" + name))
-                FileUtilities.DeleteDirectory(@"Mods\" + name);
+            if (mod == null)
+                throw new ArgumentNullException(nameof(mod));
+            if (mod is DummyMod)
+                return;
+            mod.Delete();
         }
 
         public GameProcessData GameProcessData { get; }
@@ -137,8 +138,9 @@ namespace RawLauncher.Framework.Games
             };
             try
             {
-                GameProcessData.Process = process;
-                GameProcessData.StartProcess();
+                GameStartHelper.StartGameProcess(process);
+                //GameProcessData.Process = process;
+                //GameProcessData.StartProcess();
             }
             catch (Exception)
             {
@@ -152,8 +154,6 @@ namespace RawLauncher.Framework.Games
                 throw new ModExceptions(MessageProvider.GetMessage("ExceptionGameModExist"));
             if (!mod.ModDirectory.StartsWith(GameDirectory))
                 throw new ModExceptions(MessageProvider.GetMessage("ExceptionGameModCompatible"));
-            if (!mod.HasCorrectFolderStructure)
-                throw new ModExceptions(MessageProvider.GetMessage("ExceptionGameModWrongInstalled"));
 
             FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\");
 
@@ -162,15 +162,16 @@ namespace RawLauncher.Framework.Games
                 StartInfo =
                 {
                     FileName = GameDirectory + @"\swfoc.exe",
-                    Arguments = "MODPATH=" + mod.LaunchArgumentPath,
+                    Arguments = "MODPATH=" + "Mods/" + mod.FolderName,
                     WorkingDirectory = GameDirectory,
                     UseShellExecute = false
                 }
             };
             try
             {
-                GameProcessData.Process = process;
-                GameProcessData.StartProcess();
+                GameStartHelper.StartGameProcess(process);
+                //GameProcessData.Process = process;
+                //GameProcessData.StartProcess();
             }
             catch (Exception)
             {

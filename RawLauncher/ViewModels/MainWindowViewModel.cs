@@ -149,7 +149,7 @@ namespace RawLauncher.Framework.ViewModels
                 ShowPane(4);
                 _mainWindow.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, (Action)(() =>
                 {
-                    MessageProvider.ShowError(MessageProvider.GetMessage("ErrorInitFailedMod"));
+                    MessageProvider.ShowInformation(MessageProvider.GetMessage("ErrorInitFailedMod"));
                 }));        
             }
         }
@@ -197,7 +197,7 @@ namespace RawLauncher.Framework.ViewModels
                   MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
             if (result == MessageBoxResult.No)
                 return;
-            LauncherViewModel.BaseGame.DeleteMod(LauncherViewModel.CurrentMod.FolderName);
+            LauncherViewModel.BaseGame.DeleteMod(LauncherViewModel.CurrentMod);
             LauncherViewModel.BaseGame.ClearDataFolder();
             LauncherViewModel.BaseGame.Patch();
         }
