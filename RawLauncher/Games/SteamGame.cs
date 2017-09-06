@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
 using RawLauncher.Framework.Hash;
 using RawLauncher.Framework.Helpers;
 using RawLauncher.Framework.Mods;
