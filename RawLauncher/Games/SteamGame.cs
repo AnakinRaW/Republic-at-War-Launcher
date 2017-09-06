@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using RawLauncher.Framework.Hash;
 using RawLauncher.Framework.Helpers;
 using RawLauncher.Framework.Mods;
@@ -71,9 +72,14 @@ namespace RawLauncher.Framework.Games
         public void DeleteMod(IMod mod)
         {
             if (mod == null)
-                throw new ArgumentNullException(nameof(mod));
+            {
+                MessageBox.Show("Republic at War was not found");
+                return;
+            }
             if (mod is DummyMod)
                 return;
+            ClearDataFolder();
+            Patch();
             mod.Delete();
         }
 
@@ -157,7 +163,7 @@ namespace RawLauncher.Framework.Games
             //File.Delete(str + "\\runme.dat");
             //File.Move(str + "\\tmp.runme.dat.tmp", str + "\\runme.dat");
 
-            FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\");
+            FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\XML\UnitNames\");
 
 
             string arguments = string.Empty;

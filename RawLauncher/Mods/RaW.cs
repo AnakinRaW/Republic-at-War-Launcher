@@ -107,7 +107,7 @@ namespace RawLauncher.Framework.Mods
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            FileUtilities.DeleteDirectory(ModDirectory);
         }
 
         public string ModDirectory { get; }

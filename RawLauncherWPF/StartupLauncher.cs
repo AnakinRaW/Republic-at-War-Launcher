@@ -74,7 +74,8 @@ namespace RawLauncherWPF
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.GetType().FullName + "\r\n" + e.Message + "\r\n" + e.InnerException?.Message + "\r\n" + e.TargetSite);
+                MessageBox.Show(e.GetType().FullName + "\r\n" + e.Message + "\r\n" + e.InnerException?.Message + "\r\n" + e.TargetSite
+                    + "\r\n" + e.StackTrace);
             }
         }
 

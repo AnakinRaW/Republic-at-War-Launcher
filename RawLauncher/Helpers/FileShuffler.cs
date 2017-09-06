@@ -7,7 +7,7 @@ namespace RawLauncher.Framework.Helpers
         public static void ShuffleFiles(string directory)
         {
             if (!Directory.Exists(directory))
-                throw new DirectoryNotFoundException(nameof(directory));
+                return;
             foreach (var file in Directory.EnumerateFiles(directory, "*.txt", SearchOption.TopDirectoryOnly))
             {
                 var unitFile = new UnitNameFile(file);
