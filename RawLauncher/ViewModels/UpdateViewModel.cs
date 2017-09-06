@@ -15,6 +15,8 @@ namespace RawLauncher.Framework.ViewModels
     {
         private const string ChangelogFileName = "Changelog.txt";
 
+        private int _count;
+
         public UpdateViewModel(ILauncherPane pane) : base(pane)
         {
         }
@@ -80,41 +82,51 @@ namespace RawLauncher.Framework.ViewModels
             await ThreadUtilities.SleepThread(250);
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
-            switch (SelectedOption)
+            do
             {
-                case UpdateOptions.None:
-                case 0:
-                    var result = await PrepareNormalUpdate();
-                    if (result != UpdateRestoreStatus.Succeeded)
-                    {
-                        return result;
-                    }
-                    break;
-                case UpdateOptions.IgnoreVoice:
-                    break;
-                default:
-                    result = await PrepareVoiceIgnoreUpdate();
-                    if (result != UpdateRestoreStatus.Succeeded)
-                    {
-                        return result;
-                    }
-                    break;
-            }
-            await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+                switch (SelectedOption)
+                {
+                    case UpdateOptions.None:
+                    case 0:
+                        var result = await PrepareNormalUpdate();
+                        if (result != UpdateRestoreStatus.Succeeded)
+                        {
+                            return result;
+                        }
+                        break;
+                    case UpdateOptions.IgnoreVoice:
+                        break;
+                    default:
+                        result = await PrepareVoiceIgnoreUpdate();
+                        if (result != UpdateRestoreStatus.Succeeded)
+                        {
+                            return result;
+                        }
+                        break;
+                }
 
-            var internalRestoreResult = await InternalRestoreUpdate();
-            if (internalRestoreResult != UpdateRestoreStatus.Succeeded)
-            {
-                if (internalRestoreResult == UpdateRestoreStatus.Error)
-                    MessageProvider.Show(MessageProvider.GetMessage("UpdateTableNull"));
-                return UpdateRestoreStatus.Error;
-            }
+                if (RestoreTable.Files.Count == 0)
+                    break;
+
+                await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+
+                var internalRestoreResult = await InternalRestoreUpdate();
+                if (internalRestoreResult != UpdateRestoreStatus.Succeeded)
+                {
+                    if (internalRestoreResult == UpdateRestoreStatus.Error)
+                        MessageProvider.Show(MessageProvider.GetMessage("UpdateTableNull"));
+                    return UpdateRestoreStatus.Error;
+                }
+
+                await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+                _count++;
+            } while (_count <= 3);
 
             if (LauncherViewModel.CurrentMod is DummyMod)
                 LauncherViewModel.CurrentMod = new RaW().FindMod();
 
             LauncherPane.MainWindowViewModel.InstalledVersion = LauncherViewModel.CurrentMod.Version;
-            await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
+            
             ProzessStatus = "UpdateStatusFinishing";
             await Task.Run(() =>
             {
