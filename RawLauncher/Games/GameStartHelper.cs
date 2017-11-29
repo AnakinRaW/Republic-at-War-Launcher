@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
-using System.Threading.Tasks;
-using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Games
 {
@@ -16,33 +14,32 @@ namespace RawLauncher.Framework.Games
                 return;
 
             var fileName = process.StartInfo.FileName;
-            var wd = process.StartInfo.WorkingDirectory;
             var a = process.StartInfo.Arguments;
 
-            CreateShortcut(fileName, wd, a);
+            var linkPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "RaW_Modding_Team", "tmp.lnk");
+
+            CreateShortcut(fileName, linkPath, a);
 
             var startingProcess = new Process
             {
-                StartInfo = { FileName = Path.Combine(wd, "tmp.lnk") }
+                StartInfo = { FileName = linkPath }
             };
             startingProcess.Start();
-
-            Thread.Sleep(10000);
-
-            File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "tmp.lnk"));
+            Thread.Sleep(2000);
+            //File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "tmp.lnk"));
         }
 
-        private static void CreateShortcut(string filePath, string path, string arguments)
+        private static void CreateShortcut(string filePath, string linkPath, string arguments)
         {
             var link = (NativeMethods.NativeMethods.IShellLink)new NativeMethods.NativeMethods.ShellLink();
-
             link.SetPath(filePath);
             link.SetWorkingDirectory(AppDomain.CurrentDomain.BaseDirectory);
             link.SetArguments(arguments);
             var exeFile = Path.Combine(Directory.GetCurrentDirectory(), "RawLauncher.Theme.dll");
             link.SetIconLocation(exeFile, 0);
             var file = (IPersistFile)link;
-            file.Save(Path.Combine(path, "tmp.lnk"), false);
+            file.Save(linkPath, false);
         }
     }
 }

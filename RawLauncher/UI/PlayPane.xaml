@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,30,0,0" Command="{Binding PlayModCommand}" IsEnabled="{Binding CanExecute}"
+        <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,70,0,0" Command="{Binding PlayModCommand}" IsEnabled="{Binding CanExecute}"
                           NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameIdle.png"
                           HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png"
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png">
@@ -26,7 +26,7 @@
                 </mafc:ImageButton.Content>
         </mafc:ImageButton>
 
-        <controls:ImageSoundClickButton Height="60" Width="300" VerticalAlignment="Top" Margin="0,105,0,0" Command="{Binding DefreezeCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
+        <controls:ImageSoundClickButton Height="60" Width="300" VerticalAlignment="Top" Margin="0,190,0,0" Command="{Binding DefreezeCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
                           NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeIdle.png"
                           HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png"
                           PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png">
@@ -35,29 +35,6 @@
                                             Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonDefreeze}}"/>
                 </mafc:ImageButton.Content>
         </controls:ImageSoundClickButton>
-
-        <controls:ImageSoundClickButton Height="60" Width="356" VerticalAlignment="Top" Margin="0,170,0,0" Command="{Binding OrganizeGameCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
-                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameIdle.png"
-                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameHover.png"
-                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/OrganizeGameHover.png">
-            <mafc:ImageButton.Content>
-                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonOrganizeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
-                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonOrganize}}"/>
-                </mafc:ImageButton.Content>
-        </controls:ImageSoundClickButton>
-      
-        <DockPanel HorizontalAlignment="Center" Width="356" Margin="0,240,0,0" VerticalAlignment="Top">
-            <mafc:OutlineTextBlock Height="17" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                   Foreground="{StaticResource LabelGameSessionsForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
-                                   FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
-                                   Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextPlayCurrentGames}}"/>
-            <mafc:OutlineTextBlock Text="{Binding CurrentSessions}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="{StaticResource LabelGameSessionsForeground}" Margin="20,-5,0,0"
-                                   FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <controls:ImageSoundClickButton Height="33" Width="33" VerticalAlignment="Center" Margin="0,0,30,0" Command="{Binding RefreshSessionsCommand}" HorizontalAlignment="Right"
-                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/RefreshIdle.png"
-                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/RefreshHover.png"
-                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/RefreshHover.png"/>           
-        </DockPanel>
 
         <DockPanel Margin="0,270,0,0" Dock="Right" HorizontalAlignment="Center" Height="34">
             <mafc:ImageToggleButton HorizontalAlignment="Center" VerticalAlignment="Top" Height="34" Width="34" 
