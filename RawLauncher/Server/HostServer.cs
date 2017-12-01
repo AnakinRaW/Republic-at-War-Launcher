@@ -37,7 +37,10 @@ namespace RawLauncher.Framework.Server
             try
             {
                 var webClient = new WebClient();
-                result = webClient.DownloadString(ServerRootAddress + resource);
+                var address = ServerRootAddress + resource;
+                var uri = new Uri(address, UriKind.Absolute);
+                result = webClient.DownloadString(uri);
+                //result = webClient.DownloadString(ServerRootAddress + resource);
             }
             catch (Exception)
             {
