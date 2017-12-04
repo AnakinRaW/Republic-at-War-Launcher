@@ -91,6 +91,12 @@
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangUkrainian}">ukrainian</system:String>
 
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+                     ResourceId=LangCustom}">custom</system:String>
+
+    <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
+                     ResourceId=LangCustomTooltip}">Please write the your language in English </system:String>
+
 
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using ModernApplicationFramework.Input.Base;
 using ModernApplicationFramework.Input.Command;
 using RawLauncher.Framework.Mods;
@@ -12,15 +13,33 @@ namespace RawLauncher.Framework.ViewModels
 {
     public sealed class LanguageViewModel : LauncherPaneViewModel
     {
+        private string _customLanguage;
+
+        private string LanguageString => SelectedLanguage.HasFlag(LanguageTypes.Custom)
+            ? CustomLanguage
+            : SelectedLanguage.ToString();
+
+        private LanguageTypes ExternalSupportedLanguages { get; }
+        private string MessageToShowAfterChange { get; set; }
+        private LanguageTypes SelectedLanguage { get; set; }
+
+        public string CustomLanguage
+        {
+            get => _customLanguage;
+            set
+            {
+                if (_customLanguage == value)
+                    return;
+                _customLanguage = value;
+                OnPropertyChanged();
+            }
+        }
+
         public LanguageViewModel(ILauncherPane pane) : base(pane)
         {
             SelectedLanguage = LanguageTypes.None;
             ExternalSupportedLanguages = LanguageTypes.German | LanguageTypes.English;
         }
-
-        private LanguageTypes ExternalSupportedLanguages { get; }
-        private string MessageToShowAfterChange { get; set; }
-        private LanguageTypes SelectedLanguage { get; set; }
 
         private static LanguageTypes CreateAliasLanguage(LanguageTypes type)
         {
@@ -37,9 +56,9 @@ namespace RawLauncher.Framework.ViewModels
                 return;
             if (!Directory.EnumerateFiles(mod.ModDirectory + @"Data\Text\", "MasterTextFile_*").Any())
                 return;
-            if (File.Exists(mod.ModDirectory + @"Data\Text\MasterTextFile_" + SelectedLanguage + ".dat"))
+            if (File.Exists(mod.ModDirectory + @"Data\Text\MasterTextFile_" + LanguageString + ".dat"))
             {
-                MessageToShowAfterChange += "MasterTextFile_" + SelectedLanguage +
+                MessageToShowAfterChange += "MasterTextFile_" + LanguageString +
                                             " already existed. Skipped it's renaming.\n";
                 return;
             }
@@ -49,7 +68,7 @@ namespace RawLauncher.Framework.ViewModels
             try
             {
                 File.Move(file,
-                    mod.ModDirectory + @"Data\Text\MasterTextFile_" + SelectedLanguage.ToString().ToUpper() + ".dat");
+                    mod.ModDirectory + @"Data\Text\MasterTextFile_" + LanguageString.ToUpper() + ".dat");
             }
             catch (Exception)
             {
@@ -63,13 +82,13 @@ namespace RawLauncher.Framework.ViewModels
                 return;
             if (!Directory.EnumerateDirectories(mod.ModDirectory + @"Data\Audio\Speech", "*").Any())
                 return;
-            if (Directory.Exists(mod.ModDirectory + @"Data\Audio\Speech\" + SelectedLanguage))
+            if (Directory.Exists(mod.ModDirectory + @"Data\Audio\Speech\" + LanguageString))
                 return;
 
             var directory = Directory.EnumerateDirectories(mod.ModDirectory + @"Data\Audio\Speech", "*").First();
             try
             {
-                Directory.Move(directory, mod.ModDirectory + @"Data\Audio\Speech\" + SelectedLanguage);
+                Directory.Move(directory, mod.ModDirectory + @"Data\Audio\Speech\" + LanguageString);
             }
             catch (Exception)
             {
@@ -85,6 +104,18 @@ namespace RawLauncher.Framework.ViewModels
                 return;
 
             var languageAlias = CreateAliasLanguage(SelectedLanguage);
+
+            if (languageAlias == LanguageTypes.Custom)
+            {
+                if (File.Exists(mod.ModDirectory + @"\Data\" + CustomLanguage + "Speech.meg"))
+                    return;
+            }
+            else
+            {
+                if (File.Exists(mod.ModDirectory + @"\Data\" + languageAlias + "Speech.meg"))
+                    return;
+            }
+
             if (File.Exists(mod.ModDirectory + @"\Data\" + languageAlias + "Speech.meg"))
                 return;
             var file = Directory.EnumerateFiles(mod.ModDirectory + @"\Data\", "*Speech.meg").First();
@@ -100,10 +131,10 @@ namespace RawLauncher.Framework.ViewModels
 
         private bool CheckAlreadyInstalledLanguage(IMod mod)
         {
-            if (!File.Exists(mod.ModDirectory + @"Data\Text\MasterTextFile_" + SelectedLanguage + ".dat"))
+            if (!File.Exists(mod.ModDirectory + @"Data\Text\MasterTextFile_" + LanguageString + ".dat"))
                 return false;
 
-            return Directory.Exists(mod.ModDirectory + @"\Data\Audio\Speech\" + SelectedLanguage) &&
+            return Directory.Exists(mod.ModDirectory + @"\Data\Audio\Speech\" + LanguageString) &&
                    File.Exists(mod.ModDirectory + @"\Data\" + CreateAliasLanguage(SelectedLanguage) + "Speech.meg");
         }
 
@@ -120,12 +151,12 @@ namespace RawLauncher.Framework.ViewModels
                 MessageToShowAfterChange += MessageProvider.GetMessage("LanguageMessageChangedSuccess");
                 MessageProvider.Show(MessageToShowAfterChange);
             }
-            MessageToShowAfterChange = String.Empty;
+            MessageToShowAfterChange = string.Empty;
         }
 
         #region Commands
 
-        public Command<object> ChangeSelectionCommand => new ObjectCommand(ChangeSelection, CanChangeSelection);
+        public ICommand ChangeSelectionCommand => new DelegateCommand(ChangeSelection, CanChangeSelection);
 
         private void ChangeSelection(object obj)
         {
@@ -138,9 +169,16 @@ namespace RawLauncher.Framework.ViewModels
             return true;
         }
 
-        public Command ChangeLanguageCommand => new Command(ChangeLanguage);
+        public ICommand ChangeLanguageCommand => new DelegateCommand(ChangeLanguage, CanChangeLanguage);
 
-        private void ChangeLanguage()
+        private bool CanChangeLanguage(object _)
+        {
+            if (SelectedLanguage == LanguageTypes.Custom && string.IsNullOrEmpty(CustomLanguage))
+                return false;
+            return true;
+        }
+
+        private void ChangeLanguage(object _)
         {
             if (SelectedLanguage == LanguageTypes.None)
             {
@@ -178,6 +216,7 @@ namespace RawLauncher.Framework.ViewModels
         Serbian = 128,
         Spanish = 265,
         Swedish = 512,
-        Ukrainian = 1024
+        Ukrainian = 1024,
+        Custom = 2048
     }
 }

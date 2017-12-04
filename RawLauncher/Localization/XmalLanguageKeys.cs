@@ -28,6 +28,8 @@ namespace RawLauncher.Framework.Localization
         private static ComponentResourceKey _langSpanish;
         private static ComponentResourceKey _langSwedish;
         private static ComponentResourceKey _langUkrainian;
+        private static ComponentResourceKey _langCustom;
+        private static ComponentResourceKey _langCustomTooltip;
 
         private static ComponentResourceKey _tabPlay;
         private static ComponentResourceKey _tabCheck;
@@ -158,6 +160,12 @@ namespace RawLauncher.Framework.Localization
 
         public static ComponentResourceKey LangUkrainian => _langUkrainian ??
                                                             (_langUkrainian = new ComponentResourceKey(typeof(XmalLanguageKeys), "LangUkrainian"));
+
+        public static ComponentResourceKey LangCustom => _langCustom ??
+                                                            (_langCustom = new ComponentResourceKey(typeof(XmalLanguageKeys), "LangCustom"));
+
+        public static ComponentResourceKey LangCustomTooltip => _langCustomTooltip ??
+                                                         (_langCustomTooltip = new ComponentResourceKey(typeof(XmalLanguageKeys), "LangCustomTooltip"));
         #endregion
 
         #region Restore

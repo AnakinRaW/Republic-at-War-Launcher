@@ -172,6 +172,7 @@
     <Compile Include="Utilities\Converters\BoolToIndexConverter.cs" />
     <Compile Include="Utilities\Converters\IsGreaterVersionColorConverter.cs" />
     <Compile Include="Utilities\Converters\ResourceToStreamConverter.cs" />
+    <Compile Include="Utilities\DelegateCommand.cs" />
     <Compile Include="Utilities\FileUtilities.cs" />
     <Compile Include="Utilities\ImageUtilities.cs" />
     <Compile Include="Utilities\IndicatorImagesHelper.cs" />
