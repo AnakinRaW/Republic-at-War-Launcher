@@ -172,7 +172,7 @@ namespace RawLauncher.Framework.ViewModels
 
         private void OpenEeaw()
         {
-            Process.Start(Configuration.Config.EeawForum);
+            Process.Start(Configuration.Config.RaWHomepage);
         }
 
         public Command<object> ShowPaneAudioCommand => new ObjectCommand(ShowPaneAudio, CanShowPane);

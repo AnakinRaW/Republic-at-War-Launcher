@@ -11,6 +11,7 @@ namespace RawLauncher.Framework.Configuration
         public static Language CurrentLanguage { get; set; }
 
         public const string EeawForum = "http://www.everythingeaw.com/forum/index.php";
+        public const string RaWHomepage = "https://republicatwar.com";
         public const string ModdbPage = "http://www.moddb.com/mods/republic-at-war";
         public const string FastLaunchFileName = "RawLauncherInfo.txt";
         public const string ServerUrl = "https://gitlab.com/Republic-at-War/Republic-At-War/raw/";

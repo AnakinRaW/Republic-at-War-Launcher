@@ -118,11 +118,12 @@
 			HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbHover.png" 
 			PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbHover.png"
                           Command="{Binding OpenModdbCommand}"/>
+
         <controls:ImageSoundClickButton Grid.Row="3" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
-			NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/EeawIdle.png" 
-			HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/EeawHover.png" 
-			PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/EeawHover.png"
-                          Command="{Binding OpenEeawCommand}" Visibility="Collapsed"/>
+			NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RaWIdle.png" 
+			HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RaWHover.png" 
+			PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RaWHover.png"
+                          Command="{Binding OpenEeawCommand}"/>
 
 
         <mafc:ImageButton Grid.Row="4" Grid.Column="0" VerticalAlignment="Top"
