@@ -37,7 +37,7 @@
             <ColumnDefinition Width="533*"/>
             <ColumnDefinition Width="24*"/>
         </Grid.ColumnDefinitions>
-        <mafc:ImageTabButton Width="109" Height="31" SnapsToDevicePixels="True"
+        <mafc:ImageTabButton x:Name="PlayTab" Width="109" Height="31" SnapsToDevicePixels="True"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/PlayIdle.png"
                                HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/PlayHover.png"
@@ -52,7 +52,7 @@
             </mafc:ImageTabButton.Content>
         </mafc:ImageTabButton>
 
-        <mafc:ImageTabButton Width="109" Height="31" 
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="CheckTab"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/CheckIdle.png"
                                HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/CheckHover.png"
@@ -65,7 +65,7 @@
             </mafc:ImageTabButton.Content>
         </mafc:ImageTabButton>
 
-        <mafc:ImageTabButton Width="109" Height="31" 
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="UpdateTab"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/UpdateIdle.png"
                                HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/UpdateHover.png"
@@ -78,7 +78,7 @@
             </mafc:ImageTabButton.Content>
         </mafc:ImageTabButton>
 
-        <mafc:ImageTabButton Width="109" Height="31" 
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="RestoreTab"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RestoreIdle.png"
                                HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RestoreHover.png"
@@ -91,7 +91,7 @@
             </mafc:ImageTabButton.Content>
         </mafc:ImageTabButton>
 
-        <mafc:ImageTabButton Width="109" Height="31"
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="LangTab"
                                Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
                                NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/LanguageIdle.png"
                                HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/LanguageHover.png"

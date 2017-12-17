@@ -119,11 +119,13 @@ namespace RawLauncher.Framework.ViewModels
 
         public List<ILauncherPane> LauncherPanes { get; }
 
-        public void ShowPane(object index, bool hasAudio = false)
+        public void ShowPane(object number, bool hasAudio = false)
         {
             if (hasAudio)
                 AudioHelper.PlayAudio(AudioHelper.Audio.ButtonPress);
-            ActivePane = LauncherPanes.ElementAt(Convert.ToInt32(index));
+            var index = Convert.ToInt32(number);
+            _mainWindow.ActivateTab(index);
+            ActivePane = LauncherPanes.ElementAt(index);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

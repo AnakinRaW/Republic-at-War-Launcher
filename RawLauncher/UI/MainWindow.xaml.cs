@@ -14,5 +14,27 @@ namespace RawLauncher.Framework.UI
             DataContext = new MainWindowViewModel(this, LauncherViewModel);
         }
         protected override bool ShouldAutoSize => false;
+
+        public void ActivateTab(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    PlayTab.IsChecked = true;
+                    break;
+                case 1:
+                    CheckTab.IsChecked = true;
+                    break;
+                case 2:
+                    LangTab.IsChecked = true;
+                    break;
+                case 3:
+                    RestoreTab.IsChecked = true;
+                    break;
+                case 4:
+                    UpdateTab.IsChecked = true;
+                    break;
+            }
+        }
     }
 }
