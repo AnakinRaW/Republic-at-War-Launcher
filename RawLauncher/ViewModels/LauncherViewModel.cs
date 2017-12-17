@@ -217,15 +217,23 @@ namespace RawLauncher.Framework.ViewModels
         {
             try
             {
-                if (GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory()) == GameTypes.Disk)
+
+                var result = GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory());
+
+                if (result == GameTypes.Disk)
                 {
                     Eaw = new Eaw().FindGame();
                     BaseGame = new Foc().FindGame();
                 }
-                else if (GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory()) == GameTypes.SteamGold)
+                else if (result == GameTypes.SteamGold)
                 {
                     Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
                     BaseGame = new SteamGame().FindGame();
+                }
+                else if (result == GameTypes.GoG)
+                {
+                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
+                    BaseGame = new Foc().FindGame();
                 }
             }
             catch (GameExceptions)

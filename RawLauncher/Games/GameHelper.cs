@@ -9,7 +9,10 @@ namespace RawLauncher.Framework.Games
         {
             if (!File.Exists(path + "\\swfoc.exe"))
                 throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
-            return CheckSteam(path) ? GameTypes.SteamGold : GameTypes.Disk;
+
+            if (CheckSteam(path))
+                return GameTypes.SteamGold;
+            return CheckGoG(path) ? GameTypes.GoG : GameTypes.Disk;
         }
 
         private static bool CheckSteam(string path)
@@ -22,6 +25,17 @@ namespace RawLauncher.Framework.Games
                 return false;
             if (!File.Exists(Directory.GetParent(path) + "\\runm2.dat") ||
                 !File.Exists(Directory.GetParent(path) + "\\runme.dat"))
+                return false;
+            return true;
+        }
+
+        private static bool CheckGoG(string path)
+        {
+            if (new DirectoryInfo(path).Name != "EAWX")
+                return false;
+            if (!File.Exists(Directory.GetParent(path) + "\\GameData\\sweaw.exe"))
+                return false;
+            if (!File.Exists(Directory.GetParent(path) + "\\GameData\\goggame-1421404887.dll"))
                 return false;
             return true;
         }

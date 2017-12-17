@@ -4,6 +4,7 @@
     {
         Disk,
         DiskGold,
-        SteamGold   
+        SteamGold,
+        GoG
     }
 }
