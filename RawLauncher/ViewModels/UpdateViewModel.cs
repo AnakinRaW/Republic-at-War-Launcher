@@ -216,15 +216,16 @@ namespace RawLauncher.Framework.ViewModels
 
         public Command OpenChangelogCommand => new Command(OpenChangelog);
 
-        private async void OpenChangelog()
+        private void OpenChangelog()
         {
-            await Task.Run(() => HostServer.DownloadFile("master\\" + ChangelogFileName,
-                LauncherViewModel.RestoreDownloadDir + ChangelogFileName));
-            var process = new Process
-            {
-                StartInfo = {FileName = LauncherViewModel.RestoreDownloadDir + ChangelogFileName}
-            };
-            process.Start();
+            //await Task.Run(() => HostServer.DownloadFile("master\\" + ChangelogFileName,
+            //    LauncherViewModel.RestoreDownloadDir + ChangelogFileName));
+            //var process = new Process
+            //{
+            //    StartInfo = {FileName = LauncherViewModel.RestoreDownloadDir + ChangelogFileName}
+            //};
+            //process.Start();
+            Process.Start(Configuration.Config.RaWChangelog);
         }
     }
 
