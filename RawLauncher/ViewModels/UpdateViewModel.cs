@@ -48,11 +48,11 @@ namespace RawLauncher.Framework.ViewModels
                 LauncherViewModel.CurrentMod = new DummyMod();
             var l = LauncherViewModel.CurrentMod.InstalledLanguage;
 
-            if (LauncherViewModel.CurrentMod.Version <= Version.Parse("1.1.5"))
-            {
+            //if (LauncherViewModel.CurrentMod.Version <= Version.Parse("1.1.5"))
+            //{
                 LauncherViewModel.BaseGame.ClearDataFolder();
                 LauncherViewModel.BaseGame.Patch();
-            }
+            //}
 
             await ProgressBarUtilities.AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
 

@@ -8,9 +8,9 @@
     
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonOrganize}">spiel finden/organisieren</system:String>
-    
+
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonPatch}">patchen</system:String>
+                     ResourceId=ButtonPatch}">ki fixen</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonCheck}">version checken</system:String>

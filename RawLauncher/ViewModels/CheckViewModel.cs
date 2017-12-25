@@ -725,6 +725,8 @@ namespace RawLauncher.Framework.ViewModels
         private void PatchGames()
         {
             var eaw = LauncherPane.MainWindowViewModel.LauncherViewModel.Eaw.Patch();
+            if (LauncherViewModel.CurrentMod.Version >= Version.Parse("1.1.5.1"))
+                LauncherViewModel.BaseGame.ClearDataFolder();
             var foc = LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.Patch();
             CreatePatchMessage(eaw, foc);
             PerformCheckAsync();

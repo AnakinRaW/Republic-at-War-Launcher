@@ -10,7 +10,7 @@
                      ResourceId=ButtonOrganize}">find/organize game sessions</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonPatch}">patch</system:String>
+                     ResourceId=ButtonPatch}">fix ai</system:String>
     
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonCheck}">check version</system:String>

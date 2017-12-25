@@ -24,6 +24,8 @@ namespace RawLauncher.Framework.ViewModels
                 return;
             AvailableVersions = RestoreHelper.CreateVersionItems();
             DataSource = new ComboBoxDataSource(AvailableVersions);
+
+            DataSource.ChangeDisplayedItem(DataSource.Items.Count -1);
         }
 
         /// <summary>
@@ -62,6 +64,13 @@ namespace RawLauncher.Framework.ViewModels
         {
             ProzessStatus = MessageProvider.GetMessage("RestoreStatusPrepare");
             var l = LauncherViewModel.CurrentMod.InstalledLanguage;
+
+            if (version >= Version.Parse("1.1.5.1"))
+            {
+                LauncherViewModel.BaseGame.ClearDataFolder();
+                LauncherViewModel.BaseGame.Patch();
+            }
+
             await ProgressBarUtilities.AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
 
             var getXmlResult = await GetXmlData(version);

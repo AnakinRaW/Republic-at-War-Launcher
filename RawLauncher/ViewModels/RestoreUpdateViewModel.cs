@@ -408,7 +408,7 @@ namespace RawLauncher.Framework.ViewModels
         protected PrepareUpdateRestoreResult PrepareUpdateRestore(Version version)
         {
             HostServer.FlushErrorLog();
-            if (!RawLauncher.Framework.NativeMethods.NativeMethods.ComputerHasInternetConnection())
+            if (!NativeMethods.NativeMethods.ComputerHasInternetConnection())
                 return PrepareUpdateRestoreResult.NoInternet;
             if (version == null)
                 return PrepareUpdateRestoreResult.NoVersion;
