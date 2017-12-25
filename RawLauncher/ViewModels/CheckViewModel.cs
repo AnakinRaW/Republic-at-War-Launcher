@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -499,9 +500,37 @@ namespace RawLauncher.Framework.ViewModels
         /// <summary>
         /// Checks the AiFileContainer
         /// </summary>
-        /// <returns>returns if successfull or not</returns>
+        /// <returns>returns if successful or not</returns>
         private async Task<bool> CheckAiCorrectAsync()
         {
+            var flag = true;
+            if (LauncherViewModel.CurrentMod.Version >= Version.Parse("1.1.5.1"))
+            {
+                var aiPath = Path.Combine(LauncherViewModel.BaseGame.GameDirectory, @"Data\XML\AI\");
+
+                if (Directory.Exists(aiPath))
+                    if (Directory.EnumerateFileSystemEntries(aiPath).Any())
+                    {
+                        _messageRecorder.AppandMessage("XML folder contains additional AI data");
+                        flag = false;
+                    }
+                var scriptsPath = Path.Combine(LauncherViewModel.BaseGame.GameDirectory, @"Data\XML\Scripts\");
+                if (Directory.Exists(scriptsPath))
+                    if (Directory.EnumerateFileSystemEntries(scriptsPath).Any())
+                    {
+                        _messageRecorder.AppandMessage("Scripts folder contains additional data");
+                        flag = false;
+                    }
+            }
+            if (!flag)
+            {
+                AiWrongInstalled();
+                var result = MessageProvider.Show(MessageProvider.GetMessage("CheckAIFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
+                    MessageBoxImage.Error, MessageBoxResult.Yes);
+                if (result == MessageBoxResult.Yes)
+                    _messageRecorder.Save(MessageProvider.GetMessage("CheckFolderNotValid"));
+                return false;
+            }
             if (!await CheckFolderListAsync(AiFolderList, new List<string> {@"\Data\CustomMaps\"}))
             {
                 AiWrongInstalled();

@@ -69,14 +69,20 @@ namespace RawLauncher.Framework.Mods
         {
             if (File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\Data\XML\Gameobjectfiles.xml"))
                 return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\");
-            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\workshop\content\32470\")))
+
+            var dir = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\workshop\content\32470\1129810972");
+            var d = new DirectoryInfo(dir).FullName + "\\";
+
+            //MessageBox.Show(d);
+            if (!Directory.Exists(d))
                 throw new ModExceptions(MessageProvider.GetMessage("ExceptionModExistName", Name));
-            var modfile =
-                new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\workshop\content\32470\"))
-                    .GetFiles("Republic at War Changelog.txt", SearchOption.AllDirectories).FirstOrDefault();
-            if (modfile == null)
-                throw new ModExceptions(MessageProvider.GetMessage("ExceptionModExistName", Name));
-            return new RaW(modfile.Directory.FullName + "\\", true);
+            return new RaW(d, true);
+            //var modfile =
+            //    new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\workshop\content\32470\"))
+            //        .GetFiles("Republic at War Changelog.txt", SearchOption.AllDirectories).FirstOrDefault();
+            //if (modfile == null)
+            //    throw new ModExceptions(MessageProvider.GetMessage("ExceptionModExistName", Name));
+            //return new RaW(modfile.Directory.FullName + "\\", true);
         }
 
         public void PrepareStart(IGame game)
