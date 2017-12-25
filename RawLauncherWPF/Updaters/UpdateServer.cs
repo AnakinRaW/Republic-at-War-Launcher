@@ -19,7 +19,10 @@ namespace RawLauncherWPF.Updaters
             try
             {
                 var webClient = new WebClient();
-                result = webClient.DownloadString(ServerRootAddress + resource);
+
+                var url = ServerRootAddress + resource;
+
+                result = webClient.DownloadString(url);
             }
             catch (Exception)
             {
