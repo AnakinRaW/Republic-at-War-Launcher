@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using RawLauncher.Framework.Localization;
 
 namespace RawLauncher.Framework.Configuration
@@ -18,6 +20,8 @@ namespace RawLauncher.Framework.Configuration
         public const string ServerUrl = "https://gitlab.com/Republic-at-War/Republic-At-War/raw/";
         public const string ModVersionListRelativePath = "master/AvailableModVersions.txt";
         public const string SessionServerUrl = "http://raworganize.com/";
+
+        public static string RaWAppDataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"RaW_Modding_Team\");
 
         #region Beta Stuff
         public static Dictionary<string, string> BetaUsers = new Dictionary<string, string>

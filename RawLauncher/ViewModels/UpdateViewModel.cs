@@ -45,7 +45,7 @@ namespace RawLauncher.Framework.ViewModels
 
 
             if (LauncherViewModel.CurrentMod == null)
-                LauncherViewModel.CurrentMod = new DummyMod();
+                LauncherViewModel.CurrentMod = new DummyMod(LauncherViewModel.BaseGame);
             var l = LauncherViewModel.CurrentMod.InstalledLanguage;
 
             //if (LauncherViewModel.CurrentMod.Version <= Version.Parse("1.1.5"))
@@ -123,7 +123,7 @@ namespace RawLauncher.Framework.ViewModels
             } while (_count <= 3);
 
             if (LauncherViewModel.CurrentMod is DummyMod)
-                LauncherViewModel.CurrentMod = new RaW().FindMod();
+                LauncherViewModel.CurrentMod = new RaW().FindMod(LauncherViewModel.BaseGame);
 
             LauncherPane.MainWindowViewModel.InstalledVersion = LauncherViewModel.CurrentMod.Version;
             

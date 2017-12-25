@@ -19,7 +19,7 @@ namespace RawLauncher.Framework.Games
             var linkPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "RaW_Modding_Team", "tmp.lnk");
 
-            CreateShortcut(fileName, linkPath, a);
+            CreateShortcut(fileName, linkPath, a, process.StartInfo.WorkingDirectory);
 
             var startingProcess = new Process
             {
@@ -30,11 +30,11 @@ namespace RawLauncher.Framework.Games
             //File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "tmp.lnk"));
         }
 
-        private static void CreateShortcut(string filePath, string linkPath, string arguments)
+        private static void CreateShortcut(string filePath, string linkPath, string arguments, string wd)
         {
             var link = (NativeMethods.NativeMethods.IShellLink)new NativeMethods.NativeMethods.ShellLink();
             link.SetPath(filePath);
-            link.SetWorkingDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            link.SetWorkingDirectory(wd);
             link.SetArguments(arguments);
             var exeFile = Path.Combine(Directory.GetCurrentDirectory(), "RawLauncher.Theme.dll");
             link.SetIconLocation(exeFile, 0);

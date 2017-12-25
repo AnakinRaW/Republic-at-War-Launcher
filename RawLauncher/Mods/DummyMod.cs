@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using RawLauncher.Framework.Games;
 using RawLauncher.Framework.ViewModels;
 
@@ -7,10 +6,9 @@ namespace RawLauncher.Framework.Mods
 {
     class DummyMod : IMod
     {
-
-        public DummyMod()
+        public DummyMod(IGame baseGame)
         {
-            ModDirectory = Directory.GetCurrentDirectory() + @"\Mods\Republic_at_War\";
+            ModDirectory = baseGame.GameDirectory + @"\Mods\Republic_at_War\";
             Version = new Version("0.1");
             InstalledLanguage = LanguageTypes.English;
         }
@@ -27,7 +25,7 @@ namespace RawLauncher.Framework.Mods
             throw new NotImplementedException();
         }
 
-        public IMod FindMod()
+        public IMod FindMod(IGame baseGame)
         {
             throw new NotImplementedException();
         }

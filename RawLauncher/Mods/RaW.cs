@@ -65,12 +65,12 @@ namespace RawLauncher.Framework.Mods
             return File.Exists(ModDirectory + @"Data\XML\Gameobjectfiles.xml");
         }
 
-        public IMod FindMod()
+        public IMod FindMod(IGame baseGame)
         {
-            if (File.Exists(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\Data\XML\Gameobjectfiles.xml"))
-                return new RaW(Directory.GetCurrentDirectory() + @"\Mods\Republic_At_War\");
+            if (File.Exists(baseGame.GameDirectory + @"\Mods\Republic_At_War\Data\XML\Gameobjectfiles.xml"))
+                return new RaW(baseGame.GameDirectory + @"\Mods\Republic_At_War\");
 
-            var dir = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\workshop\content\32470\1129810972");
+            var dir = Path.Combine(baseGame.GameDirectory, @"..\..\..\workshop\content\32470\1129810972");
             var d = new DirectoryInfo(dir).FullName + "\\";
 
             //MessageBox.Show(d);

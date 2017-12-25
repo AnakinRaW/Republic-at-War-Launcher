@@ -89,21 +89,22 @@ namespace RawLauncher.Framework.Games
 
         public IGame FindGame()
         {
-            if (!File.Exists(Directory.GetCurrentDirectory() + @"\StarwarsG.exe"))
-                throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
-            return new SteamGame(Directory.GetCurrentDirectory() + @"\");
+            throw new NotImplementedException();
+            //if (!File.Exists(Directory.GetCurrentDirectory() + @"\StarwarsG.exe"))
+            //    throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
+            //return new SteamGame(Directory.GetCurrentDirectory() + @"\");
         }
 
         public string GameDirectory { get; }
 
         public bool IsPatched()
         {
-            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") 
+            if (!File.Exists(GameDirectory + @"\Data\XML\GAMECONSTANTS.XML") 
                 //|| !File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML")
                 )
                 return false;
             var hashProvider = new HashProvider();
-            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.XML") != GameconstantsUpdateHash)
+            if (hashProvider.GetFileHash(GameDirectory + @"\Data\XML\GAMECONSTANTS.XML") != GameconstantsUpdateHash)
                 return false;
             //if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML") != GraphicdetailsUpdateHash)
             //    return false;
@@ -116,13 +117,13 @@ namespace RawLauncher.Framework.Games
         {
             try
             {
-                if (!Directory.Exists(GameDirectory + @"Data\XML"))
-                    Directory.CreateDirectory(GameDirectory + @"Data\XML");
+                if (!Directory.Exists(GameDirectory + @"\Data\XML"))
+                    Directory.CreateDirectory(GameDirectory + @"\Data\XML");
 
-                if (File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.XML"))
-                    File.Delete(GameDirectory + @"Data\XML\GAMECONSTANTS.XML");
-                if (File.Exists(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML"))
-                    File.Delete(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML");
+                if (File.Exists(GameDirectory + @"\Data\XML\GAMECONSTANTS.XML"))
+                    File.Delete(GameDirectory + @"\Data\XML\GAMECONSTANTS.XML");
+                if (File.Exists(GameDirectory + @"\Data\XML\GRAPHICDETAILS.XML"))
+                    File.Delete(GameDirectory + @"\Data\XML\GRAPHICDETAILS.XML");
 
                 File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Properties.Resources.GAMECONSTANTS);
                 //File.WriteAllText(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML", Properties.Resources.GRAPHICDETAILS);

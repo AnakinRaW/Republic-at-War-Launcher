@@ -40,7 +40,7 @@ namespace RawLauncher.Framework.ViewModels
         /// <summary>
         /// Tells if the raw.txt exists
         /// </summary>
-        public bool FastLaunchFileExists => File.Exists(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName);
+        public bool FastLaunchFileExists => File.Exists(Configuration.Config.RaWAppDataPath + Configuration.Config.FastLaunchFileName);
 
         /// <summary>
         /// Contains the mod that shall be used for this launcher instance
@@ -201,10 +201,10 @@ namespace RawLauncher.Framework.ViewModels
         /// </summary>
         private void InitDirectories()
         {
-            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team")))
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team"));
-            RestoreDownloadDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team");
-            UpdateDownloadDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RaW_Modding_Team");
+            if (!Directory.Exists(Configuration.Config.RaWAppDataPath))
+                Directory.CreateDirectory(Configuration.Config.RaWAppDataPath);
+            RestoreDownloadDir = Path.Combine(Configuration.Config.RaWAppDataPath);
+            UpdateDownloadDir = Path.Combine(Configuration.Config.RaWAppDataPath);
         }
 
         /// <summary>
@@ -217,23 +217,22 @@ namespace RawLauncher.Framework.ViewModels
         {
             try
             {
-
                 var result = GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory());
 
-                if (result == GameTypes.Disk)
+                if (result.Type == GameTypes.Disk)
                 {
                     Eaw = new Eaw().FindGame();
-                    BaseGame = new Foc().FindGame();
+                    BaseGame = new Foc(result.FocPath);
                 }
-                else if (result == GameTypes.SteamGold)
+                else if (result.Type == GameTypes.SteamGold)
                 {
-                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
-                    BaseGame = new SteamGame().FindGame();
+                    Eaw = new Eaw().FindGame();
+                    BaseGame = new SteamGame(result.FocPath);
                 }
-                else if (result == GameTypes.GoG)
+                else if (result.Type == GameTypes.GoG)
                 {
-                    Eaw = new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\GameData\");
-                    BaseGame = new Foc().FindGame();
+                    Eaw = new Eaw().FindGame();
+                    BaseGame = new Foc(result.FocPath);
                 }
             }
             catch (GameExceptions)
@@ -251,7 +250,7 @@ namespace RawLauncher.Framework.ViewModels
         {
             try
             {
-                var republicAtWar = new RaW().FindMod();
+                var republicAtWar = new RaW().FindMod(BaseGame);
                 CurrentMod = republicAtWar;
             }
             catch (ModExceptions)
@@ -342,7 +341,7 @@ namespace RawLauncher.Framework.ViewModels
                 return;
             try
             {
-                File.WriteAllText(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName,
+                File.WriteAllText(Configuration.Config.RaWAppDataPath + Configuration.Config.FastLaunchFileName,
                     CurrentMod.Version + "\r\n" + DateTime.Now.ToShortDateString() + "\r\n" + 
                     "Press and hold SHIFT while starting the launcher to access it again.") ;
             }
@@ -360,7 +359,7 @@ namespace RawLauncher.Framework.ViewModels
                 return;
             try
             {
-                File.Delete(Directory.GetCurrentDirectory() + @"\" + Configuration.Config.FastLaunchFileName);
+                File.Delete(Configuration.Config.RaWAppDataPath + Configuration.Config.FastLaunchFileName);
             }
             catch (Exception)
             {

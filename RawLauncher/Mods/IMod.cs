@@ -48,7 +48,7 @@ namespace RawLauncher.Framework.Mods
         /// A mod is found if the Gameobjectfile exists.
         /// </summary>
         /// <returns>Returns a new instance of the Mod</returns>
-        IMod FindMod();
+        IMod FindMod(IGame baseGame);
 
         /// <summary>
         /// Prepares the mod for starting

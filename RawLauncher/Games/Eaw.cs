@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
+using Microsoft.Win32;
 using RawLauncher.Framework.Hash;
 using RawLauncher.Framework.Mods;
 using RawLauncher.Framework.Utilities;
@@ -9,17 +11,6 @@ namespace RawLauncher.Framework.Games
     public class Eaw : IGame
     {
         public const string GameconstantsUpdateHashEaW = "1d44b0797c8becbe240adc0098c2302a";
-
-        public Eaw()
-        {
-        }
-
-        public Eaw(string gameDirectory)
-        {
-            GameDirectory = gameDirectory;
-            if (!Exists())
-                throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
-        }
 
         public void DeleteMod(IMod mod)
         {
@@ -51,14 +42,26 @@ namespace RawLauncher.Framework.Games
 
         public IGame FindGame()
         {
-            if (
-                !File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()) +
-                             @"\Star Wars Empire at War\GameData\sweaw.exe"))
-                throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
-            return new Eaw(Directory.GetParent(Directory.GetCurrentDirectory()) + @"\Star Wars Empire at War\GameData\");
+            if (File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()) +
+                            @"\Star Wars Empire at War\GameData\sweaw.exe"))
+            {
+                GameDirectory = Directory.GetParent(Directory.GetCurrentDirectory()) +
+                                @"\Star Wars Empire at War\GameData\";
+                return this;
+            }
+
+            //Try by registry
+            var exePath = (string) Registry.LocalMachine
+                .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War\1.0", false)?.GetValue("ExePath");
+            if (exePath != null && File.Exists(exePath))
+            {
+                GameDirectory = new FileInfo(exePath).Directory.FullName;
+                return this;
+            }
+            throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
         }
 
-        public string GameDirectory { get; }
+        public string GameDirectory { get; protected set; }
 
         public bool IsPatched()
         {
@@ -100,9 +103,6 @@ namespace RawLauncher.Framework.Games
             //Ignored
         }
 
-        public string SaveGameDirectory
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string SaveGameDirectory => throw new NotImplementedException();
     }
 }
