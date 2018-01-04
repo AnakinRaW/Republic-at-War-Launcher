@@ -46,7 +46,7 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("CheckFolderNotValidCount", "El directorio siguiente contiene el número incorrecto de archivos: {0}");
             StringTable.Add("CheckFolderNotValidExists", "El directorio siguiente no existe: {0}");
             StringTable.Add("CheckFolderNotValidHash", "El directorio siguiente contiene archivos no válidos: {0}");
-            StringTable.Add("CheckGamesNotPatchedMessage", "Fuerzas de la Corrupción no está actualizado. Por favor presione 'parchear' para actualizar su juego.");
+            StringTable.Add("CheckGamesNotPatchedMessage", "Fuerzas de la Corrupción no está actualizado. Por favor presione 'fijar IA' para actualizar su juego.");
             StringTable.Add("CheckMessageAborted", "abortado");
             StringTable.Add("CheckMessageAiCorrect", "ia configurada");
             StringTable.Add("CheckMessageAiWrong", "ia desconfigurada");

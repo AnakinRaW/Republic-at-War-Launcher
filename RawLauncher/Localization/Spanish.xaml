@@ -10,10 +10,10 @@
                      ResourceId=ButtonOrganize}">encontrar/organizar juegos</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonPatch}">parche</system:String>
+                     ResourceId=ButtonPatch}">fijar ia</system:String>
     
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonCheck}">comprobar ia</system:String>
+                     ResourceId=ButtonCheck}">verifica la versión</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonLanguage}">cambiar lenguaje</system:String>
@@ -92,7 +92,7 @@
                      ResourceId=LangUkrainian}">ucraniano</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=LangUkrainian}">costumbre</system:String>
+                     ResourceId=LangCustom}">costumbre</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=LangCustomTooltip}">Por favor escriba su idioma en inglés</system:String>

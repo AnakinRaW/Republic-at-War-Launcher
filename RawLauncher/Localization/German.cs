@@ -47,7 +47,7 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("CheckFolderNotValidCount", "Das folgende Verzeichnis besitzt die falsche Anzahl an Dateien: {0}");
             StringTable.Add("CheckFolderNotValidExists", "Das folgende Verzeichnis exisitert nicht: {0}");
             StringTable.Add("CheckFolderNotValidHash", "Das folgende Verzeichnis besitzt fehlerhafte Dateien: {0}");
-            StringTable.Add("CheckGamesNotPatchedMessage", "Du musst die Spiele updaten. Bitte drücke den 'Patch'-Button");
+            StringTable.Add("CheckGamesNotPatchedMessage", "Du musst die Spiele updaten. Bitte drücke den 'KI Fixen'-Button");
             StringTable.Add("CheckMessageAborted", "abgebrochen");
             StringTable.Add("CheckMessageAiCorrect", "ai richtig");
             StringTable.Add("CheckMessageAiWrong", "ai flasch");
