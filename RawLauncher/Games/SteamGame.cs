@@ -125,7 +125,7 @@ namespace RawLauncher.Framework.Games
                 if (File.Exists(GameDirectory + @"\Data\XML\GRAPHICDETAILS.XML"))
                     File.Delete(GameDirectory + @"\Data\XML\GRAPHICDETAILS.XML");
 
-                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Properties.Resources.GAMECONSTANTS);
+                File.WriteAllText(GameDirectory + @"\Data\XML\GAMECONSTANTS.XML", Properties.Resources.GAMECONSTANTS);
                 //File.WriteAllText(GameDirectory + @"Data\XML\GRAPHICDETAILS.XML", Properties.Resources.GRAPHICDETAILS);
             }
             catch (Exception)
