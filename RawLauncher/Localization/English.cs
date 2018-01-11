@@ -112,12 +112,12 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("LanguageMessageSpeechRenameFailed", "Could not update speech folder.");
             StringTable.Add("LanguageMessageTextRenameFailed", "Could not update MasterTextFile.");
             StringTable.Add("LanguageNoneSelected", "Please select a language.");
-            StringTable.Add("LangugeOperationQuestion", "Note that changing the language means that any [MISSING]s and missing audio will be replaced with the default english version. For any other language packs, consider our Moddb page or check the Republic at War installer for language options.");
+            StringTable.Add("LangugeOperationQuestion", "Note that changing the language means that any [MISSING]s and missing audio will be replaced with the default English version. For any other language packs, consider our Moddb page or check the Republic at War installer for language options.");
         }
 
         private void AddLauncherStrings()
         {
-            StringTable.Add("LauncherInfoNewVersion", "New version: {0} is avaiable.");
+            StringTable.Add("LauncherInfoNewVersion", "New version: {0} is available.");
         }
 
         private void AddModStrings()
@@ -142,8 +142,8 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("RestoreDone", "Restoring done");
             StringTable.Add("RestoreErrorExit", "Process aborted or failed.");
             StringTable.Add("RestoreHostServerOffline", "Unable to download the required files as the servers could not be reached. Please try later.");
-            StringTable.Add("RestoreInternetLost", "You lost your internet connection. In order to prevent further error messages, the progress will be cancelled now.");
-            StringTable.Add("RestoreNoInternet", "You need an internet connection to execute a restore.");
+            StringTable.Add("RestoreInternetLost", "You lost your Internet connection. In order to prevent further error messages, the progress will be canceled now.");
+            StringTable.Add("RestoreNoInternet", "You need an Internet connection to execute a restore.");
             StringTable.Add("RestoreNoVersion", "Please select a version to restore to.");
             StringTable.Add("RestoreOperationQuestion", "Are you sure you want to restore Republic at War? This cannot be undone. Modified files will be deleted and restored to their default state.");
             StringTable.Add("RestoreStatusCheckAdditionalFiles", "Checking for additional files.");
@@ -165,11 +165,11 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("UpdateDone", "Updating done.");
             StringTable.Add("UpdateErrorExit", "Process aborted or failed.");
             StringTable.Add("UpdateHostOffline", "Unable to download the required files as the servers could not be reached. Please try later.");
-            StringTable.Add("UpdateInternetLost", "You lost your internet connection. In order to prevent further error messages, the progress will be cancelled now.");
-            StringTable.Add("UpdateNoInternet", "You need an internet connction to update the Republic at War.");
+            StringTable.Add("UpdateInternetLost", "You lost your Internet connection. In order to prevent further error messages, the progress will be canceled now.");
+            StringTable.Add("UpdateNoInternet", "You need an Internet connection to update the Republic at War.");
             StringTable.Add("UpdateOperationQuestion", "Are you sure you want to update Republic at War? This cannot be undone. Modified files will be deleted and restored to their default state.");
             StringTable.Add("UpdateStatusCheckAdditionalFiles", "Checking for additional files");
-            StringTable.Add("UpdateStatusCheckNew", "Checking for new and corruppted files");
+            StringTable.Add("UpdateStatusCheckNew", "Checking for new and corrupted files");
             StringTable.Add("UpdateStatusDownloaded", "Downloaded: {0}.");
             StringTable.Add("UpdateStatusFinishing", "Finishing.");
             StringTable.Add("UpdateStatusPrepare", "Preparing update.");
@@ -181,7 +181,7 @@ namespace RawLauncher.Framework.Localization
 
         private void AddVersionStrings()
         {
-            StringTable.Add("VersionUtilitiesAskForUpdate", "New Version: {0} avaiable. Update now?");
+            StringTable.Add("VersionUtilitiesAskForUpdate", "New Version: {0} available. Update now?");
         }
     }
 }

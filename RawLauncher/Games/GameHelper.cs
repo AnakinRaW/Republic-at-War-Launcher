@@ -29,8 +29,11 @@ namespace RawLauncher.Framework.Games
                 focPath = path;
             else
             {
-                var installed = (int)Registry.LocalMachine
-                    .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false).GetValue("installed");
+                var key = Registry.LocalMachine
+                    .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false);
+                if (key == null)
+                    throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
+                var installed = (int)key.GetValue("installed");
                 if (installed == 0)
                     throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
                 var exePath = (string)Registry.LocalMachine

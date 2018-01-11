@@ -213,7 +213,7 @@ namespace RawLauncher.Framework.ViewModels
         /// If BaseGame NOT found -> Exit with Message
         /// If EaW NOT found -> Continue with Message of limited use. 
         /// </summary>
-        private void InitGames()
+        private bool InitGames()
         {
             try
             {
@@ -237,9 +237,9 @@ namespace RawLauncher.Framework.ViewModels
             }
             catch (GameExceptions)
             {
-                //Show(e.Message);
-                //Environment.Exit(0);
+                return false;
             }
+            return true;
         }
 
         /// <summary>
@@ -274,7 +274,8 @@ namespace RawLauncher.Framework.ViewModels
         /// </summary>
         private void SetUpData()
         {
-            InitGames();
+            if (!InitGames())
+                return;
             InitMod();
             InitDirectories();
             InitServer();
