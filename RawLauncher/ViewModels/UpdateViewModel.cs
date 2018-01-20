@@ -95,14 +95,14 @@ namespace RawLauncher.Framework.ViewModels
                         }
                         break;
                     case UpdateOptions.IgnoreVoice:
-                        break;
-                    default:
                         result = await PrepareVoiceIgnoreUpdate();
                         if (result != UpdateRestoreStatus.Succeeded)
                         {
                             return result;
                         }
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(SelectedOption));
                 }
 
                 if (RestoreTable.Files.Count == 0)
