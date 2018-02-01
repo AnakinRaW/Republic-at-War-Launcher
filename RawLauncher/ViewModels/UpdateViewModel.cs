@@ -179,9 +179,10 @@ namespace RawLauncher.Framework.ViewModels
         {
             var result = await AddDownloadFilesToRestoreTable(VersionUtilities.GetLatestModVersion(), new List<string>
             {
-                @"\Data\Audio\Speech\*",
-                @"\Data\*Speech.meg",
-                @"\Data\Audio\"
+                @"Data\Audio\Speech\*",
+                @"Data\*Speech.meg",
+                @"Data\Audio\",
+                @"Data\Art\Movies\Binked\"
             });
             if (result != UpdateRestoreStatus.Succeeded)
             {

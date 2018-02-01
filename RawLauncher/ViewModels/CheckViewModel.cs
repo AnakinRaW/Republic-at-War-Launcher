@@ -567,7 +567,8 @@ namespace RawLauncher.Framework.ViewModels
         /// <returns>returns if successfull or not</returns>
         private async Task<bool> CheckModCorrectAsync()
         {
-            var excludeList = new List<string> {@"\Data\Audio\Speech\*", @"\", @"\Data\XML\UnitNames\", @"\Data\Text\", @"\Data\Audio\"};
+            var excludeList = new List<string> {@"\Data\Audio\Speech\*", @"\", @"\Data\XML\UnitNames\", @"\Data\Text\",
+                @"\Data\Audio\", @"\Data\Art\Movies\Binked\" };
             if (!await CheckFolderListAsync(ModFolderList, excludeList))
             {
                 ModWrongInstalled();

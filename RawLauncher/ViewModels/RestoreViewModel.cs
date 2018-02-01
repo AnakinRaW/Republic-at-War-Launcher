@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
@@ -219,15 +220,16 @@ namespace RawLauncher.Framework.ViewModels
 
         private async Task<UpdateRestoreStatus> FillRestoreTableIgnoreLanguage()
         {
-            if (!Version.TryParse(DataSource.DisplayedItem.Text, out Version version))
+            if (!Version.TryParse(DataSource.DisplayedItem.Text, out var version))
                 throw new ArgumentException();
 
             var result = await AddDownloadFilesToRestoreTable(version, new List<string>
             {
-                @"\Data\Audio\Speech\*",
-                @"\Data\*Speech.meg",
-                @"\Data\Text\",
-                @"\Data\Audio\"
+                @"Data\Audio\Speech\*",
+                @"Data\*Speech.meg",
+                @"Data\Text\",
+                @"Data\Audio\",
+                @"Data\Art\Movies\Binked\"
             });
             if (result != UpdateRestoreStatus.Succeeded)
             {
