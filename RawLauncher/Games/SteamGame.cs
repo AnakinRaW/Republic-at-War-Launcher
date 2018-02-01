@@ -14,7 +14,7 @@ namespace RawLauncher.Framework.Games
 
         protected override string GameExeFileName => "StarwarsG.exe";
 
-        protected override int DefaultXmlFileCount => 2;
+        protected override int DefaultXmlFileCount => 1;
 
         public override string Name => "Forces of Corruption (Steam)";
 

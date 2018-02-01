@@ -15,7 +15,7 @@ namespace RawLauncher.Framework.Games
 
         protected override string GameExeFileName => "swfoc.exe";
 
-        protected override int DefaultXmlFileCount => 1;
+        protected override int DefaultXmlFileCount => 2;
 
         public override string Name => "Forces of Corruption";
 
