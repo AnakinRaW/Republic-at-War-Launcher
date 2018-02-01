@@ -1,21 +1,21 @@
 ﻿using System.Data;
+using System.IO;
 using RawLauncher.Framework.ViewModels;
 
 namespace RawLauncher.Framework.UI
 {
-    /// <summary>
-    /// Interaktionslogik für PlayPane.xaml
-    /// </summary>
+    /// <inheritdoc cref="ILauncherPane" />
     public partial class PlayPane : ILauncherPane
     {
         public PlayPane(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
-            if (mainWindowViewModel == null)
-                throw new NoNullAllowedException(nameof(mainWindowViewModel));
-            MainWindowViewModel = mainWindowViewModel;
+            MainWindowViewModel = mainWindowViewModel ?? throw new NoNullAllowedException(nameof(mainWindowViewModel));
             DataContext = new PlayViewModel(this);
             ViewModel = (LauncherPaneViewModel)DataContext;
+
+            ToggleButton.IsChecked =
+                File.Exists(Configuration.Config.RaWAppDataPath + Configuration.Config.FastLaunchFileName);
         }
 
         public MainWindowViewModel MainWindowViewModel { get; }

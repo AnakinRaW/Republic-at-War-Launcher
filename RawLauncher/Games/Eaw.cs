@@ -22,6 +22,11 @@ namespace RawLauncher.Framework.Games
             //Ignored
         }
 
+        public bool IsGameAiClear()
+        {
+            throw new NotImplementedException();
+        }
+
         public void BackUpAiFiles()
         {
             throw new NotImplementedException();

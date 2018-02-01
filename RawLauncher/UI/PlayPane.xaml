@@ -37,7 +37,7 @@
         </controls:ImageSoundClickButton>
 
         <DockPanel Margin="0,270,0,0" Dock="Right" HorizontalAlignment="Center" Height="34">
-            <mafc:ImageToggleButton HorizontalAlignment="Center" VerticalAlignment="Top" Height="34" Width="34" 
+            <mafc:ImageToggleButton x:Name="ToggleButton" HorizontalAlignment="Center" VerticalAlignment="Top" Height="34" Width="34" 
                                 NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayIdle.png"
                                 HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"
                                 PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"

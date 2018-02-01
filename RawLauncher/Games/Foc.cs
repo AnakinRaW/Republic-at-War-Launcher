@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
 using RawLauncher.Framework.Hash;
 using RawLauncher.Framework.Helpers;
 using RawLauncher.Framework.Mods;
@@ -9,98 +8,37 @@ using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Games
 {
-    public class Foc : IGame
+    public class Foc : AbstractFocGame
     {
         public const string GameconstantsUpdateHash = "b0818f73031b7150a839bb83e7aa6187";
         public const string GraphicdetailsUpdateHash = "4d7e140887fc1dd52f47790a6e20b5c5";
 
+        protected override string GameExeFileName => "swfoc.exe";
+
+        protected override int DefaultXmlFileCount => 1;
+
+        public override string Name => "Forces of Corruption";
+
+        public override string SaveGameDirectory
+        {
+            get
+            {
+                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
+                if (!Directory.Exists(folder))
+                    return "";
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
+            }
+        }
+
         public Foc() { }
 
-        public Foc(string gameDirectory)
+        public Foc(string gameDirectory) : base(gameDirectory)
         {
-            GameDirectory = gameDirectory;
-            if (!Exists())
-                throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
-            GameProcessData = new GameProcessData();
         }
 
-        public void ClearDataFolder()
-        {
-            if (Directory.Exists(@"Data\CustomMaps"))
-                FileUtilities.DeleteDirectory(@"Data\CustomMaps");
-            if (Directory.Exists(@"Data\Scripts"))
-                FileUtilities.DeleteDirectory(@"Data\Scripts");
-            if (Directory.Exists(@"Data\XML"))
-                FileUtilities.DeleteDirectory(@"Data\XML");
-        }
-
-        //public void BackUpAiFiles()
-        //{
-        //    ClearBackupFiles();
-        //    if (Directory.Exists(@"Data\CustomMaps"))
-        //        Directory.Move(@"Data\CustomMaps", @"Data\CustomMapsBackup");
-        //    if (Directory.Exists(@"Data\Scripts"))
-        //        Directory.Move(@"Data\Scripts", @"Data\ScriptsBackup");
-        //    if (Directory.Exists(@"Data\Xml"))
-        //        Directory.Move(@"Data\Xml", @"Data\XmlBackup");
-        //}
-
-        //public void ResotreAiFiles()
-        //{
-        //    ClearDataFolder();
-        //    if (Directory.Exists(@"Data\CustomMapsBackup"))
-        //        Directory.Move(@"Data\CustomMapsBackup", @"Data\CustomMaps");
-        //    if (Directory.Exists(@"Data\ScriptsBackup"))
-        //        Directory.Move(@"Data\ScriptsBackup", @"Data\Scripts");
-        //    if (Directory.Exists(@"Data\XmlBackup"))
-        //        Directory.Move(@"Data\XmlBackup", @"Data\Xml");
-        //    ClearBackupFiles();
-        //}
-
-        //public void ClearBackupFiles()
-        //{
-        //    if (Directory.Exists(@"Data\CustomMapsBackup"))
-        //        Directory.Delete(@"Data\CustomMapsBackup", true);
-        //    if (Directory.Exists(@"Data\ScriptsBackup"))
-        //        Directory.Delete(@"Data\ScriptsBackup", true);
-        //    if (Directory.Exists(@"Data\XmlBackup"))
-        //        Directory.Delete(@"Data\XmlBackup", true);
-        //}
-
-        public void DeleteMod(IMod mod)
-        {
-            if (mod == null)
-            {
-                MessageBox.Show("Republic at War was not found");
-                return;
-            }
-            if (mod is DummyMod)
-                return;
-            ClearDataFolder();
-            Patch();
-            mod.Delete();
-        }
-
-        public GameProcessData GameProcessData { get; }
-
-        public bool Exists() => File.Exists(GameDirectory + @"\swfoc.exe");
-
-        public IGame FindGame()
-        {
-            //if (File.Exists(Directory.GetCurrentDirectory() + @"\swfoc.exe"))
-            //{
-            //    GameDirectory = Directory.GetCurrentDirectory();
-            //    return this;
-            //}
-            ////Try by registry
-            //throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
-
-            throw new NotImplementedException();
-        }
-
-        public string GameDirectory { get; protected set; }
-
-        public bool IsPatched()
+        public override bool IsPatched()
         {
             if (!File.Exists(GameDirectory + @"\Data\XML\GAMECONSTANTS.XML") ||
                 !File.Exists(GameDirectory + @"\Data\XML\GRAPHICDETAILS.XML"))
@@ -113,9 +51,7 @@ namespace RawLauncher.Framework.Games
             return true;
         }
 
-        public string Name => "Forces of Corruption";
-
-        public bool Patch()
+        public override bool Patch()
         {
             try
             {
@@ -137,31 +73,10 @@ namespace RawLauncher.Framework.Games
             return true;
         }
 
-        public void PlayGame()
+        public override void PlayGame(IMod mod)
         {
-            var process = new Process
-            {
-                StartInfo =
-                {
-                    FileName = GameDirectory + @"\swfoc.exe",
-                    WorkingDirectory = GameDirectory,
-                    UseShellExecute = false
-                }
-            };
-            try
-            {
-                GameStartHelper.StartGameProcess(process);
-                //GameProcessData.Process = process;
-                //GameProcessData.StartProcess();
-            }
-            catch (Exception)
-            {
-                //ignored
-            }
-        }
-
-        public void PlayGame(IMod mod)
-        {
+            if (mod == null)
+                return;
             if (!mod.Exists())
                 throw new ModExceptions(MessageProvider.GetMessage("ExceptionGameModExist"));
             if (!mod.ModDirectory.StartsWith(GameDirectory))
@@ -182,25 +97,10 @@ namespace RawLauncher.Framework.Games
             try
             {
                 GameStartHelper.StartGameProcess(process);
-                //GameProcessData.Process = process;
-                //GameProcessData.StartProcess();
             }
             catch (Exception)
             {
                 //ignored
-            }
-        }
-
-        public string SaveGameDirectory
-        {
-            get
-            {
-                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
-                if (!Directory.Exists(folder))
-                    return "";
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Petroglyph\Empire At War - Forces of Corruption\Save\");
             }
         }
     }

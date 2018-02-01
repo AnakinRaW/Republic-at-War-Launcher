@@ -71,6 +71,14 @@ namespace RawLauncher.Framework.Games
         /// </summary>
         void ClearDataFolder();
 
+        /// <summary>
+        /// Determines whether the game AI files are cleared
+        /// </summary>
+        /// <returns>
+        ///   <see langword="true"/> if game is clear; otherwise, <see langword="false"/>.
+        /// </returns>
+        bool IsGameAiClear();
+
         //void BackUpAiFiles();
 
         //void ResotreAiFiles();

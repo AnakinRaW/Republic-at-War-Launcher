@@ -83,6 +83,7 @@
     <Compile Include="ExtensionClasses\ListExtensions.cs" />
     <Compile Include="ExtensionClasses\StreamExtension.cs" />
     <Compile Include="ExtensionClasses\StringExtensions.cs" />
+    <Compile Include="Games\AbstractFocGame.cs" />
     <Compile Include="Games\Eaw.cs" />
     <Compile Include="Games\Foc.cs" />
     <Compile Include="Games\GameExceptions.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Helpers\CheckModHelper.cs" />
     <Compile Include="Helpers\FileShuffler.cs" />
+    <Compile Include="Helpers\PlayHelper.cs" />
     <Compile Include="Helpers\RestoreHelper.cs" />
     <Compile Include="Helpers\UnitNameFile.cs" />
     <Compile Include="Helpers\UpdateHelper.cs" />

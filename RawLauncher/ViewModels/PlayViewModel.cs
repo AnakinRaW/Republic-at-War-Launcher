@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using ModernApplicationFramework.Input.Command;
 using RawLauncher.Framework.Defreezer;
+using RawLauncher.Framework.Helpers;
 using RawLauncher.Framework.Mods;
 using RawLauncher.Framework.UI;
 using RawLauncher.Framework.Utilities;
@@ -51,38 +52,13 @@ namespace RawLauncher.Framework.ViewModels
             var bw = new BackgroundWorker();
             bw.DoWork += Bw_DoWork;
             bw.RunWorkerAsync();
-           
-            LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.PrepareStart(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame);
-            LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.PlayGame(
-                LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
-
-            //LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.GameProcessData.PropertyChanged += GameProcessData_PropertyChanged;   
-
-            //LauncherPane.MainWindowViewModel. LauncherViewModel.HideMainWindow();  
-            ThreadUtilities.ThreadSaveShutdown();
+            PlayHelper.Play(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame, LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod);
         }
 
         private static void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             AudioHelper.PlayAudio(AudioHelper.Audio.Play);
         }
-
-        //private void GameProcessData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
-        //            return;
-        //        LauncherPane.MainWindowViewModel.LauncherViewModel.CurrentMod.CleanUpAferGame(LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame);
-        //        LauncherPane.MainWindowViewModel.LauncherViewModel.BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
-
-        //        ThreadUtilities.ThreadSaveShutdown();
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        MessageBox.Show(exception.Message);
-        //    }
-        //}
 
         public Command DefreezeCommand => new Command(DefreezeAsync);
 

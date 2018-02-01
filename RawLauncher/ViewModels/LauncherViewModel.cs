@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Input.Command;
 using RawLauncher.Framework.Games;
+using RawLauncher.Framework.Helpers;
 using RawLauncher.Framework.Mods;
 using RawLauncher.Framework.Server;
 using RawLauncher.Framework.UI;
@@ -282,7 +284,7 @@ namespace RawLauncher.Framework.ViewModels
         }
 
 
-        private bool AskToUpdate()
+        private static bool AskToUpdate()
         {
             var result =
                         MessageProvider.Show(MessageProvider.GetMessage("VersionUtilitiesAskForUpdate", VersionUtilities.GetLatestModVersion()),
@@ -306,21 +308,9 @@ namespace RawLauncher.Framework.ViewModels
                     ShowMainWindow(4);
                     return;
                 }
-            CurrentMod.PrepareStart(BaseGame);
-            await Task.Run(() => BaseGame.PlayGame(CurrentMod));
-            ThreadUtilities.ThreadSaveShutdown();
-
-            //BaseGame.GameProcessData.PropertyChanged += GameProcessData_PropertyChanged;
+                if (PlayHelper.Play(BaseGame, CurrentMod))
+                    ShowMainWindow(1);
         }
-
-        //private void GameProcessData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if (e.PropertyName != nameof(GameProcessData.IsProcessRunning))
-        //        return;
-        //    CurrentMod.CleanUpAferGame(BaseGame);
-        //    BaseGame.GameProcessData.PropertyChanged -= GameProcessData_PropertyChanged;
-        //    _launcher.Shutdown();
-        //}
 
         /// <summary>
         /// Perform Normal launch
