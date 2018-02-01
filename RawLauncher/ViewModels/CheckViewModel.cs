@@ -102,7 +102,12 @@ namespace RawLauncher.Framework.ViewModels
                         _messageRecorder.AppandMessage(errorMessage);
                         result = false;
                     }
-                    ProzessStatus = MessageProvider.GetMessage("CheckStatusChecking", Path.GetDirectoryName(referenceDir));
+
+                    var path = new DirectoryInfo(referenceDir).Parent?.Parent?.Name + @"\" +
+                               new DirectoryInfo(referenceDir).Parent?.Name + @"\" +
+                               new DirectoryInfo(referenceDir).Name;
+
+                    ProzessStatus = MessageProvider.GetMessage("CheckStatusChecking", path);
                     Debug.WriteLine(referenceDir);
                     Progress = Progress + i;
                 }
