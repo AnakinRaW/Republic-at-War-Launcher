@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    
+    <!-- MainWindow -->
+    <SolidColorBrush Color="Black" Opacity=".8" x:Key="WhiteHalfOpacityBrush"/>
+    <SolidColorBrush Color="Aqua" x:Key="TabButtonPlayForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="TabButtonCheckForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="TabButtonLanguageForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="TabButtonRestoreForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="TabButtonUpdateForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="ButtonCloseLauncherForeground"/>
+    <SolidColorBrush Color="White" x:Key="VersionNormalForeground"/>
+    <SolidColorBrush Color="Red" x:Key="VersionOutdatedForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonDeleteRawForeground"/>
+    
+    <!-- Check Pane-->
+    <SolidColorBrush Color="White" x:Key="ButtonCheckForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonCancelForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonPathForeground"/>
+    <SolidColorBrush Color="White" x:Key="LabelProcessForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelPathForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelMessageGameFoundForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelMessageModFoundForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelMessagePathForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelMessageModForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelMessageAiForeground"/>
+
+    <!-- Language Pane-->
+    <SolidColorBrush Color="Aqua" x:Key="LabelLanaugeForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelLanaugeMessageForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonLanaugeForeground"/>
+    
+    <!-- Play Pane -->
+    <SolidColorBrush Color="White" x:Key="ButtonPlayForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonDefreezeForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonOrganizeForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelGameSessionsForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelSilentForeground"/>
+
+    <!-- Restore Pane -->
+    <SolidColorBrush Color="Aqua" x:Key="LabelRestoreMessageForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelRestoreOptionForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonRestoreForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelRestoreInfoForeground"/>
+
+    <!-- Update Pane -->
+    <SolidColorBrush Color="Aqua" x:Key="LabelUpdateMessageForeground"/>
+    <SolidColorBrush Color="Aqua" x:Key="LabelUpdateOptionForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonUpdateForeground"/>
+    <SolidColorBrush Color="White" x:Key="ButtonChangelogForeground"/>
+
+</ResourceDictionary>

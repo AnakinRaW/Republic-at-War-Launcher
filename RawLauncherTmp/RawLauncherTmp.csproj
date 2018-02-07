@@ -4,17 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{48493A48-75BB-41BD-A68D-8B83B71C53C0}</ProjectGuid>
-    <OutputType>library</OutputType>
-    <RootNamespace>RawLauncher.Framework</RootNamespace>
-    <AssemblyName>RawLauncher.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <ProjectGuid>{E2D47166-8184-4BCA-8400-94D728C4A734}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RawLauncherTmp</RootNamespace>
+    <AssemblyName>RawLauncherTmp</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,29 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ModernApplicationFramework">
-      <HintPath>..\Libraries\New\ModernApplicationFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="ModernApplicationFramework.Utilities">
-      <HintPath>..\Libraries\New\ModernApplicationFramework.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,11 +52,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="EmbeddedAssembly.cs" />
-    <Compile Include="Launcher\LauncherApp.xaml.cs">
-      <DependentUpon>LauncherApp.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Extension.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -87,30 +67,41 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ResourceExtractor\ResourceExtractor.cs" />
+    <Compile Include="ResourceExtractor\ResourceExtractorException.cs" />
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartupLauncher.cs" />
+    <Compile Include="Updaters\AssemblyUpdater.cs" />
+    <Compile Include="Updaters\FrameworkUpdater.cs" />
+    <Compile Include="Updaters\ThemeUpdater.cs" />
+    <Compile Include="Updaters\UpdateServer.cs" />
+    <Compile Include="VersionUtilities.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Launcher\LauncherApp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\Caliburn.Micro.dll" />
-    <EmbeddedResource Include="Libraries\Caliburn.Micro.Platform.Core.dll" />
-    <EmbeddedResource Include="Libraries\Caliburn.Micro.Platform.dll" />
-    <EmbeddedResource Include="Libraries\ModernApplicationFramework.dll" />
-    <EmbeddedResource Include="Libraries\ModernApplicationFramework.Utilities.dll" />
-    <EmbeddedResource Include="Libraries\NAudio.dll" />
-    <EmbeddedResource Include="Libraries\System.Windows.Interactivity.dll" />
+    <ProjectReference Include="..\RawLauncher.Framework.New\RawLauncher.Framework.New.csproj">
+      <Project>{48493a48-75bb-41bd-a68d-8b83b71c53c0}</Project>
+      <Name>RawLauncher.Framework.New</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RawLauncher.Theme.New\RawLauncher.Theme.New.csproj">
+      <Project>{d4e09646-f6ad-4929-bcab-bd1afe146e43}</Project>
+      <Name>RawLauncher.Theme.New</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RaW_Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

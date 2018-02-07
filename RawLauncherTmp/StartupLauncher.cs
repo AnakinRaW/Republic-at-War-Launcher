@@ -9,14 +9,16 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using RawLauncher.Framework.Configuration;
-using RawLauncher.Framework.Localization;
-using RawLauncherWPF.ResourceExtractor;
-using RawLauncherWPF.Updaters;
-using static RawLauncher.Framework.Utilities.MessageProvider;
-using BetaLogin = RawLauncher.Framework.UI.BetaLogin;
+//using RawLauncher.Framework.Configuration;
+//using RawLauncher.Framework.Localization;
+using RawLauncherTmp.NativeMethods;
+using RawLauncherTmp.ResourceExtractor;
+using RawLauncherTmp.Updaters;
+//using static RawLauncher.Framework.Utilities.MessageProvider;
+//using BetaLogin = RawLauncher.Framework.UI.BetaLogin;
 using LauncherApp = RawLauncher.Framework.Launcher.LauncherApp;
 using MessageBox = System.Windows.MessageBox;
+using SplashScreen = RawLauncherTmp.SplashScreen;
 
 namespace RawLauncherWPF
 {
@@ -94,7 +96,7 @@ namespace RawLauncherWPF
 
         private static void CreateShortcut()
         {
-            var link = (NativeMethods.NativeMethods.IShellLink) new NativeMethods.NativeMethods.ShellLink();
+            var link = (NativeMethods.IShellLink) new NativeMethods.ShellLink();
 
             link.SetDescription("Open the Republic at War Launcher");
             link.SetPath(Assembly.GetExecutingAssembly().Location);
@@ -115,7 +117,7 @@ namespace RawLauncherWPF
 
         private static void CheckBeta()
         {
-            new BetaLogin().ShowDialog();
+            // new BetaLogin().ShowDialog();
         }
 
         private static void SetUpLanguage()
@@ -139,7 +141,7 @@ namespace RawLauncherWPF
         /// </summary>
         private static void ExtractLirbaries()
         {
-            var audioExtractor = new ResourceExtractor.ResourceExtractor("Libraries");
+            var audioExtractor = new RawLauncherTmp.ResourceExtractor.ResourceExtractor("Libraries");
             try
             {
                 audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),
