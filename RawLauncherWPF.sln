@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Theme", "RawLau
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Framework", "RawLauncher\RawLauncher.Framework.csproj", "{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Framework.New", "RawLauncher.Framework.New\RawLauncher.Framework.New.csproj", "{4B20A14B-19F7-49DD-A3D2-EC5C64608285}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Theme.New", "RawLauncher.Theme.New\RawLauncher.Theme.New.csproj", "{A6F717B2-10C5-4FAF-8F43-A7F2FA7E8AD3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
