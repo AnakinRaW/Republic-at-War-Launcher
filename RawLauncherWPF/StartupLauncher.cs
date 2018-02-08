@@ -107,10 +107,10 @@ namespace RawLauncherWPF
 
         private static void CheckRunning()
         {
-            //if (!IsApplicationAlreadyRunning())
-            //    return;
-            //Show(GetMessage("ErrorAlreadyRunning"));
-            //Environment.Exit(0);
+            if (!IsApplicationAlreadyRunning())
+                return;
+            Show(GetMessage("ErrorAlreadyRunning"));
+            Environment.Exit(0);
         }
 
         private static void CheckBeta()
@@ -120,18 +120,18 @@ namespace RawLauncherWPF
 
         private static void SetUpLanguage()
         {
-            //switch (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName)
-            //{
-            //    case "de":
-            //        Config.CurrentLanguage = new German();
-            //        break;
-            //    case "es":
-            //        Config.CurrentLanguage = new Spanish();
-            //        break;
-            //    default:
-            //        Config.CurrentLanguage = new English();
-            //        break;
-            //}
+            switch (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName)
+            {
+                case "de":
+                    Config.CurrentLanguage = new German();
+                    break;
+                case "es":
+                    Config.CurrentLanguage = new Spanish();
+                    break;
+                default:
+                    Config.CurrentLanguage = new English();
+                    break;
+            }
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RawLauncher.Framework.ResourceExtractor
+namespace RawLauncher.Framework.AssemblyHelper.ResourceExtractor
 {
     public class ResourceExtractorException : Exception
     {

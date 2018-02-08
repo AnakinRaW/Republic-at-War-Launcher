@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using RawLauncher.Framework.Configuration;
 using RawLauncher.Framework.Hash;
-using static RawLauncher.Framework.Configuration.Config;
 
-namespace RawLauncher.Framework.ResourceExtractor
+namespace RawLauncher.Framework.AssemblyHelper.ResourceExtractor
 {
     public class ResourceExtractor
     {
@@ -26,6 +26,11 @@ namespace RawLauncher.Framework.ResourceExtractor
         {
             Assembly = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             ResourcePath = resourcePath + @".";
+        }
+
+        public void ExtractFilesIfRequired(string directory, string file)
+        {
+            ExtractFilesIfRequired(directory, new []{ file });
         }
 
 
@@ -52,7 +57,7 @@ namespace RawLauncher.Framework.ResourceExtractor
                 if (File.Exists(filePath))
                 {
                     var hp = new HashProvider();
-                    if (!hp.GetFileHash(filePath).Equals(CurrentMafHash))
+                    if (!hp.GetFileHash(filePath).Equals(Config.CurrentMafHash))
                         InternalExtractFile(directory, file);
                 }
                 else

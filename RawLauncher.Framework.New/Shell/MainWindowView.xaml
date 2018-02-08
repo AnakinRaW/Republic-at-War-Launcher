@@ -4,6 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mafc="http://modern.framework.com/controls"
+        xmlns:controls="clr-namespace:RawLauncher.Framework.Controls"
+        xmlns:lang="clr-namespace:RawLauncher.Framework.Localization"
+        xmlns:converters="clr-namespace:RawLauncher.Framework.Utilities.Converters"
         mc:Ignorable="d" Title="MainWindow" Width="780" Height="520">
 
     <mafc:MainWindow.Resources>
@@ -12,6 +15,7 @@
                 <ResourceDictionary Source="pack://application:,,,/RawLauncher.Theme;component/LauncherTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!-- other resources go here -->
+            <converters:IsGreaterVersionColorConverter x:Key="IsGreaterConverter"/>
         </ResourceDictionary>
     </mafc:MainWindow.Resources>
     <mafc:MainWindow.Background>
@@ -19,7 +23,84 @@
     </mafc:MainWindow.Background>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140*"/>
+            <RowDefinition Height="49*"/>
+            <RowDefinition Height="122*"/>
+            <RowDefinition Height="118*"/>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="26*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="215*"/>
+            <ColumnDefinition Width="533*"/>
+            <ColumnDefinition Width="24*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Height="2" Grid.Row="0" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,0,0,0" SnapsToDevicePixels="True">
+            <Border.Background>
+                <ImageBrush ImageSource="/RawLauncher.Theme;component/Resources/Visual/MainWindow/TabBarBorder.png"/>
+            </Border.Background>
+        </Border>
+
+        <ContentControl x:Name="ActiveItem" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="4" VerticalAlignment="Stretch"/>
+
+        <controls:ImageSoundClickButton Grid.Row="2" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
+                                        NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbIdle.png" 
+                                        HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbHover.png" 
+                                        PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/ModdbHover.png"
+                                        Command="{Binding OpenModdbCommand}"/>
+
+        <controls:ImageSoundClickButton Grid.Row="3" Grid.Column="0" Height="63" Width="128" VerticalAlignment="Top"
+                                        NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RaWIdle.png" 
+                                        HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RaWHover.png" 
+                                        PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RaWHover.png"
+                                        Command="{Binding OpenEeawCommand}"/>
+
+        <mafc:ImageButton Grid.Row="4" Grid.Column="0" VerticalAlignment="Top"
+                          Command="{Binding CloseCommand}" NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
+            <mafc:ImageButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonCloseLauncherForeground}" FontSize="28" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                       Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonClose}}"/>
+            </mafc:ImageButton.Content>
+        </mafc:ImageButton>
+
+        <DockPanel Grid.Row="5" Grid.Column="1" Background="{StaticResource WhiteHalfOpacityBrush}" Margin="0,3,0,3">
+            <Label Foreground="{StaticResource VersionNormalForeground}" Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainInstalledVersion}}" Margin="0,-3,0,0"/>
+            <Label  x:Name="InstalledVerionLb" Foreground="{StaticResource VersionNormalForeground}" Opacity="1" Content="{Binding InstalledVersion, FallbackValue='1.1.5'}" Margin="0,-3,0,0"/>
+
+            <Label Opacity="1" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.TextMainLatestVersion}}" Margin="0,-3,0,0">
+                <Label.Foreground>
+                    <MultiBinding Converter="{StaticResource IsGreaterConverter}">
+                        <Binding ElementName="InstalledVerionLb" Path="Content"/>
+                        <Binding ElementName="latestVerionLb" Path="Content"/>
+                    </MultiBinding>
+                </Label.Foreground>
+            </Label>
+            <Label Opacity="1" Name="latestVerionLb" Content="{Binding LatestVersion, FallbackValue='1.2'}" Margin="0,-3,0,0" >
+                <Label.Foreground>
+                    <MultiBinding Converter="{StaticResource IsGreaterConverter}">
+                        <Binding ElementName="InstalledVerionLb" Path="Content"/>
+                        <Binding ElementName="latestVerionLb" Path="Content"/>
+                    </MultiBinding>
+                </Label.Foreground>
+            </Label>
+
+            <mafc:ImageButton HorizontalAlignment="Right" Margin="10,-5,0,0" Width="Auto" Command="{Binding DeleteRawCommand}"
+                              NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}" VerticalContentAlignment="Center">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDeleteRawForeground}" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                           Text="delete raw"/>
+                </mafc:ImageButton.Content>
+            </mafc:ImageButton>
+            <mafc:ImageButton HorizontalAlignment="Right" Width="100" Command="{Binding AboutCommand}" Margin="0,-5,0,0"
+                              NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="White" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                           Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonAbout}}"/>
+                </mafc:ImageButton.Content>
+            </mafc:ImageButton>
+        </DockPanel>
     </Grid>
 </mafc:MainWindow>
 

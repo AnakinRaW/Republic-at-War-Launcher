@@ -1,54 +1,57 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
+﻿using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
-using RawLauncher.Framework.Shell;
+using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Interfaces.ViewModels;
+using RawLauncher.Framework.AssemblyHelper;
+using RawLauncher.Theme;
 
 namespace RawLauncher.Framework.Launcher
 {
     public partial class LauncherApp
     {
-        private object ViewModel { get; }
-
-        private static void LoadAssemblies()
-        {
-            EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.System.Windows.Interactivity.dll", "System.Windows.Interactivity.dll");
-            EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.NAudio.dll", "NAudio.dll");
-            EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.Caliburn.Micro.dll", "Caliburn.Micro.dll");
-            EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.Caliburn.Micro.Platform.Core.dll", "Caliburn.Micro.Platform.Core.dll");
-            EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.Caliburn.Micro.Platform.dll", "Caliburn.Micro.Platform.dll");
-            EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.ModernApplicationFramework.Utilities.dll", "ModernApplicationFramework.Utilities.dll");
-            EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.ModernApplicationFramework.dll", "ModernApplicationFramework.dll");
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-        }
-
-        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            return EmbeddedAssembly.Get(args.Name);
-        }
-
         static LauncherApp()
         {
-            var mafExtractor = new ResourceExtractor.ResourceExtractor("Libraries");
-            mafExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),
-                new[]
-                {
-                    "ModernApplicationFramework.dll"
-                });
-            LoadAssemblies();
+            var mafExtractor = new AssemblyHelper.ResourceExtractor.ResourceExtractor("Libraries");
+            mafExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(), "ModernApplicationFramework.dll");
+            AssemblyLoader.LoadAssemblies();
         }
         
         public LauncherApp()
         {
             new Bootstrapper(false);
-            // ViewModel = new LauncherViewModel();
         }
-        
-        private void App_OnStartup(object sender, StartupEventArgs e)
+
+        /// <summary>
+        /// This Method contains some actions that shall be performed after the launcher is ready to launch but before showing up
+        /// Can Close Application after this compleded tasks.
+        /// Runs CleanUp on Exit
+        /// </summary>
+        private async void App_OnStartup(object sender, StartupEventArgs e)
         {
-            var m = new WindowManager();
-            m.ShowWindow(new MainWindowViewModel());
+            var launcher = IoC.Get<LauncherModel>();
+
+            // If "RaW.txt" does exists AND Shift is NOT pressed -> Show UpdateScreen and Run Mod afterwards
+            // Else Run MainWindow (which inits the the Update View which checks for update on creation)
+            if (launcher.FastLaunchFileExists && Keyboard.Modifiers != ModifierKeys.Shift)
+            {
+                await launcher.FastLaunchCommand.Execute();
+                return;
+            }
+
+            if (launcher.FastLaunchFileExists)
+                await launcher.DeleteFastLaunchFileCommand.Execute();
+            IoC.Get<IThemeManager>().Theme = new LauncherTheme();
+            IoC.Get<IStatusBarDataModelService>().SetVisibility(0);
+            ShowMainWindow();
+            await launcher.NormalLaunchCommand.Execute();
+        }
+
+        private void ShowMainWindow()
+        {
+            var wm = IoC.Get<IWindowManager>();
+            wm.ShowWindow(IoC.Get<IMainWindowViewModel>());
         }
     }
 }

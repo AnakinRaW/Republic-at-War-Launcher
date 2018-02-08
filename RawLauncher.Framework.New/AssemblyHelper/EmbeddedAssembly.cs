@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 
-namespace RawLauncher.Framework
+namespace RawLauncher.Framework.AssemblyHelper
 {
     internal static class EmbeddedAssembly
     {
