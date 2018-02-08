@@ -98,6 +98,7 @@
     <Compile Include="Games\GameStartHelper.cs" />
     <Compile Include="Games\GameTypes.cs" />
     <Compile Include="Games\IGame.cs" />
+    <Compile Include="Games\PlayHelper.cs" />
     <Compile Include="Games\ProcessHelper.cs" />
     <Compile Include="Games\Steam.cs" />
     <Compile Include="Games\SteamGame.cs" />
@@ -111,6 +112,9 @@
     <Compile Include="Localization\Language.cs" />
     <Compile Include="Localization\Spanish.cs" />
     <Compile Include="Localization\XmalLanguageKeys.cs" />
+    <Compile Include="Models\FileContainer.cs" />
+    <Compile Include="Models\RestoreFile.cs" />
+    <Compile Include="Models\RestoreTable.cs" />
     <Compile Include="Mods\DummyMod.cs" />
     <Compile Include="Mods\IMod.cs" />
     <Compile Include="Mods\ModExceptions.cs" />
@@ -132,14 +136,29 @@
     </Compile>
     <Compile Include="AssemblyHelper\ResourceExtractor\ResourceExtractor.cs" />
     <Compile Include="AssemblyHelper\ResourceExtractor\ResourceExtractorException.cs" />
+    <Compile Include="Screens\CheckScreen\CheckScreenView.xaml.cs">
+      <DependentUpon>CheckScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\CheckScreen\CheckScreenViewModel.cs" />
+    <Compile Include="Screens\CheckScreen\ICheckScreen.cs" />
+    <Compile Include="Screens\ILauncherScreen.cs" />
+    <Compile Include="Screens\LauncherScreen.cs" />
+    <Compile Include="Screens\PlayScreen\IPlayScreen.cs" />
+    <Compile Include="Screens\PlayScreen\PlayScreenView.xaml.cs">
+      <DependentUpon>PlayScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\PlayScreen\PlayScreenViewModel.cs" />
     <Compile Include="Utilities\Converters\BoolToIndexConverter.cs" />
     <Compile Include="Utilities\Converters\IsGreaterVersionColorConverter.cs" />
     <Compile Include="Utilities\Converters\ResourceToStreamConverter.cs" />
     <Compile Include="Utilities\FileShuffler.cs" />
     <Compile Include="Utilities\FileUtilities.cs" />
+    <Compile Include="Utilities\ImageUtilities.cs" />
+    <Compile Include="Utilities\IndicatorImagesHelper.cs" />
     <Compile Include="Utilities\LanguageTypes.cs" />
     <Compile Include="Utilities\MessageRecorder.cs" />
     <Compile Include="Utilities\NotepadHelper.cs" />
+    <Compile Include="Utilities\ThreadUtilities.cs" />
     <Compile Include="Utilities\UnitNameFile.cs" />
     <Compile Include="Utilities\VersionUtilities.cs" />
     <Compile Include="Xml\XmlObjectParser.cs" />
@@ -170,10 +189,6 @@
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\MainWindowViewModel.cs" />
-    <Compile Include="TestScreen\TestScreenView.xaml.cs">
-      <DependentUpon>TestScreenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestScreen\TestScreenViewModel.cs" />
     <Compile Include="Utilities\AudioPlayer.cs" />
     <Compile Include="Utilities\MessageProvider.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -230,11 +245,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shell\MainWindowView.xaml">
+    <Page Include="Screens\CheckScreen\CheckScreenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestScreen\TestScreenView.xaml">
+    <Page Include="Screens\PlayScreen\PlayScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Shell\MainWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

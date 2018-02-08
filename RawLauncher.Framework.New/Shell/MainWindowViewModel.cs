@@ -2,22 +2,35 @@
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.WindowModels;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using RawLauncher.Framework.Controls;
 using RawLauncher.Framework.Launcher;
-using RawLauncher.Framework.TestScreen;
+using RawLauncher.Framework.Screens;
+using RawLauncher.Framework.Screens.PlayScreen;
 using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Shell
 {
-    [Export(typeof(IMainWindowViewModel))]
-    public class MainWindowViewModel : MainWindowViewModelConductorOneActive
+
+    public interface ILauncherMainWindow : IMainWindowViewModel
     {
+        bool IsBlocked { get; set; }
+    }
+
+
+    [Export(typeof(ILauncherMainWindow))]
+    public class MainWindowViewModel : MainWindowViewModelConductorOneActive, ILauncherMainWindow
+    {
+        private readonly ILauncherScreen[] _screens;
         private Version _installedVersion;
         private Version _latestVersion;
+        private bool _isBlocked;
+        private MainWindowView _window;
 
         public Command OpenModdbCommand => new Command(OpenModdb);
 
@@ -27,7 +40,15 @@ namespace RawLauncher.Framework.Shell
 
         public Command DeleteRawCommand => new Command(DeleteRaw);
 
-        // public Command<object> ShowPaneAudioCommand => new ObjectCommand(ShowPaneAudio, CanShowPane);
+        public ICommand ShowPaneAudioCommand => new DelegateCommand(ShowPaneAudio);
+
+        private void ShowPaneAudio(object obj)
+        {
+            if (!(obj is Type type))
+                return;
+            AudioPlayer.PlayAudio(AudioPlayer.Audio.ButtonPress);
+            ShowScreen(type);
+        }
 
         public Version InstalledVersion
         {
@@ -49,10 +70,32 @@ namespace RawLauncher.Framework.Shell
             }
         }
 
-        public override void OnImportsSatisfied()
+        /// <summary>
+        /// Tells if there is a critical task running which shall prevent from performing other tasks
+        /// </summary>
+        public bool IsBlocked
         {
-            base.OnImportsSatisfied();
-            ActivateItem(IoC.Get<TestScreenViewModel>());
+            get => _isBlocked;
+            set
+            {
+                if (Equals(value, _isBlocked))
+                    return;
+                _isBlocked = value;
+                _screens.ForEach(p => p.CanExecute = !_isBlocked);
+                NotifyOfPropertyChange();
+            }
+        }
+
+        [ImportingConstructor]
+        public MainWindowViewModel([ImportMany] ILauncherScreen[] screens)
+        {
+            _screens = screens;
+        }
+
+        public void ShowScreen(Type type)
+        {
+            ActivateItem(IoC.GetInstance(type, null));
+            _window.ActivateTab(type);
         }
 
         protected override void OnViewAttached(object view, object context)
@@ -73,6 +116,34 @@ namespace RawLauncher.Framework.Shell
             var launcher = IoC.Get<LauncherModel>();
             InstalledVersion = launcher.CurrentMod == null ? new Version("1.0") : launcher.CurrentMod.Version;
             LatestVersion = VersionUtilities.GetLatestModVersion();
+
+            ShowScreen(typeof(IPlayScreen));
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            _window = view as MainWindowView;
+            var launcher = IoC.Get<LauncherModel>();
+            if (launcher.BaseGame == null || launcher.Eaw == null)
+            {
+                IsBlocked = true;
+                ShowScreen(typeof(IPlayScreen));
+                OnUIThread(() =>
+                {
+                    MessageProvider.ShowError(MessageProvider.GetMessage("ErrorInitFailed"));
+                });
+            }
+            if (launcher.CurrentMod == null && launcher.BaseGame != null && launcher.Eaw != null)
+            {
+                IsBlocked = true;
+                //TODO:
+                //_screens.First(x => x.GetType() == typeof(IUpdateScreen)).CanExecute = true;
+                // ShowScreen(typeof(IUpdateScreen));
+                OnUIThread(() =>
+                {
+                    MessageProvider.ShowInformation(MessageProvider.GetMessage("ErrorInitFailedMod"));
+                });
+            }
         }
 
         private static void OpenEeaw()

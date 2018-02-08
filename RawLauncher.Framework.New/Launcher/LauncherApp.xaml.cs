@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using RawLauncher.Framework.AssemblyHelper;
+using RawLauncher.Framework.Shell;
 using RawLauncher.Theme;
 
 namespace RawLauncher.Framework.Launcher
@@ -51,7 +52,7 @@ namespace RawLauncher.Framework.Launcher
         private void ShowMainWindow()
         {
             var wm = IoC.Get<IWindowManager>();
-            wm.ShowWindow(IoC.Get<IMainWindowViewModel>());
+            wm.ShowWindow(IoC.Get<ILauncherMainWindow>());
         }
     }
 }

@@ -7,6 +7,8 @@
         xmlns:controls="clr-namespace:RawLauncher.Framework.Controls"
         xmlns:lang="clr-namespace:RawLauncher.Framework.Localization"
         xmlns:converters="clr-namespace:RawLauncher.Framework.Utilities.Converters"
+        xmlns:playScreen="clr-namespace:RawLauncher.Framework.Screens.PlayScreen"
+        xmlns:checkScreen="clr-namespace:RawLauncher.Framework.Screens.CheckScreen"
         mc:Ignorable="d" Title="MainWindow" Width="780" Height="520">
 
     <mafc:MainWindow.Resources>
@@ -16,6 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- other resources go here -->
             <converters:IsGreaterVersionColorConverter x:Key="IsGreaterConverter"/>
+            <converters:BoolToIndexConverter x:Key="BoolToIndexConverter"/>
         </ResourceDictionary>
     </mafc:MainWindow.Resources>
     <mafc:MainWindow.Background>
@@ -36,6 +39,35 @@
             <ColumnDefinition Width="533*"/>
             <ColumnDefinition Width="24*"/>
         </Grid.ColumnDefinitions>
+
+        <mafc:ImageTabButton x:Name="PlayTab" Width="109" Height="31" SnapsToDevicePixels="True"
+                             Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
+                             NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/PlayIdle.png"
+                             HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/PlayHover.png"
+                             PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/PlayHover.png"
+                             CheckedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/PlayHover.png" Grid.Row="0" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" Margin="-3,0,0,0" Grid.Column="1" Command="{Binding ShowPaneAudioCommand}" 
+                             CommandParameter="{x:Type playScreen:IPlayScreen}">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource TabButtonPlayForeground}" 
+                                       FontSize="14" Stroke="Black" StrokeThickness="1" 
+                                       FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                       Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabPlay}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
+
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="CheckTab"
+                             Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
+                             NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/CheckIdle.png"
+                             HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/CheckHover.png"
+                             PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/CheckHover.png"
+                             CheckedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/CheckHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" Margin="106,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="{x:Type checkScreen:ICheckScreen}">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource TabButtonCheckForeground}" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                       Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabCheck}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
 
         <Border Height="2" Grid.Row="0" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,0,0,0" SnapsToDevicePixels="True">
             <Border.Background>

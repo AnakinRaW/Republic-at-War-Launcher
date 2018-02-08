@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RawLauncher.Framework.TestScreen
+namespace RawLauncher.Framework.Screens.CheckScreen
 {
     /// <summary>
-    /// Interaktionslogik für TestScreenView.xaml
+    /// Interaktionslogik für CheckScreenView.xaml
     /// </summary>
-    public partial class TestScreenView : UserControl
+    public partial class CheckScreenView : UserControl
     {
-        public TestScreenView()
+        public CheckScreenView()
         {
             InitializeComponent();
         }
