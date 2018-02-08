@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="ModernApplicationFramework">
       <HintPath>..\Libraries\New\ModernApplicationFramework.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ModernApplicationFramework.Utilities">
       <HintPath>..\Libraries\New\ModernApplicationFramework.Utilities.dll</HintPath>
@@ -51,6 +52,7 @@
       <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -70,10 +72,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Configuration\Config.cs" />
     <Compile Include="EmbeddedAssembly.cs" />
+    <Compile Include="Hash\HashProvider.cs" />
     <Compile Include="Launcher\LauncherApp.xaml.cs">
       <DependentUpon>LauncherApp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Localization\English.cs" />
+    <Compile Include="Localization\German.cs" />
+    <Compile Include="Localization\Language.cs" />
+    <Compile Include="Localization\Spanish.cs" />
+    <Compile Include="Localization\XmalLanguageKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -87,6 +96,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ResourceExtractor\ResourceExtractor.cs" />
+    <Compile Include="ResourceExtractor\ResourceExtractorException.cs" />
+    <Compile Include="Shell\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shell\MainWindowViewModel.cs" />
+    <Compile Include="Utilities\MessageProvider.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -102,6 +118,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Localization\English.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Localization\German.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Localization\Spanish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shell\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Libraries\Caliburn.Micro.dll" />
@@ -111,6 +143,12 @@
     <EmbeddedResource Include="Libraries\ModernApplicationFramework.Utilities.dll" />
     <EmbeddedResource Include="Libraries\NAudio.dll" />
     <EmbeddedResource Include="Libraries\System.Windows.Interactivity.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RawLauncher.Theme.New\RawLauncher.Theme.New.csproj">
+      <Project>{d4e09646-f6ad-4929-bcab-bd1afe146e43}</Project>
+      <Name>RawLauncher.Theme.New</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

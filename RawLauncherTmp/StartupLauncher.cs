@@ -9,18 +9,16 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using System.Windows.Forms;
 using Microsoft.Win32;
-//using RawLauncher.Framework.Configuration;
-//using RawLauncher.Framework.Localization;
-using RawLauncherTmp.NativeMethods;
+using RawLauncher.Framework.Configuration;
+using RawLauncher.Framework.Localization;
+using RawLauncher.Framework.Utilities;
 using RawLauncherTmp.ResourceExtractor;
 using RawLauncherTmp.Updaters;
-//using static RawLauncher.Framework.Utilities.MessageProvider;
 //using BetaLogin = RawLauncher.Framework.UI.BetaLogin;
 using LauncherApp = RawLauncher.Framework.Launcher.LauncherApp;
 using MessageBox = System.Windows.MessageBox;
-using SplashScreen = RawLauncherTmp.SplashScreen;
 
-namespace RawLauncherWPF
+namespace RawLauncherTmp
 {
     /// <summary>
     /// This class is the Entrypoint for the Launcher. 
@@ -96,7 +94,7 @@ namespace RawLauncherWPF
 
         private static void CreateShortcut()
         {
-            var link = (NativeMethods.IShellLink) new NativeMethods.ShellLink();
+            var link = (NativeMethods.NativeMethods.IShellLink) new NativeMethods.NativeMethods.ShellLink();
 
             link.SetDescription("Open the Republic at War Launcher");
             link.SetPath(Assembly.GetExecutingAssembly().Location);
@@ -109,10 +107,10 @@ namespace RawLauncherWPF
 
         private static void CheckRunning()
         {
-            //if (!IsApplicationAlreadyRunning())
-            //    return;
-            //Show(GetMessage("ErrorAlreadyRunning"));
-            //Environment.Exit(0);
+            if (!IsApplicationAlreadyRunning())
+                return;
+            MessageProvider.Show(MessageProvider.GetMessage("ErrorAlreadyRunning"));
+            Environment.Exit(0);
         }
 
         private static void CheckBeta()
@@ -122,18 +120,18 @@ namespace RawLauncherWPF
 
         private static void SetUpLanguage()
         {
-            //switch (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName)
-            //{
-            //    case "de":
-            //        Config.CurrentLanguage = new German();
-            //        break;
-            //    case "es":
-            //        Config.CurrentLanguage = new Spanish();
-            //        break;
-            //    default:
-            //        Config.CurrentLanguage = new English();
-            //        break;
-            //}
+            switch (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName)
+            {
+                case "de":
+                    Config.CurrentLanguage = new German();
+                    break;
+                case "es":
+                    Config.CurrentLanguage = new Spanish();
+                    break;
+                default:
+                    Config.CurrentLanguage = new English();
+                    break;
+            }
         }
 
         /// <summary>
@@ -141,7 +139,7 @@ namespace RawLauncherWPF
         /// </summary>
         private static void ExtractLirbaries()
         {
-            var audioExtractor = new RawLauncherTmp.ResourceExtractor.ResourceExtractor("Libraries");
+            var audioExtractor = new ResourceExtractor.ResourceExtractor("Libraries");
             try
             {
                 audioExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),

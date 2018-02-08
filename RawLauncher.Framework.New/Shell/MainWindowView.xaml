@@ -1,0 +1,25 @@
+﻿<mafc:MainWindow x:Class="RawLauncher.Framework.Shell.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mafc="http://modern.framework.com/controls"
+        mc:Ignorable="d" Title="MainWindow" Width="780" Height="520">
+
+    <mafc:MainWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/RawLauncher.Theme;component/LauncherTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- other resources go here -->
+        </ResourceDictionary>
+    </mafc:MainWindow.Resources>
+    <mafc:MainWindow.Background>
+        <ImageBrush ImageSource="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RaWLauncherBackground.png"/>
+    </mafc:MainWindow.Background>
+
+    <Grid>
+        
+    </Grid>
+</mafc:MainWindow>
+

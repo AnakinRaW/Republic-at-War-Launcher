@@ -1,11 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Windows;
+using Caliburn.Micro;
+using RawLauncher.Framework.Shell;
 
 namespace RawLauncher.Framework.Launcher
 {
     public partial class LauncherApp
     {
+        private object ViewModel { get; }
+
         private static void LoadAssemblies()
         {
             EmbeddedAssembly.Load("RawLauncher.Framework.Libraries.System.Windows.Interactivity.dll", "System.Windows.Interactivity.dll");
@@ -25,19 +30,25 @@ namespace RawLauncher.Framework.Launcher
 
         static LauncherApp()
         {
+            var mafExtractor = new ResourceExtractor.ResourceExtractor("Libraries");
+            mafExtractor.ExtractFilesIfRequired(Directory.GetCurrentDirectory(),
+                new[]
+                {
+                    "ModernApplicationFramework.dll"
+                });
             LoadAssemblies();
         }
         
         public LauncherApp()
         {
             new Bootstrapper(false);
+            // ViewModel = new LauncherViewModel();
         }
         
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            // StartUpLaunncher();  
-
-            MessageBox.Show("Hello");
+            var m = new WindowManager();
+            m.ShowWindow(new MainWindowViewModel());
         }
     }
 }
