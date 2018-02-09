@@ -25,16 +25,14 @@ namespace RawLauncher.Framework.Configuration
 
         public static string RaWAppDataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"RaW_Modding_Team\");
 
-        #region Beta Stuff
-        public static Dictionary<string, string> BetaUsers = new Dictionary<string, string>
-        {
-            {"Anakin", "d783bdc09ad8a57e4afaf4243fd0af7c"}
-        };
+        //#region Beta Stuff
+        //public static Dictionary<string, string> BetaUsers = new Dictionary<string, string>
+        //{
+        //    {"Anakin", "d783bdc09ad8a57e4afaf4243fd0af7c"}
+        //};
 
-        public const string BetaPassword = "26fb2b525ebc73751cb420e0180b7acc";
+        //public const string BetaPassword = "26fb2b525ebc73751cb420e0180b7acc";
 
-        #endregion
-
-
+        //#endregion
     }
 }
