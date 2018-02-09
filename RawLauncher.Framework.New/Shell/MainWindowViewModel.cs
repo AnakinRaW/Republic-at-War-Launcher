@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -11,6 +12,7 @@ using RawLauncher.Framework.Controls;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Screens;
 using RawLauncher.Framework.Screens.PlayScreen;
+using RawLauncher.Framework.Screens.UpdateScreen;
 using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Shell
@@ -129,9 +131,8 @@ namespace RawLauncher.Framework.Shell
             if (launcher.CurrentMod == null && launcher.BaseGame != null && launcher.Eaw != null)
             {
                 IsBlocked = true;
-                //TODO:
-                //_screens.First(x => x.GetType() == typeof(IUpdateScreen)).CanExecute = true;
-                // ShowScreen(typeof(IUpdateScreen));
+                _screens.First(x => x.GetType() == typeof(IUpdateScreen)).CanExecute = true;
+                ShowScreen(typeof(IUpdateScreen));
                 OnUIThread(() =>
                 {
                     MessageProvider.ShowInformation(MessageProvider.GetMessage("ErrorInitFailedMod"));
