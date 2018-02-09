@@ -142,6 +142,17 @@ namespace RawLauncher.Framework.Launcher
             HostServer = hostServer;
         }
 
+        public string GetRescueFilePath(string fileName, bool online, Version version = null)
+        {
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
+            if (version == null)
+                return GetRescueFilePath(fileName, online, CurrentMod.Version);
+            if (online)
+                return version + @"\RescueFiles\" + fileName;
+            return RestoreDownloadDir + @"\RescueFiles\" + version + @"\" + fileName;
+        }
+
         private void InitDirectories()
         {
             if (!Directory.Exists(Configuration.Config.RaWAppDataPath))

@@ -136,12 +136,14 @@
     </Compile>
     <Compile Include="AssemblyHelper\ResourceExtractor\ResourceExtractor.cs" />
     <Compile Include="AssemblyHelper\ResourceExtractor\ResourceExtractorException.cs" />
+    <Compile Include="Screens\CheckScreen\CheckModHelper.cs" />
     <Compile Include="Screens\CheckScreen\CheckScreenView.xaml.cs">
       <DependentUpon>CheckScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\CheckScreen\CheckScreenViewModel.cs" />
     <Compile Include="Screens\CheckScreen\ICheckScreen.cs" />
     <Compile Include="Screens\ILauncherScreen.cs" />
+    <Compile Include="Screens\LanguageScreen\ILanguageScreen.cs" />
     <Compile Include="Screens\LauncherScreen.cs" />
     <Compile Include="Screens\PlayScreen\IPlayScreen.cs" />
     <Compile Include="Screens\PlayScreen\PlayScreenView.xaml.cs">
@@ -158,6 +160,7 @@
     <Compile Include="Utilities\LanguageTypes.cs" />
     <Compile Include="Utilities\MessageRecorder.cs" />
     <Compile Include="Utilities\NotepadHelper.cs" />
+    <Compile Include="Utilities\ProgressBarUtilities.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />
     <Compile Include="Utilities\UnitNameFile.cs" />
     <Compile Include="Utilities\VersionUtilities.cs" />
