@@ -142,6 +142,9 @@
     </Compile>
     <Compile Include="Screens\CheckScreen\CheckScreenViewModel.cs" />
     <Compile Include="Screens\CheckScreen\ICheckScreen.cs" />
+    <Compile Include="Screens\ICancelable.cs" />
+    <Compile Include="Screens\IHasProgressBar.cs" />
+    <Compile Include="Screens\IHasSelection.cs" />
     <Compile Include="Screens\ILauncherScreen.cs" />
     <Compile Include="Screens\LanguageScreen\ILanguageScreen.cs" />
     <Compile Include="Screens\LanguageScreen\LanguageScreenView.xaml.cs">
@@ -154,6 +157,14 @@
       <DependentUpon>PlayScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\PlayScreen\PlayScreenViewModel.cs" />
+    <Compile Include="Screens\UpdateRestoreBase.cs" />
+    <Compile Include="Screens\UpdateScreen\IUpdateScreen.cs" />
+    <Compile Include="Screens\UpdateScreen\UpdateHelper.cs" />
+    <Compile Include="Screens\UpdateScreen\UpdateScreenView.xaml.cs">
+      <DependentUpon>UpdateScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\UpdateScreen\UpdateScreenViewModel.cs" />
+    <Compile Include="Shell\ILauncherMainWindow.cs" />
     <Compile Include="Utilities\Converters\BoolToIndexConverter.cs" />
     <Compile Include="Utilities\Converters\IsGreaterVersionColorConverter.cs" />
     <Compile Include="Utilities\Converters\ResourceToStreamConverter.cs" />
@@ -165,6 +176,7 @@
     <Compile Include="Utilities\MessageRecorder.cs" />
     <Compile Include="Utilities\NotepadHelper.cs" />
     <Compile Include="Utilities\ProgressBarUtilities.cs" />
+    <Compile Include="Utilities\RestoreUpdateUtilities.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />
     <Compile Include="Utilities\UnitNameFile.cs" />
     <Compile Include="Utilities\VersionUtilities.cs" />
@@ -261,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\PlayScreen\PlayScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\UpdateScreen\UpdateScreenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

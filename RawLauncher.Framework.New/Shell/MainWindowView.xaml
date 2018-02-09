@@ -10,6 +10,7 @@
         xmlns:playScreen="clr-namespace:RawLauncher.Framework.Screens.PlayScreen"
         xmlns:checkScreen="clr-namespace:RawLauncher.Framework.Screens.CheckScreen"
         xmlns:languageScreen="clr-namespace:RawLauncher.Framework.Screens.LanguageScreen"
+        xmlns:updateScreen="clr-namespace:RawLauncher.Framework.Screens.UpdateScreen"
         mc:Ignorable="d" Title="MainWindow" Width="780" Height="520">
 
     <mafc:MainWindow.Resources>
@@ -80,6 +81,20 @@
             <mafc:ImageTabButton.Content>
                 <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource TabButtonLanguageForeground}" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
                                        Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabLanguage}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
+
+
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="UpdateTab"
+                             Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
+                             NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/UpdateIdle.png"
+                             HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/UpdateHover.png"
+                             PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/UpdateHover.png"
+                             CheckedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/UpdateHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" Margin="433,0,0,0" Grid.ColumnSpan="2" Command="{Binding ShowPaneAudioCommand}" CommandParameter="{x:Type updateScreen:IUpdateScreen}">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource TabButtonUpdateForeground}" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                       Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabUpdate}}"/>
             </mafc:ImageTabButton.Content>
         </mafc:ImageTabButton>
 

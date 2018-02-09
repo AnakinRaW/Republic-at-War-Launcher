@@ -228,6 +228,11 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             ModFilesIndicator = IndicatorImagesHelper.SetColor(IndicatorImagesHelper.IndicatorColor.Blue);
         }
 
+        public void Cancel()
+        {
+            _mSource?.Cancel(false);
+        }
+
         private async Task<bool> CheckFolderListAsync(List<FileContainerFolder> folderList, List<string> excludeList)
         {
             var listToCheck = FileContainerFolder.ListFromExcludeList(folderList, excludeList);
@@ -667,11 +672,6 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             ResetUi();
             if (!String.IsNullOrEmpty(message))
                 MessageProvider.Show(message);
-        }
-
-        private void Cancel()
-        {
-            _mSource?.Cancel(false);
         }
 
         private void CheckVersion()

@@ -3,11 +3,15 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Input.Command;
 using RawLauncher.Framework.Games;
 using RawLauncher.Framework.Mods;
+using RawLauncher.Framework.Screens.PlayScreen;
+using RawLauncher.Framework.Screens.UpdateScreen;
 using RawLauncher.Framework.Server;
+using RawLauncher.Framework.Shell;
 using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Launcher
@@ -247,12 +251,11 @@ namespace RawLauncher.Framework.Launcher
                 if (NewVersionAvailable() && AskToUpdate())
                 {
                     await DeleteFastLaunchFileCommand.Execute();
-                    //TODO:
-                    //ShowMainWindow(4);
+                    IoC.Get<ILauncherMainWindow>().ShowScreen(typeof(IUpdateScreen));
                     return;
                 }
-            //if (PlayHelper.Play(BaseGame, CurrentMod))
-            //    ShowMainWindow(1);
+            if (PlayHelper.Play(BaseGame, CurrentMod))
+                IoC.Get<ILauncherMainWindow>().ShowScreen(typeof(IPlayScreen));
         }
 
         private bool NewVersionAvailable() => CurrentMod?.Version < VersionUtilities.GetLatestModVersion();

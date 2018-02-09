@@ -7,7 +7,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.WindowModels;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.ViewModels;
 using RawLauncher.Framework.Controls;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Screens;
@@ -16,13 +15,6 @@ using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Shell
 {
-
-    public interface ILauncherMainWindow : IMainWindowViewModel
-    {
-        bool IsBlocked { get; set; }
-    }
-
-
     [Export(typeof(ILauncherMainWindow))]
     public class MainWindowViewModel : MainWindowViewModelConductorOneActive, ILauncherMainWindow
     {
@@ -32,13 +24,13 @@ namespace RawLauncher.Framework.Shell
         private bool _isBlocked;
         private MainWindowView _window;
 
-        public Command OpenModdbCommand => new Command(OpenModdb);
+        public ICommand OpenModdbCommand => new Command(OpenModdb);
 
-        public Command OpenEeawCommand => new Command(OpenEeaw);
+        public ICommand OpenEeawCommand => new Command(OpenEeaw);
 
-        public Command AboutCommand => new Command(ShowAboutWindow);
+        public ICommand AboutCommand => new Command(ShowAboutWindow);
 
-        public Command DeleteRawCommand => new Command(DeleteRaw);
+        public ICommand DeleteRawCommand => new Command(DeleteRaw);
 
         public ICommand ShowPaneAudioCommand => new DelegateCommand(ShowPaneAudio);
 

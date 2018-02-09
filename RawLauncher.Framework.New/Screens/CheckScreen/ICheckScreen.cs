@@ -3,10 +3,8 @@ using System.Windows.Media;
 
 namespace RawLauncher.Framework.Screens.CheckScreen
 {
-    public interface ICheckScreen : ILauncherScreen
+    public interface ICheckScreen : ILauncherScreen, ICancelable, IHasProgressBar
     {
-        ICommand CancelCommand { get; }
-
         ICommand CheckVersionCommand { get; }
 
         ICommand PatchGamesCommand { get; }
@@ -30,9 +28,5 @@ namespace RawLauncher.Framework.Screens.CheckScreen
         string ModFilesMessage { get; set; }
         
         string ModFoundMessage { get; set; }
-       
-        double Progress { get; set; }
-
-        string ProzessStatus { get; set; }
     }
 }
