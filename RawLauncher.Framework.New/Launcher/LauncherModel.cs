@@ -251,11 +251,18 @@ namespace RawLauncher.Framework.Launcher
                 if (NewVersionAvailable() && AskToUpdate())
                 {
                     await DeleteFastLaunchFileCommand.Execute();
+                    var wm = IoC.Get<IWindowManager>();
+                    wm.ShowWindow(IoC.Get<ILauncherMainWindow>());
                     IoC.Get<ILauncherMainWindow>().ShowScreen(typeof(IUpdateScreen));
                     return;
                 }
+
             if (PlayHelper.Play(BaseGame, CurrentMod))
+            {
+                var wm = IoC.Get<IWindowManager>();
+                wm.ShowWindow(IoC.Get<ILauncherMainWindow>());
                 IoC.Get<ILauncherMainWindow>().ShowScreen(typeof(IPlayScreen));
+            }
         }
 
         private bool NewVersionAvailable() => CurrentMod?.Version < VersionUtilities.GetLatestModVersion();

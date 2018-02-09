@@ -146,6 +146,7 @@
     <Compile Include="Screens\IHasProgressBar.cs" />
     <Compile Include="Screens\IHasSelection.cs" />
     <Compile Include="Screens\ILauncherScreen.cs" />
+    <Compile Include="Screens\IUpdateRestoreBase.cs" />
     <Compile Include="Screens\LanguageScreen\ILanguageScreen.cs" />
     <Compile Include="Screens\LanguageScreen\LanguageScreenView.xaml.cs">
       <DependentUpon>LanguageScreenView.xaml</DependentUpon>
@@ -157,6 +158,12 @@
       <DependentUpon>PlayScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\PlayScreen\PlayScreenViewModel.cs" />
+    <Compile Include="Screens\Restore\IRestoreScreen.cs" />
+    <Compile Include="Screens\Restore\RestoreHelper.cs" />
+    <Compile Include="Screens\Restore\RestoreScreenView.xaml.cs">
+      <DependentUpon>RestoreScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Restore\RestoreScreenViewModel.cs" />
     <Compile Include="Screens\UpdateRestoreBase.cs" />
     <Compile Include="Screens\UpdateScreen\IUpdateScreen.cs" />
     <Compile Include="Screens\UpdateScreen\UpdateHelper.cs" />
@@ -273,6 +280,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\PlayScreen\PlayScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\Restore\RestoreScreenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

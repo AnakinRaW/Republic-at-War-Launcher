@@ -2,6 +2,8 @@
 using RawLauncher.Framework.Screens.CheckScreen;
 using RawLauncher.Framework.Screens.LanguageScreen;
 using RawLauncher.Framework.Screens.PlayScreen;
+using RawLauncher.Framework.Screens.Restore;
+using RawLauncher.Framework.Screens.UpdateScreen;
 
 namespace RawLauncher.Framework.Shell
 {
@@ -19,7 +21,6 @@ namespace RawLauncher.Framework.Shell
                 PlayTab.IsChecked = true;
                 return;
             }
-
             if (type == typeof(ICheckScreen))
             {
                 CheckTab.IsChecked = true;
@@ -29,6 +30,14 @@ namespace RawLauncher.Framework.Shell
             {
                 LangTab.IsChecked = true;
                 return;
+            }
+            if (type == typeof(IRestoreScreen))
+            {
+                RestoreTab.IsChecked = true;
+            }
+            if (type == typeof(IUpdateScreen))
+            {
+                UpdateTab.IsChecked = true;
             }
         }
     }

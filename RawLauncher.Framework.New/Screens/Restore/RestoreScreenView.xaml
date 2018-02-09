@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="RawLauncher.Framework.Screens.Restore.RestoreScreenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RawLauncher.Framework.Screens.Restore"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:lang="clr-namespace:RawLauncher.Framework.Localization"
+             xmlns:controls="clr-namespace:RawLauncher.Framework.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/RawLauncher.Theme;component/LauncherTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- other resources go here -->
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid HorizontalAlignment="Stretch" Margin="0,10,0,0">
+            <StackPanel>
+                <DockPanel VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <mafc:OutlineTextBlock Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreVersion}}" Stroke="Black" FontSize="24" StrokeThickness="2" Foreground="{StaticResource LabelRestoreMessageForeground}"
+                                   FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <mafc:ComboBox Width="100" Height="25" HorizontalAlignment="Left" Margin="10,0,0,0" DataSource="{Binding DataSource}"
+                                   ItemsSource="{Binding AvailableVersions}" IsEnabled="{Binding CanExecute}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <Binding Path="Text"/>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </mafc:ComboBox>
+                </DockPanel>
+                <DockPanel Margin="0,5,0,0" HorizontalAlignment="Center">
+                    <DockPanel>
+                        <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="10,0,0,0" GroupName="Options"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                            ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static local:RestoreOptions.None}" IsEnabled="{Binding CanExecute}"/>
+                        <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" 
+                               Foreground="{StaticResource LabelRestoreOptionForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreNone}}"
+                                               ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolNone}}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                           ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolLanguage}}"
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static local:RestoreOptions.IgnoreLanguage}" IsEnabled="{Binding CanExecute}"/>
+                        <mafc:OutlineTextBlock HorizontalAlignment="Center" Margin="5,0,0,0" 
+                               Foreground="{StaticResource LabelRestoreOptionForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreLanguage}}"
+                                               ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolLanguage}}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <mafc:ImageRadioButton Height="19" Width="18" HorizontalAlignment="Left" Margin="15,0,0,0" GroupName="Options"
+                                   NormalImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioIdle.png"
+                                   HoverImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   PressedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                   CheckedImage="/RawLauncher.Theme;component/Resources/Visual/Language/RadioHover.png"
+                                           ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolHard}}"
+                                   Command="{Binding ChangeSelectionCommand}" CommandParameter="{x:Static local:RestoreOptions.Hard}" IsEnabled="{Binding CanExecute}"/>
+                        <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"
+                               Foreground="{StaticResource LabelRestoreOptionForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.RestoreHard}}"
+                                               ToolTip="{DynamicResource {x:Static lang:XmalLanguageKeys.ToolHard}}"/>
+                    </DockPanel>
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Width="356" Margin="0,110,0,0">
+            <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
+            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="{StaticResource LabelProcessForeground}" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+        <Grid>
+            <controls:ImageSoundClickButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
+                              Command="{Binding RestoreModCommand}">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonRestoreForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonRestore}}"/>
+                </mafc:ImageButton.Content>
+            </controls:ImageSoundClickButton>
+            <controls:ImageSoundClickButton Height="60" Width="255" VerticalAlignment="Bottom" Margin="0,0,0,50"
+                              Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              NormalImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreIdle.png"
+                              HoverImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
+                              PressedImage="/RawLauncher.Theme;component/Resources/Visual/Restore/RestoreHover.png"
+                              Command="{Binding CancelCommand}">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonCancelForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonCancel}}"/>
+                </mafc:ImageButton.Content>
+            </controls:ImageSoundClickButton>
+        </Grid>
+        <mafc:OutlineTextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" 
+                               Foreground="{StaticResource LabelRestoreInfoForeground}" Stroke="Black" FontSize="18" StrokeThickness="1"
+                               FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                               Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TextRestoreInfo}}"/>
+    </Grid>
+</UserControl>

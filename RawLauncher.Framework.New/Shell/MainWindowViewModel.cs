@@ -86,7 +86,8 @@ namespace RawLauncher.Framework.Shell
 
         public void ShowScreen(Type type)
         {
-            ActivateItem(IoC.GetInstance(type, null));
+            var model = IoC.GetInstance(type, null);
+            ActivateItem(model);
             _window.ActivateTab(type);
         }
 

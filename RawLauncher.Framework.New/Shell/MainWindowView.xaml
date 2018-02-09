@@ -11,6 +11,7 @@
         xmlns:checkScreen="clr-namespace:RawLauncher.Framework.Screens.CheckScreen"
         xmlns:languageScreen="clr-namespace:RawLauncher.Framework.Screens.LanguageScreen"
         xmlns:updateScreen="clr-namespace:RawLauncher.Framework.Screens.UpdateScreen"
+        xmlns:restore="clr-namespace:RawLauncher.Framework.Screens.Restore"
         mc:Ignorable="d" Title="MainWindow" Width="780" Height="520">
 
     <mafc:MainWindow.Resources>
@@ -84,6 +85,18 @@
             </mafc:ImageTabButton.Content>
         </mafc:ImageTabButton>
 
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="RestoreTab"
+                             Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
+                             NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RestoreIdle.png"
+                             HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RestoreHover.png"
+                             PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RestoreHover.png"
+                             CheckedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/RestoreHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" Margin="324,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="{x:Type restore:IRestoreScreen}">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource TabButtonRestoreForeground}" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                       Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabRestore}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
 
         <mafc:ImageTabButton Width="109" Height="31" x:Name="UpdateTab"
                              Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"

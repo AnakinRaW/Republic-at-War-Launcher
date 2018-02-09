@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace RawLauncher.Framework.Screens.UpdateScreen
 {
-    public interface IUpdateScreen : ILauncherScreen
+    public interface IUpdateScreen : ILauncherScreen, IUpdateRestoreBase
     {
         ICommand OpenChangelogCommand { get; }
 

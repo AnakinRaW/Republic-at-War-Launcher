@@ -16,7 +16,7 @@ using RawLauncher.Framework.Xml;
 
 namespace RawLauncher.Framework.Screens
 {
-    public abstract class UpdateRestoreBase : LauncherScreen, IHasProgressBar, ICancelable, IHasSelection
+    public abstract class UpdateRestoreBase : LauncherScreen, IUpdateRestoreBase
     {
         protected const string RestoreUpdateContainerFileName = "RestoreModFileContainer.xml";
 

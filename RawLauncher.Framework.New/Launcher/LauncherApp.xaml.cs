@@ -33,6 +33,9 @@ namespace RawLauncher.Framework.Launcher
         {
             var launcher = IoC.Get<LauncherModel>();
 
+            IoC.Get<IThemeManager>().Theme = new LauncherTheme();
+            IoC.Get<IStatusBarDataModelService>().SetVisibility(0);
+
             // If "RaW.txt" does exists AND Shift is NOT pressed -> Show UpdateScreen and Run Mod afterwards
             // Else Run MainWindow (which inits the the Update View which checks for update on creation)
             if (launcher.FastLaunchFileExists && Keyboard.Modifiers != ModifierKeys.Shift)
@@ -43,8 +46,6 @@ namespace RawLauncher.Framework.Launcher
 
             if (launcher.FastLaunchFileExists)
                 await launcher.DeleteFastLaunchFileCommand.Execute();
-            IoC.Get<IThemeManager>().Theme = new LauncherTheme();
-            IoC.Get<IStatusBarDataModelService>().SetVisibility(0);
             ShowMainWindow();
             await launcher.NormalLaunchCommand.Execute();
         }
