@@ -111,8 +111,6 @@ namespace RawLauncher.Framework.Shell
             var launcher = IoC.Get<LauncherModel>();
             InstalledVersion = launcher.CurrentMod == null ? new Version("1.0") : launcher.CurrentMod.Version;
             LatestVersion = VersionUtilities.GetLatestModVersion();
-
-            ShowScreen(typeof(IPlayScreen));
         }
 
         protected override void OnViewLoaded(object view)
@@ -131,13 +129,15 @@ namespace RawLauncher.Framework.Shell
             if (launcher.CurrentMod == null && launcher.BaseGame != null && launcher.Eaw != null)
             {
                 IsBlocked = true;
-                _screens.First(x => x.GetType() == typeof(IUpdateScreen)).CanExecute = true;
+                _screens.First(x => x is IUpdateScreen).CanExecute = true;
                 ShowScreen(typeof(IUpdateScreen));
                 OnUIThread(() =>
                 {
                     MessageProvider.ShowInformation(MessageProvider.GetMessage("ErrorInitFailedMod"));
                 });
             }
+            else
+                ShowScreen(typeof(IPlayScreen));
         }
 
         private static void OpenEeaw()
