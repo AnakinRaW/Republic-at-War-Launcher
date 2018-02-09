@@ -9,6 +9,7 @@
         xmlns:converters="clr-namespace:RawLauncher.Framework.Utilities.Converters"
         xmlns:playScreen="clr-namespace:RawLauncher.Framework.Screens.PlayScreen"
         xmlns:checkScreen="clr-namespace:RawLauncher.Framework.Screens.CheckScreen"
+        xmlns:languageScreen="clr-namespace:RawLauncher.Framework.Screens.LanguageScreen"
         mc:Ignorable="d" Title="MainWindow" Width="780" Height="520">
 
     <mafc:MainWindow.Resources>
@@ -66,6 +67,19 @@
             <mafc:ImageTabButton.Content>
                 <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource TabButtonCheckForeground}" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
                                        Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabCheck}}"/>
+            </mafc:ImageTabButton.Content>
+        </mafc:ImageTabButton>
+
+        <mafc:ImageTabButton Width="109" Height="31" x:Name="LangTab"
+                             Panel.ZIndex="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked , Converter={StaticResource BoolToIndexConverter}}"
+                             NormalImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/LanguageIdle.png"
+                             HoverImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/LanguageHover.png"
+                             PressedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/LanguageHover.png"
+                             CheckedImage="/RawLauncher.Theme;component/Resources/Visual/MainWindow/LanguageHover.png" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" Margin="215,0,0,0" Command="{Binding ShowPaneAudioCommand}" CommandParameter="{x:Type languageScreen:ILanguageScreen}">
+            <mafc:ImageTabButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource TabButtonLanguageForeground}" FontSize="14" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                       Text="{DynamicResource {x:Static lang:XmalLanguageKeys.TabLanguage}}"/>
             </mafc:ImageTabButton.Content>
         </mafc:ImageTabButton>
 

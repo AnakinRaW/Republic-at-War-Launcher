@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Input;
 
 namespace RawLauncher.Framework.Screens.LanguageScreen
 {
-    interface ILanguageScreen : ILauncherScreen
+    public interface ILanguageScreen : ILauncherScreen
     {
+        ICommand ChangeSelectionCommand { get; }
+
+        ICommand ChangeLanguageCommand { get; }
+
+        string CustomLanguage { get; set; }
     }
 }

@@ -144,6 +144,10 @@
     <Compile Include="Screens\CheckScreen\ICheckScreen.cs" />
     <Compile Include="Screens\ILauncherScreen.cs" />
     <Compile Include="Screens\LanguageScreen\ILanguageScreen.cs" />
+    <Compile Include="Screens\LanguageScreen\LanguageScreenView.xaml.cs">
+      <DependentUpon>LanguageScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\LanguageScreen\LanguageScreenViewModel.cs" />
     <Compile Include="Screens\LauncherScreen.cs" />
     <Compile Include="Screens\PlayScreen\IPlayScreen.cs" />
     <Compile Include="Screens\PlayScreen\PlayScreenView.xaml.cs">
@@ -249,6 +253,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Screens\CheckScreen\CheckScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\LanguageScreen\LanguageScreenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

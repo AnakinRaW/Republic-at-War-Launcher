@@ -1,5 +1,6 @@
 ﻿using System;
 using RawLauncher.Framework.Screens.CheckScreen;
+using RawLauncher.Framework.Screens.LanguageScreen;
 using RawLauncher.Framework.Screens.PlayScreen;
 
 namespace RawLauncher.Framework.Shell
@@ -22,6 +23,11 @@ namespace RawLauncher.Framework.Shell
             if (type == typeof(ICheckScreen))
             {
                 CheckTab.IsChecked = true;
+                return;
+            }
+            if (type == typeof(ILanguageScreen))
+            {
+                LangTab.IsChecked = true;
                 return;
             }
         }

@@ -247,6 +247,7 @@ namespace RawLauncher.Framework.Launcher
                 if (NewVersionAvailable() && AskToUpdate())
                 {
                     await DeleteFastLaunchFileCommand.Execute();
+                    //TODO:
                     //ShowMainWindow(4);
                     return;
                 }
