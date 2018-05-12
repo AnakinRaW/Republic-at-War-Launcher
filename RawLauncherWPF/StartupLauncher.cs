@@ -14,7 +14,6 @@ using RawLauncher.Framework.Localization;
 using RawLauncherWPF.ResourceExtractor;
 using RawLauncherWPF.Updaters;
 using static RawLauncher.Framework.Utilities.MessageProvider;
-using BetaLogin = RawLauncher.Framework.UI.BetaLogin;
 using LauncherApp = RawLauncher.Framework.Launcher.LauncherApp;
 using MessageBox = System.Windows.MessageBox;
 
@@ -111,11 +110,6 @@ namespace RawLauncherWPF
                 return;
             Show(GetMessage("ErrorAlreadyRunning"));
             Environment.Exit(0);
-        }
-
-        private static void CheckBeta()
-        {
-            new BetaLogin().ShowDialog();
         }
 
         private static void SetUpLanguage()
