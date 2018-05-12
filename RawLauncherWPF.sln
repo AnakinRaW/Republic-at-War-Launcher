@@ -5,15 +5,9 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncherWPF", "RawLauncherWPF\RawLauncherWPF.csproj", "{AE32A029-61CD-4962-9E4C-16C6A802FD43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Theme", "RawLauncher.Theme\RawLauncher.Theme.csproj", "{8DCB2DA9-E0F1-442A-A094-D79E955671ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Framework", "RawLauncher.Framework.New\RawLauncher.Framework.csproj", "{48493A48-75BB-41BD-A68D-8B83B71C53C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Framework", "RawLauncher\RawLauncher.Framework.csproj", "{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Framework.New", "RawLauncher.Framework.New\RawLauncher.Framework.New.csproj", "{48493A48-75BB-41BD-A68D-8B83B71C53C0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Theme.New", "RawLauncher.Theme.New\RawLauncher.Theme.New.csproj", "{D4E09646-F6AD-4929-BCAB-BD1AFE146E43}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncherTmp", "RawLauncherTmp\RawLauncherTmp.csproj", "{E2D47166-8184-4BCA-8400-94D728C4A734}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawLauncher.Theme", "RawLauncher.Theme.New\RawLauncher.Theme.csproj", "{D4E09646-F6AD-4929-BCAB-BD1AFE146E43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +19,6 @@ Global
 		{AE32A029-61CD-4962-9E4C-16C6A802FD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE32A029-61CD-4962-9E4C-16C6A802FD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE32A029-61CD-4962-9E4C-16C6A802FD43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DCB2DA9-E0F1-442A-A094-D79E955671ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DCB2DA9-E0F1-442A-A094-D79E955671ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DCB2DA9-E0F1-442A-A094-D79E955671ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DCB2DA9-E0F1-442A-A094-D79E955671ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6143899-321D-4AC7-A5CD-C2B7D3AFECB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{48493A48-75BB-41BD-A68D-8B83B71C53C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{48493A48-75BB-41BD-A68D-8B83B71C53C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48493A48-75BB-41BD-A68D-8B83B71C53C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +27,6 @@ Global
 		{D4E09646-F6AD-4929-BCAB-BD1AFE146E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4E09646-F6AD-4929-BCAB-BD1AFE146E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4E09646-F6AD-4929-BCAB-BD1AFE146E43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2D47166-8184-4BCA-8400-94D728C4A734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2D47166-8184-4BCA-8400-94D728C4A734}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2D47166-8184-4BCA-8400-94D728C4A734}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2D47166-8184-4BCA-8400-94D728C4A734}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

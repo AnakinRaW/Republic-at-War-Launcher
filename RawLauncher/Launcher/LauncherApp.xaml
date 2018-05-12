@@ -1,5 +1,0 @@
-﻿<Application x:Class="RawLauncher.Framework.Launcher.LauncherApp"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Startup="App_OnStartup">
-</Application>

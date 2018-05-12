@@ -142,18 +142,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RawLauncher.Theme\RawLauncher.Theme.csproj">
-      <Project>{8dcb2da9-e0f1-442a-a094-d79e955671ed}</Project>
-      <Name>RawLauncher.Theme</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RawLauncher\RawLauncher.Framework.csproj">
-      <Project>{f6143899-321d-4ac7-a5cd-c2b7d3afecb7}</Project>
-      <Name>RawLauncher.Framework</Name>
-      <Private>True</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Commander Appo.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +153,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="RawLauncher.Framework.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RawLauncher.Framework.New\RawLauncher.Framework.csproj">
+      <Project>{48493a48-75bb-41bd-a68d-8b83b71c53c0}</Project>
+      <Name>RawLauncher.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RawLauncher.Theme.New\RawLauncher.Theme.csproj">
+      <Project>{d4e09646-f6ad-4929-bcab-bd1afe146e43}</Project>
+      <Name>RawLauncher.Theme</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
