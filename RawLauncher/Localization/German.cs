@@ -55,7 +55,7 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("CheckMessageGameFound", "foc gefunden");
             StringTable.Add("CheckMessageGameNotFound", "foc nicht gefunden");
             StringTable.Add("CheckMessageGamesNotPatched", "spiele nicht geupdated");
-            StringTable.Add("CheckMessageGamesPatched", "spile geupdated");
+            StringTable.Add("CheckMessageGamesPatched", "spiele geupdated");
             StringTable.Add("CheckMessageModCorrect", "mod richtig");
             StringTable.Add("CheckMessageModFound", "raw gefunden");
             StringTable.Add("CheckMessageModNotFound", "raw nicht gefunden");
