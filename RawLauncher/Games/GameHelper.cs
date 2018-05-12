@@ -29,16 +29,17 @@ namespace RawLauncher.Framework.Games
                 focPath = path;
             else
             {
-                var key = Registry.LocalMachine
-                    .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false);
-                if (key == null)
-                    throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
-                var installed = (int)key.GetValue("installed");
-                if (installed == 0)
-                    throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
-                var exePath = (string)Registry.LocalMachine
-                    .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false)?.GetValue("exepath");
-                focPath = new FileInfo(exePath).Directory.FullName;
+                using (var registry = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+                {
+                    var key = registry.OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false);
+                    if (key == null)
+                        throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName"));
+                    var installed = (int)key.GetValue("installed");
+                    if (installed == 0)
+                        throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
+                    var exePath = (string)registry.OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false)?.GetValue("exepath");
+                    focPath = new FileInfo(exePath).Directory.FullName;
+                }
             }
             if (focPath == null || !File.Exists(focPath + "\\swfoc.exe"))
                 throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));

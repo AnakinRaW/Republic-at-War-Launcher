@@ -55,12 +55,15 @@ namespace RawLauncher.Framework.Games
             }
 
             //Try by registry
-            var exePath = (string) Registry.LocalMachine
-                .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War\1.0", false)?.GetValue("ExePath");
-            if (exePath != null && File.Exists(exePath))
+            using (var registry = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
             {
-                GameDirectory = new FileInfo(exePath).Directory.FullName;
-                return this;
+                var exePath = (string)registry
+                    .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War\1.0", false)?.GetValue("ExePath");
+                if (exePath != null && File.Exists(exePath))
+                {
+                    GameDirectory = new FileInfo(exePath).Directory.FullName;
+                    return this;
+                }
             }
             throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
         }
