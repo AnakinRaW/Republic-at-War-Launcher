@@ -155,11 +155,11 @@
     <Content Include="RawLauncher.Framework.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RawLauncher.Framework.New\RawLauncher.Framework.csproj">
+    <ProjectReference Include="..\RawLauncher\RawLauncher.Framework.csproj">
       <Project>{48493a48-75bb-41bd-a68d-8b83b71c53c0}</Project>
       <Name>RawLauncher.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RawLauncher.Theme.New\RawLauncher.Theme.csproj">
+    <ProjectReference Include="..\RawLauncher.Theme\RawLauncher.Theme.csproj">
       <Project>{d4e09646-f6ad-4929-bcab-bd1afe146e43}</Project>
       <Name>RawLauncher.Theme</Name>
     </ProjectReference>

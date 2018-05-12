@@ -306,7 +306,7 @@
     <EmbeddedResource Include="Libraries\System.Windows.Interactivity.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RawLauncher.Theme.New\RawLauncher.Theme.csproj">
+    <ProjectReference Include="..\RawLauncher.Theme\RawLauncher.Theme.csproj">
       <Project>{d4e09646-f6ad-4929-bcab-bd1afe146e43}</Project>
       <Name>RawLauncher.Theme</Name>
     </ProjectReference>
