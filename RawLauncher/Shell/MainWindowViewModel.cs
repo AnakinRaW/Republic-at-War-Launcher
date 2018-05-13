@@ -121,10 +121,6 @@ namespace RawLauncher.Framework.Shell
             {
                 IsBlocked = true;
                 ShowScreen(typeof(IPlayScreen));
-                OnUIThread(() =>
-                {
-                    MessageProvider.ShowError(MessageProvider.GetMessage("ErrorInitFailed"));
-                });
             }
             if (launcher.CurrentMod == null && launcher.BaseGame != null && launcher.Eaw != null)
             {

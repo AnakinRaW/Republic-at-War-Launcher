@@ -25,7 +25,8 @@ namespace RawLauncher.Framework.Localization
             AddPlayStrings();
             AddResourceExtractorStrings();
             AddRestoreStrigns();
-            AddUpdateStrings(); AddVersionStrings();
+            AddUpdateStrings();
+            AddVersionStrings();
         }
 
         public override void Reload()
@@ -82,6 +83,11 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("ErrorInitFailed", "The launcher was not able to find Forces of Corruption. Please run the launcher from root Forces of Corruption directory.");
             StringTable.Add("ErrorInitFailedMod", "The launcher was not able to find Republic at War. Please click the 'Update' tab and install the mod.\r\n" +
                                                   "\r\nIf this game is the Steam version of Forces of Corruption consider downloading Republic at War from Steam Workshops first.");
+            StringTable.Add("ErrorGameNotSettedUp", "The launcher was not able to find Forces of Corruption although the game seems to be installed. Please run Forces of Corruption at least once and restart the launcher afterwards.");
+            StringTable.Add("WarningGamesSettedUp", "Your games seem to be installed but are not settet up correctly. Please run vanilla Forces of Corruption at least once to finish the setup.\r\n\r\n" +
+                                                    "The launcher can open the Steam-Version of the game for you now (and close it immediately after setup).\r\n" +
+                                                    "Would you like to setup the games now?");
+
         }
 
         private void AddExceptionStrings()

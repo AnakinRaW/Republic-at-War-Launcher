@@ -17,7 +17,7 @@ using RawLauncher.Framework.Utilities;
 namespace RawLauncher.Framework.Launcher
 {
     [Export(typeof(LauncherModel))]
-    public class LauncherModel : ViewModelBase //, ILauncherModel
+    public class LauncherModel : ViewModelBase
     {
         private string _restoreDir;
         private string _downloadDir;
@@ -136,11 +136,23 @@ namespace RawLauncher.Framework.Launcher
 
         public Command DeleteFastLaunchFileCommand => new Command(DeleteFastLaunchFile);
 
+        //internal 
+
         [ImportingConstructor]
         public LauncherModel(IHostServer hostServer)
         {
-            if (!InitGames())
+            if (!InitGames(out var result))
+            {
+                var message = result.Error == DetectionError.NotInstalled ? "ErrorInitFailed" : "ErrorGameNotSettedUp";
+                Execute.OnUIThreadAsync(() =>
+                {
+                    MessageProvider.ShowError(MessageProvider.GetMessage(message));
+                });
                 return;
+            }
+
+
+
             InitMod();
             InitDirectories();
             HostServer = hostServer;
@@ -165,31 +177,27 @@ namespace RawLauncher.Framework.Launcher
             UpdateDownloadDir = Path.Combine(Configuration.Config.RaWAppDataPath);
         }
 
-        private bool InitGames()
+        private bool InitGames(out GameDetectionResult result)
         {
-            try
-            {
-                var result = GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory());
+            result = GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory());
 
-                if (result.Type == GameTypes.Disk)
-                {
-                    Eaw = new Eaw().FindGame();
-                    BaseGame = new Foc(result.FocPath);
-                }
-                else if (result.Type == GameTypes.SteamGold)
-                {
-                    Eaw = new Eaw().FindGame();
-                    BaseGame = new SteamGame(result.FocPath);
-                }
-                else if (result.Type == GameTypes.GoG)
-                {
-                    Eaw = new Eaw().FindGame();
-                    BaseGame = new Foc(result.FocPath);
-                }
-            }
-            catch (GameExceptions)
-            {
+            if (result.IsError)
                 return false;
+
+            if (result.Type == GameTypes.Disk)
+            {
+                Eaw = new Eaw().FindGame();
+                BaseGame = new Foc(result.FocPath);
+            }
+            else if (result.Type == GameTypes.SteamGold)
+            {
+                Eaw = new Eaw().FindGame();
+                BaseGame = new SteamGame(result.FocPath);
+            }
+            else if (result.Type == GameTypes.GoG)
+            {
+                Eaw = new Eaw().FindGame();
+                BaseGame = new Foc(result.FocPath);
             }
             return true;
         }

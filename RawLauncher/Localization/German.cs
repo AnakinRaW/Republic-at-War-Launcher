@@ -80,9 +80,13 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("ErrorAlreadyRunning", "Es läuft bereits eine Instanz des Launchers.");
             StringTable.Add("ErrorCreateMessageFailed", "Es konnte kein Text erstellt werden");
             StringTable.Add("ErrorInitLauncher", "Fehler beim initialisieren dem Launcher { 0}");
-            StringTable.Add("ErrorInitFailed", "Der Launcher konnte die Spiele EaW oder Foc nicht finden. Bitte starte den Launcher im Hauptverzeichnis von FoC.");
+            StringTable.Add("ErrorInitFailed", "Der Launcher konnte die Spiele EaW oder FoC nicht finden. Bitte starte den Launcher im Hauptverzeichnis von FoC.");
             StringTable.Add("ErrorInitFailedMod", "Der Launcher konnte Republic at War nicht finden. Klick auf 'Update' im Update-Tab und installiere Republic at War jetzt.\r\n" +
                                                   "\r\nSolltest das Hauptspiel die Steam-Version sein, sollte Republic at War zunächst über den Steam Workshops heruntergeladen werden.");
+            StringTable.Add("ErrorGameNotSettedUp", "Der Launcher konnte die Spiele EaW of FoC nicht finden, obwohl sie wahrscheinlich bereits installiert sind. Forces of Corrution muss einmal gestartet werden, bevor der Launcher gestartet werden kann.");
+            StringTable.Add("WarningGamesSettedUp", "Forces of Corrution scheint nicht richtig installiert zu sein. Bitte starte Forces of Corrution einmal ohne Mods, um die installation abzuschließen.\r\n\r\n" +
+                                                    "Der Launcher kann die Steam-Version von Forces of Corrution jetzt starten (und schließt es direkt nach abgeschlossener Konfiguration wieder).\r\n" +
+                                                    "Möchtest du das Spiel jetzt starten?");
         }
 
         private void AddExceptionStrings()

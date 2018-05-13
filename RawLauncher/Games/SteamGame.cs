@@ -24,7 +24,7 @@ namespace RawLauncher.Framework.Games
                 var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     @"Saved Games\Petroglyph\Empire At War - Forces of Corruption\Save\");
                 if (!Directory.Exists(folder))
-                    return "";
+                    return string.Empty;
                 return folder;
             }
         }

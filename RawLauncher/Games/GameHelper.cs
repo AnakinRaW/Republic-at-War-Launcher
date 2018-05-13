@@ -1,28 +1,18 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using Microsoft.Win32;
 using RawLauncher.Framework.Utilities;
+using static RawLauncher.Framework.Configuration.Config;
 
 namespace RawLauncher.Framework.Games
 {
     public static class GameHelper
     {
-
-        public struct GameHelperResult
+        internal static GameDetectionResult GetInstalledGameType(string path)
         {
-            public GameTypes Type { get; }
+            var result = default(GameDetectionResult);
 
-            public string FocPath { get; }
-
-            public GameHelperResult(GameTypes type, string path)
-            {
-                Type = type;
-                FocPath = path;
-            }
-        }
-
-
-        public static GameHelperResult GetInstalledGameType(string path)
-        {
             string focPath;
 
             if (File.Exists(path + "\\swfoc.exe"))
@@ -31,24 +21,96 @@ namespace RawLauncher.Framework.Games
             {
                 using (var registry = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
                 {
-                    var key = registry.OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false);
+                    var key = registry.OpenSubKey(FocRegistryPath + FocRegistryVersion, false);
                     if (key == null)
-                        throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName"));
+                    {
+                        var baseKey = registry.OpenSubKey(FocRegistryPath, false);
+                        if (baseKey == null)
+                        {
+                            result.IsError = true;
+                            result.Error = DetectionError.NotInstalled;
+                            return result;
+                        }
+
+                        if (!PrompGameSetupDialog(ref result))
+                            return result;
+                        SetupSteamGames(in registry, ref key);  
+                    }
+
+                    if (key == null)
+                    {
+                        result.IsError = true;
+                        result.Error = DetectionError.NotSettedUp;
+                        return result;
+                    }
+
                     var installed = (int)key.GetValue("installed");
                     if (installed == 0)
-                        throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
-                    var exePath = (string)registry.OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption\1.0", false)?.GetValue("exepath");
+                    {
+                        result.IsError = true;
+                        result.Error = DetectionError.NotInstalled;
+                        return result;
+                    }
+                    var exePath = (string)registry.OpenSubKey(FocRegistryPath + FocRegistryVersion, false)?.GetValue("exepath");
                     focPath = new FileInfo(exePath).Directory.FullName;
                 }
             }
             if (focPath == null || !File.Exists(focPath + "\\swfoc.exe"))
-                throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
+            {
+                result.IsError = true;
+                result.Error = DetectionError.NotInstalled;
+                return result;
+            }
 
+            result.FocPath = focPath;
             if (CheckSteam(focPath))
-                return new GameHelperResult(GameTypes.SteamGold, focPath);
-            return CheckGoG(focPath)
-                ? new GameHelperResult(GameTypes.GoG, focPath)
-                : new GameHelperResult(GameTypes.Disk, focPath);
+            {
+                result.Type = GameTypes.SteamGold;
+                return result;
+            }
+            if (CheckGoG(focPath))
+            {
+                result.Type = GameTypes.GoG;
+                return result;
+            }
+            result.Type = GameTypes.Disk;
+            return result;
+        }
+
+        private static void SetupSteamGames(in RegistryKey registry, ref RegistryKey key)
+        {
+            ProcessHelper.FindProcess("StarWarsG")?.Kill();
+            Process.Start("steam://rungameid/32470");
+
+            for (var count = 0; count <= 5000; count++)
+            {
+                var eaw = ProcessHelper.FindProcess("StarWarsG");
+                if (eaw != null)
+                {
+                    key = registry.OpenSubKey(FocRegistryPath + FocRegistryVersion, false);
+                    if (key != null)
+                    {
+                        eaw.Kill();
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static bool PrompGameSetupDialog(ref GameDetectionResult result)
+        {
+            if (!Steam.IsSteamInstalled(out _))
+            {
+                result.IsError = true;
+                result.Error = DetectionError.NotSettedUp;
+                return false;
+            }
+            var mbResult = MessageBox.Show(MessageProvider.GetMessage("WarningGamesSettedUp"), "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.Yes);
+            if (mbResult == MessageBoxResult.Yes)
+                return true;
+            result.IsError = true;
+            result.Error = DetectionError.NotSettedUp;
+            return false;
         }
 
         private static bool CheckSteam(string path)

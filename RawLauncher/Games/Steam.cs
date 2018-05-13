@@ -19,5 +19,11 @@ namespace RawLauncher.Framework.Games
                 }
             }
         }
+
+        public static bool IsSteamInstalled(out string path)
+        {
+            path = SteamExePath;
+            return !string.IsNullOrEmpty(path);
+        }
     }
 }

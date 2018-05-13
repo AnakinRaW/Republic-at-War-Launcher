@@ -25,7 +25,8 @@ namespace RawLauncher.Framework.Localization
             AddPlayStrings();
             AddResourceExtractorStrings();
             AddRestoreStrigns();
-            AddUpdateStrings(); AddVersionStrings();
+            AddUpdateStrings();
+            AddVersionStrings();
         }
 
         public override void Reload()
@@ -81,6 +82,10 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("ErrorInitLauncher", "Hubo un problema al inicializar el lanzador: {0}");
             StringTable.Add("ErrorInitFailed", "El lanzador no puede localizar Fuerzas de la Corrupción. Por favor ejecute el lanzador desde el directorio raíz de Fuerzas de la Corrupción.");
             StringTable.Add("ErrorInitFailedMod", "El lanzador no puede localizar Republic at War. Por favor haga clic en la pestaña 'Actualizar' e instale el mod.");
+            StringTable.Add("ErrorGameNotSettedUp", "TestString");
+            StringTable.Add("WarningGamesSettedUp", "Your games seem to be installed but are not settet up correctly. Please run vanilla Forces of Corruption at least once to finish the setup.\r\n\r\n" +
+                                                    "The launcher can open the Steam-Version of the game for you now (and close it immediately after setup).\r\n" +
+                                                    "Would you like to setup the games now?");
         }
 
         private void AddExceptionStrings()

@@ -2,6 +2,7 @@
 {
     public enum GameTypes
     {
+        Undefined,
         Disk,
         DiskGold,
         SteamGold,

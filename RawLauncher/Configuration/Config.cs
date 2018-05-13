@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using RawLauncher.Framework.Localization;
 
@@ -22,6 +21,9 @@ namespace RawLauncher.Framework.Configuration
         public const string SessionServerUrl = "http://raworganize.com/";
 
         internal const string CurrentMafHash = "55addbdd742127a14f0ca86f7ba90444";
+
+        internal const string FocRegistryPath = @"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption";
+        internal const string FocRegistryVersion = @"\1.0";
 
         public static string RaWAppDataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"RaW_Modding_Team\");
 
