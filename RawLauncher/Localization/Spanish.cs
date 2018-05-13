@@ -82,10 +82,10 @@ namespace RawLauncher.Framework.Localization
             StringTable.Add("ErrorInitLauncher", "Hubo un problema al inicializar el lanzador: {0}");
             StringTable.Add("ErrorInitFailed", "El lanzador no puede localizar Fuerzas de la Corrupción. Por favor ejecute el lanzador desde el directorio raíz de Fuerzas de la Corrupción.");
             StringTable.Add("ErrorInitFailedMod", "El lanzador no puede localizar Republic at War. Por favor haga clic en la pestaña 'Actualizar' e instale el mod.");
-            StringTable.Add("ErrorGameNotSettedUp", "TestString");
-            StringTable.Add("WarningGamesSettedUp", "Your games seem to be installed but are not settet up correctly. Please run vanilla Forces of Corruption at least once to finish the setup.\r\n\r\n" +
-                                                    "The launcher can open the Steam-Version of the game for you now (and close it immediately after setup).\r\n" +
-                                                    "Would you like to setup the games now?");
+            StringTable.Add("ErrorGameNotSettedUp", "El lanzador no pudo conseguir Fuerzas de la Corrupción a pesar de que el juego parece estar instalado. Por favor inicie Fuerzas de la Corrupción al menos unas vez y luego reinicie el lanzador.");
+            StringTable.Add("WarningGamesSettedUp", "Parece que sus juegos están instalados pero no configurados correctamente. Por favor ejecute Fuerzas de la Corrupción al menos una vez para finalizar la configuración.\r\n\r\n" +
+                                                    "El lanzador puede abrir la versión de Steam del juego ahora (y cerrarla inmediatamente luego de la configuración).\r\n" +
+                                                    "¿Le gustaría configurar los juegos ahora?");
         }
 
         private void AddExceptionStrings()
