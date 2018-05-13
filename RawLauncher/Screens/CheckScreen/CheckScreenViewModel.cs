@@ -497,10 +497,13 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             if (!flag)
             {
                 AiWrongInstalled();
-                var result = MessageProvider.Show(MessageProvider.GetMessage("CheckAIFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
-                    MessageBoxImage.Error, MessageBoxResult.Yes);
-                if (result == MessageBoxResult.Yes)
-                    _messageRecorder.Save(MessageProvider.GetMessage("CheckFolderNotValid"));
+                if (!_mSource.Token.IsCancellationRequested)
+                {
+                    var result = MessageProvider.Show(MessageProvider.GetMessage("CheckAIFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
+                        MessageBoxImage.Error, MessageBoxResult.Yes);
+                    if (result == MessageBoxResult.Yes)
+                        _messageRecorder.Save(MessageProvider.GetMessage("CheckFolderNotValid"));
+                }   
                 return false;
             }
             if (!await CheckFolderListAsync(AiFolderList, new List<string> { @"\Data\CustomMaps\" }))
@@ -536,10 +539,13 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             if (!await CheckFolderListAsync(ModFolderList, excludeList))
             {
                 ModWrongInstalled();
-                var result = MessageProvider.Show(MessageProvider.GetMessage("CheckModFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
-                    MessageBoxImage.Error, MessageBoxResult.Yes);
-                if (result == MessageBoxResult.Yes)
-                    _messageRecorder.Save(MessageProvider.GetMessage("CheckFolderNotValid"));
+                if (!_mSource.Token.IsCancellationRequested)
+                {
+                    var result = MessageProvider.Show(MessageProvider.GetMessage("CheckModFolderNotValid"), "Republic at War", MessageBoxButton.YesNo,
+                        MessageBoxImage.Error, MessageBoxResult.Yes);
+                    if (result == MessageBoxResult.Yes)
+                        _messageRecorder.Save(MessageProvider.GetMessage("CheckFolderNotValid"));
+                }
                 return false;
             }
             ModCorrectInstalled();
