@@ -72,12 +72,12 @@ namespace RawLauncher.Framework.Games
 
         public bool IsPatched()
         {
-            if (!File.Exists(GameDirectory + @"Data\XML\GAMECONSTANTS.xml"))
+            if (!File.Exists(Path.Combine(GameDirectory, @"Data\XML\GAMECONSTANTS.xml")))
                 return false;
             var hashProvider = new HashProvider();
-            if (hashProvider.GetFileHash(GameDirectory + @"Data\XML\GAMECONSTANTS.xml") != GameconstantsUpdateHashEaW)
+            if (hashProvider.GetFileHash(Path.Combine(GameDirectory, @"Data\XML\GAMECONSTANTS.xml")) != GameconstantsUpdateHashEaW)
                 return false;
-            if (Directory.GetFiles(GameDirectory + @"Data\XML").Length != 1)
+            if (Directory.GetFiles(Path.Combine(GameDirectory, @"Data\XML\")).Length != 1)
                 return false;
             return true;
         }
@@ -88,10 +88,10 @@ namespace RawLauncher.Framework.Games
         {
             try
             {
-                if (Directory.Exists(GameDirectory + @"Data\XML"))
-                    Directory.Delete(GameDirectory + @"Data\XML", true);
-                Directory.CreateDirectory(GameDirectory + @"Data\XML");
-                File.WriteAllText(GameDirectory + @"Data\XML\GAMECONSTANTS.XML", Properties.Resources.GAMECONSTANTSeaw);
+                if (Directory.Exists(Path.Combine(GameDirectory, @"Data\XML\")))
+                    Directory.Delete(Path.Combine(GameDirectory, @"Data\XML\"), true);
+                Directory.CreateDirectory(Path.Combine(GameDirectory, @"Data\XML\"));
+                File.WriteAllText(Path.Combine(GameDirectory, @"Data\XML\GAMECONSTANTS.xml"), Properties.Resources.GAMECONSTANTSeaw);
             }
             catch (Exception)
             {
