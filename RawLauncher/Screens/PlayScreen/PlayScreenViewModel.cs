@@ -54,11 +54,15 @@ namespace RawLauncher.Framework.Screens.PlayScreen
         public PlayScreenViewModel(LauncherModel launcher)
         {
             _launcher = launcher;
-            if (_launcher.BaseGame is SteamGame steamGame)
+            switch (_launcher.BaseGame)
             {
-                AutosaveButtonText = (string)_buttonTextConverter.Convert(this, typeof(string),
-                    !steamGame.AutosaveEnabled,
-                    CultureInfo.CurrentCulture);
+                case null:
+                    return;
+                case SteamGame steamGame:
+                    AutosaveButtonText = (string)_buttonTextConverter.Convert(this, typeof(string),
+                        !steamGame.AutosaveEnabled,
+                        CultureInfo.CurrentCulture);
+                    break;
             }
         }
 
@@ -119,7 +123,7 @@ namespace RawLauncher.Framework.Screens.PlayScreen
         private void TriggerAutosave(object obj)
         {
             AudioPlayer.PlayAudio(AudioPlayer.Audio.ButtonPress);
-            if (!(_launcher.BaseGame is SteamGame steamGame))
+            if (_launcher?.BaseGame == null || !(_launcher.BaseGame is SteamGame steamGame))
                 return;
             steamGame.SwitchAutosaveEnabledStatus();
             AutosaveButtonText = (string) _buttonTextConverter.Convert(this, typeof(string),

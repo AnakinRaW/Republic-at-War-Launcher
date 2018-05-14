@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="pack://application:,,,/RawLauncher.Theme;component/LauncherTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!-- other resources go here -->
+            <converters:SteamToVisibilityConverter x:Key="SteamToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -28,7 +29,7 @@
             </mafc:ImageButton.Content>
         </mafc:ImageButton>
 
-        <StackPanel Margin="0,130,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+        <StackPanel Margin="0,130,0,0" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding Converter={StaticResource SteamToVisibilityConverter}}">
 
             <controls:ImageSoundClickButton Height="60" Width="300" Margin="60,0,0,0" VerticalAlignment="Center" Command="{Binding TriggerAutosaveCommand}" 
                                             ToolTip="{Binding ToolTip, IsAsync=True}" HorizontalAlignment="Right"
