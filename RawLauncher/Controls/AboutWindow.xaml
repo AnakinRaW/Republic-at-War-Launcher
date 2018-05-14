@@ -35,7 +35,7 @@
                     <ComboBoxItem DataContext="de">Spanish</ComboBoxItem>
                 </ComboBox>
             </DockPanel>
-            <Label>(c) Republic at War Modding Team, 2017</Label>
+            <Label>(c) Republic at War Modding Team, 2018</Label>
             <Label>Launcher Created by: Anakin Sklavenwalker</Label>
             <Label></Label>
             <Label>The Launcher is using the ModernApplicationFramework by AnakinSklavenwalker</Label>
