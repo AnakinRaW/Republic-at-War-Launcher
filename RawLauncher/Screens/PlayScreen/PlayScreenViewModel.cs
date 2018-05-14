@@ -25,7 +25,7 @@ namespace RawLauncher.Framework.Screens.PlayScreen
         private readonly LauncherModel _launcher;
         private string _autosaveButtonText;
 
-        private AutosaveToButtonTextConverter _buttonTextConverter = new AutosaveToButtonTextConverter();
+        private readonly AutosaveToButtonTextConverter _buttonTextConverter = new AutosaveToButtonTextConverter();
 
         public ICommand PlayModCommand => new Command(PlayMod);
 

@@ -37,7 +37,7 @@
                      ResourceId=ButtonUninstall}">borrar raw</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
-                     ResourceId=ButtonDefreeze}">descongelar partida</system:String>
+                     ResourceId=ButtonDefreeze}">Descongelar Partida</system:String>
 
     <system:String x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lang:XmalLanguageKeys},
                      ResourceId=ButtonClose}">cerrar</system:String>
