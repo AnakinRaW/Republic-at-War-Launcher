@@ -177,6 +177,7 @@
     </Compile>
     <Compile Include="Screens\UpdateScreen\UpdateScreenViewModel.cs" />
     <Compile Include="Shell\ILauncherMainWindow.cs" />
+    <Compile Include="Utilities\Converters\AutosaveToButtonTextConverter.cs" />
     <Compile Include="Utilities\Converters\BoolToIndexConverter.cs" />
     <Compile Include="Utilities\Converters\IsGreaterVersionColorConverter.cs" />
     <Compile Include="Utilities\Converters\ResourceToStreamConverter.cs" />

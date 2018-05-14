@@ -58,5 +58,27 @@ namespace RawLauncher.Framework.Utilities
                 Directory.Delete(path, true);
             }
         }
+
+        public static bool IsFileReadOnly(string path)
+        {
+            return File.Exists(path) && File.GetAttributes(path).HasFlag(FileAttributes.ReadOnly);
+        }
+
+        public static void MakeFileReadOnly(string path)
+        {
+            if (!File.Exists(path))
+                return;
+            var attributes = File.GetAttributes(path);
+            File.SetAttributes(path, attributes | FileAttributes.ReadOnly);
+        }
+
+        public static void MakeFileWriteable(string path)
+        {
+            if (!File.Exists(path))
+                return;
+            var attributes = File.GetAttributes(path);
+            attributes = attributes & ~FileAttributes.ReadOnly;
+            File.SetAttributes(path, attributes);
+        }
     }
 }

@@ -1,14 +1,19 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using RawLauncher.Framework.Annotations;
 using RawLauncher.Framework.Hash;
 using RawLauncher.Framework.Mods;
 using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Games
 {
-    public sealed class SteamGame : AbstractFocGame
+    public sealed class SteamGame : AbstractFocGame, INotifyPropertyChanged
     {
+        private bool _autosaveEnabled;
         public const string GameconstantsUpdateHash = "b0818f73031b7150a839bb83e7aa6187";
 
         protected override string GameExeFileName => "StarwarsG.exe";
@@ -17,24 +22,34 @@ namespace RawLauncher.Framework.Games
 
         public override string Name => "Forces of Corruption (Steam)";
 
+        public string AutosaveFilePath => Path.Combine(SaveGameDirectory, "[AutoSave].PetroglyphFoCSave");
+
         public override string SaveGameDirectory
         {
             get
             {
                 var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     @"Saved Games\Petroglyph\Empire At War - Forces of Corruption\Save\");
-                if (!Directory.Exists(folder))
-                    return string.Empty;
-                return folder;
+                return !Directory.Exists(folder) ? string.Empty : folder;
             }
         }
 
-        public SteamGame()
+        public bool AutosaveEnabled
         {
+            get => _autosaveEnabled;
+            set
+            {
+                if (value == _autosaveEnabled)
+                    return;
+                ChangeAutosaveEnabledStatus(value);
+                _autosaveEnabled = value;
+                OnPropertyChanged();
+            }
         }
 
         public SteamGame(string gameDirectory) : base(gameDirectory)
         {
+            _autosaveEnabled = !FileUtilities.IsFileReadOnly(AutosaveFilePath);
         }
 
         public override bool IsPatched()
@@ -107,6 +122,27 @@ namespace RawLauncher.Framework.Games
             {
                 //ignored
             }
+        }
+
+        public void SwitchAutosaveEnabledStatus()
+        {
+            AutosaveEnabled = !_autosaveEnabled;
+        }
+
+        private void ChangeAutosaveEnabledStatus(bool value)
+        {
+            if (value)
+                FileUtilities.MakeFileWriteable(AutosaveFilePath);
+            else
+                FileUtilities.MakeFileReadOnly(AutosaveFilePath);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

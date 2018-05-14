@@ -6,8 +6,9 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:lang="clr-namespace:RawLauncher.Framework.Localization"
              xmlns:controls="clr-namespace:RawLauncher.Framework.Controls"
+             xmlns:converters="clr-namespace:RawLauncher.Framework.Utilities.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,18 +28,32 @@
             </mafc:ImageButton.Content>
         </mafc:ImageButton>
 
-        <controls:ImageSoundClickButton Height="60" Width="300" VerticalAlignment="Top" Margin="0,190,0,0" Command="{Binding DefreezeCommand}" ToolTip="{Binding ToolTip, IsAsync=True}"
-                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeIdle.png"
-                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png"
-                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png">
-            <mafc:ImageButton.Content>
-                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDefreezeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
-                                            Text="{DynamicResource {x:Static lang:XmalLanguageKeys.ButtonDefreeze}}"/>
-            </mafc:ImageButton.Content>
-        </controls:ImageSoundClickButton>
+        <StackPanel Margin="0,130,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+
+            <controls:ImageSoundClickButton Height="60" Width="300" Margin="60,0,0,0" VerticalAlignment="Center" Command="{Binding TriggerAutosaveCommand}" 
+                                            ToolTip="{Binding ToolTip, IsAsync=True}" HorizontalAlignment="Right"
+                                            NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeIdle.png"
+                                            HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png"
+                                            PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDefreezeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                           Text="{Binding AutosaveButtonText}"/>
+                </mafc:ImageButton.Content>
+            </controls:ImageSoundClickButton>
+
+            <mafc:ImageButton Margin="20,-20,0,0" Width="Auto" Command="{Binding AutosaveInfoCommand}"
+                              NormalImage="{x:Null}" HoverImage="{x:Null}" PressedImage="{x:Null}" VerticalAlignment="Center">
+                <mafc:ImageButton.Content>
+                    <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDeleteRawForeground}" FontSize="46" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                           Text="?" VerticalAlignment="Center"/>
+                </mafc:ImageButton.Content>
+            </mafc:ImageButton>
+        </StackPanel>
+
+        
 
         <DockPanel Margin="0,270,0,0" Dock="Right" HorizontalAlignment="Center" Height="34">
-            <mafc:ImageToggleButton x:Name="ToggleButton" HorizontalAlignment="Center" VerticalAlignment="Top" Height="34" Width="34" 
+            <mafc:ImageToggleButton x:Name="ToggleButton" HorizontalAlignment="Right" VerticalAlignment="Top" Height="34" Width="34" 
                                 NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayIdle.png"
                                 HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"
                                 PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/FastPlayHover.png"

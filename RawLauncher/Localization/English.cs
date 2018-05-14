@@ -27,6 +27,7 @@ namespace RawLauncher.Framework.Localization
             AddRestoreStrigns();
             AddUpdateStrings();
             AddVersionStrings();
+            AddAutoSaveStrings();
         }
 
         public override void Reload()
@@ -188,6 +189,14 @@ namespace RawLauncher.Framework.Localization
         private void AddVersionStrings()
         {
             StringTable.Add("VersionUtilitiesAskForUpdate", "New Version: {0} available. Update now?");
+        }
+
+        private void AddAutoSaveStrings()
+        {
+            StringTable.Add("EnableAutosave", "enabled autosave");
+            StringTable.Add("DisableAutosave", "disable autosave");
+            StringTable.Add("AutosaveInfoMessage", "The latest steam update for Forces of Corruption causes some long battle load times that have to do with a disabled caching mechanism for the autosave files. To speedup the battle loading times you can disables the creation of autosaves.\r\n" +
+                                                   "Warning: By disabling autosaves you must mange savegames on your own. An unexpected crash of the game will cost you all of your unsaved game progres.");
         }
     }
 }

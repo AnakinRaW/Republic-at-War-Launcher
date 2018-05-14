@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Microsoft.Win32;
@@ -12,6 +14,7 @@ using RawLauncher.Framework.Games;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Mods;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Utilities.Converters;
 
 namespace RawLauncher.Framework.Screens.PlayScreen
 {
@@ -20,6 +23,9 @@ namespace RawLauncher.Framework.Screens.PlayScreen
     public class PlayScreenViewModel : LauncherScreen, IPlayScreen
     {
         private readonly LauncherModel _launcher;
+        private string _autosaveButtonText;
+
+        private AutosaveToButtonTextConverter _buttonTextConverter = new AutosaveToButtonTextConverter();
 
         public ICommand PlayModCommand => new Command(PlayMod);
 
@@ -27,10 +33,33 @@ namespace RawLauncher.Framework.Screens.PlayScreen
 
         public ICommand ToggleFastLaunchCommand => new DelegateCommand(ToggleFastLaunchAsync);
 
+        public ICommand AutosaveInfoCommand => new Command(ShowAutosaveInfo);
+
+        public ICommand TriggerAutosaveCommand => new DelegateCommand(TriggerAutosave);
+
+        public string AutosaveButtonText
+        {
+            get => _autosaveButtonText;
+            set
+            {
+                if (value == _autosaveButtonText)
+                    return;
+                _autosaveButtonText = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         [ImportingConstructor]
+
         public PlayScreenViewModel(LauncherModel launcher)
         {
             _launcher = launcher;
+            if (_launcher.BaseGame is SteamGame steamGame)
+            {
+                AutosaveButtonText = (string)_buttonTextConverter.Convert(this, typeof(string),
+                    !steamGame.AutosaveEnabled,
+                    CultureInfo.CurrentCulture);
+            }
         }
 
         private void PlayMod()
@@ -80,6 +109,22 @@ namespace RawLauncher.Framework.Screens.PlayScreen
                 await _launcher.CreateFastLaunchFileCommand.Execute();
             if (toggleButton.IsChecked == false)
                 await _launcher.DeleteFastLaunchFileCommand.Execute();
+        }
+
+        private static void ShowAutosaveInfo()
+        {
+            MessageBox.Show(MessageProvider.GetMessage("AutosaveInfoMessage"), "Republic at War", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void TriggerAutosave(object obj)
+        {
+            AudioPlayer.PlayAudio(AudioPlayer.Audio.ButtonPress);
+            if (!(_launcher.BaseGame is SteamGame steamGame))
+                return;
+            steamGame.SwitchAutosaveEnabledStatus();
+            AutosaveButtonText = (string) _buttonTextConverter.Convert(this, typeof(string),
+                !steamGame.AutosaveEnabled,
+                CultureInfo.CurrentCulture);
         }
     }
 }

@@ -27,6 +27,7 @@ namespace RawLauncher.Framework.Localization
             AddRestoreStrigns();
             AddUpdateStrings();
             AddVersionStrings();
+            AddAutoSaveStrings();
         }
 
         public override void Reload()
@@ -187,6 +188,14 @@ namespace RawLauncher.Framework.Localization
         private void AddVersionStrings()
         {
             StringTable.Add("VersionUtilitiesAskForUpdate", "Neue Version: {0} verfügbar. Jetzt herunterladen ? ");
+        }
+
+        private void AddAutoSaveStrings()
+        {
+            StringTable.Add("EnableAutosave", "aktiviere auto-speichern");
+            StringTable.Add("DisableAutosave", "deaktiviere auto-speichern");
+            StringTable.Add("AutosaveInfoMessage", "Der letzte Steam Patch von Forces of Corruption hat zur Folge, dass die Ladezeiten für Gefechte stark gestiegen sind. Grund dafür ist das Abschalten einiger Caching-Mechanismen beim Erstellen automatischer Speicherpunkte. Durch das Deaktivieren der automatischen Speicherung, wird die Ladezeit wieder verkürzt.\r\n" +
+                                                   "Warnung: Wird das automatische Speichern abgeschaltet, gehen nicht gespeicherte Spielinformationen, nach beispielsweise einem Absturz des Spiels, verloren.");
         }
     }
 }
