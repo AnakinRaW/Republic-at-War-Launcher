@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using RawLauncher.Framework.Annotations;
 using RawLauncher.Framework.Hash;
 using RawLauncher.Framework.Mods;

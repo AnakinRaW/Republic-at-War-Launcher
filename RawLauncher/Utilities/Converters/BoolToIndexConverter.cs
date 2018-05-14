@@ -8,7 +8,7 @@ namespace RawLauncher.Framework.Utilities.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool) value)
+            if (value != null && (bool) value)
                 return 1;
             return 0;
         }

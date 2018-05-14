@@ -63,7 +63,7 @@ namespace RawLauncher.Framework.Games
         /// <summary>
         /// Deletes a Mod by it's name
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="mod">Name of the mod</param>
         void DeleteMod(IMod mod);
 
         /// <summary>

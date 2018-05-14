@@ -57,40 +57,40 @@ namespace RawLauncher.Framework.Models
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string Name
         {
-            get { return _nameField; }
-            set { _nameField = value; }
+            get => _nameField;
+            set => _nameField = value;
         }
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string TargetPath
         {
-            get { return _targetPathField; }
-            set { _targetPathField = value; }
+            get => _targetPathField;
+            set => _targetPathField = value;
         }
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public TargetType TargetType
         {
-            get { return _targetTypeField; }
-            set { _targetTypeField = value; }
+            get => _targetTypeField;
+            set => _targetTypeField = value;
         }
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string Hash
         {
-            get { return _hashField; }
-            set { _hashField = value; }
+            get => _hashField;
+            set => _hashField = value;
         }
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string SourcePath
         {
-            get { return _sourcePathField; }
-            set { _sourcePathField = value; }
+            get => _sourcePathField;
+            set => _sourcePathField = value;
         }
 
         /// <summary>
@@ -174,32 +174,32 @@ namespace RawLauncher.Framework.Models
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string TargetPath
         {
-            get { return _targetPathField; }
-            set { _targetPathField = value; }
+            get => _targetPathField;
+            set => _targetPathField = value;
         }
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public TargetType TargetType
         {
-            get { return _targetTypeField; }
-            set { _targetTypeField = value; }
+            get => _targetTypeField;
+            set => _targetTypeField = value;
         }
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
         public string Hash
         {
-            get { return _hashField; }
-            set { _hashField = value; }
+            get => _hashField;
+            set => _hashField = value;
         }
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified, DataType = "integer")]
         public string Count
         {
-            get { return _countField; }
-            set { _countField = value; }
+            get => _countField;
+            set => _countField = value;
         }
 
         public CheckResult Check(string referencePath)
@@ -256,8 +256,8 @@ namespace RawLauncher.Framework.Models
         [XmlElement("FileContainer")]
         public FileContainer[] Items
         {
-            get { return _itemsField; }
-            set { _itemsField = value; }
+            get => _itemsField;
+            set => _itemsField = value;
         }
     }
 }

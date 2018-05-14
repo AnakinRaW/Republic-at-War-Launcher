@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Microsoft.Win32;
@@ -117,7 +116,7 @@ namespace RawLauncher.Framework.Screens.PlayScreen
 
         private static void ShowAutosaveInfo()
         {
-            MessageBox.Show(MessageProvider.GetMessage("AutosaveInfoMessage"), "Republic at War", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageProvider.ShowInformation(MessageProvider.GetMessage("AutosaveInfoMessage"));
         }
 
         private void TriggerAutosave(object obj)

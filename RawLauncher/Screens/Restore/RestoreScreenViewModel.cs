@@ -240,7 +240,7 @@ namespace RawLauncher.Framework.Screens.Restore
         private async void RestoreMod()
         {
             MSource = new CancellationTokenSource();
-            Version.TryParse(DataSource.DisplayedItem?.Text, out Version version);
+            Version.TryParse(DataSource.DisplayedItem?.Text, out var version);
 
             var prepareResult = PrepareUpdateRestore(version);
             if (prepareResult != PrepareUpdateRestoreResult.Succeeded)
