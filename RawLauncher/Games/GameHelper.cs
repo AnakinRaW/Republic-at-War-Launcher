@@ -13,71 +13,89 @@ namespace RawLauncher.Framework.Games
         {
             var result = default(GameDetectionResult);
 
-            string focPath;
+            FindGamesFromRegistry(ref result);
+            if (result.IsError)
+                return result;
 
-            if (File.Exists(path + "\\swfoc.exe"))
-                focPath = path;
-            else
-            {
-                using (var registry = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
-                {
-                    var key = registry.OpenSubKey(FocRegistryPath + FocRegistryVersion, false);
-                    if (key == null)
-                    {
-                        var baseKey = registry.OpenSubKey(FocRegistryPath, false);
-                        if (baseKey == null)
-                        {
-                            result.IsError = true;
-                            result.Error = DetectionError.NotInstalled;
-                            return result;
-                        }
+            //CheckViaPath -- override registry if found.
+            FindGamesFromPath(path, ref result);
 
-                        if (!PrompGameSetupDialog(ref result))
-                            return result;
-                        SetupSteamGames(in registry, ref key);  
-                    }
-
-                    if (key == null)
-                    {
-                        result.IsError = true;
-                        result.Error = DetectionError.NotSettedUp;
-                        return result;
-                    }
-
-                    var installed = (int)key.GetValue("installed");
-                    if (installed == 0)
-                    {
-                        result.IsError = true;
-                        result.Error = DetectionError.NotInstalled;
-                        return result;
-                    }
-                    var exePath = (string)registry.OpenSubKey(FocRegistryPath + FocRegistryVersion, false)?.GetValue("exepath");
-                    focPath = new FileInfo(exePath).Directory.FullName;
-                }
-            }
-            if (focPath == null || !File.Exists(focPath + "\\swfoc.exe"))
+            if (string.IsNullOrEmpty(result.FocPath) || !File.Exists(Path.Combine(result.FocPath + "\\swfoc.exe")))
             {
                 result.IsError = true;
                 result.Error = DetectionError.NotInstalled;
                 return result;
             }
 
-            result.FocPath = focPath;
-            if (CheckSteam(focPath))
-            {
-                result.Type = GameTypes.SteamGold;
-                return result;
-            }
-            if (CheckGoG(focPath))
-            {
-                result.Type = GameTypes.GoG;
-                return result;
-            }
-            result.Type = GameTypes.Disk;
+            if (CheckSteam(result.FocPath))
+                result.FocType = GameTypes.SteamGold;
+            else if (CheckGoG(result.FocPath))
+                result.FocType = GameTypes.GoG;
+            else
+                result.FocType = GameTypes.Disk;
             return result;
         }
 
-        private static void SetupSteamGames(in RegistryKey registry, ref RegistryKey key)
+        private static void FindGamesFromRegistry(ref GameDetectionResult result)
+        {
+            var eawResult = CheckGameExists(EawRegistryPath, EawRegistryVersion);
+            var focResult = CheckGameExists(FocRegistryPath, FocRegistryVersion);
+
+            if (eawResult == DetectionError.None && focResult == DetectionError.None)
+            {
+                result.EawPath = GetGamePathFromRegistry(EawRegistryPath + EawRegistryVersion);
+                result.FocPath = GetGamePathFromRegistry(FocRegistryPath + FocRegistryVersion);
+                return;
+            }
+            if (eawResult == DetectionError.NotInstalled || focResult == DetectionError.NotInstalled)
+            {
+                result.IsError = true;
+                result.Error = DetectionError.NotInstalled;
+                return;
+            }
+            if (eawResult == DetectionError.NotSettedUp || focResult == DetectionError.NotSettedUp)
+            {
+                if (Steam.IsSteamGoldPackInstalled() && PrompGameSetupDialog() && SetupSteamGames())
+                {
+                    result.EawPath = GetGamePathFromRegistry(EawRegistryPath + EawRegistryVersion);
+                    result.FocPath = GetGamePathFromRegistry(FocRegistryPath + FocRegistryVersion);
+                    return;
+                }
+                result.IsError = true;
+                result.Error = DetectionError.NotSettedUp;
+            }
+        }
+
+        private static void FindGamesFromPath(string path, ref GameDetectionResult result)
+        {
+            //throw new System.NotImplementedException();
+        }
+
+        private static DetectionError CheckGameExists(string baseKeyPath, string versionKeyPath)
+        {
+            using (var registry = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+            {
+                var key = registry.OpenSubKey(baseKeyPath + versionKeyPath, false);
+                if (key == null)
+                {
+                    var baseKey = registry.OpenSubKey(baseKeyPath, false);
+                    return baseKey == null ? DetectionError.NotInstalled : DetectionError.NotSettedUp;
+                }
+                var installed = (int)key.GetValue("installed");
+                return installed == 0 ? DetectionError.NotInstalled : DetectionError.None;
+            }
+        }
+
+        private static string GetGamePathFromRegistry(string registryPath)
+        {
+            using (var registry = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+            {
+                var exePath = (string)registry.OpenSubKey(registryPath, false)?.GetValue("exepath");
+                return new FileInfo(exePath).Directory.FullName;
+            }
+        }
+
+        private static bool SetupSteamGames()
         {
             ProcessHelper.FindProcess("StarWarsG")?.Kill();
             Process.Start("steam://rungameid/32470");
@@ -87,30 +105,21 @@ namespace RawLauncher.Framework.Games
                 var eaw = ProcessHelper.FindProcess("StarWarsG");
                 if (eaw != null)
                 {
-                    key = registry.OpenSubKey(FocRegistryPath + FocRegistryVersion, false);
-                    if (key != null)
+                    if (CheckGameExists(EawRegistryPath, EawRegistryVersion) == DetectionError.None &&
+                        CheckGameExists(FocRegistryPath, FocRegistryVersion) == DetectionError.None)
                     {
                         eaw.Kill();
-                        break;
+                        return true;
                     }
                 }
             }
+            return false;
         }
 
-        private static bool PrompGameSetupDialog(ref GameDetectionResult result)
+        private static bool PrompGameSetupDialog()
         {
-            if (!Steam.IsSteamInstalled(out _))
-            {
-                result.IsError = true;
-                result.Error = DetectionError.NotSettedUp;
-                return false;
-            }
             var mbResult = MessageBox.Show(MessageProvider.GetMessage("WarningGamesSettedUp"), "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.Yes);
-            if (mbResult == MessageBoxResult.Yes)
-                return true;
-            result.IsError = true;
-            result.Error = DetectionError.NotSettedUp;
-            return false;
+            return mbResult == MessageBoxResult.Yes;
         }
 
         private static bool CheckSteam(string path)

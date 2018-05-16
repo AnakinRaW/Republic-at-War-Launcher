@@ -25,5 +25,18 @@ namespace RawLauncher.Framework.Games
             path = SteamExePath;
             return !string.IsNullOrEmpty(path);
         }
+
+
+        public static bool IsSteamGoldPackInstalled()
+        {
+            if (!IsSteamInstalled(out _))
+                return false;
+
+            using (var registry = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default))
+            {
+                return registry.OpenSubKey("Software\\Valve\\Steam\\Apps\\32470", false) != null ||
+                       registry.OpenSubKey("Software\\Valve\\Steam\\Apps\\32472", false) != null;
+            }
+        }
     }
 }

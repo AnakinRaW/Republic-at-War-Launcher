@@ -42,33 +42,15 @@ namespace RawLauncher.Framework.Games
         }
 
         public GameProcessData GameProcessData => new GameProcessData();
-        public bool Exists() => Directory.Exists(GameDirectory);
-
-        public IGame FindGame()
-        {
-            if (File.Exists(Directory.GetParent(Directory.GetCurrentDirectory()) +
-                            @"\Star Wars Empire at War\GameData\sweaw.exe"))
-            {
-                GameDirectory = Directory.GetParent(Directory.GetCurrentDirectory()) +
-                                @"\Star Wars Empire at War\GameData\";
-                return this;
-            }
-
-            //Try by registry
-            using (var registry = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
-            {
-                var exePath = (string)registry
-                    .OpenSubKey(@"SOFTWARE\LucasArts\Star Wars Empire at War\1.0", false)?.GetValue("ExePath");
-                if (exePath != null && File.Exists(exePath))
-                {
-                    GameDirectory = new FileInfo(exePath).Directory.FullName;
-                    return this;
-                }
-            }
-            throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
-        }
-
+        public bool Exists() => Directory.Exists(GameDirectory) && File.Exists(Path.Combine(GameDirectory, "sweaw.exe"));
         public string GameDirectory { get; protected set; }
+
+        public Eaw(string gameDirectory)
+        {
+            GameDirectory = gameDirectory;
+            if (!Exists())
+                throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExist"));
+        }
 
         public bool IsPatched()
         {

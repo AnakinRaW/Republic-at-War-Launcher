@@ -31,13 +31,6 @@ namespace RawLauncher.Framework.Games
         bool Exists();
 
         /// <summary>
-        /// Searches from the current Directory for the presence of the Game and returns a new Game Object
-        /// A game is found if the the .exe exists.
-        /// </summary>
-        /// <returns>Returns a new instance of the Game</returns>
-        IGame FindGame();
-
-        /// <summary>
         /// Plays the default game
         /// </summary>
         void PlayGame();

@@ -36,11 +36,6 @@ namespace RawLauncher.Framework.Games
 
         public bool Exists() => File.Exists(Path.Combine(GameDirectory, GameExeFileName));
 
-        public IGame FindGame()
-        {
-            throw new NotImplementedException();
-        }
-
         public void PlayGame()
         {
             throw new NotImplementedException();

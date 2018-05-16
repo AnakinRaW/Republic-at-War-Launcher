@@ -22,8 +22,10 @@ namespace RawLauncher.Framework.Configuration
 
         internal const string CurrentMafHash = "55addbdd742127a14f0ca86f7ba90444";
 
+        internal const string EawRegistryPath = @"SOFTWARE\LucasArts\Star Wars Empire at War";
         internal const string FocRegistryPath = @"SOFTWARE\LucasArts\Star Wars Empire at War Forces of Corruption";
         internal const string FocRegistryVersion = @"\1.0";
+        internal const string EawRegistryVersion = @"\1.0";
 
         public static string RaWAppDataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"RaW_Modding_Team\");
 

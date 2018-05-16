@@ -184,20 +184,18 @@ namespace RawLauncher.Framework.Launcher
             if (result.IsError)
                 return false;
 
-            if (result.Type == GameTypes.Disk)
+            Eaw = new Eaw(result.EawPath);
+            switch (result.FocType)
             {
-                Eaw = new Eaw().FindGame();
-                BaseGame = new Foc(result.FocPath);
-            }
-            else if (result.Type == GameTypes.SteamGold)
-            {
-                Eaw = new Eaw().FindGame();
-                BaseGame = new SteamGame(result.FocPath);
-            }
-            else if (result.Type == GameTypes.GoG)
-            {
-                Eaw = new Eaw().FindGame();
-                BaseGame = new Foc(result.FocPath);
+                case GameTypes.Disk:
+                    BaseGame = new Foc(result.FocPath);
+                    break;
+                case GameTypes.SteamGold:
+                    BaseGame = new SteamGame(result.FocPath);
+                    break;
+                case GameTypes.GoG:
+                    BaseGame = new Foc(result.FocPath);
+                    break;
             }
             return true;
         }
