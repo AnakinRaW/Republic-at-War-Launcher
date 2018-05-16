@@ -193,8 +193,8 @@ namespace RawLauncher.Framework.Localization
         {
             StringTable.Add("EnableAutosave", "enable autosave");
             StringTable.Add("DisableAutosave", "disable autosave");
-            StringTable.Add("AutosaveInfoMessage", "The latest steam update for Forces of Corruption causes some long battle load times that have to do with a disabled caching mechanism for the autosave files. To speedup the battle loading times you can disables the creation of autosaves.\r\n" +
-                                                   "Warning: By disabling autosaves you must mange savegames on your own. An unexpected crash of the game will cost you all of your unsaved game progres.");
+            StringTable.Add("AutosaveInfoMessage", "La última actualización de steam para Fuerzas de la Corrupción causa largos tiempos de carga en las batalles que tienen que ver con un mecanismo de cacheo deshabilitado para los archivos de autoguardado. Para acelerar los tiempos de carga de las batallas puede deshabilitar la creación de los autoguardados.\r\n" +
+                                                   "Advertencia: Al deshabilitar la función de autoguardado usted debe manejar sus partidas guardadas por su propia cuenta. Un error inesperado en el juego le costará todo el progreso no guardado.");
         }
     }
 }
