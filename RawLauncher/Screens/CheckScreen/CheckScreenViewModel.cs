@@ -486,7 +486,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
                         _messageRecorder.AppandMessage("XML folder contains additional AI data");
                         flag = false;
                     }
-                var scriptsPath = Path.Combine(_launcher.BaseGame.GameDirectory, @"Data\XML\Scripts\");
+                var scriptsPath = Path.Combine(_launcher.BaseGame.GameDirectory, @"Data\Scripts\");
                 if (Directory.Exists(scriptsPath))
                     if (Directory.EnumerateFileSystemEntries(scriptsPath).Any())
                     {
