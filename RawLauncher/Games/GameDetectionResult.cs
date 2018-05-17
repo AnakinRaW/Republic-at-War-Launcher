@@ -2,7 +2,7 @@
 {
     internal struct GameDetectionResult
     {
-        public GameTypes FocType { get; set; }
+        public GameType FocType { get; set; }
 
         public string FocPath { get; set; }
 

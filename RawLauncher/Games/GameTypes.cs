@@ -1,6 +1,6 @@
 ﻿namespace RawLauncher.Framework.Games
 {
-    public enum GameTypes
+    public enum GameType
     {
         Undefined,
         Disk,

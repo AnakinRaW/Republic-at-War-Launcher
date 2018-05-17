@@ -179,7 +179,7 @@ namespace RawLauncher.Framework.Launcher
 
         private bool InitGames(out GameDetectionResult result)
         {
-            result = GameHelper.GetInstalledGameType(Directory.GetCurrentDirectory());
+            result = GameHelper.GetGameInstallations();
 
             if (result.IsError)
                 return false;
@@ -187,13 +187,13 @@ namespace RawLauncher.Framework.Launcher
             Eaw = new Eaw(result.EawPath);
             switch (result.FocType)
             {
-                case GameTypes.Disk:
+                case GameType.Disk:
                     BaseGame = new Foc(result.FocPath);
                     break;
-                case GameTypes.SteamGold:
+                case GameType.SteamGold:
                     BaseGame = new SteamGame(result.FocPath);
                     break;
-                case GameTypes.GoG:
+                case GameType.GoG:
                     BaseGame = new Foc(result.FocPath);
                     break;
             }

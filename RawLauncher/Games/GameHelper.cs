@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
+using ModernApplicationFramework.Utilities;
 using RawLauncher.Framework.Utilities;
 using static RawLauncher.Framework.Configuration.Config;
 
@@ -9,7 +10,7 @@ namespace RawLauncher.Framework.Games
 {
     public static class GameHelper
     {
-        internal static GameDetectionResult GetInstalledGameType(string path)
+        internal static GameDetectionResult GetGameInstallations()
         {
             var result = default(GameDetectionResult);
 
@@ -18,7 +19,7 @@ namespace RawLauncher.Framework.Games
                 return result;
 
             //CheckViaPath -- override registry if found.
-            FindGamesFromPath(path, ref result);
+            FindGamesFromExecutingPath(ref result);
 
             if (string.IsNullOrEmpty(result.FocPath) || !File.Exists(Path.Combine(result.FocPath + "\\swfoc.exe")))
             {
@@ -26,14 +27,17 @@ namespace RawLauncher.Framework.Games
                 result.Error = DetectionError.NotInstalled;
                 return result;
             }
-
-            if (CheckSteam(result.FocPath))
-                result.FocType = GameTypes.SteamGold;
-            else if (CheckGoG(result.FocPath))
-                result.FocType = GameTypes.GoG;
-            else
-                result.FocType = GameTypes.Disk;
+            result.FocType = GetGameType(in result);
             return result;
+        }
+
+        private static GameType GetGameType(in GameDetectionResult result)
+        {
+            if (CheckSteam(result.FocPath))
+                return GameType.SteamGold;
+            if (CheckGoG(result.FocPath))
+                return GameType.GoG;
+            return GameType.Disk;
         }
 
         private static void FindGamesFromRegistry(ref GameDetectionResult result)
@@ -66,9 +70,26 @@ namespace RawLauncher.Framework.Games
             }
         }
 
-        private static void FindGamesFromPath(string path, ref GameDetectionResult result)
+        private static void FindGamesFromExecutingPath(ref GameDetectionResult result)
         {
-            //throw new System.NotImplementedException();
+            var currentPath = Directory.GetCurrentDirectory();
+
+            if (!File.Exists(Path.Combine(currentPath, "swfoc.exe")))
+                return;
+
+            if (result.FocPath.NormalizePath() == currentPath.NormalizePath())
+                return;
+
+            var newResult = default(GameDetectionResult);
+            newResult.FocPath = currentPath;
+
+            var gameType = GetGameType(in newResult);
+            newResult.FocType = gameType;
+            if (!Eaw.FindInstallationRelativeToFoc(newResult.FocPath, gameType, out var eawPath))
+                return;
+            newResult.EawPath = eawPath;
+            
+            result = newResult;
         }
 
         private static DetectionError CheckGameExists(string baseKeyPath, string versionKeyPath)

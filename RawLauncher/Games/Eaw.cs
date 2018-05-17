@@ -93,5 +93,25 @@ namespace RawLauncher.Framework.Games
         }
 
         public string SaveGameDirectory => throw new NotImplementedException();
+
+        public static bool FindInstallationRelativeToFoc(string focPath, GameType type, out string eawPath)
+        {
+            eawPath = string.Empty;
+
+            switch (type)
+            {
+                case GameType.Disk:
+                    break;
+                case GameType.SteamGold:
+                    break;
+                case GameType.GoG:
+                    break;
+                case GameType.DiskGold:
+                case GameType.Undefined:
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

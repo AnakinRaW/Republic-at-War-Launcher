@@ -31,11 +31,11 @@
 
         <StackPanel Margin="0,130,0,0" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding Converter={StaticResource SteamToVisibilityConverter}}">
 
-            <controls:ImageSoundClickButton Height="60" Width="300" Margin="60,0,0,0" VerticalAlignment="Center" Command="{Binding TriggerAutosaveCommand}" 
+            <controls:ImageSoundClickButton Height="61" Width="326" Margin="60,0,0,0" VerticalAlignment="Center" Command="{Binding TriggerAutosaveCommand}" 
                                             ToolTip="{Binding ToolTip, IsAsync=True}" HorizontalAlignment="Right"
-                                            NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeIdle.png"
-                                            HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png"
-                                            PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/DefreezeHover.png">
+                                            NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameIdle.png"
+                                            HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png"
+                                            PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png">
                 <mafc:ImageButton.Content>
                     <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonDefreezeForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
                                            Text="{Binding AutosaveButtonText}"/>
