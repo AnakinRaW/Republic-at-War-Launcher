@@ -94,7 +94,8 @@ namespace RawLauncher.Framework.Games
             if (!Exists())
                 throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
 
-            FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\XML\UnitNames\");
+            if (mod.Version > Version.Parse("1.2.0.1"))
+                FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\UnitNames\");
 
 
             string arguments;
