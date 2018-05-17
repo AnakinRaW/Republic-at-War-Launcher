@@ -151,8 +151,6 @@ namespace RawLauncher.Framework.Launcher
                 return;
             }
 
-
-
             InitMod();
             InitDirectories();
             HostServer = hostServer;
@@ -163,7 +161,7 @@ namespace RawLauncher.Framework.Launcher
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             if (version == null)
-                return GetRescueFilePath(fileName, online, CurrentMod.Version);
+                version = CurrentMod.Version;
             if (online)
                 return version + @"\RescueFiles\" + fileName;
             return RestoreDownloadDir + @"\RescueFiles\" + version + @"\" + fileName;
@@ -184,7 +182,15 @@ namespace RawLauncher.Framework.Launcher
             if (result.IsError)
                 return false;
 
-            Eaw = new Eaw(result.EawPath);
+            try
+            {
+                Eaw = new Eaw(result.EawPath);
+            }
+            catch
+            {
+                return false;
+            }
+           
             switch (result.FocType)
             {
                 case GameType.Disk:

@@ -18,7 +18,6 @@ namespace RawLauncher.Framework.Games
             if (result.IsError)
                 return result;
 
-            //CheckViaPath -- override registry if found.
             FindGamesFromExecutingPath(ref result);
 
             if (string.IsNullOrEmpty(result.FocPath) || !File.Exists(Path.Combine(result.FocPath + "\\swfoc.exe")))

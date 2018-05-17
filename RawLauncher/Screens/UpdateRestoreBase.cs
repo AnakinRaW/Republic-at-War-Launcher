@@ -365,8 +365,7 @@ namespace RawLauncher.Framework.Screens
             if (!VersionUtilities.GetAllAvailableModVersionsOnline().Contains(version))
                 return LoadRestoreUpdateResult.WrongVersion;
 
-            var downloadPath = Launcher.GetRescueFilePath(RestoreUpdateContainerFileName, true,
-                version);
+            var downloadPath = Launcher.GetRescueFilePath(RestoreUpdateContainerFileName, true, version);
 
             await
                 Task.Factory.StartNew(

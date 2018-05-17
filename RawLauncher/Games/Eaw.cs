@@ -97,20 +97,23 @@ namespace RawLauncher.Framework.Games
         public static bool FindInstallationRelativeToFoc(string focPath, GameType type, out string eawPath)
         {
             eawPath = string.Empty;
-
             switch (type)
             {
                 case GameType.Disk:
+                    if (!File.Exists(Path.Combine(Directory.GetParent(focPath).FullName, @"Star Wars Empire at War\GameData\sweaw.exe")))
+                        return false;
+                    eawPath = Path.Combine(Directory.GetParent(focPath).FullName, @"Star Wars Empire at War\GameData\");
                     break;
-                case GameType.SteamGold:
-                    break;
+                case GameType.SteamGold:       
                 case GameType.GoG:
+                    if (!File.Exists(Path.Combine(Directory.GetParent(focPath).FullName, "GameData\\sweaw.exe")))
+                        return false;
+                    eawPath = Path.Combine(Directory.GetParent(focPath).FullName, "GameData\\");
                     break;
                 case GameType.DiskGold:
                 case GameType.Undefined:
                     return false;
             }
-
             return true;
         }
     }
