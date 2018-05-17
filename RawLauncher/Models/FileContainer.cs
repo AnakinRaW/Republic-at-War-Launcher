@@ -215,7 +215,7 @@ namespace RawLauncher.Framework.Models
         }
 
         public static List<FileContainerFolder> ListFromExcludeList(List<FileContainerFolder> folderList,
-            List<string> excludeList)
+            IReadOnlyCollection<string> excludeList)
         {
             List<FileContainerFolder> list = new List<FileContainerFolder>();
             if (excludeList == null)

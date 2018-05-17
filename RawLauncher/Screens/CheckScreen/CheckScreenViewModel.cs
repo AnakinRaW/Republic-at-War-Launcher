@@ -233,7 +233,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             _mSource?.Cancel(false);
         }
 
-        private async Task<bool> CheckFolderListAsync(List<FileContainerFolder> folderList, List<string> excludeList)
+        private async Task<bool> CheckFolderListAsync(List<FileContainerFolder> folderList, IReadOnlyCollection<string> excludeList)
         {
             var listToCheck = FileContainerFolder.ListFromExcludeList(folderList, excludeList);
             var result = true;
@@ -534,8 +534,9 @@ namespace RawLauncher.Framework.Screens.CheckScreen
 
         private async Task<bool> CheckModCorrectAsync()
         {
-            var excludeList = new List<string> {@"\Data\Audio\Speech\*", @"\", @"\Data\XML\UnitNames\", @"\Data\Text\",
-                @"\Data\Audio\", @"\Data\Art\Movies\Binked\" };
+
+            var excludeList = CheckModHelper.BuildExcludeList(_launcher.CurrentMod.Version);
+
             if (!await CheckFolderListAsync(ModFolderList, excludeList))
             {
                 ModWrongInstalled();

@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Collections.Generic;
+using Caliburn.Micro;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Models;
 
@@ -15,6 +17,23 @@ namespace RawLauncher.Framework.Screens.CheckScreen
 
             var referenceDir = rootDir + folder.TargetPath;
             return referenceDir;
+        }
+
+        internal static IReadOnlyCollection<string> BuildExcludeList(Version version)
+        {
+            //Default exludeList:
+            //  All Language Speech Files
+            //  All Files in Mod's root folder
+            //  Text files
+            //  All SFX Files
+            //  All movies
+            var list = new List<string>{@"\Data\Audio\Speech\*", @"\", @"\Data\Text\",
+                @"\Data\Audio\", @"\Data\Art\Movies\Binked\"};
+
+            if (version > Version.Parse("1.2.0.1"))
+                list.Add(@"\Data\UnitNames\");
+
+            return list;
         }
     }
 }
