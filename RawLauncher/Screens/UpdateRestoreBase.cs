@@ -336,6 +336,18 @@ namespace RawLauncher.Framework.Screens
             }
         }
 
+        protected void DeleteEmptyFolders(string startLocation)
+        {
+            if (!Directory.Exists(startLocation))
+                return;
+            foreach (var directory in Directory.GetDirectories(startLocation))
+            {
+                DeleteEmptyFolders(directory);
+                if (Directory.GetFileSystemEntries(directory).Length == 0)
+                    Directory.Delete(directory, false);
+            }
+        }
+
         /// <summary>
         ///     Main Procedure to Download and Delete marked files
         /// </summary>
@@ -349,6 +361,7 @@ namespace RawLauncher.Framework.Screens
             if (await DownloadFiles() == UpdateRestoreStatus.Canceled)
                 return UpdateRestoreStatus.Canceled;
             await DeleteUnneededFiles();
+            DeleteEmptyFolders(Launcher.CurrentMod.ModDirectory);
             return UpdateRestoreStatus.Succeeded;
         }
 
