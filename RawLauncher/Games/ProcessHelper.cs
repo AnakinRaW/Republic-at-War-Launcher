@@ -11,6 +11,19 @@ namespace RawLauncher.Framework.Games
             return Process.GetProcessesByName(name).FirstOrDefault();
         }
 
+        public static Process GetProcessByPid(int pid)
+        {
+            try
+            {
+                return Process.GetProcessById(pid);
+            }
+            catch
+            {
+                return null;
+            }
+            
+        }
+
         public static bool IsProcessWithNameAlive(Process process)
         {
             try

@@ -94,9 +94,13 @@ namespace RawLauncher.Framework.Games
             if (!Exists())
                 throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
 
+
+            if (!Steam.IsSteamRunning()) 
+                Steam.StartSteam();
+
+
             if (mod.Version > Version.Parse("1.2.0.1"))
                 FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\UnitNames\");
-
 
             string arguments;
             if (!mod.WorkshopMod)
