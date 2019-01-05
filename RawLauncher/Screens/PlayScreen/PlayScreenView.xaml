@@ -29,7 +29,7 @@
             </mafc:ImageButton.Content>
         </mafc:ImageButton>
 
-        <StackPanel Margin="0,130,0,0" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding Converter={StaticResource SteamToVisibilityConverter}}">
+        <!--<StackPanel Margin="0,130,0,0" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding Converter={StaticResource SteamToVisibilityConverter}}">
 
             <controls:ImageSoundClickButton Height="61" Width="326" Margin="60,0,0,0" VerticalAlignment="Center" Command="{Binding TriggerAutosaveCommand}" 
                                             ToolTip="{Binding ToolTip, IsAsync=True}" HorizontalAlignment="Right"
@@ -49,7 +49,7 @@
                                            Text="?" VerticalAlignment="Center"/>
                 </mafc:ImageButton.Content>
             </mafc:ImageButton>
-        </StackPanel>
+        </StackPanel>-->
 
         
 

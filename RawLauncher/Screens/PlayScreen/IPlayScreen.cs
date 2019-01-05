@@ -10,10 +10,10 @@ namespace RawLauncher.Framework.Screens.PlayScreen
 
         ICommand ToggleFastLaunchCommand { get; }
 
-        ICommand AutosaveInfoCommand { get; }
+        //ICommand AutosaveInfoCommand { get; }
 
-        ICommand TriggerAutosaveCommand { get; }
+        //ICommand TriggerAutosaveCommand { get; }
 
-        string AutosaveButtonText { get; set; }
+        //string AutosaveButtonText { get; set; }
     }
 }

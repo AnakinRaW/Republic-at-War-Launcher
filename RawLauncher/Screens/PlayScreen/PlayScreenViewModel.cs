@@ -32,37 +32,37 @@ namespace RawLauncher.Framework.Screens.PlayScreen
 
         public ICommand ToggleFastLaunchCommand => new DelegateCommand(ToggleFastLaunchAsync);
 
-        public ICommand AutosaveInfoCommand => new Command(ShowAutosaveInfo);
+        //public ICommand AutosaveInfoCommand => new Command(ShowAutosaveInfo);
 
-        public ICommand TriggerAutosaveCommand => new DelegateCommand(TriggerAutosave);
+        //public ICommand TriggerAutosaveCommand => new DelegateCommand(TriggerAutosave);
 
-        public string AutosaveButtonText
-        {
-            get => _autosaveButtonText;
-            set
-            {
-                if (value == _autosaveButtonText)
-                    return;
-                _autosaveButtonText = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        //public string AutosaveButtonText
+        //{
+        //    get => _autosaveButtonText;
+        //    set
+        //    {
+        //        if (value == _autosaveButtonText)
+        //            return;
+        //        _autosaveButtonText = value;
+        //        NotifyOfPropertyChange();
+        //    }
+        //}
 
         [ImportingConstructor]
 
         public PlayScreenViewModel(LauncherModel launcher)
         {
             _launcher = launcher;
-            switch (_launcher.BaseGame)
-            {
-                case null:
-                    return;
-                case SteamGame steamGame:
-                    AutosaveButtonText = (string)_buttonTextConverter.Convert(this, typeof(string),
-                        !steamGame.AutosaveEnabled,
-                        CultureInfo.CurrentCulture);
-                    break;
-            }
+            //switch (_launcher.BaseGame)
+            //{
+            //    case null:
+            //        return;
+            //    case SteamGame steamGame:
+            //        AutosaveButtonText = (string)_buttonTextConverter.Convert(this, typeof(string),
+            //            !steamGame.AutosaveEnabled,
+            //            CultureInfo.CurrentCulture);
+            //        break;
+            //}
         }
 
         private void PlayMod()
@@ -114,20 +114,20 @@ namespace RawLauncher.Framework.Screens.PlayScreen
                 await _launcher.DeleteFastLaunchFileCommand.Execute();
         }
 
-        private static void ShowAutosaveInfo()
-        {
-            MessageProvider.ShowInformation(MessageProvider.GetMessage("AutosaveInfoMessage"));
-        }
+        //private static void ShowAutosaveInfo()
+        //{
+        //    MessageProvider.ShowInformation(MessageProvider.GetMessage("AutosaveInfoMessage"));
+        //}
 
-        private void TriggerAutosave(object obj)
-        {
-            AudioPlayer.PlayAudio(AudioPlayer.Audio.ButtonPress);
-            if (_launcher?.BaseGame == null || !(_launcher.BaseGame is SteamGame steamGame))
-                return;
-            steamGame.SwitchAutosaveEnabledStatus();
-            AutosaveButtonText = (string) _buttonTextConverter.Convert(this, typeof(string),
-                !steamGame.AutosaveEnabled,
-                CultureInfo.CurrentCulture);
-        }
+        //private void TriggerAutosave(object obj)
+        //{
+        //    AudioPlayer.PlayAudio(AudioPlayer.Audio.ButtonPress);
+        //    if (_launcher?.BaseGame == null || !(_launcher.BaseGame is SteamGame steamGame))
+        //        return;
+        //    steamGame.SwitchAutosaveEnabledStatus();
+        //    AutosaveButtonText = (string) _buttonTextConverter.Convert(this, typeof(string),
+        //        !steamGame.AutosaveEnabled,
+        //        CultureInfo.CurrentCulture);
+        //}
     }
 }
