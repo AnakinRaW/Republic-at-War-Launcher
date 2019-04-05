@@ -173,13 +173,11 @@ namespace RawLauncher.Framework.Versioning
 
             if (value != null)
             {
-                Version systemVersion = null;
-
                 var sections = ParseSections(value);
 
                 // null indicates the string did not meet the rules
                 if (sections != null
-                    && Version.TryParse(sections.Item1, out systemVersion))
+                    && Version.TryParse(sections.Item1, out var systemVersion))
                 {
                     // validate the version string
                     var parts = sections.Item1.Split('.');
@@ -192,10 +190,8 @@ namespace RawLauncher.Framework.Versioning
 
                     // labels
                     if (sections.Item2 != null)
-                    {
                         if (sections.Item2.Any(t => !IsValidPart(t, false)))
                             return false;
-                    }
 
                     // build metadata
                     if (sections.Item3 != null
@@ -211,7 +207,6 @@ namespace RawLauncher.Framework.Versioning
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -398,9 +393,9 @@ namespace RawLauncher.Framework.Versioning
         {
             var formatted = false;
             formattedString = null;
-            if (formatProvider != null)
+
+            if (formatProvider?.GetFormat(GetType()) is ICustomFormatter formatter)
             {
-                var formatter = formatProvider.GetFormat(GetType()) as ICustomFormatter;
                 formatted = true;
                 formattedString = formatter.Format(format, this, formatProvider);
             }
