@@ -8,6 +8,7 @@ using System.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using RawLauncher.Framework.Hash;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Models
 {
@@ -24,7 +25,7 @@ namespace RawLauncher.Framework.Models
         public string StringVersion { get; set; }
 
         [XmlIgnore]
-        public Version Version => new Version(StringVersion);
+        public ModVersion Version => ModVersion.Parse(StringVersion);
 
         [XmlElement("File", Order = 2)]
         public List<FileContainerFile> Files;

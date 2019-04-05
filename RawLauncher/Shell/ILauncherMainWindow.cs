@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Shell
 {
@@ -18,9 +19,9 @@ namespace RawLauncher.Framework.Shell
 
         bool IsBlocked { get; set; }
 
-        Version InstalledVersion { get; set; }
+        ModVersion InstalledVersion { get; set; }
 
-        Version LatestVersion { get; set; }
+        ModVersion LatestVersion { get; set; }
 
         void ShowScreen(Type type);
     }

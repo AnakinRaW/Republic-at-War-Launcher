@@ -14,6 +14,7 @@ using RawLauncher.Framework.Screens;
 using RawLauncher.Framework.Screens.PlayScreen;
 using RawLauncher.Framework.Screens.UpdateScreen;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Shell
 {
@@ -21,8 +22,8 @@ namespace RawLauncher.Framework.Shell
     public class MainWindowViewModel : MainWindowViewModelConductorOneActive, ILauncherMainWindow
     {
         private readonly ILauncherScreen[] _screens;
-        private Version _installedVersion;
-        private Version _latestVersion;
+        private ModVersion _installedVersion;
+        private ModVersion _latestVersion;
         private bool _isBlocked;
         private MainWindowView _window;
 
@@ -44,7 +45,7 @@ namespace RawLauncher.Framework.Shell
             ShowScreen(type);
         }
 
-        public Version InstalledVersion
+        public ModVersion InstalledVersion
         {
             get => _installedVersion;
             set
@@ -54,7 +55,7 @@ namespace RawLauncher.Framework.Shell
             }
         }
 
-        public Version LatestVersion
+        public ModVersion LatestVersion
         {
             get => _latestVersion;
             set
@@ -109,7 +110,7 @@ namespace RawLauncher.Framework.Shell
             Configuration.Config.CurrentLanguage.Reload();
 
             var launcher = IoC.Get<LauncherModel>();
-            InstalledVersion = launcher.CurrentMod == null ? new Version("1.0") : launcher.CurrentMod.Version;
+            InstalledVersion = launcher.CurrentMod == null ? ModVersion.Parse("1.0") : launcher.CurrentMod.Version;
             LatestVersion = VersionUtilities.GetLatestModVersion();
         }
 

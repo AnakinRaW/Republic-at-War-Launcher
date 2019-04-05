@@ -1,6 +1,7 @@
 ﻿using System;
 using RawLauncher.Framework.Games;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Mods
 {
@@ -9,14 +10,14 @@ namespace RawLauncher.Framework.Mods
         public DummyMod(IGame baseGame)
         {
             ModDirectory = baseGame.GameDirectory + @"\Mods\Republic_at_War\";
-            Version = new Version("0.1");
+            Version = new ModVersion("0.1");
             InstalledLanguage = LanguageTypes.English;
         }
 
         public string FolderName { get; }
         public string ModDirectory { get; }
         public string Name { get; }
-        public Version Version { get; set; }
+        public ModVersion Version { get; set; }
         public LanguageTypes InstalledLanguage { get; }
         public bool WorkshopMod => false;
 

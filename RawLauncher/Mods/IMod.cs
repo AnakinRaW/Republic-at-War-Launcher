@@ -1,6 +1,7 @@
 ﻿using System;
 using RawLauncher.Framework.Games;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Mods
 {
@@ -25,7 +26,7 @@ namespace RawLauncher.Framework.Mods
         /// Read the Version from a Mod. Sets the Version of a mod
         ///
         /// </summary>
-        Version Version { get; set; }
+        ModVersion Version { get; set; }
 
         /// <summary>
         /// Get the current installed language

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Interfaces;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Screens.Restore
 {
@@ -15,6 +16,6 @@ namespace RawLauncher.Framework.Screens.Restore
 
         ICommand RestoreModCommand { get; }
 
-        Task<UpdateRestoreStatus> PerformRestore(Version version);
+        Task<UpdateRestoreStatus> PerformRestore(ModVersion version);
     }
 }

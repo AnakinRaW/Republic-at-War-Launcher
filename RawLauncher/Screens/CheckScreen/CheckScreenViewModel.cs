@@ -16,6 +16,7 @@ using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Models;
 using RawLauncher.Framework.Server;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 using RawLauncher.Framework.Xml;
 
 namespace RawLauncher.Framework.Screens.CheckScreen
@@ -476,7 +477,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
         private async Task<bool> CheckAiCorrectAsync()
         {
             var flag = true;
-            if (_launcher.CurrentMod.Version >= Version.Parse("1.1.5.1"))
+            if (_launcher.CurrentMod.Version >= ModVersion.Parse("1.1.5.1"))
             {
                 var aiPath = Path.Combine(_launcher.BaseGame.GameDirectory, @"Data\XML\AI\");
 
@@ -689,7 +690,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
         private void PatchGames()
         {
             var eaw = _launcher.Eaw.Patch();
-            if (_launcher.CurrentMod.Version >= Version.Parse("1.1.5.1"))
+            if (_launcher.CurrentMod.Version >= ModVersion.Parse("1.1.5.1"))
                 _launcher.BaseGame.ClearDataFolder();
             var foc = _launcher.BaseGame.Patch();
             CreatePatchMessage(eaw, foc);

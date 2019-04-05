@@ -13,6 +13,7 @@ using RawLauncher.Framework.Screens.UpdateScreen;
 using RawLauncher.Framework.Server;
 using RawLauncher.Framework.Shell;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Launcher
 {
@@ -156,7 +157,7 @@ namespace RawLauncher.Framework.Launcher
             HostServer = hostServer;
         }
 
-        public string GetRescueFilePath(string fileName, bool online, Version version = null)
+        public string GetRescueFilePath(string fileName, bool online, ModVersion version = null)
         {
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));

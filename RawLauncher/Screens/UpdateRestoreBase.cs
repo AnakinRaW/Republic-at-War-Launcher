@@ -12,6 +12,7 @@ using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Models;
 using RawLauncher.Framework.Server;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 using RawLauncher.Framework.Xml;
 
 namespace RawLauncher.Framework.Screens
@@ -234,7 +235,7 @@ namespace RawLauncher.Framework.Screens
         /// <param name="version"></param>
         /// <param name="excludeList"></param>
         /// <returns></returns>
-        protected async Task<UpdateRestoreStatus> AddDownloadFilesToRestoreTable(Version version, List<string> excludeList)
+        protected async Task<UpdateRestoreStatus> AddDownloadFilesToRestoreTable(ModVersion version, List<string> excludeList)
         {
             RestoreTable = new RestoreTable(version);
             if (version != FileContainer.Version)
@@ -370,7 +371,7 @@ namespace RawLauncher.Framework.Screens
         ///     Procedure to Download and Validate the XML File
         /// </summary>
         /// <returns>False if failed</returns>
-        protected async Task<LoadRestoreUpdateResult> LoadXmlFileStream(Version version)
+        protected async Task<LoadRestoreUpdateResult> LoadXmlFileStream(ModVersion version)
         {
             if (!Server.IsRunning())
                 return LoadRestoreUpdateResult.Offline;
@@ -397,7 +398,7 @@ namespace RawLauncher.Framework.Screens
         ///     Main Prcedure to get the RestoreXML Data
         /// </summary>
         /// <returns>False if failed</returns>
-        protected async Task<LoadRestoreUpdateResult> GetXmlData(Version version)
+        protected async Task<LoadRestoreUpdateResult> GetXmlData(ModVersion version)
         {
             var result = await LoadXmlFileStream(version);
             if (result != LoadRestoreUpdateResult.Suceeded)
@@ -409,7 +410,7 @@ namespace RawLauncher.Framework.Screens
         }
 
 
-        protected PrepareUpdateRestoreResult PrepareUpdateRestore(Version version)
+        protected PrepareUpdateRestoreResult PrepareUpdateRestore(ModVersion version)
         {
             Server.FlushErrorLog();
             if (!NativeMethods.NativeMethods.ComputerHasInternetConnection())

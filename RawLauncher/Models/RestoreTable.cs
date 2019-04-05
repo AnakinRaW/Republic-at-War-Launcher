@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Models
 {
     public class RestoreTable
     {
-        public RestoreTable(Version version)
+        public RestoreTable(ModVersion version)
         {
             Files = new List<RestoreFile>();
             Version = version;
         }
 
-        public Version Version { get;}
+        public ModVersion Version { get;}
 
         public List<RestoreFile> Files;
 

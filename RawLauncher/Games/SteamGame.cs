@@ -7,6 +7,7 @@ using RawLauncher.Framework.Annotations;
 using RawLauncher.Framework.Hash;
 using RawLauncher.Framework.Mods;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Games
 {
@@ -99,7 +100,7 @@ namespace RawLauncher.Framework.Games
                 Steam.StartSteam();
 
 
-            if (mod.Version > Version.Parse("1.2.0.1"))
+            if (mod.Version > ModVersion.Parse("1.2.0.1"))
                 FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\UnitNames\");
 
             string arguments;

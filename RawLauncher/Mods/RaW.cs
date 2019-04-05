@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using RawLauncher.Framework.Games;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 using RawLauncher.Framework.Xml;
 
 namespace RawLauncher.Framework.Mods
@@ -118,7 +119,7 @@ namespace RawLauncher.Framework.Mods
         public string ModDirectory { get; }
         public string Name => "Republic at War";
 
-        public Version Version
+        public ModVersion Version
         {
             get
             {
@@ -126,7 +127,7 @@ namespace RawLauncher.Framework.Mods
                 {
                     var node = XmlTools.GetNodeValue(ModDirectory + @"\Data\XML\Gameobjectfiles.xml",
                         "/Game_Object_Files/Version");
-                    return string.IsNullOrEmpty(node) ? new Version("1.1.5") : new Version(node);
+                    return string.IsNullOrEmpty(node) ? ModVersion.Parse("1.1.5") : ModVersion.Parse(node);
                 }
                 catch (Exception)
                 {

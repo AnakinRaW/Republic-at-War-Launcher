@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Caliburn.Micro;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Models;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Screens.CheckScreen
 {
@@ -19,7 +20,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             return referenceDir;
         }
 
-        internal static IReadOnlyCollection<string> BuildExcludeList(Version version)
+        internal static IReadOnlyCollection<string> BuildExcludeList(ModVersion version)
         {
             //Default exludeList:
             //  All Language Speech Files
@@ -30,7 +31,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             var list = new List<string>{@"\Data\Audio\Speech\*", @"\", @"\Data\Text\",
                 @"\Data\Audio\", @"\Data\Art\Movies\Binked\"};
 
-            if (version > Version.Parse("1.2.0.1"))
+            if (version > ModVersion.Parse("1.2.0.1"))
                 list.Add(@"\Data\UnitNames\");
 
             return list;

@@ -16,6 +16,7 @@ using RawLauncher.Framework.Screens.LanguageScreen;
 using RawLauncher.Framework.Server;
 using RawLauncher.Framework.Shell;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Screens.Restore
 {
@@ -56,12 +57,12 @@ namespace RawLauncher.Framework.Screens.Restore
             DataSource.ChangeDisplayedItem(DataSource.Items.Count - 1);
         }
 
-        public async Task<UpdateRestoreStatus> PerformRestore(Version version)
+        public async Task<UpdateRestoreStatus> PerformRestore(ModVersion version)
         {
             ProzessStatus = MessageProvider.GetMessage("RestoreStatusPrepare");
             var l = Launcher.CurrentMod.InstalledLanguage;
 
-            if (version >= Version.Parse("1.1.5.1"))
+            if (version >= ModVersion.Parse("1.1.5.1"))
             {
                 Launcher.BaseGame.ClearDataFolder();
                 Launcher.BaseGame.Patch();
@@ -174,7 +175,7 @@ namespace RawLauncher.Framework.Screens.Restore
 
         private void FillRestoreTableHard()
         {
-            if (!Version.TryParse(DataSource.DisplayedItem.Text, out Version version))
+            if (!ModVersion.TryParse(DataSource.DisplayedItem.Text, out var version))
                 throw new ArgumentException();
 
             RestoreTable = new RestoreTable(version);
@@ -196,7 +197,7 @@ namespace RawLauncher.Framework.Screens.Restore
 
         private async Task<UpdateRestoreStatus> FillRestoreTableNormal()
         {
-            if (!Version.TryParse(DataSource.DisplayedItem.Text, out Version version))
+            if (!ModVersion.TryParse(DataSource.DisplayedItem.Text, out var version))
                 throw new ArgumentException();
             var result = await AddDownloadFilesToRestoreTable(version, null);
             if (result != UpdateRestoreStatus.Succeeded)
@@ -217,7 +218,7 @@ namespace RawLauncher.Framework.Screens.Restore
 
         private async Task<UpdateRestoreStatus> FillRestoreTableIgnoreLanguage()
         {
-            if (!Version.TryParse(DataSource.DisplayedItem.Text, out var version))
+            if (!ModVersion.TryParse(DataSource.DisplayedItem.Text, out var version))
                 throw new ArgumentException();
 
             var result = await AddDownloadFilesToRestoreTable(version, new List<string>
@@ -240,7 +241,7 @@ namespace RawLauncher.Framework.Screens.Restore
         private async void RestoreMod()
         {
             MSource = new CancellationTokenSource();
-            Version.TryParse(DataSource.DisplayedItem?.Text, out var version);
+            ModVersion.TryParse(DataSource.DisplayedItem?.Text, out var version);
 
             var prepareResult = PrepareUpdateRestore(version);
             if (prepareResult != PrepareUpdateRestoreResult.Succeeded)
