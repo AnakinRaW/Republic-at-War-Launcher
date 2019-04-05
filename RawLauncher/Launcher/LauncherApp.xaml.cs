@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Interfaces.ViewModels;
 using RawLauncher.Framework.AssemblyHelper;
 using RawLauncher.Framework.Shell;
 using RawLauncher.Theme;
@@ -22,6 +21,11 @@ namespace RawLauncher.Framework.Launcher
         public LauncherApp()
         {
             new Bootstrapper(false);
+        }
+
+        public LauncherApp(string alternateHostServerAddress) : this()
+        {
+
         }
 
         /// <summary>

@@ -218,7 +218,7 @@ namespace RawLauncherWPF
         public void InitCore(LauncherHost.CallbackHelper callback)
         {
             _callback = callback;
-            _launcherApp = new LauncherApp();
+            _launcherApp = new LauncherApp("123");
             _launcherApp.InitializeComponent();
         }
 
