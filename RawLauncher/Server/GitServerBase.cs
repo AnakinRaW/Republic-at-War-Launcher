@@ -15,7 +15,7 @@ namespace RawLauncher.Framework.Server
             try
             {
                 var webClient = new WebClient();
-                var address = ServerRootAddress + resource;
+                var address = UrlCombine.Combine(ServerRootAddress, resource);
                 var uri = new Uri(address, UriKind.Absolute);
                 result = webClient.DownloadString(uri);
                 //result = webClient.DownloadString(ServerRootAddress + resource);
@@ -36,7 +36,7 @@ namespace RawLauncher.Framework.Server
 
         public override bool UrlExists(string resource)
         {
-            var request = (HttpWebRequest)WebRequest.Create(ServerRootAddress + resource);
+            var request = (HttpWebRequest)WebRequest.Create(UrlCombine.Combine(ServerRootAddress, resource));
             request.Method = "HEAD";
             request.Timeout = 5000;
             try
@@ -59,7 +59,7 @@ namespace RawLauncher.Framework.Server
             try
             {
                 var webClient = new WebClient();
-                var s = ServerRootAddress + resource;
+                var s = UrlCombine.Combine(ServerRootAddress, resource);
                 if (!Directory.Exists(Path.GetDirectoryName(storagePath)))
                     Directory.CreateDirectory(Path.GetDirectoryName(storagePath));
                 var uri = new Uri(s);

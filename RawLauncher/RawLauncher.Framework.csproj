@@ -198,6 +198,8 @@
     <Compile Include="Utilities\NotepadHelper.cs" />
     <Compile Include="Utilities\ProgressBarUtilities.cs" />
     <Compile Include="Utilities\RestoreUpdateUtilities.cs" />
+    <Compile Include="Utilities\UrlCombine.cs" />
+    <Compile Include="Versioning\IVersionComparer.cs" />
     <Compile Include="Versioning\ModVersion.cs" />
     <Compile Include="Versioning\SemanticVersion.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />

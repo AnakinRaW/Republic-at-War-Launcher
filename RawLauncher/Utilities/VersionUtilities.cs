@@ -22,6 +22,7 @@ namespace RawLauncher.Framework.Utilities
             foreach (var versionServer in servers)
                 versions.AddRange(versionServer.GetAllVersions());
 
+            versions.Sort(VersionComparer.VersionRelease);
             SaveVersionsToDisk(versions);
             return versions;
         }
@@ -36,8 +37,7 @@ namespace RawLauncher.Framework.Utilities
         }
 
         public static List<ModVersion> GetAllAvailableModVersionsOffline()
-        {
-            
+        {      
             var launcher = IoC.Get<LauncherModel>();
             var path = Path.Combine(launcher.RestoreDownloadDir, Config.AvailableModVersionsFileName);
 

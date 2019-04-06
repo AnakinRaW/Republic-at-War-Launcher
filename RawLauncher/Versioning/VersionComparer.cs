@@ -4,14 +4,14 @@ using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Versioning
 {
-    public sealed class VersionComparer
+    public sealed class VersionComparer : IVersionComparer
     {
         private readonly VersionComparison _mode;
 
-        public static readonly VersionComparer Default = new VersionComparer(VersionComparison.Default);
-        public static readonly VersionComparer Version = new VersionComparer(VersionComparison.Version);
-        public static readonly VersionComparer VersionRelease = new VersionComparer(VersionComparison.VersionRelease);
-        public static VersionComparer VersionReleaseMetadata = new VersionComparer(VersionComparison.VersionReleaseMetadata);
+        public static readonly IVersionComparer Default = new VersionComparer(VersionComparison.Default);
+        public static readonly IVersionComparer Version = new VersionComparer(VersionComparison.Version);
+        public static readonly IVersionComparer VersionRelease = new VersionComparer(VersionComparison.VersionRelease);
+        public static IVersionComparer VersionReleaseMetadata = new VersionComparer(VersionComparison.VersionReleaseMetadata);
 
         public VersionComparer()
         {
