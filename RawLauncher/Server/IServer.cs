@@ -5,7 +5,7 @@
         /// <summary>
         /// The Root Address of the Server.
         /// </summary>
-        string ServerRootAddress { get; set; }
+        string ServerRootAddress { get; }
 
         /// <summary>
         /// Download a file and return the string

@@ -1,40 +1,15 @@
 ﻿using System;
-using System.ComponentModel.Composition;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
-using System.Windows;
-using RawLauncher.Framework.Configuration;
 using RawLauncher.Framework.Utilities;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Server
 {
-    [Export(typeof(IHostServer))]
-    public class HostServer : IHostServer
-    {
-        private readonly MessageRecorder _messageRecorder;
-
-        public HostServer()
-        {
-            ServerRootAddress = Config.ServerUrl;
-            _messageRecorder = new MessageRecorder();
-        }
-
-        public void FlushErrorLog() => _messageRecorder.Flush();
-
-        public void ShowLog()
-        {
-            if (!HasErrors)
-                return;
-
-            var result = MessageProvider.Show(MessageProvider.GetMessage("DownloadFailedQuestion"), "Republic at War", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.Yes);
-            if (result == MessageBoxResult.Yes)
-                _messageRecorder.Save(MessageProvider.GetMessage("DownloadFailed"));
-        }
-
-        public async Task<bool> CheckRunningAsync() => await Task.FromResult(IsRunning());
-
-        public string DownloadString(string resource)
+    public abstract class GitServerBase : ErrorLoggingServer, IVersionServer
+    {       
+        public override string DownloadString(string resource)
         {
             string result;
             try
@@ -48,18 +23,20 @@ namespace RawLauncher.Framework.Server
             catch (Exception)
             {
                 if (NativeMethods.NativeMethods.ComputerHasInternetConnection())
-                    _messageRecorder.AppandMessage(MessageProvider.GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
-                result = String.Empty;
+                    MessageRecorder.AppandMessage(MessageProvider.GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
+                result = string.Empty;
             }
             return result;
         }
 
-        public bool IsRunning() => UrlExists(String.Empty);
-        public string ServerRootAddress { get; set; }
-
-        public bool UrlExists(string resource)
+        public override bool IsRunning()
         {
-            var request = (HttpWebRequest) WebRequest.Create(ServerRootAddress + resource);
+            return UrlExists(string.Empty);
+        }
+
+        public override bool UrlExists(string resource)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(ServerRootAddress + resource);
             request.Method = "HEAD";
             request.Timeout = 5000;
             try
@@ -74,8 +51,7 @@ namespace RawLauncher.Framework.Server
             return true;
         }
 
-        public bool HasErrors => _messageRecorder.Count() > 0;
-
+        
         public void DownloadFile(string resource, string storagePath)
         {
             if (resource == null || storagePath == null)
@@ -92,8 +68,10 @@ namespace RawLauncher.Framework.Server
             catch (Exception)
             {
                 if (NativeMethods.NativeMethods.ComputerHasInternetConnection())
-                    _messageRecorder.AppandMessage(MessageProvider.GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
+                    MessageRecorder.AppandMessage(MessageProvider.GetMessage("ExceptionHostServerGetData", ServerRootAddress + resource));
             }
         }
+
+        public abstract IEnumerable<ModVersion> GetAllVersions();
     }
 }

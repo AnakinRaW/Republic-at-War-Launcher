@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Caliburn.Micro;
 using RawLauncher.Framework.Configuration;
-using RawLauncher.Framework.ExtensionClasses;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Server;
 using RawLauncher.Framework.Versioning;
@@ -15,9 +13,17 @@ namespace RawLauncher.Framework.Utilities
     {
         public static List<ModVersion> GetAllAvailableModVersionsOnline()
         {
-            var server = IoC.Get<IHostServer>();
-            var data = server.DownloadString(Config.ModVersionListRelativePath).ToStream();  
-            return SeriallizeVersionsToList(data);
+            var launcher = IoC.Get<LauncherModel>();
+            var servers = IoC.GetAll<IVersionServer>().ToList();
+            if (launcher.UseDevHostServer)
+                servers.Add(DevHostServer.Instance);
+
+            var versions = new List<ModVersion>();
+            foreach (var versionServer in servers)
+                versions.AddRange(versionServer.GetAllVersions());
+
+            SaveVersionsToDisk(versions);
+            return versions;
         }
 
         public static ModVersion GetLatestModVersion()
@@ -31,22 +37,36 @@ namespace RawLauncher.Framework.Utilities
 
         public static List<ModVersion> GetAllAvailableModVersionsOffline()
         {
+            
             var launcher = IoC.Get<LauncherModel>();
-            if (!Directory.Exists(launcher.RestoreDownloadDir) ||
-                !File.Exists(launcher.RestoreDownloadDir + Config.ModVersionListRelativePath))
-                return SeriallizeVersionsToList(Stream.Null);
-            var data =
-                FileUtilities.FileToStream(launcher.RestoreDownloadDir + Config.ModVersionListRelativePath);
-            return SeriallizeVersionsToList(data);
+            var path = Path.Combine(launcher.RestoreDownloadDir, Config.AvailableModVersionsFileName);
+
+            if (!Directory.Exists(launcher.RestoreDownloadDir) || !File.Exists(path))
+                return SerializeVersionsToList(Stream.Null);
+            var data = FileUtilities.FileToStream(path);
+            return SerializeVersionsToList(data);
         }
 
-        private static List<ModVersion> SeriallizeVersionsToList(Stream dataStream)
+        internal static List<ModVersion> SerializeVersionsToList(Stream dataStream)
         {
             var list = new List<ModVersion>();
             var reader = new StreamReader(dataStream);
             while (!reader.EndOfStream)
                 list.Add(ModVersion.Parse(reader.ReadLine()));
             return list;
-        } 
+        }
+
+        private static void SaveVersionsToDisk(IEnumerable<ModVersion> versions)
+        {
+            var versionNames = versions.Select(modVersion => modVersion.ToFullString()).ToList();
+            var launcher = IoC.Get<LauncherModel>();
+            try
+            {
+                File.WriteAllLines(Path.Combine(launcher.RestoreDownloadDir, Config.AvailableModVersionsFileName), versionNames);
+            }
+            catch (IOException)
+            {
+            }
+        }
     }
 }

@@ -607,9 +607,6 @@ namespace RawLauncher.Framework.Screens.CheckScreen
         /// </summary>
         private void WriteOnlineDataToDisk()
         {
-            _hostServer.DownloadString(Config.ModVersionListRelativePath)
-                .ToStream()
-                .ToFile(_launcher.RestoreDownloadDir + Config.ModVersionListRelativePath);
             if (CheckFileStream.IsEmpty())
                 return;
             CheckFileStream.ToFile(_launcher.GetRescueFilePath(CheckFileFileName, false));

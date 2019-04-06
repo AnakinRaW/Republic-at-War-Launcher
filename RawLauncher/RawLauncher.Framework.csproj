@@ -176,6 +176,12 @@
       <DependentUpon>UpdateScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screens\UpdateScreen\UpdateScreenViewModel.cs" />
+    <Compile Include="Server\DevHostServer.cs" />
+    <Compile Include="Server\ErrorLoggingServer.cs" />
+    <Compile Include="Server\GitLabServer.cs" />
+    <Compile Include="Server\GitServerBase.cs" />
+    <Compile Include="Server\IErrorLogger.cs" />
+    <Compile Include="Server\IVersionServer.cs" />
     <Compile Include="Shell\ILauncherMainWindow.cs" />
     <Compile Include="Utilities\Converters\SteamToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\AutosaveToButtonTextConverter.cs" />
@@ -219,7 +225,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Server\HostServer.cs" />
     <Compile Include="Server\IHostServer.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\ServerException.cs" />

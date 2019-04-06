@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Services;
 using RawLauncher.Framework.AssemblyHelper;
+using RawLauncher.Framework.Server;
 using RawLauncher.Framework.Shell;
 using RawLauncher.Theme;
 
@@ -25,7 +26,7 @@ namespace RawLauncher.Framework.Launcher
 
         public LauncherApp(string alternateHostServerAddress) : this()
         {
-
+            DevHostServer.CreateInstance(alternateHostServerAddress);
         }
 
         /// <summary>
@@ -36,6 +37,10 @@ namespace RawLauncher.Framework.Launcher
         private async void App_OnStartup(object sender, StartupEventArgs e)
         {
             var launcher = IoC.Get<LauncherModel>();
+
+            if (DevHostServer.Instance != null)
+                launcher.UseDevHostServer = true;
+
 
             IoC.Get<IThemeManager>().Theme = new LauncherTheme();
             IoC.Get<IStatusBarDataModelService>().SetVisibility(0);

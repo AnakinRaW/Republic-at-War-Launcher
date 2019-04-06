@@ -412,7 +412,8 @@ namespace RawLauncher.Framework.Screens
 
         protected PrepareUpdateRestoreResult PrepareUpdateRestore(ModVersion version)
         {
-            Server.FlushErrorLog();
+            if (Server is IErrorLogger errorLogger)
+                errorLogger.FlushErrorLog();
             if (!NativeMethods.NativeMethods.ComputerHasInternetConnection())
                 return PrepareUpdateRestoreResult.NoInternet;
             if (version == null)

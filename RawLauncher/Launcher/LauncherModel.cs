@@ -137,6 +137,8 @@ namespace RawLauncher.Framework.Launcher
 
         public Command DeleteFastLaunchFileCommand => new Command(DeleteFastLaunchFile);
 
+        internal bool UseDevHostServer { get; set; }
+
         //internal 
 
         [ImportingConstructor]

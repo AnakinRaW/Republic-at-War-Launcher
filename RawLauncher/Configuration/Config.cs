@@ -15,9 +15,11 @@ namespace RawLauncher.Framework.Configuration
         public const string RaWHomepage = "https://republicatwar.com";
         public const string RaWChangelog = "https://republicatwar.com/changelog";
         public const string ModdbPage = "http://www.moddb.com/mods/republic-at-war";
+
         public const string FastLaunchFileName = "RawLauncherInfo.txt";
-        public const string ServerUrl = "https://gitlab.com/Republic-at-War/Republic-At-War/raw/";
-        public const string ModVersionListRelativePath = "master/AvailableModVersions.txt";
+        public const string AvailableModVersionsFileName = "AvailableModVersions.txt";
+
+
         public const string SessionServerUrl = "http://raworganize.com/";
 
         internal const string CurrentMafHash = "55addbdd742127a14f0ca86f7ba90444";
