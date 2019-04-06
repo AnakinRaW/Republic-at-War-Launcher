@@ -82,7 +82,7 @@ namespace RawLauncher.Framework.Games
             if (!mod.ModDirectory.StartsWith(GameDirectory))
                 throw new ModExceptions(MessageProvider.GetMessage("ExceptionGameModCompatible"));
 
-            if (mod.Version >  SemanticVersion.Parse("1.2.0.1"))
+            if (mod.Version > ModVersion.Parse("1.2.0.1"))
                 FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\UnitNames\");
 
             var process = new Process
