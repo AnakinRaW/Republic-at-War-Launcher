@@ -19,7 +19,7 @@ namespace RawLauncher.Framework.Server
         private DevHostServer(string baseAddress)
         {
             Instance = this;
-            ServerRootAddress = "https://republicatwar.com/downloads/patches/";
+            ServerRootAddress = baseAddress;
         }
 
         public static void CreateInstance(string baseAddress)
