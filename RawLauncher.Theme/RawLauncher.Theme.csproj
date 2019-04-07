@@ -35,8 +35,9 @@
     <ApplicationIcon>Resources\commander appo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ModernApplicationFramework">
-      <HintPath>..\Libraries\New\ModernApplicationFramework.dll</HintPath>
+    <Reference Include="ModernApplicationFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\ModernApplicationFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
