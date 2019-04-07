@@ -145,10 +145,6 @@
     <Resource Include="Commander Appo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Libraries\RawLauncher.Framework.dll" />
-    <EmbeddedResource Include="Libraries\RawLauncher.Theme.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="RaW_Logo.png" />
   </ItemGroup>
   <ItemGroup>

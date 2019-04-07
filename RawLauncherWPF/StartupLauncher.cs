@@ -42,7 +42,7 @@ namespace RawLauncherWPF
                 if (!Get46FromRegistry())
                     Environment.Exit(0);
                           
-                ExtractLirbaries();
+                //ExtractLirbaries();
 
 
                 if (!File.Exists(Directory.GetCurrentDirectory() + @"\" + "RawLauncherInfo.txt"))
