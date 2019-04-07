@@ -29,8 +29,6 @@ namespace RawLauncherWPF
     public static class StartupLauncher
     {
         public const string ServerUrl = "https://gitlab.com/Republic-at-War/Republic-At-War/raw/";
-        public const string DevServerUrl = "https://republicatwar.com/downloads/patches/";
-
 
         public static Window Splash;
 
@@ -219,7 +217,7 @@ namespace RawLauncherWPF
         public void InitCore(LauncherHost.CallbackHelper callback)
         {
             _callback = callback;
-            _launcherApp = new LauncherApp(StartupLauncher.DevServerUrl);
+            _launcherApp = new LauncherApp();
             _launcherApp.InitializeComponent();
         }
 
