@@ -19,8 +19,6 @@ namespace RawLauncher.Framework.Screens
 {
     public abstract class UpdateRestoreBase : LauncherScreen, IUpdateRestoreBase
     {
-        protected const string RestoreUpdateContainerFileName = "RestoreModFileContainer.xml";
-
         private double _progress;
         private string _progressStatus;
 
@@ -267,10 +265,11 @@ namespace RawLauncher.Framework.Screens
                     if (!await Task.Run(() => File.Exists(absolutePath), MSource.Token) ||
                         await Task.Run(() => hashProvider.GetFileHash(absolutePath) != file.Hash, MSource.Token))
                     {
-                        var restoreFile = RestoreFile.CreateResotreFile(file, FileAction.Download);
+                        var ver = file.TryGetModVersionFromSourcePath();
+                        var restoreFile = RestoreFile.CreateRestoreFile(file, FileAction.Download, ver.IsPrerelease);
                         RestoreTable.Files.Add(restoreFile);
                     }
-                    Progress = Progress + i;
+                    Progress += i;
                 }));
                 await Task.WhenAll(t.ToArray());
             }
@@ -307,7 +306,13 @@ namespace RawLauncher.Framework.Screens
                     }
                     var restorePath = CreateAbsoluteFilePath(file);
                     await
-                        Task.Run(() => Server.DownloadFile(file.SourcePath, restorePath),
+                        Task.Run(() =>
+                            {
+                                if (file.IsPrereleaseFile)
+                                    DevServer.DownloadFile(file.SourcePath, restorePath);
+                                else
+                                    Server.DownloadFile(file.SourcePath, restorePath);
+                            },
                             MSource.Token);
                     ProcessStatus =
                         MessageProvider.GetMessage(
@@ -381,15 +386,28 @@ namespace RawLauncher.Framework.Screens
         {
             if (!Server.IsRunning())
                 return LoadRestoreUpdateResult.Offline;
+            if (version.IsPrerelease && !DevServer.IsRunning())
+                return LoadRestoreUpdateResult.Offline;
+
 
             if (!VersionUtilities.GetAllAvailableModVersionsOnline().Contains(version))
                 return LoadRestoreUpdateResult.WrongVersion;
 
-            var downloadPath = Launcher.GetRescueFilePath(RestoreUpdateContainerFileName, true, version);
-
-            await
-                Task.Factory.StartNew(
-                    () => XmlFileStream = Server.DownloadString(downloadPath).ToStream());
+            string downloadPath;
+            if (version.IsPrerelease)
+            {
+                downloadPath = DevServer.GetRescueFilePath(RescueFileType.UpdateRestore, version);
+                await
+                    Task.Factory.StartNew(
+                        () => XmlFileStream = DevServer.DownloadString(downloadPath).ToStream());
+            }
+            else
+            {
+                downloadPath = Server.GetRescueFilePath(RescueFileType.UpdateRestore, version);
+                await
+                    Task.Factory.StartNew(
+                        () => XmlFileStream = Server.DownloadString(downloadPath).ToStream());
+            }
 
             if (XmlFileStream.IsEmpty())
                 return LoadRestoreUpdateResult.StreamEmpty;

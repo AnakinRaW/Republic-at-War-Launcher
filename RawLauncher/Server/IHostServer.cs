@@ -1,4 +1,6 @@
-﻿namespace RawLauncher.Framework.Server
+﻿using RawLauncher.Framework.Versioning;
+
+namespace RawLauncher.Framework.Server
 {
     public interface IHostServer : IServer
     {
@@ -8,5 +10,13 @@
         /// <param name="resource">Relative path to resource</param>
         /// <param name="storagePath">Absolute file path</param>
         void DownloadFile(string resource, string storagePath);
+
+        string GetRescueFilePath(RescueFileType type, ModVersion version);
+    }
+
+    public enum RescueFileType
+    {
+        Check, 
+        UpdateRestore
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using RawLauncher.Framework.Configuration;
 using RawLauncher.Framework.ExtensionClasses;
@@ -20,6 +21,23 @@ namespace RawLauncher.Framework.Server
         public GitLabServer()
         {
             ServerRootAddress = ServerUrl;
+        }
+
+        public override string GetRescueFilePath(RescueFileType type, ModVersion version)
+        {
+            string fileName;
+            switch (type)
+            {
+                case RescueFileType.Check:
+                    fileName = Config.CheckFileFileName;
+                    break;
+                case RescueFileType.UpdateRestore:
+                    fileName = Config.RestoreFileFileName;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            return version + @"\RescueFiles\" + fileName;
         }
 
         public override IEnumerable<ModVersion> GetAllVersions()

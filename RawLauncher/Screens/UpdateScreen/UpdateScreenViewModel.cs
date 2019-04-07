@@ -70,16 +70,16 @@ namespace RawLauncher.Framework.Screens.UpdateScreen
                 switch (getXmlResult)
                 {
                     case LoadRestoreUpdateResult.Offline:
-                        MessageProvider.GetMessage("UpdateHostOffline");
+                        MessageProvider.Show(MessageProvider.GetMessage("UpdateHostOffline"));
                         break;
                     case LoadRestoreUpdateResult.WrongVersion:
-                        MessageProvider.GetMessage("UpdateVersionNotFound");
+                        MessageProvider.Show(MessageProvider.GetMessage("UpdateVersionNotFound"));
                         break;
                     case LoadRestoreUpdateResult.StreamEmpty:
-                        MessageProvider.GetMessage("UpdateStreamNull");
+                        MessageProvider.Show(MessageProvider.GetMessage("UpdateStreamNull"));
                         break;
                     case LoadRestoreUpdateResult.StreamBroken:
-                        MessageProvider.GetMessage("UpdateXmlNotValid");
+                        MessageProvider.Show(MessageProvider.GetMessage("UpdateXmlNotValid"));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

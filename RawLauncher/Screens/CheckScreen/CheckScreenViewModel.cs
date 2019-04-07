@@ -194,6 +194,8 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             }
         }
 
+        public IHostServer DevServer { get; }
+
         /// <summary>
         /// Contains AI Folder Information
         /// </summary>
@@ -221,6 +223,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             _hostServer = hostServer;
             CheckFileStream = Stream.Null;
             _messageRecorder = new MessageRecorder();
+            DevServer = DevHostServer.Instance;
 
             GameFoundIndicator = IndicatorImagesHelper.SetColor(IndicatorImagesHelper.IndicatorColor.Blue);
             ModFoundIndicator = IndicatorImagesHelper.SetColor(IndicatorImagesHelper.IndicatorColor.Blue);
@@ -579,7 +582,8 @@ namespace RawLauncher.Framework.Screens.CheckScreen
 
         private async Task<bool> LoadCheckFileStreamAsync()
         {
-            if (!_hostServer.IsRunning())
+            var server = _launcher.CurrentMod.Version.IsPrerelease ? DevServer : _hostServer;
+            if (!server.IsRunning())
                 GetOffline();
             else
             {
@@ -609,7 +613,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
         {
             if (CheckFileStream.IsEmpty())
                 return;
-            CheckFileStream.ToFile(_launcher.GetRescueFilePath(CheckFileFileName, false));
+            CheckFileStream.ToFile(_launcher.GetRescueFilePathOffline(Config.CheckFileFileName));
         }
 
         /// <summary>
@@ -642,12 +646,14 @@ namespace RawLauncher.Framework.Screens.CheckScreen
                 MessageProvider.Show(MessageProvider.GetMessage("CheckVersionNotFound"));
                 return;
             }
-            if (!File.Exists(_launcher.GetRescueFilePath(CheckFileFileName, false)))
+
+            var path = _launcher.GetRescueFilePathOffline(Config.CheckFileFileName);
+            if (!File.Exists(path))
             {
                 ModCheckError(MessageProvider.GetMessage("CheckOfflineXmlNotFound"));
                 return;
             }
-            CheckFileStream = FileUtilities.FileToStream(_launcher.GetRescueFilePath(CheckFileFileName, false));
+            CheckFileStream = FileUtilities.FileToStream(path);
         }
 
         /// <summary>
@@ -663,9 +669,12 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             await
                 Task.Factory.StartNew(
                     () =>
-                        CheckFileStream =
-                            _hostServer.DownloadString(_launcher.GetRescueFilePath(CheckFileFileName, true))
-                                .ToStream());
+                    {
+                        var server = _launcher.CurrentMod.Version.IsPrerelease ? DevServer : _hostServer;
+                        return CheckFileStream =
+                            server.DownloadString(server.GetRescueFilePath(RescueFileType.Check, _launcher.CurrentMod.Version))
+                                .ToStream();
+                    });
         }
 
         private void ModCheckError(string message)

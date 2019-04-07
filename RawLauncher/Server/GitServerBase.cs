@@ -72,6 +72,8 @@ namespace RawLauncher.Framework.Server
             }
         }
 
+        public abstract string GetRescueFilePath(RescueFileType type, ModVersion version);
+
         public abstract IEnumerable<ModVersion> GetAllVersions();
     }
 }

@@ -43,7 +43,7 @@
         </Grid>
         <Grid Width="356">
             <ProgressBar Height="47" VerticalAlignment="Top" Margin="0,90,0,0" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
-            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,132,0,0" HorizontalAlignment="Left" Foreground="{StaticResource LabelProcessForeground}" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Label Content="{Binding ProcessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,132,0,0" HorizontalAlignment="Left" Foreground="{StaticResource LabelProcessForeground}" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
         <StackPanel HorizontalAlignment="Left" Margin="20,150,0,0">
             <DockPanel Margin="0,2,0,0">

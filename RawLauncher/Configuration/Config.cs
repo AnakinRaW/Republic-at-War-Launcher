@@ -19,6 +19,10 @@ namespace RawLauncher.Framework.Configuration
         public const string FastLaunchFileName = "RawLauncherInfo.txt";
         public const string AvailableModVersionsFileName = "AvailableModVersions.txt";
 
+        public const string CheckFileFileName = "CheckModFileContainer.xml";
+        public const string RestoreFileFileName = "RestoreModFileContainer.xml";
+
+
 
         public const string SessionServerUrl = "http://raworganize.com/";
 

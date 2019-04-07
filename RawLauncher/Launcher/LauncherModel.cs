@@ -159,15 +159,13 @@ namespace RawLauncher.Framework.Launcher
             HostServer = hostServer;
         }
 
-        public string GetRescueFilePath(string fileName, bool online, ModVersion version = null)
+        public string GetRescueFilePathOffline(string fileName, ModVersion version = null)
         {
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             if (version == null)
                 version = CurrentMod.Version;
-            if (online)
-                return version + @"\RescueFiles\" + fileName;
-            return RestoreDownloadDir + @"\RescueFiles\" + version + @"\" + fileName;
+            return RestoreDownloadDir + @"\RescueFiles\" + version.ToFullString() + @"\" + fileName;
         }
 
         private void InitDirectories()

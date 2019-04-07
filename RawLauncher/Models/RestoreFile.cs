@@ -14,7 +14,9 @@ namespace RawLauncher.Framework.Models
 
         public TargetType TargetType { get; set; }
 
-        public static RestoreFile CreateResotreFile(FileContainerFile file, FileAction action)
+        public bool IsPrereleaseFile { get; set; }
+
+        public static RestoreFile CreateRestoreFile(FileContainerFile file, FileAction action, bool preRelease = false)
         {
             var restoreFile = new RestoreFile
             {
@@ -22,8 +24,10 @@ namespace RawLauncher.Framework.Models
                 TargetPath = file.TargetPath,
                 SourcePath = file.SourcePath,
                 TargetType = file.TargetType,
-                Action = action
+                Action = action,
+                IsPrereleaseFile = preRelease
             };
+
             return restoreFile;
         }
 

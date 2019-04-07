@@ -76,16 +76,16 @@ namespace RawLauncher.Framework.Screens.Restore
                 switch (getXmlResult)
                 {
                     case LoadRestoreUpdateResult.Offline:
-                        MessageProvider.GetMessage("RestoreHostServerOffline");
+                        MessageProvider.Show(MessageProvider.GetMessage("RestoreHostServerOffline"));
                         break;
                     case LoadRestoreUpdateResult.WrongVersion:
-                        MessageProvider.GetMessage("RestoreVersionNotMatch");
+                        MessageProvider.Show(MessageProvider.GetMessage("RestoreVersionNotMatch"));
                         break;
                     case LoadRestoreUpdateResult.StreamEmpty:
-                        MessageProvider.GetMessage("RestoreStreamNull");
+                        MessageProvider.Show(MessageProvider.GetMessage("RestoreStreamNull"));
                         break;
                     case LoadRestoreUpdateResult.StreamBroken:
-                        MessageProvider.GetMessage("RestoreXmlNotValid");
+                        MessageProvider.Show(MessageProvider.GetMessage("RestoreXmlNotValid"));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -184,7 +184,7 @@ namespace RawLauncher.Framework.Screens.Restore
             foreach (
                 var restoreFile in
                 FileContainer.Files.Select(
-                    file => RestoreFile.CreateResotreFile(file, FileAction.Download)))
+                    file => RestoreFile.CreateRestoreFile(file, FileAction.Download)))
                 RestoreTable.Files.Add(restoreFile);
         }
 

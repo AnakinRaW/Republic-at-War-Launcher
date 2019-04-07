@@ -136,6 +136,13 @@ namespace RawLauncher.Framework.Models
             }
             return exclude;
         }
+
+        public ModVersion TryGetModVersionFromSourcePath()
+        {
+            var verStr = SourcePath.Split('\\').First();
+            var ver = ModVersion.Parse(verStr);
+            return ver;
+        }
     }
 
     /// <remarks/>
