@@ -85,7 +85,7 @@
         </Grid>
         <Grid Width="356" Margin="0,110,0,0">
             <ProgressBar Height="47" VerticalAlignment="Top" Maximum="100" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}"/>
-            <Label Content="{Binding ProzessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="{StaticResource LabelProcessForeground}" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Label Content="{Binding ProcessStatus}" Height="Auto" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Left" Foreground="{StaticResource LabelProcessForeground}" Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
         <Grid>
             <controls:ImageSoundClickButton Height="60" Width="255" IsEnabled="{Binding CanExecute}" VerticalAlignment="Bottom" Margin="0,0,0,50"

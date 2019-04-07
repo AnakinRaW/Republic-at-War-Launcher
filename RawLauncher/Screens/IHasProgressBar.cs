@@ -4,6 +4,6 @@
     {
         double Progress { get; set; }
 
-        string ProzessStatus { get; set; }
+        string ProcessStatus { get; set; }
     }
 }

@@ -62,7 +62,9 @@ namespace RawLauncher.Framework.Launcher
         private void ShowMainWindow()
         {
             var wm = IoC.Get<IWindowManager>();
-            wm.ShowWindow(IoC.Get<ILauncherMainWindow>());
+            var mainWindow = IoC.Get<ILauncherMainWindow>();
+            mainWindow.IsTestersBuild = DevHostServer.Instance != null;
+            wm.ShowWindow(mainWindow);
         }
     }
 }

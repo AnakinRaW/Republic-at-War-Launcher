@@ -49,7 +49,7 @@ namespace RawLauncher.Framework.Screens.UpdateScreen
                 return UpdateRestoreStatus.Error;
             }
 
-            ProzessStatus = MessageProvider.GetMessage("UpdateStatusPrepare");
+            ProcessStatus = MessageProvider.GetMessage("UpdateStatusPrepare");
 
 
             if (Launcher.CurrentMod == null)
@@ -65,7 +65,7 @@ namespace RawLauncher.Framework.Screens.UpdateScreen
             await ProgressBarUtilities.AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
 
             var getXmlResult = await GetXmlData(VersionUtilities.GetLatestModVersion());
-            if (getXmlResult != LoadRestoreUpdateResult.Suceeded)
+            if (getXmlResult != LoadRestoreUpdateResult.Succeeded)
             {
                 switch (getXmlResult)
                 {
@@ -135,7 +135,7 @@ namespace RawLauncher.Framework.Screens.UpdateScreen
 
             IoC.Get<ILauncherMainWindow>().InstalledVersion = Launcher.CurrentMod.Version;
 
-            ProzessStatus = "UpdateStatusFinishing";
+            ProcessStatus = "UpdateStatusFinishing";
             await Task.Run(() =>
             {
                 IoC.Get<ILanguageScreen>()?.ChangeLanguage(l);
@@ -167,7 +167,7 @@ namespace RawLauncher.Framework.Screens.UpdateScreen
         private async Task<UpdateRestoreStatus> PrepareNormalUpdate()
         {
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = "";
+            ProcessStatus = "";
             return await FillUpdateTableNormal();
         }
 
@@ -186,7 +186,7 @@ namespace RawLauncher.Framework.Screens.UpdateScreen
         private async Task<UpdateRestoreStatus> PrepareVoiceIgnoreUpdate()
         {
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = MessageProvider.GetMessage("UpdateStatusPrepare");
+            ProcessStatus = MessageProvider.GetMessage("UpdateStatusPrepare");
             return await FillUpdateTableVoice();
         }
 

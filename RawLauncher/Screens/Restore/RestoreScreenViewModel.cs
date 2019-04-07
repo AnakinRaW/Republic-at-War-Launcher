@@ -59,7 +59,7 @@ namespace RawLauncher.Framework.Screens.Restore
 
         public async Task<UpdateRestoreStatus> PerformRestore(ModVersion version)
         {
-            ProzessStatus = MessageProvider.GetMessage("RestoreStatusPrepare");
+            ProcessStatus = MessageProvider.GetMessage("RestoreStatusPrepare");
             var l = Launcher.CurrentMod.InstalledLanguage;
 
             if (version >= ModVersion.Parse("1.1.5.1"))
@@ -71,7 +71,7 @@ namespace RawLauncher.Framework.Screens.Restore
             await ProgressBarUtilities.AnimateProgressBar(Progress, 10, 0, this, x => x.Progress);
 
             var getXmlResult = await GetXmlData(version);
-            if (getXmlResult != LoadRestoreUpdateResult.Suceeded)
+            if (getXmlResult != LoadRestoreUpdateResult.Succeeded)
             {
                 switch (getXmlResult)
                 {
@@ -133,7 +133,7 @@ namespace RawLauncher.Framework.Screens.Restore
             } while (_count <= 3);
 
             var windowModel = IoC.Get<ILauncherMainWindow>();
-            ProzessStatus = MessageProvider.GetMessage("RestoreStatusFinishing");
+            ProcessStatus = MessageProvider.GetMessage("RestoreStatusFinishing");
             windowModel.InstalledVersion = Launcher.CurrentMod.Version;
 
             await Task.Run(() =>
@@ -161,13 +161,13 @@ namespace RawLauncher.Framework.Screens.Restore
         private async Task<UpdateRestoreStatus> PrepareHardRestore()
         {
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = MessageProvider.GetMessage("RestoreStautsDeletingMod");
+            ProcessStatus = MessageProvider.GetMessage("RestoreStautsDeletingMod");
             Launcher.BaseGame.DeleteMod(Launcher.CurrentMod);
             Launcher.BaseGame.ClearDataFolder();
             Launcher.BaseGame.Patch();
 
             await ProgressBarUtilities.AnimateProgressBar(Progress, 50, 10, this, x => x.Progress);
-            ProzessStatus = MessageProvider.GetMessage("RestoreStatusPrepareTable");
+            ProcessStatus = MessageProvider.GetMessage("RestoreStatusPrepareTable");
             FillRestoreTableHard();
             await ProgressBarUtilities.AnimateProgressBar(Progress, 101, 10, this, x => x.Progress);
             return UpdateRestoreStatus.Succeeded;
@@ -191,7 +191,7 @@ namespace RawLauncher.Framework.Screens.Restore
         private async Task<UpdateRestoreStatus> PrepareNormalRestore()
         {
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = MessageProvider.GetMessage("RestoreStatusPrepareTable");
+            ProcessStatus = MessageProvider.GetMessage("RestoreStatusPrepareTable");
             return await FillRestoreTableNormal();
         }
 
@@ -212,7 +212,7 @@ namespace RawLauncher.Framework.Screens.Restore
         private async Task<UpdateRestoreStatus> PrepareLanguageIgnoreRestore()
         {
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
-            ProzessStatus = MessageProvider.GetMessage("RestoreStatusPrepareTable");
+            ProcessStatus = MessageProvider.GetMessage("RestoreStatusPrepareTable");
             return await FillRestoreTableIgnoreLanguage();
         }
 

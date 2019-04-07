@@ -23,6 +23,8 @@ namespace RawLauncher.Framework.Shell
 
         ModVersion LatestVersion { get; set; }
 
+        bool IsTestersBuild { get; set; }
+
         void ShowScreen(Type type);
     }
 }

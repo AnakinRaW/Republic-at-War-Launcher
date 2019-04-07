@@ -26,6 +26,7 @@ namespace RawLauncher.Framework.Shell
         private ModVersion _latestVersion;
         private bool _isBlocked;
         private MainWindowView _window;
+        private bool _isTestersBuild;
 
         public ICommand OpenModdbCommand => new Command(OpenModdb);
 
@@ -61,6 +62,18 @@ namespace RawLauncher.Framework.Shell
             set
             {
                 _latestVersion = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsTestersBuild
+        {
+            get => _isTestersBuild;
+            set
+            {
+                if (value == _isTestersBuild)
+                    return;
+                _isTestersBuild = value;
                 NotifyOfPropertyChange();
             }
         }

@@ -22,6 +22,7 @@
             <!-- other resources go here -->
             <converters:IsGreaterVersionColorConverter x:Key="IsGreaterConverter"/>
             <converters:BoolToIndexConverter x:Key="BoolToIndexConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </mafc:MainWindow.Resources>
     <mafc:MainWindow.Background>
@@ -43,7 +44,7 @@
             <ColumnDefinition Width="24*"/>
         </Grid.ColumnDefinitions>
 
-        <mafc:OutlineTextBlock Grid.Column="1"
+        <mafc:OutlineTextBlock Grid.Column="1" Visibility="{Binding IsTestersBuild, Converter={StaticResource BooleanToVisibilityConverter}}"
                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Bold="True"
                    Margin="0,0,0,30" Text="Tester's build" FontSize="36" Foreground="Red"
                    Stroke="Black" StrokeThickness="1"/>

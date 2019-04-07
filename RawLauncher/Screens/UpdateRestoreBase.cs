@@ -31,7 +31,7 @@ namespace RawLauncher.Framework.Screens
         protected abstract RestoreUpdateOperation ViewModelOperation { get; }
 
         /// <summary>
-        ///     Data which contains the informations to update/Restore the Mod
+        ///     Data which contains the information to update/Restore the Mod
         /// </summary>
         protected RestoreTable RestoreTable { get; set; }
 
@@ -44,6 +44,11 @@ namespace RawLauncher.Framework.Screens
         ///     Stream which contains the XML data of the version to restore
         /// </summary>
         protected Stream XmlFileStream { get; set; }
+
+        /// <summary>
+        /// The instance of the dev server
+        /// </summary>
+        protected IHostServer DevServer { get; }
 
         public ICommand CancelCommand => new Command(Cancel);
 
@@ -61,7 +66,7 @@ namespace RawLauncher.Framework.Screens
             }
         }
 
-        public string ProzessStatus
+        public string ProcessStatus
         {
             get => _progressStatus;
             set
@@ -77,6 +82,7 @@ namespace RawLauncher.Framework.Screens
         {
             Launcher = launcher;
             Server = server;
+            DevServer = DevHostServer.Instance;
         }
 
         public void Cancel()
@@ -129,7 +135,7 @@ namespace RawLauncher.Framework.Screens
 
             try
             {
-                ProzessStatus = MessageProvider.GetMessage(ViewModelOperation == RestoreUpdateOperation.Restore
+                ProcessStatus = MessageProvider.GetMessage(ViewModelOperation == RestoreUpdateOperation.Restore
                     ? "RestoreStatusCheckAdditionalFiles"
                     : "UpdateStatusCheckAdditionalFiles");
 
@@ -230,7 +236,7 @@ namespace RawLauncher.Framework.Screens
 
 
         /// <summary>
-        ///     Fille RestoreTable with files taht need to be downloaded
+        ///     Fills RestoreTable with files that need to be downloaded
         /// </summary>
         /// <param name="version"></param>
         /// <param name="excludeList"></param>
@@ -251,7 +257,7 @@ namespace RawLauncher.Framework.Screens
             try
             {
                 //Find missing/corrupted files to download
-                ProzessStatus = MessageProvider.GetMessage(ViewModelOperation == RestoreUpdateOperation.Restore
+                ProcessStatus = MessageProvider.GetMessage(ViewModelOperation == RestoreUpdateOperation.Restore
                     ? "RestoreStatusCheckMissing"
                     : "UpdateStatusCheckNew");
 
@@ -303,7 +309,7 @@ namespace RawLauncher.Framework.Screens
                     await
                         Task.Run(() => Server.DownloadFile(file.SourcePath, restorePath),
                             MSource.Token);
-                    ProzessStatus =
+                    ProcessStatus =
                         MessageProvider.GetMessage(
                             ViewModelOperation == RestoreUpdateOperation.Restore
                                 ? "RestoreStatusDownloaded"
@@ -391,22 +397,22 @@ namespace RawLauncher.Framework.Screens
             var validator = new XmlValidator(Properties.Resources.FileContainer.ToStream());
             if (!validator.Validate(XmlFileStream))
                 return LoadRestoreUpdateResult.StreamBroken;
-            return LoadRestoreUpdateResult.Suceeded;
+            return LoadRestoreUpdateResult.Succeeded;
         }
 
         /// <summary>
-        ///     Main Prcedure to get the RestoreXML Data
+        ///     Main procedure to get the RestoreXML Data
         /// </summary>
         /// <returns>False if failed</returns>
         protected async Task<LoadRestoreUpdateResult> GetXmlData(ModVersion version)
         {
             var result = await LoadXmlFileStream(version);
-            if (result != LoadRestoreUpdateResult.Suceeded)
+            if (result != LoadRestoreUpdateResult.Succeeded)
                 return result;
             await ProgressBarUtilities.AnimateProgressBar(Progress, 50, 1, this, x => x.Progress);
             await Task.Run(() => ParseXmlToFileContainer());
             await ProgressBarUtilities.AnimateProgressBar(Progress, 100, 1, this, x => x.Progress);
-            return LoadRestoreUpdateResult.Suceeded;
+            return LoadRestoreUpdateResult.Succeeded;
         }
 
 
@@ -466,6 +472,6 @@ namespace RawLauncher.Framework.Screens
         WrongVersion,
         StreamEmpty,
         StreamBroken,
-        Suceeded
+        Succeeded
     }
 }

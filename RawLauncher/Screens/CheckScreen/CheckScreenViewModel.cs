@@ -182,7 +182,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             }
         }
 
-        public string ProzessStatus
+        public string ProcessStatus
         {
             get => _progressStatus;
             set
@@ -257,7 +257,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
                                new DirectoryInfo(referenceDir).Parent?.Name + @"\" +
                                new DirectoryInfo(referenceDir).Name;
 
-                    ProzessStatus = MessageProvider.GetMessage("CheckStatusChecking", path);
+                    ProcessStatus = MessageProvider.GetMessage("CheckStatusChecking", path);
                     Debug.WriteLine(referenceDir);
                     Progress = Progress + i;
                 }
@@ -305,7 +305,7 @@ namespace RawLauncher.Framework.Screens.CheckScreen
             _messageRecorder.Flush();
 
             //Game exists
-            ProzessStatus = MessageProvider.GetMessage("CheckStatusCheckingGameExist");
+            ProcessStatus = MessageProvider.GetMessage("CheckStatusCheckingGameExist");
             if (!await CheckGameExistsAsync())
                 return;
             await ThreadUtilities.SleepThread(250);
@@ -319,21 +319,21 @@ namespace RawLauncher.Framework.Screens.CheckScreen
 
 
             //Mod exists
-            ProzessStatus = MessageProvider.GetMessage("CheckStatusCheckingModExist");
+            ProcessStatus = MessageProvider.GetMessage("CheckStatusCheckingModExist");
             if (!await CheckModExistsAsync())
                 return;
             await ThreadUtilities.SleepThread(250);
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Games patched
-            ProzessStatus = MessageProvider.GetMessage("CheckStatusCheckingGamePatches");
+            ProcessStatus = MessageProvider.GetMessage("CheckStatusCheckingGamePatches");
             if (!await CheckGamePatchedAsync())
                 return;
             await ThreadUtilities.SleepThread(250);
             await ProgressBarUtilities.AnimateProgressBar(Progress, 0, 0, this, x => x.Progress);
 
             //Prepare XML-based Check
-            ProzessStatus = MessageProvider.GetMessage("CheckStatusPrepareAiModCheck");
+            ProcessStatus = MessageProvider.GetMessage("CheckStatusPrepareAiModCheck");
             if (!await PrepareXmlForCheckAsync())
                 return;
 
