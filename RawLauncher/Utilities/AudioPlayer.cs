@@ -1,5 +1,6 @@
 ﻿using System;
 using NAudio.Wave;
+using RawLauncher.Framework.Properties;
 
 namespace RawLauncher.Framework.Utilities
 {
@@ -11,6 +12,8 @@ namespace RawLauncher.Framework.Utilities
         /// <param name="file"></param>
         public static void PlayAudio(Enum file)
         {
+            if (Settings.Default.SoundDisabled)
+                return;
             try
             {
                 var stream = Properties.Resources.ResourceManager.GetStream(file.ToString());

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
@@ -12,8 +11,10 @@ using RawLauncher.Framework.Defreezer;
 using RawLauncher.Framework.Games;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Mods;
+using RawLauncher.Framework.Server;
 using RawLauncher.Framework.Utilities;
 using RawLauncher.Framework.Utilities.Converters;
+using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Screens.PlayScreen
 {
@@ -25,12 +26,27 @@ namespace RawLauncher.Framework.Screens.PlayScreen
         private string _autosaveButtonText;
 
         private readonly AutosaveToButtonTextConverter _buttonTextConverter = new AutosaveToButtonTextConverter();
+        private ModVersion _modVersion;
 
         public ICommand PlayModCommand => new Command(PlayMod);
 
         public ICommand DefreezeCommand => new Command(DefreezeAsync);
 
         public ICommand ToggleFastLaunchCommand => new DelegateCommand(ToggleFastLaunchAsync);
+
+        public ICommand ShowTestersInstructionsCommand => new DelegateCommand(ShowTestersInstructions);
+
+        public ModVersion ModVersion
+        {
+            get => _modVersion;
+            set
+            {
+                if (Equals(value, _modVersion))
+                    return;
+                _modVersion = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         //public ICommand AutosaveInfoCommand => new Command(ShowAutosaveInfo);
 
@@ -50,9 +66,10 @@ namespace RawLauncher.Framework.Screens.PlayScreen
 
         [ImportingConstructor]
 
-        public PlayScreenViewModel(LauncherModel launcher)
+        public PlayScreenViewModel(LauncherModel launcher, IModVersionWatcher versionWatcher)
         {
             _launcher = launcher;
+            versionWatcher.ModVersionChanged += VersionWatcher_ModVersionChanged;
             //switch (_launcher.BaseGame)
             //{
             //    case null:
@@ -63,6 +80,11 @@ namespace RawLauncher.Framework.Screens.PlayScreen
             //            CultureInfo.CurrentCulture);
             //        break;
             //}
+        }
+
+        private void VersionWatcher_ModVersionChanged(object sender, ModVersion e)
+        {
+            ModVersion = e;
         }
 
         private void PlayMod()
@@ -112,6 +134,18 @@ namespace RawLauncher.Framework.Screens.PlayScreen
                 await _launcher.CreateFastLaunchFileCommand.Execute();
             if (toggleButton.IsChecked == false)
                 await _launcher.DeleteFastLaunchFileCommand.Execute();
+        }
+
+        private async void ShowTestersInstructions(object obj)
+        {
+            var server = DevHostServer.Instance;
+            if (server == null || _launcher.CurrentMod == null)
+                return;
+
+            var url = Path.Combine(_launcher.CurrentMod.Version.ToFullString(), "totest.txt");
+            var text = await Task.FromResult(server.DownloadString(url));
+
+            NotepadHelper.ShowMessage(text, "Republic at War");
         }
 
         //private static void ShowAutosaveInfo()

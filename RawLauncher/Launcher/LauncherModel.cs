@@ -144,6 +144,14 @@ namespace RawLauncher.Framework.Launcher
         [ImportingConstructor]
         public LauncherModel(IHostServer hostServer)
         {
+            HostServer = hostServer;
+        }
+
+        public void Initialize()
+        {
+            // Make sure we recognize the mod assignment event
+            IoC.Get<IModVersionWatcher>();
+
             if (!InitGames(out var result))
             {
                 var message = result.Error == DetectionError.NotInstalled ? "ErrorInitFailed" : "ErrorGameNotSettedUp";
@@ -156,7 +164,6 @@ namespace RawLauncher.Framework.Launcher
 
             InitMod();
             InitDirectories();
-            HostServer = hostServer;
         }
 
         public string GetRescueFilePathOffline(string fileName, ModVersion version = null)

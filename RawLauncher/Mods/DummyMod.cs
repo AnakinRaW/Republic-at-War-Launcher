@@ -5,15 +5,16 @@ using RawLauncher.Framework.Versioning;
 
 namespace RawLauncher.Framework.Mods
 {
-    class DummyMod : IMod
+    internal class DummyMod : IMod
     {
+        public const string VersionName = "0-NotInstalled";
+
         public DummyMod(IGame baseGame)
         {
             ModDirectory = baseGame.GameDirectory + @"\Mods\Republic_at_War\";
-            Version = new ModVersion("0.1");
+            Version = new ModVersion(VersionName);
             InstalledLanguage = LanguageTypes.English;
         }
-
         public string FolderName { get; }
         public string ModDirectory { get; }
         public string Name { get; }

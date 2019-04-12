@@ -134,7 +134,7 @@ namespace RawLauncher.Framework.Screens.Restore
 
             var windowModel = IoC.Get<ILauncherMainWindow>();
             ProcessStatus = MessageProvider.GetMessage("RestoreStatusFinishing");
-            windowModel.InstalledVersion = Launcher.CurrentMod.Version;
+            //windowModel.InstalledVersion = Launcher.CurrentMod.Version;
 
             await Task.Run(() =>
             {

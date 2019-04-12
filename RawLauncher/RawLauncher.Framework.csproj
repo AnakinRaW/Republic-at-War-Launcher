@@ -185,6 +185,7 @@
     <Compile Include="Server\IErrorLogger.cs" />
     <Compile Include="Server\IVersionServer.cs" />
     <Compile Include="Shell\ILauncherMainWindow.cs" />
+    <Compile Include="Utilities\Converters\IsTestersBuildToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\SteamToVisibilityConverter.cs" />
     <Compile Include="Utilities\Converters\AutosaveToButtonTextConverter.cs" />
     <Compile Include="Utilities\Converters\BoolToIndexConverter.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Utilities\UrlCombine.cs" />
     <Compile Include="Versioning\IVersionComparer.cs" />
     <Compile Include="Versioning\ModVersion.cs" />
+    <Compile Include="Versioning\ModVersionWatcher.cs" />
     <Compile Include="Versioning\SemanticVersion.cs" />
     <Compile Include="Utilities\ThreadUtilities.cs" />
     <Compile Include="Utilities\UnitNameFile.cs" />

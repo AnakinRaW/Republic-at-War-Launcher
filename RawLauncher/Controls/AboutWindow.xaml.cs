@@ -13,6 +13,7 @@ using RawLauncher.Framework.Defreezer;
 using RawLauncher.Framework.Launcher;
 using RawLauncher.Framework.Localization;
 using RawLauncher.Framework.Mods;
+using RawLauncher.Framework.Properties;
 using RawLauncher.Framework.Utilities;
 
 namespace RawLauncher.Framework.Controls
@@ -80,6 +81,11 @@ namespace RawLauncher.Framework.Controls
             var d = new Defreezer.Defreezer(saveGame);
             await Task.Run(() => d.DefreezeSaveGame());
             MessageProvider.Show("Done");
+        }
+
+        private void AboutWindow_OnClosed(object sender, EventArgs e)
+        {
+            Settings.Default.Save();
         }
     }
 }

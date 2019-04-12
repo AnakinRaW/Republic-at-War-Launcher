@@ -10,6 +10,7 @@ using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Input.Command;
 using RawLauncher.Framework.Controls;
 using RawLauncher.Framework.Launcher;
+using RawLauncher.Framework.Mods;
 using RawLauncher.Framework.Screens;
 using RawLauncher.Framework.Screens.PlayScreen;
 using RawLauncher.Framework.Screens.UpdateScreen;
@@ -95,9 +96,19 @@ namespace RawLauncher.Framework.Shell
         }
 
         [ImportingConstructor]
-        public MainWindowViewModel([ImportMany] ILauncherScreen[] screens)
+        public MainWindowViewModel([ImportMany] ILauncherScreen[] screens, LauncherModel launcher, IModVersionWatcher versionWatcher)
         {
+            versionWatcher.ModVersionChanged += VersionWatcher_ModVersionChanged;
             _screens = screens;
+            if (launcher.CurrentMod == null)
+                InstalledVersion = ModVersion.Parse(DummyMod.VersionName);
+            else
+                InstalledVersion = launcher.CurrentMod?.Version;
+        }
+
+        private void VersionWatcher_ModVersionChanged(object sender, ModVersion e)
+        {
+            InstalledVersion = e;
         }
 
         public void ShowScreen(Type type)
@@ -123,7 +134,7 @@ namespace RawLauncher.Framework.Shell
             Configuration.Config.CurrentLanguage.Reload();
 
             var launcher = IoC.Get<LauncherModel>();
-            InstalledVersion = launcher.CurrentMod == null ? ModVersion.Parse("1.0") : launcher.CurrentMod.Version;
+            //InstalledVersion = launcher.CurrentMod == null ? ModVersion.Parse("1.0") : launcher.CurrentMod.Version;
             LatestVersion = VersionUtilities.GetLatestModVersion();
         }
 

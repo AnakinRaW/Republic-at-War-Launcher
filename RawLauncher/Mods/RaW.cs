@@ -129,14 +129,14 @@ namespace RawLauncher.Framework.Mods
                         "/Game_Object_Files/Version");
                     return string.IsNullOrEmpty(node) ? ModVersion.Parse("1.1.5") : ModVersion.Parse(node);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    MessageProvider.Show(MessageProvider.GetMessage(
-                        "ModVersionNotFound"));
+                    if (!(e is IOException))
+                        MessageProvider.Show(MessageProvider.GetMessage(
+                            "ModVersionNotFound"));
                     return null;
                 }
             }
-            set { }
         }
     }
 }

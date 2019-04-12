@@ -17,6 +17,7 @@ namespace RawLauncher.Framework.Localization
         private static ComponentResourceKey _buttonChangelog;
         private static ComponentResourceKey _buttonCancel;
         private static ComponentResourceKey _buttonClose;
+        private static ComponentResourceKey _checkboxAudio;
 
         private static ComponentResourceKey _langDutch;
         private static ComponentResourceKey _langEnglish;
@@ -108,6 +109,9 @@ namespace RawLauncher.Framework.Localization
 
         public static ComponentResourceKey ButtonDefreeze => _buttonDefreeze ??
                                                             (_buttonDefreeze = new ComponentResourceKey(typeof(XmalLanguageKeys), "ButtonDefreeze"));
+
+        public static ComponentResourceKey CheckboxAudio => _checkboxAudio ??
+                                                             (_checkboxAudio = new ComponentResourceKey(typeof(XmalLanguageKeys), "CheckboxAudio"));
 
         public static ComponentResourceKey ButtonClose => _buttonClose ??
                                                             (_buttonClose = new ComponentResourceKey(typeof(XmalLanguageKeys), "ButtonClose"));

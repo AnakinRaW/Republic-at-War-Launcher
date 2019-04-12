@@ -8,12 +8,19 @@ namespace RawLauncher.Framework.Utilities
         {
             if (!Directory.Exists(directory))
                 return;
-            foreach (var file in Directory.EnumerateFiles(directory, "*.txt", SearchOption.TopDirectoryOnly))
+            try
             {
-                var unitFile = new UnitNameFile(file);
-                unitFile.Shuffle();
-                unitFile.Save();
+                foreach (var file in Directory.EnumerateFiles(directory, "*.txt", SearchOption.TopDirectoryOnly))
+                {
+                    var unitFile = new UnitNameFile(file);
+                    unitFile.Shuffle();
+                    unitFile.Save();
+                }
             }
+            catch
+            {
+            }
+
         }
     }
 }

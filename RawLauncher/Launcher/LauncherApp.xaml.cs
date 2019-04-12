@@ -37,6 +37,7 @@ namespace RawLauncher.Framework.Launcher
         private async void App_OnStartup(object sender, StartupEventArgs e)
         {
             var launcher = IoC.Get<LauncherModel>();
+            launcher.Initialize();
 
             if (DevHostServer.Instance != null)
                 launcher.UseDevHostServer = true;

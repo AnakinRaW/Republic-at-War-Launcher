@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lang="clr-namespace:RawLauncher.Framework.Localization"
+        xmlns:properties="clr-namespace:RawLauncher.Framework.Properties"
         mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="Republic at War Launcher About" Height="380" Width="500" ResizeMode="NoResize">
+        Title="Republic at War Launcher" SizeToContent="Height" Width="500" ResizeMode="NoResize" Closed="AboutWindow_OnClosed">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" 
                         CanExecute="CloseWindow_CanExec" 
@@ -22,6 +23,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
         </Grid.RowDefinitions>
         <Label FontSize="32" Grid.Column="1" VerticalAlignment="Bottom" Height="53">Republic at War Launcher</Label>
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
@@ -37,6 +39,8 @@
                     <ComboBoxItem DataContext="de">Spanish</ComboBoxItem>
                 </ComboBox>
             </DockPanel>
+            <CheckBox Margin="6,6,0,0" Content="{DynamicResource {x:Static lang:XmalLanguageKeys.CheckboxAudio}}" 
+                      IsChecked="{Binding SoundDisabled, Mode=TwoWay, Source={x:Static properties:Settings.Default}, UpdateSourceTrigger=PropertyChanged}"/>
             <Label>(c) Republic at War Modding Team, 2019</Label>
             <Label>Launcher Created by: Anakin Sklavenwalker</Label>
             <Label></Label>

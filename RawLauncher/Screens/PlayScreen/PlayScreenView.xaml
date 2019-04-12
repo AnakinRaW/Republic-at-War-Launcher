@@ -16,6 +16,8 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- other resources go here -->
             <converters:SteamToVisibilityConverter x:Key="SteamToVisibilityConverter"/>
+            <converters:IsTestersBuildToVisibilityConverter x:Key="IsTestersBuildToVisibilityConverter"/>
+            <converters:TestGoalsStringConverter x:Key="TestGoalsStringConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -50,6 +52,18 @@
                 </mafc:ImageButton.Content>
             </mafc:ImageButton>
         </StackPanel>-->
+
+        <mafc:ImageButton Height="61" Width="326" VerticalAlignment="Top" Margin="0,170,0,0" Command="{Binding ShowTestersInstructionsCommand}" 
+                          IsEnabled="{Binding ModVersion.IsPrerelease}"
+                          Visibility="{Binding Converter={StaticResource IsTestersBuildToVisibilityConverter}}"
+                          NormalImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameIdle.png"
+                          HoverImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png"
+                          PressedImage="/RawLauncher.Theme;component/Resources/Visual/Play/PlayGameHover.png">
+            <mafc:ImageButton.Content>
+                <mafc:OutlineTextBlock SnapsToDevicePixels="True" Foreground="{StaticResource ButtonPlayForeground}" FontSize="18" Stroke="Black" StrokeThickness="1" FontFamily="/RawLauncher.Framework;component/Resources/Font/#Star Jedi"
+                                       Text="{Binding Converter={StaticResource TestGoalsStringConverter}}"/>
+            </mafc:ImageButton.Content>
+        </mafc:ImageButton>
 
         
 

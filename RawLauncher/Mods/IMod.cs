@@ -26,7 +26,7 @@ namespace RawLauncher.Framework.Mods
         /// Read the Version from a Mod. Sets the Version of a mod
         ///
         /// </summary>
-        ModVersion Version { get; set; }
+        ModVersion Version { get; }
 
         /// <summary>
         /// Get the current installed language

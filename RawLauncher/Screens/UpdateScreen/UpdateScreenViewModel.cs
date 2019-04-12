@@ -133,7 +133,7 @@ namespace RawLauncher.Framework.Screens.UpdateScreen
             if (Launcher.CurrentMod is DummyMod)
                 Launcher.CurrentMod = new RaW().FindMod(Launcher.BaseGame);
 
-            IoC.Get<ILauncherMainWindow>().InstalledVersion = Launcher.CurrentMod.Version;
+            //IoC.Get<ILauncherMainWindow>().InstalledVersion = Launcher.CurrentMod.Version;
 
             ProcessStatus = "UpdateStatusFinishing";
             await Task.Run(() =>
