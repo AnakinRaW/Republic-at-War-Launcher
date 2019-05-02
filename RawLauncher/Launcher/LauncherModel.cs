@@ -149,6 +149,8 @@ namespace RawLauncher.Framework.Launcher
 
         public void Initialize()
         {
+            InitDirectories();
+
             // Make sure we recognize the mod assignment event
             IoC.Get<IModVersionWatcher>();
 
@@ -163,7 +165,6 @@ namespace RawLauncher.Framework.Launcher
             }
 
             InitMod();
-            InitDirectories();
         }
 
         public string GetRescueFilePathOffline(string fileName, ModVersion version = null)
@@ -208,6 +209,9 @@ namespace RawLauncher.Framework.Launcher
                     BaseGame = new SteamGame(result.FocPath);
                     break;
                 case GameType.GoG:
+                    BaseGame = new Foc(result.FocPath);
+                    break;
+                case GameType.Origin:
                     BaseGame = new Foc(result.FocPath);
                     break;
             }

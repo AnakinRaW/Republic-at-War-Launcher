@@ -60,6 +60,8 @@ namespace RawLauncher.Framework.Utilities
         {
             var versionNames = versions.Select(modVersion => modVersion.ToFullString()).ToList();
             var launcher = IoC.Get<LauncherModel>();
+            if (launcher.RestoreDownloadDir == null)
+                return;
             try
             {
                 File.WriteAllLines(Path.Combine(launcher.RestoreDownloadDir, Config.AvailableModVersionsFileName), versionNames);

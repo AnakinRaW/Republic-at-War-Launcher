@@ -16,7 +16,9 @@ namespace RawLauncherWPF.Updaters
             _latestVersion ?? (_latestVersion = VersionUtilities.GetLatestFileVersion(VersionsServerPath));
 
         [CanBeNull]
-        protected Version CurrentVersion => !File.Exists(FileName) ? null : new Version(FileVersionInfo.GetVersionInfo(FileName).FileVersion);
+        protected Version CurrentVersion => !File.Exists(FileName)
+            ? null
+            : new Version(FileVersionInfo.GetVersionInfo(FileName).FileVersion);
 
         public void UpdateIfNewVersionExists()
         {

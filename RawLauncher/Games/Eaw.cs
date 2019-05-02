@@ -42,7 +42,18 @@ namespace RawLauncher.Framework.Games
         }
 
         public GameProcessData GameProcessData => new GameProcessData();
-        public bool Exists() => Directory.Exists(GameDirectory) && File.Exists(Path.Combine(GameDirectory, "sweaw.exe"));
+        public bool Exists()
+        {
+            Log.Write("EaW.cs Exists() Checking EaW exists...");
+            if (Directory.Exists(GameDirectory) && File.Exists(Path.Combine(GameDirectory, "sweaw.exe")))
+            {
+                Log.Write("EaW exists");
+                return true;
+            }
+            Log.Write("EaW does not exists");
+            return false;
+        }
+
         public string GameDirectory { get; protected set; }
 
         public Eaw(string gameDirectory)
@@ -111,9 +122,11 @@ namespace RawLauncher.Framework.Games
                     eawPath = Path.Combine(Directory.GetParent(focPath).FullName, "GameData\\");
                     break;
                 case GameType.DiskGold:
+                case GameType.Origin:
                 case GameType.Undefined:
                     return false;
             }
+
             return true;
         }
     }

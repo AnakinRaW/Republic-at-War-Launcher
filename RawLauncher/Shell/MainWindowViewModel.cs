@@ -100,10 +100,7 @@ namespace RawLauncher.Framework.Shell
         {
             versionWatcher.ModVersionChanged += VersionWatcher_ModVersionChanged;
             _screens = screens;
-            if (launcher.CurrentMod == null)
-                InstalledVersion = ModVersion.Parse(DummyMod.VersionName);
-            else
-                InstalledVersion = launcher.CurrentMod?.Version;
+            InstalledVersion = launcher.CurrentMod == null ? ModVersion.Parse(DummyMod.VersionName) : launcher.CurrentMod?.Version;
         }
 
         private void VersionWatcher_ModVersionChanged(object sender, ModVersion e)

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Win32;
 
 namespace RawLauncher.Framework.Games
@@ -26,23 +23,29 @@ namespace RawLauncher.Framework.Games
 
         public static bool IsSteamInstalled(out string path)
         {
+            Log.Write("Check if steam is installed...");
             path = SteamExePath;
+            Log.Write("Steam installed: " + (!string.IsNullOrEmpty(path)));
             return !string.IsNullOrEmpty(path);
         }
 
         public static bool IsSteamRunning()
         {
+            Log.Write("Check if steam is running...");
             if (!IsSteamInstalled(out _))
                 return false;
 
             using (var registry = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default))
             {
+                Log.Write("Checking registry 'ActiveProcess' node");
                 var steamKey = registry.OpenSubKey("Software\\Valve\\Steam\\ActiveProcess", false);
                 if (steamKey == null)
                     return false;
+                Log.Write("Checking registry 'pid' key");
                 var pid = (int)steamKey.GetValue("pid");
                 if (pid == 0)
                     return false;
+                Log.Write("Checking pid is running");
                 if (ProcessHelper.GetProcessByPid(pid) == null)
                     return false;
                 return true;
@@ -51,6 +54,7 @@ namespace RawLauncher.Framework.Games
 
         public static bool IsUserLoggedIn(out int userId)
         {
+            Log.Write("Check for logged in user...");
             userId = -1;
             if (!IsSteamInstalled(out _))
                 return false;
@@ -58,25 +62,36 @@ namespace RawLauncher.Framework.Games
             using (var registry = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default))
             {
                 var steamKey = registry.OpenSubKey("Software\\Valve\\Steam\\ActiveProcess", false);
-                if (steamKey == null)
+                var t = steamKey?.GetValue("ActiveUser");
+                if (t == null || !int.TryParse(t.ToString(), out userId))
+                {
+                    Log.Write("No user logged in");
                     return false;
-                userId = (int)steamKey.GetValue("ActiveUser");
+                }
+
+                Log.Write("Current user: " +  userId);
                 return userId > 0;
             }
         }
 
         public static void WaitUserChanged(int ticks)
         {
+            Log.Write("Wait for user logged in");
             IsUserLoggedIn(out var lastUserId);
-            if (lastUserId == -1)
+            if (lastUserId > 0)
                 return;
 
             var tick = 0;
+            Log.Write("Looping:");
             while (tick++ < tick)
             {
-                IsUserLoggedIn(out var curretnUser);
-                if (curretnUser == lastUserId)
+                Log.Write("Current tick: " + tick);
+                IsUserLoggedIn(out var currentUser);
+
+                Log.Write("Was user changed: " + (currentUser != lastUserId));
+                if (currentUser == 0 || currentUser == lastUserId)
                     continue;
+                Log.Write("User logged in: " + currentUser);
                 return;
             }
         }
@@ -96,6 +111,7 @@ namespace RawLauncher.Framework.Games
 
         internal static void StartSteam()
         {
+            Log.Write("Starting Steam");
             if (!IsSteamInstalled(out var steamPath))
                 return;
             var process = new Process
@@ -106,7 +122,9 @@ namespace RawLauncher.Framework.Games
                     UseShellExecute = false
                 }
             };
+            Log.Write("Starting Steam process...");
             process.Start();
+            Log.Write("Steam process started");
             WaitUserChanged(3000);
         }
     }

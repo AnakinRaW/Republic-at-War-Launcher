@@ -11,5 +11,10 @@
         public DetectionError Error { get; set; }
 
         public bool IsError { get; set; }
+
+        public override string ToString()
+        {
+            return $"HasError: {IsError}; Error: {Error}; EaW Path: {EawPath}; FoC Path:{FocPath}; FoC Type: {FocType}";
+        }
     }
 }

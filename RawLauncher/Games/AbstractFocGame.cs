@@ -34,7 +34,17 @@ namespace RawLauncher.Framework.Games
             GameProcessData = new GameProcessData();
         }
 
-        public bool Exists() => File.Exists(Path.Combine(GameDirectory, GameExeFileName));
+        public bool Exists()
+        {
+            Log.Write("AbstractFocGame.cs Exists() Checking FoC exists...");
+            if (File.Exists(Path.Combine(GameDirectory, GameExeFileName)))
+            {
+                Log.Write("Foc exists");
+                return true;
+            }
+            Log.Write("Foc does not exists");
+            return false;
+        }
 
         public void PlayGame()
         {

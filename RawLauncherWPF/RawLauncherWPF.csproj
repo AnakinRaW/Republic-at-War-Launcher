@@ -148,7 +148,7 @@
     <EmbeddedResource Include="RaW_Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="RawLauncher.Framework.dll" />
+    <EmbeddedResource Include="RawLauncher.Framework.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RawLauncher\RawLauncher.Framework.csproj">
