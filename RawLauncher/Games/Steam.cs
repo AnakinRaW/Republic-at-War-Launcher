@@ -57,7 +57,6 @@ namespace RawLauncher.Framework.Games
                 var steamKey = registry.OpenSubKey("Software\\Valve\\Steam\\ActiveProcess", false);
                 var t = steamKey?.GetValue("ActiveUser");
                 if (t == null || !int.TryParse(t.ToString(), out userId))
-                {
                     return false;
                 userId = (int)steamKey.GetValue("ActiveUser");
                 return userId > 0;
