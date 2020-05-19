@@ -46,7 +46,11 @@ namespace RawLauncher.Framework.Server
             }
             catch (WebException ex)
             {
-                return ex.Response is HttpWebResponse response && (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound);
+                return ex.Response is HttpWebResponse response && (response.StatusCode == HttpStatusCode.Forbidden ||
+                                                                   response.StatusCode == HttpStatusCode.BadRequest ||
+                                                                   response.StatusCode == HttpStatusCode.NotFound ||
+                                                                   response.StatusCode ==
+                                                                   HttpStatusCode.ServiceUnavailable);
             }
             return true;
         }
