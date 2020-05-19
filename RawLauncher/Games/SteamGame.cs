@@ -95,10 +95,15 @@ namespace RawLauncher.Framework.Games
             if (!Exists())
                 throw new GameExceptions(MessageProvider.GetMessage("ExceptionGameExistName", Name));
 
+            Log.Write("Starting Game...");
 
-            if (!Steam.IsSteamRunning()) 
+            if (!Steam.IsSteamRunning())
+            {
+                Log.Write("Steam is not running. Attempt to start it");
                 Steam.StartSteam();
+            }
 
+            Log.Write("Steam started");
 
             if (mod.Version > ModVersion.Parse("1.2.0.1"))
                 FileShuffler.ShuffleFiles(mod.ModDirectory + @"\Data\UnitNames\");

@@ -55,7 +55,9 @@ namespace RawLauncher.Framework.Games
             using (var registry = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default))
             {
                 var steamKey = registry.OpenSubKey("Software\\Valve\\Steam\\ActiveProcess", false);
-                if (steamKey == null)
+                var t = steamKey?.GetValue("ActiveUser");
+                if (t == null || !int.TryParse(t.ToString(), out userId))
+                {
                     return false;
                 userId = (int)steamKey.GetValue("ActiveUser");
                 return userId > 0;
@@ -65,14 +67,14 @@ namespace RawLauncher.Framework.Games
         public static void WaitUserChanged(int ticks)
         {
             IsUserLoggedIn(out var lastUserId);
-            if (lastUserId != -1)
+            if (lastUserId > 0)
                 return;
 
             var tick = 0;
             while (tick++ < tick)
             {
-                IsUserLoggedIn(out var curretnUser);
-                if (curretnUser == lastUserId)
+                IsUserLoggedIn(out var currentUser);
+                if (currentUser == 0 || currentUser == lastUserId)
                     continue;
                 return;
             }
