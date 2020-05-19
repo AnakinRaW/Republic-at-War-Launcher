@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Win32;
 
 namespace RawLauncher.Framework.Games
@@ -68,7 +65,7 @@ namespace RawLauncher.Framework.Games
         public static void WaitUserChanged(int ticks)
         {
             IsUserLoggedIn(out var lastUserId);
-            if (lastUserId == -1)
+            if (lastUserId != -1)
                 return;
 
             var tick = 0;
